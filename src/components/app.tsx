@@ -13,8 +13,9 @@ if ((module as any).hot) {
 
 const App: FunctionalComponent = () => {
   let currentUrl: string;
-  const handleRoute = (e: RouterOnChangeArgs) => {
+  const handleRoute = (e: RouterOnChangeArgs): void => {
     currentUrl = e.url;
+    console.log(currentUrl);
   };
 
   return (
