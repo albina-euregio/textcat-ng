@@ -1,0 +1,12 @@
+---
+image: node:lts
+
+build:
+  stage: build
+  script:
+    - yarn --no-progress --frozen-lockfile
+    - yarn test
+    - yarn build
+  artifacts:
+    paths:
+      - build/
