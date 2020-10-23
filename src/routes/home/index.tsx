@@ -2,6 +2,15 @@ import { FunctionalComponent, h } from "preact";
 import * as style from "./style.css";
 import TextcatSentence from "../../components/textcat/sentence";
 
+/**
+ * > cat DE/Ranges/Verhältnisse04§wo_wann3.txt
+ * RS_Header: wo/wann
+ * RS_CurlyName: Verhältnisse04§wo_wann3
+ * Line: abseits der Pisten
+ * Line: im {Exposition} {und_im_Exposition}
+ * Line: im selten befahrenen {Tourengelände}
+ * Line: ...
+ */
 const woWann3: Phrase = {
   curlyName: "Verhältnisse04§wo_wann3",
   header: {
@@ -34,6 +43,20 @@ const woWann3: Phrase = {
   ]
 };
 
+/**
+ * > cat DE/Sentences/S010.txt
+ * ST_Header: Verhältnisse 04
+ * ST_CurlyName: Verhältnisse04
+ * PA_Pos: 1
+ * PA_PosGerman: 1
+ * RS_CurlyName: Verhältnisse04§wo_wann3
+ * PA_Pos: 2
+ * PA_PosGerman: 2
+ * RS_CurlyName: teils_gefährliche
+ * PA_Pos: 3
+ * PA_PosGerman: 3
+ * RS_CurlyName: Verhältnisse04§Lawinensituation.
+ */
 const sentence010: Sentence = {
   curlyName: "Verhältnisse04",
   header: {
