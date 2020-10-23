@@ -9,19 +9,16 @@ interface CurlyName {
 }
 
 interface Sentence extends Header, CurlyName {
-  selectedPhrase?: Phrase;
   phrases: (Identifier | Phrase)[];
   pos: number[];
   posGerman: number[];
 }
 
 interface Phrase extends Header, CurlyName {
-  selectedLine?: Option;
   lines: Option[];
 }
 
 interface Option extends Header {
-  selectedPhrase?: Phrase;
   phrasesInHeader?: Phrase[];
 }
 
@@ -31,4 +28,9 @@ interface Textcat {
   sentence(curlyName: string): Sentence;
   searchSentences(search: string): Sentence[];
   phrase(curlyName: string): Phrase;
+}
+
+interface WrittenSentenceOrPhrase extends CurlyName {
+  line: number;
+  args?: WrittenSentenceOrPhrase[];
 }

@@ -68,12 +68,35 @@ const sentence010: Sentence = {
   pos: [1, 2, 3],
   posGerman: [1, 2, 3]
 };
+// equivalent to Phase with `Line: {Verhältnisse04§wo_wann3} {teils_gefährliche} {Verhältnisse04§Lawinensituation}`???
+
+// legacy snowpackStructureCommentTextcat
+// 33[6610,6817,562].
+// 110[6144[10032,12051,10200],14929,8412,7520,4182,5890,9413].
+// 22[5934,3740,5928,6441[12127,14870],1536,6420].
+// 102[6664,6991,7596[7041,3796],7404,9749,10547,9413].
+// 66[3002[3764,7815]]
+
+const writtenText: WrittenSentenceOrPhrase[] = [
+  {
+    curlyName: "Verhältnisse04",
+    line: -1, // not needed for sentence
+    args: [
+      {
+        curlyName: "Verhältnisse04§wo_wann3",
+        line: 0,
+        args: []
+      }
+    ]
+  }
+];
 
 const Home: FunctionalComponent = () => {
   return (
     <div class={style.home}>
       <h1>Home</h1>
       <TextcatSentence sentence={sentence010}></TextcatSentence>
+      <pre>{JSON.stringify(writtenText, undefined, 2)}</pre>
     </div>
   );
 };
