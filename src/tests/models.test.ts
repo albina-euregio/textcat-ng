@@ -50,3 +50,4 @@ const sentence010: Sentence = {
 
 console.log(woWann3);
 console.log(sentence010);
+it("should work", () => expect(1 + 1).toBe(2));
