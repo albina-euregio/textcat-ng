@@ -1,5 +1,5 @@
 type Data = Record<Identifier, Sentence | Phrase>;
-export async function buildTextcat(): Promise<Data> {
+export async function buildTextcat(): Promise<TextcatCatalog> {
   // cat DE/Sentences/* DE/Ranges/* > assets/satzkatalog.DE.txt
   const response = await fetch("/assets/satzkatalog.DE.txt");
   const text = await response.text();
@@ -78,5 +78,17 @@ export async function buildTextcat(): Promise<Data> {
   });
   console.timeEnd("parse satzkatalog.DE.txt");
   // console.table(Object.values(data));
-  return data;
+  return {
+    sentence(curlyName: Identifier): Sentence | undefined {
+      const sentence = data[curlyName];
+      return sentence?.$type === "Sentence" ? sentence : undefined;
+    },
+    searchSentences(): Sentence[] {
+      return [];
+    },
+    phrase(curlyName: Identifier): Phrase | undefined {
+      const phrase = data[curlyName];
+      return phrase?.$type === "Phrase" ? phrase : undefined;
+    }
+  };
 }

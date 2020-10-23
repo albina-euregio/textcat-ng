@@ -8,7 +8,7 @@ interface Sentence {
   $type: "Sentence";
   curlyName: Identifier;
   header: IntlText;
-  phrases: (Identifier | Phrase)[];
+  phrases: Identifier[];
   pos: number[];
   posGerman: number[];
   // phrases+pos+posGerman -> lines
@@ -20,17 +20,15 @@ interface Phrase {
   header: IntlText;
   lines: {
     line: IntlText;
-    linePhrases?: Phrase[];
+    linePhrases?: Identifier[];
     region?: string;
   }[];
 }
 
-interface Textcat {
-  sentences: Sentence[];
-  phrases: Phrase[];
-  sentence(curlyName: Identifier): Sentence;
+interface TextcatCatalog {
+  sentence(curlyName: Identifier): Sentence | undefined;
   searchSentences(search: string): Sentence[];
-  phrase(curlyName: Identifier): Phrase;
+  phrase(curlyName: Identifier): Phrase | undefined;
 }
 
 interface WrittenSentenceOrPhrase {
