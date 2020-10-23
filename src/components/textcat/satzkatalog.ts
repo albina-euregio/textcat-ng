@@ -6,18 +6,16 @@ export async function buildTextcat(): Promise<Data> {
 
   console.time("parse satzkatalog.DE.txt");
   const data: Data = {};
-  let currentHeader = "";
+  let current: Sentence | Phrase | undefined;
   let currentRegion: string | undefined = undefined;
   text.split(/[\r\n]+/).forEach(line => {
     if (!line) {
       return;
     }
-    const current = data[currentHeader];
     const [key, value] = line.split(/\s*:\s*/, 2);
     switch (key) {
       case "ST_Header":
-        currentHeader = value;
-        data[currentHeader] = {
+        current = {
           $type: "Sentence",
           header: { de: value },
           curlyName: "",
@@ -27,43 +25,44 @@ export async function buildTextcat(): Promise<Data> {
         };
         break;
       case "ST_CurlyName":
-        if (current.$type === "Sentence") {
+        if (current?.$type === "Sentence") {
           current.curlyName = value;
+          data[current.curlyName] = current;
         } else {
           console.warn("Ignoring", line);
         }
         break;
       case "PA_Pos":
-        if (current.$type === "Sentence") {
+        if (current?.$type === "Sentence") {
           current.pos?.push(+value);
         } else {
           console.warn("Ignoring", line);
         }
         break;
       case "PA_PosGerman":
-        if (current.$type === "Sentence") {
+        if (current?.$type === "Sentence") {
           current.posGerman?.push(+value);
         } else {
           console.warn("Ignoring", line);
         }
         break;
       case "RS_Header":
-        currentHeader = value;
-        data[currentHeader] = {
+        current = {
           $type: "Phrase",
           header: { de: value },
           curlyName: "",
           lines: []
         };
       case "RS_CurlyName":
-        if (current.$type === "Sentence") {
+        if (current?.$type === "Sentence") {
           current.phrases?.push(value);
-        } else if (current.$type === "Phrase") {
+        } else if (current?.$type === "Phrase") {
           current.curlyName = value;
+          data[current.curlyName] = current;
         }
         break;
       case "Line":
-        if (current.$type === "Phrase") {
+        if (current?.$type === "Phrase") {
           current.lines?.push({ line: { de: value }, region: currentRegion });
         }
         break;
