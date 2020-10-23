@@ -1,36 +1,37 @@
 type Identifier = string;
 
-interface Header {
-  header: { [L in Lang]: string };
-}
+type Lang = "de" | "en" | "it";
 
-interface CurlyName {
+type IntlText = Record<Lang, string>;
+
+interface Sentence {
   curlyName: Identifier;
-}
-
-interface Sentence extends Header, CurlyName {
+  header: IntlText;
   phrases: (Identifier | Phrase)[];
   pos: number[];
   posGerman: number[];
+  // phrases+pos+posGerman -> lines
 }
 
-interface Phrase extends Header, CurlyName {
-  lines: Option[];
-}
-
-interface Option extends Header {
-  phrasesInHeader?: Phrase[];
+interface Phrase {
+  curlyName: Identifier;
+  header: IntlText;
+  lines: {
+    line: IntlText;
+    linePhrases?: Phrase[];
+  }[];
 }
 
 interface Textcat {
   sentences: Sentence[];
   phrases: Phrase[];
-  sentence(curlyName: string): Sentence;
+  sentence(curlyName: Identifier): Sentence;
   searchSentences(search: string): Sentence[];
-  phrase(curlyName: string): Phrase;
+  phrase(curlyName: Identifier): Phrase;
 }
 
-interface WrittenSentenceOrPhrase extends CurlyName {
+interface WrittenSentenceOrPhrase {
+  curlyName: Identifier;
   line: number;
   args?: WrittenSentenceOrPhrase[];
 }

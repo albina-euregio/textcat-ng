@@ -20,25 +20,31 @@ const woWann3: Phrase = {
   },
   lines: [
     {
-      header: {
+      line: {
         de: "abseits der Pisten",
         en: "for those venturing off piste",
         it: "al di fuori delle piste,"
       }
     },
     {
-      header: {
+      line: {
         de: "im {Exposition} {und_im_Exposition}",
         en: "in {Exposition} {und_im_Exposition}",
         it: "nelle {Exposition} {und_im_Exposition} (-),"
-      }
+      },
+      linePhrases: [
+        // ...
+      ]
     },
     {
-      header: {
+      line: {
         de: "im selten befahrenen {Tourengelände}",
         en: "in little used {Tourengelände}",
         it: "nelle {Tourengelände} poco frequentate,"
-      }
+      },
+      linePhrases: [
+        // ...
+      ]
     }
   ]
 };

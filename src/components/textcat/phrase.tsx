@@ -1,5 +1,4 @@
 import { FunctionalComponent, h } from "preact";
-import TextcatOption from "./option";
 import * as style from "./style.css";
 
 interface Props {
@@ -15,7 +14,9 @@ const TextcatPhrase: FunctionalComponent<Props> = (props: Props) => {
     <section class={style.block}>
       <header>{phrase.header.de}</header>
       {phrase.lines.map(line => (
-        <TextcatOption key={line} option={line} />
+        <p key={line} class={style.block}>
+          {typeof line === "string" ? line : line.line.de}
+        </p>
       ))}
     </section>
   );
