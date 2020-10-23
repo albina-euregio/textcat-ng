@@ -2,9 +2,10 @@ type Identifier = string;
 
 type Lang = "de" | "en" | "it";
 
-type IntlText = Record<Lang, string>;
+type IntlText = Partial<Record<Lang, string>>;
 
 interface Sentence {
+  $type: "Sentence";
   curlyName: Identifier;
   header: IntlText;
   phrases: (Identifier | Phrase)[];
@@ -14,11 +15,13 @@ interface Sentence {
 }
 
 interface Phrase {
+  $type: "Phrase";
   curlyName: Identifier;
   header: IntlText;
   lines: {
     line: IntlText;
     linePhrases?: Phrase[];
+    region?: string;
   }[];
 }
 

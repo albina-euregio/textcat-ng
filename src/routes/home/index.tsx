@@ -1,6 +1,7 @@
 import { FunctionalComponent, h } from "preact";
 import * as style from "./style.css";
 import TextcatSentence from "../../components/textcat/sentence";
+import { buildTextcat } from "../../components/textcat/satzkatalog";
 
 /**
  * > cat DE/Ranges/Verhältnisse04§wo_wann3.txt
@@ -12,6 +13,7 @@ import TextcatSentence from "../../components/textcat/sentence";
  * Line: ...
  */
 const woWann3: Phrase = {
+  $type: "Phrase",
   curlyName: "Verhältnisse04§wo_wann3",
   header: {
     de: "wo/wann",
@@ -64,6 +66,7 @@ const woWann3: Phrase = {
  * RS_CurlyName: Verhältnisse04§Lawinensituation.
  */
 const sentence010: Sentence = {
+  $type: "Sentence",
   curlyName: "Verhältnisse04",
   header: {
     de: "Verhältnisse 04",
@@ -96,6 +99,8 @@ const writtenText: WrittenSentenceOrPhrase[] = [
     ]
   }
 ];
+
+buildTextcat();
 
 const Home: FunctionalComponent = () => {
   return (

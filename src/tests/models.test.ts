@@ -1,4 +1,5 @@
 const woWann3: Phrase = {
+  $type: "Phrase",
   curlyName: "Verhältnisse04§wo_wann3",
   header: {
     de: "wo/wann",
@@ -37,6 +38,7 @@ const woWann3: Phrase = {
 };
 
 const sentence010: Sentence = {
+  $type: "Sentence",
   curlyName: "Verhältnisse04",
   header: {
     de: "Verhältnisse 04",
