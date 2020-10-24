@@ -28,6 +28,7 @@ interface Phrase {
 interface TextcatCatalog {
   sentence(curlyName: Identifier): Sentence | undefined;
   searchSentences(search: string): Sentence[];
+  splitPhraseLine(line: string): string[];
   phrase(curlyName: Identifier): Phrase | undefined;
 }
 

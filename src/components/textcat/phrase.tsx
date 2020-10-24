@@ -16,9 +16,9 @@ const TextcatPhrase: FunctionalComponent<Props> = (props: Props) => {
       <header>{phrase.header.de}</header>
       {phrase.lines.map(line => (
         <p key={line} class={style.block}>
-          {(line.line.de ?? "")
-            .match(/{[^}]+}|[^{}]+/g)
-            ?.map((word, index) =>
+          {catalog
+            .splitPhraseLine(line.line.de ?? "")
+            .map((word, index) =>
               word.startsWith("{") ? (
                 <TextcatPhrase
                   key={index}

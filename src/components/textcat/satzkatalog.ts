@@ -87,6 +87,9 @@ export async function buildTextcat(): Promise<TextcatCatalog> {
     searchSentences(): Sentence[] {
       return [];
     },
+    splitPhraseLine(line: string): string[] {
+      return line.match(/{[^}]+}|[^{}]+/g) ?? [];
+    },
     phrase(curlyName: Identifier): Phrase | undefined {
       const phrase = data[curlyName];
       return phrase?.$type === "Phrase" ? phrase : undefined;
