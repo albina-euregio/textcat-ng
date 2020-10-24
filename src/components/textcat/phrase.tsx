@@ -19,7 +19,7 @@ const TextcatPhrase: FunctionalComponent<Props> = (props: Props) => {
           {(line.line.de ?? "")
             .match(/{[^}]+}|[^{}]+/g)
             ?.map((word, index) =>
-              word[0] === "{" ? (
+              word.startsWith("{") ? (
                 <TextcatPhrase
                   key={index}
                   phrase={word.substring(1, word.length - 1)}
