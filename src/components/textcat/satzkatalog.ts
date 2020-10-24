@@ -53,6 +53,7 @@ export async function buildTextcat(): Promise<TextcatCatalog> {
           curlyName: "",
           lines: []
         };
+        break;
       case "RS_CurlyName":
         if (current?.$type === "Sentence") {
           current.phrases?.push(value);
