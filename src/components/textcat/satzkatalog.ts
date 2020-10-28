@@ -64,7 +64,13 @@ export async function buildTextcat(): Promise<TextcatCatalog> {
         break;
       case "Line":
         if (current?.$type === "Phrase") {
-          current.lines?.push({ line: { de: value }, region: currentRegion });
+          current.lines?.push({
+            line: { de: value },
+            linePhrases: (value.match(/{[^}]+}|[^{}]+/g) ?? []).map(phrase => ({
+              de: phrase
+            })),
+            region: currentRegion
+          });
         }
         break;
       case "Begin":
@@ -86,9 +92,6 @@ export async function buildTextcat(): Promise<TextcatCatalog> {
     },
     searchSentences(): Sentence[] {
       return [];
-    },
-    splitPhraseLine(line: string): string[] {
-      return line.match(/{[^}]+}|[^{}]+/g) ?? [];
     },
     phrase(curlyName: Identifier): Phrase | undefined {
       const phrase = data[curlyName];

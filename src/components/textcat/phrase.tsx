@@ -27,18 +27,16 @@ const TextcatPhrase: FunctionalComponent<Props> = (props: Props) => {
             ? line.line.de
             : [
                 "🗹 ",
-                catalog
-                  .splitPhraseLine(line.line.de ?? "")
-                  .map((word, index) =>
-                    word.startsWith("{") ? (
-                      <TextcatPhrase
-                        key={index}
-                        phrase={word.substring(1, word.length - 1)}
-                      ></TextcatPhrase>
-                    ) : (
-                      <span key={index}>{word}</span>
-                    )
+                line.linePhrases?.map(({ de: word }, index) =>
+                  word?.startsWith("{") ? (
+                    <TextcatPhrase
+                      key={index}
+                      phrase={word.substring(1, word.length - 1)}
+                    ></TextcatPhrase>
+                  ) : (
+                    <span key={index}>{word}</span>
                   )
+                )
               ]}
         </p>
       ))}

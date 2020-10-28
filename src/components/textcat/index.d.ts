@@ -20,7 +20,7 @@ interface Phrase {
   header: IntlText;
   lines: {
     line: IntlText;
-    linePhrases?: Identifier[];
+    linePhrases?: IntlText[];
     region?: string;
   }[];
 }
@@ -28,7 +28,6 @@ interface Phrase {
 interface TextcatCatalog {
   sentence(curlyName: Identifier): Sentence | undefined;
   searchSentences(search: string): Sentence[];
-  splitPhraseLine(line: string): string[];
   phrase(curlyName: Identifier): Phrase | undefined;
 }
 
