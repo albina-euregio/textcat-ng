@@ -1,9 +1,4 @@
 import { createContext } from "preact";
+import { Satzkatalog } from "./satzkatalog";
 
-export const emptyCatalog: TextcatCatalog = Object.freeze({
-  sentence: () => undefined,
-  searchSentences: () => [],
-  phrase: () => undefined
-});
-
-export const Catalog = createContext<TextcatCatalog>(emptyCatalog);
+export const Catalog = createContext<TextcatCatalog>(new Satzkatalog());

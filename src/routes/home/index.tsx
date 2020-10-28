@@ -1,9 +1,12 @@
 import { FunctionalComponent, h } from "preact";
 import * as style from "./style.css";
 import TextcatSentence from "../../components/textcat/sentence";
-import { buildTextcat } from "../../components/textcat/satzkatalog";
+import {
+  buildTextcat,
+  Satzkatalog
+} from "../../components/textcat/satzkatalog";
 import { useEffect, useState } from "preact/hooks";
-import { Catalog, emptyCatalog } from "../../components/textcat/catalog";
+import { Catalog } from "../../components/textcat/catalog";
 
 const writtenText: WrittenSentenceOrPhrase[] = [
   {
@@ -20,7 +23,7 @@ const writtenText: WrittenSentenceOrPhrase[] = [
 ];
 
 const Home: FunctionalComponent = () => {
-  const [catalog, setCatalog] = useState<TextcatCatalog>(emptyCatalog);
+  const [catalog, setCatalog] = useState<TextcatCatalog>(new Satzkatalog());
   useEffect(() => {
     buildTextcat().then(data => {
       setCatalog(data);
