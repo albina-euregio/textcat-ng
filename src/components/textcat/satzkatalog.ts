@@ -17,7 +17,7 @@ export class Satzkatalog {
     return phrase?.$type === "Phrase" ? phrase : undefined;
   }
 
-  parse(text: string): void {
+  parse(text: string, lang: Lang): void {
     let current: Sentence | Phrase | undefined;
     let currentRegion: string | undefined = undefined;
     text.split(/[\r\n]+/).forEach(line => {
@@ -29,7 +29,7 @@ export class Satzkatalog {
         case "ST_Header":
           current = {
             $type: "Sentence",
-            header: { de: value },
+            header: { [lang]: value },
             curlyName: "",
             pos: [],
             posGerman: [],
@@ -61,7 +61,7 @@ export class Satzkatalog {
         case "RS_Header":
           current = {
             $type: "Phrase",
-            header: { de: value },
+            header: { [lang]: value },
             curlyName: "",
             lines: []
           };
@@ -77,10 +77,10 @@ export class Satzkatalog {
         case "Line":
           if (current?.$type === "Phrase") {
             current.lines?.push({
-              line: { de: value },
+              line: { [lang]: value },
               linePhrases: (value.match(/{[^}]+}|[^{}]+/g) ?? []).map(
                 phrase => ({
-                  de: phrase
+                  [lang]: phrase
                 })
               ),
               region: currentRegion
@@ -107,7 +107,7 @@ export async function buildTextcat(): Promise<TextcatCatalog> {
 
   const catalog = new Satzkatalog();
   console.time("parse satzkatalog.DE.txt");
-  catalog.parse(text);
+  catalog.parse(text, "de");
   console.timeEnd("parse satzkatalog.DE.txt");
   return catalog;
 }
