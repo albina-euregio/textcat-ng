@@ -7,23 +7,13 @@ import {
 } from "../../components/textcat/satzkatalog";
 import { useEffect, useState } from "preact/hooks";
 import { Catalog } from "../../components/textcat/catalog";
-
-const writtenText: WrittenSentenceOrPhrase[] = [
-  {
-    curlyName: "Verhältnisse04",
-    line: -1, // not needed for sentence
-    args: [
-      {
-        curlyName: "Verhältnisse04§wo_wann3",
-        line: 0,
-        args: []
-      }
-    ]
-  }
-];
+import { newSentence } from "../../components/textcat/writtenText";
 
 const Home: FunctionalComponent = () => {
   const [catalog, setCatalog] = useState<TextcatCatalog>(new Satzkatalog());
+  const [writtenText, setWrittenText] = useState<WrittenText>(
+    newSentence("Verhältnisse04")
+  );
   useEffect(() => {
     buildTextcat().then(data => {
       setCatalog(data);
@@ -34,7 +24,12 @@ const Home: FunctionalComponent = () => {
     <div class={style.home}>
       <h1>Home</h1>
       <Catalog.Provider value={catalog}>
-        <TextcatSentence sentence="Verhältnisse04"></TextcatSentence>
+        <TextcatSentence
+          writtenText={writtenText}
+          setWrittenText={(newText: WrittenText): void =>
+            setWrittenText(newText)
+          }
+        ></TextcatSentence>
       </Catalog.Provider>
       <pre>{JSON.stringify(writtenText, undefined, 2)}</pre>
     </div>

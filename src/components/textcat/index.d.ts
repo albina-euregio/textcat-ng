@@ -31,8 +31,13 @@ interface TextcatCatalog {
   phrase(curlyName: Identifier): Phrase | undefined;
 }
 
-interface WrittenSentenceOrPhrase {
+interface WrittenText {
   curlyName: Identifier;
   line: number;
-  args?: WrittenSentenceOrPhrase[];
+  args?: Record<Identifier, WrittenText>;
+}
+
+interface WrittenTextProps {
+  writtenText: WrittenText;
+  setWrittenText: (writtenText: WrittenText) => void;
 }

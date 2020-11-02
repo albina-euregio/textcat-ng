@@ -3,14 +3,14 @@ import { useContext } from "preact/hooks";
 import { Catalog } from "./catalog";
 import TextcatPhrase from "./phrase";
 import * as style from "./style.css";
+import { newPhrase, withPhrase } from "./writtenText";
 
-interface Props {
-  sentence: string;
-}
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+interface Props extends WrittenTextProps {}
 
 const TextcatSentence: FunctionalComponent<Props> = (props: Props) => {
   const catalog = useContext(Catalog);
-  const sentence = catalog.sentence(props.sentence);
+  const sentence = catalog.sentence(props.writtenText.curlyName);
   if (!sentence) return <section></section>;
   return (
     <table class={style.block}>
@@ -18,7 +18,14 @@ const TextcatSentence: FunctionalComponent<Props> = (props: Props) => {
       <tr>
         {sentence.phrases.map(phrase => (
           <td key={phrase}>
-            <TextcatPhrase phrase={phrase} />
+            <TextcatPhrase
+              writtenText={
+                props.writtenText?.args?.[phrase] ?? newPhrase(phrase)
+              }
+              setWrittenText={(newPhrase: WrittenText): void =>
+                props.setWrittenText(withPhrase(props.writtenText, newPhrase))
+              }
+            />
           </td>
         ))}
       </tr>
