@@ -149,7 +149,7 @@ export class Satzkatalog implements TextcatCatalog {
 
 export async function buildTextcat(): Promise<TextcatCatalog> {
   // awk '{print $0}' DE/Sentences/* DE/Ranges/* > assets/satzkatalog.DE.txt
-  const response = await fetch("/assets/satzkatalog.DE.txt");
+  const response = await fetch("./assets/satzkatalog.DE.txt");
   const text = await response.text();
 
   const catalog = new Satzkatalog();
