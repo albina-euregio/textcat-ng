@@ -22,6 +22,7 @@ module.exports = {
     project: "./tsconfig.eslint.json"
   },
   rules: {
+    "prettier/prettier": "warn",
     "@typescript-eslint/interface-name-prefix": "off",
     "react/no-unknown-property": ["error", { ignore: ["class"] }]
   },
