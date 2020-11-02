@@ -8,18 +8,53 @@ import {
 } from "../../model/satzkatalog";
 import { useEffect, useState } from "preact/hooks";
 import { Catalog } from "../../components/textcat/catalog";
-import { newSentence, WrittenText } from "../../model";
+import { WrittenText, IntlText } from "../../model";
 
 const Home: FunctionalComponent = () => {
   const [catalog, setCatalog] = useState<TextcatCatalog>(new Satzkatalog());
-  const [writtenText, setWrittenText] = useState<WrittenText>(
-    newSentence("Verhältnisse04")
-  );
+  const [writtenText, setWrittenText] = useState<WrittenText>({
+    curlyName: "Verhältnisse04",
+    line: -999,
+    args: {
+      "Verhältnisse04§wo_wann3": {
+        curlyName: "Verhältnisse04§wo_wann3",
+        line: 2
+      },
+      // eslint-disable-next-line @typescript-eslint/camelcase
+      teils_gefährliche: {
+        curlyName: "teils_gefährliche",
+        line: 1,
+        args: {
+          zeitweise: {
+            curlyName: "zeitweise",
+            line: 1
+          },
+          gefährliche: {
+            curlyName: "gefährliche",
+            line: 2
+          }
+        }
+      },
+      "Verhältnisse04§Lawinensituation.": {
+        curlyName: "Verhältnisse04§Lawinensituation.",
+        line: 0
+      }
+    }
+  });
   useEffect(() => {
     buildTextcat().then(data => {
       setCatalog(data);
     });
   }, []);
+
+  let translation: IntlText = { de: "" };
+  try {
+    translation = catalog.translate([writtenText]);
+  } catch (e) {
+    console.warn(e);
+    translation = { de: String(e) };
+  }
+  console.log(translation);
 
   return (
     <div class={style.home}>
@@ -33,6 +68,7 @@ const Home: FunctionalComponent = () => {
         ></TextcatSentence>
       </Catalog.Provider>
       <pre>{JSON.stringify(writtenText, undefined, 2)}</pre>
+      <q>{translation.de}</q>
     </div>
   );
 };

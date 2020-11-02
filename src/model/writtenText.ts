@@ -52,3 +52,13 @@ export function withPhrase(
 export function withLine(writtenText: WrittenText, line: number): WrittenText {
   return { ...writtenText, line };
 }
+
+export function getPhrase(
+  writtenText: WrittenText,
+  curlyName: Identifier
+): WrittenText {
+  const phrase = writtenText?.args?.[curlyName];
+  if (!phrase)
+    throw new Error(`Unset phrase ${curlyName} in  ${writtenText.curlyName}!`);
+  return phrase;
+}
