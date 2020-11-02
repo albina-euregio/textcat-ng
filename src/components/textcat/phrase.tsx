@@ -37,11 +37,13 @@ const TextcatPhrase: FunctionalComponent<Props> = (props: Props) => {
   const select = (
     <select
       size={props.writtenText.line >= 0 ? 1 : phrase.lines.length + 1}
+      value={props.writtenText.line}
       onChange={(e): void => {
         const line = +(e.target as HTMLSelectElement).value;
         props.setWrittenText(withLine(props.writtenText, line));
       }}
     >
+      <option value={-1}></option>
       {phrase.lines.map((line, lineIndex) => (
         <option key={line} value={lineIndex}>
           {line.line.de}
