@@ -6,6 +6,7 @@ import {
   WrittenText,
   WrittenTextProps,
   existingOrNewPhrase,
+  mapLinePhrase,
   withLine,
   withPhrase
 } from "../../model";
@@ -19,20 +20,22 @@ const TextcatPhrase: FunctionalComponent<Props> = (props: Props) => {
   if (!phrase) return <div></div>;
 
   const selectedLinePhrases = phrase.lines[props.writtenText.line]?.linePhrases;
-  const selectedLineTd = selectedLinePhrases?.map(({ de: word }, index) => {
-    if (!word?.startsWith("{")) return undefined;
-    const curlyName = word.substring(1, word.length - 1);
-    return (
-      <td key={index}>
-        <TextcatPhrase
-          writtenText={existingOrNewPhrase(props.writtenText, curlyName)}
-          setWrittenText={(newPhrase: WrittenText): void =>
-            props.setWrittenText(withPhrase(props.writtenText, newPhrase))
-          }
-        />
-      </td>
-    );
-  });
+  const selectedLineTd = selectedLinePhrases?.map((linePhrase, index) =>
+    mapLinePhrase(
+      linePhrase,
+      curlyName => (
+        <td key={index}>
+          <TextcatPhrase
+            writtenText={existingOrNewPhrase(props.writtenText, curlyName)}
+            setWrittenText={(newPhrase: WrittenText): void =>
+              props.setWrittenText(withPhrase(props.writtenText, newPhrase))
+            }
+          />
+        </td>
+      ),
+      () => undefined
+    )
+  );
 
   const select = (
     <select
