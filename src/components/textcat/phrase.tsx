@@ -15,38 +15,39 @@ const TextcatPhrase: FunctionalComponent<Props> = (props: Props) => {
   );
   if (!phrase) return <div></div>;
 
-  const selectedLineTr = (
-    <tr>
-      {phrase.lines[selectedLine]?.linePhrases?.map(({ de: word }, index) => (
-        <td key={index}>
-          {word?.startsWith("{") ? (
-            <TextcatPhrase
-              phrase={word.substring(1, word.length - 1)}
-            ></TextcatPhrase>
-          ) : (
-            <span>{word}</span>
-          )}
-        </td>
-      ))}
-    </tr>
-  );
-  const allLinesTr = phrase.lines.map((line, lineIndex) => (
-    <tr
-      key={line}
-      class={style.block}
-      onClick={(): void => setSelectedLine(lineIndex)}
-    >
-      <td colSpan={99}>
-        {selectedLine !== lineIndex ? line.line.de : `🗹 ${line.line.de}`}
+  const selectedLinePhrases = phrase.lines[selectedLine]?.linePhrases;
+  const selectedLineTd = selectedLinePhrases?.map(({ de: word }, index) =>
+    word?.startsWith("{") ? (
+      <td key={index}>
+        <TextcatPhrase phrase={word.substring(1, word.length - 1)} />
       </td>
-    </tr>
-  ));
+    ) : (
+      undefined
+    )
+  );
+
+  const select = (
+    <select
+      size={selectedLine >= 0 ? 1 : phrase.lines.length + 1}
+      onChange={(e): void =>
+        setSelectedLine(+(e.target as HTMLSelectElement).value)
+      }
+    >
+      {phrase.lines.map((line, lineIndex) => (
+        <option key={line} value={lineIndex}>
+          {line.line.de}
+        </option>
+      ))}
+    </select>
+  );
 
   return (
     <table class={style.block}>
-      <caption>{phrase.header.de}</caption>
-      {selectedLineTr}
-      {allLinesTr}
+      <caption>{"{" + phrase.header.de + "}"}</caption>
+      <tr>
+        <td colSpan={99}>{select}</td>
+      </tr>
+      <tr>{selectedLineTd}</tr>
     </table>
   );
 };
