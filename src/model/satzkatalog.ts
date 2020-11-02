@@ -1,3 +1,11 @@
+import { Identifier, Lang, Phrase, Sentence } from ".";
+
+export interface TextcatCatalog {
+  sentence(curlyName: Identifier): Sentence | undefined;
+  searchSentences(search: string): Sentence[];
+  phrase(curlyName: Identifier): Phrase | undefined;
+}
+
 type Data = Record<Identifier, Sentence | Phrase>;
 
 export class Satzkatalog {

@@ -3,7 +3,12 @@ import { useContext } from "preact/hooks";
 import { Catalog } from "./catalog";
 import TextcatPhrase from "./phrase";
 import * as style from "./style.css";
-import { newPhrase, withPhrase } from "./writtenText";
+import {
+  WrittenText,
+  WrittenTextProps,
+  newPhrase,
+  withPhrase
+} from "../../model";
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 interface Props extends WrittenTextProps {}

@@ -2,7 +2,13 @@ import { FunctionalComponent, h } from "preact";
 import { useContext } from "preact/hooks";
 import { Catalog } from "./catalog";
 import * as style from "./style.css";
-import { existingOrNewPhrase, withPhrase, withLine } from "./writtenText";
+import {
+  WrittenText,
+  WrittenTextProps,
+  existingOrNewPhrase,
+  withLine,
+  withPhrase
+} from "../../model";
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 interface Props extends WrittenTextProps {}

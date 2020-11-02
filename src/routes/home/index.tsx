@@ -3,11 +3,12 @@ import * as style from "./style.css";
 import TextcatSentence from "../../components/textcat/sentence";
 import {
   buildTextcat,
-  Satzkatalog
-} from "../../components/textcat/satzkatalog";
+  Satzkatalog,
+  TextcatCatalog
+} from "../../model/satzkatalog";
 import { useEffect, useState } from "preact/hooks";
 import { Catalog } from "../../components/textcat/catalog";
-import { newSentence } from "../../components/textcat/writtenText";
+import { newSentence, WrittenText } from "../../model";
 
 const Home: FunctionalComponent = () => {
   const [catalog, setCatalog] = useState<TextcatCatalog>(new Satzkatalog());

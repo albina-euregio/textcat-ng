@@ -1,3 +1,5 @@
+import { Phrase, Sentence } from "../model";
+
 /**
  * > cat DE/Ranges/Verhältnisse04§wo_wann3.txt
  * RS_Header: wo/wann
