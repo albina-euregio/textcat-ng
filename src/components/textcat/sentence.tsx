@@ -13,12 +13,16 @@ const TextcatSentence: FunctionalComponent<Props> = (props: Props) => {
   const sentence = catalog.sentence(props.sentence);
   if (!sentence) return <section></section>;
   return (
-    <section class={style.block}>
-      <header>{sentence.header.de}</header>
-      {sentence.phrases.map(phrase => (
-        <TextcatPhrase key={phrase} phrase={phrase} />
-      ))}
-    </section>
+    <table class={style.block}>
+      <caption>{sentence.header.de}</caption>
+      <tr>
+        {sentence.phrases.map(phrase => (
+          <td key={phrase}>
+            <TextcatPhrase phrase={phrase} />
+          </td>
+        ))}
+      </tr>
+    </table>
   );
 };
 
