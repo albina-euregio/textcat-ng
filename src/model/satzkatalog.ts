@@ -8,6 +8,7 @@ import {
   mergeIntlText,
   newPhrase,
   Phrase,
+  removeSuffixNO,
   Sentence,
   WrittenText
 } from ".";
@@ -171,10 +172,13 @@ export class Satzkatalog implements TextcatCatalog {
   }
 
   getPhrase(writtenText: WrittenText, curlyName: Identifier): WrittenText {
+    curlyName = removeSuffixNO(curlyName);
+    // lookup in writtenText
     const phrase = writtenText?.args?.[curlyName];
     if (phrase) {
       return phrase;
     }
+    // find unique line from catalog
     const fromCatalog = this.phrase(curlyName);
     if (fromCatalog?.lines.length === 1) {
       return newPhrase(curlyName, 0);

@@ -171,6 +171,13 @@ it("should return always return a unique phrase", () =>
     curlyName: "Punkt",
     line: 0
   }));
+it("should return handle _NO phrases", () =>
+  expect(
+    catalog.getPhrase(writtenText, "Verhältnisse04§wo_wann3_NO")
+  ).toStrictEqual({
+    curlyName: "Verhältnisse04§wo_wann3",
+    line: 2
+  }));
 it("should translate a text", () =>
   expect(catalog.translate([writtenText])).toBe(
     "abseits gesicherter Pisten weiterhin   sehr kritische Lawinensituation."

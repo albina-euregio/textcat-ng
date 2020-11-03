@@ -24,3 +24,8 @@ export function mapLinePhrase<T>(
     ? mapCurlyName(linePhrase.substring(1, linePhrase.length - 1))
     : mapText(linePhrase);
 }
+
+export function removeSuffixNO(curlyName: Identifier): Identifier {
+  // remove _NO suffix for secondary/synchronized phrases
+  return curlyName.replace(/_NO$/, "");
+}
