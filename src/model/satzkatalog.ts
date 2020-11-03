@@ -4,6 +4,7 @@ import { IntlText, mergeIntlText } from "./intlText";
 import { mapLinePhrase } from "./phrase";
 
 export interface TextcatCatalog {
+  lang: Lang;
   sentence(curlyName: Identifier): Sentence | undefined;
   searchSentences(search: string): Sentence[];
   phrase(curlyName: Identifier): Phrase | undefined;
@@ -13,7 +14,12 @@ export interface TextcatCatalog {
 type Data = Record<Identifier, Sentence | Phrase>;
 
 export class Satzkatalog implements TextcatCatalog {
+  public readonly lang: Lang;
   private data: Data = {};
+
+  constructor(lang: Lang) {
+    this.lang = lang;
+  }
 
   sentence(curlyName: Identifier): Sentence | undefined {
     const sentence = this.data[curlyName];
@@ -138,6 +144,7 @@ export class Satzkatalog implements TextcatCatalog {
     return linePhrases
       .map(linePhrase =>
         mapLinePhrase(
+          this.lang,
           linePhrase,
           curlyName => this.translatePhrase(getPhrase(writtenText, curlyName)),
           text => text
@@ -150,7 +157,7 @@ export class Satzkatalog implements TextcatCatalog {
 export async function buildTextcat(lang: Lang): Promise<TextcatCatalog> {
   // awk '{print $0}' DE/Sentences/* DE/Ranges/* > assets/satzkatalog.DE.txt
   const file = `satzkatalog.${lang.toUpperCase()}.txt`;
-  const catalog = new Satzkatalog();
+  const catalog = new Satzkatalog(lang);
   try {
     const response = await fetch(`./assets/${file}`);
     if (!response.ok) throw response.statusText;

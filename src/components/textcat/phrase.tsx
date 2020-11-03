@@ -22,6 +22,7 @@ const TextcatPhrase: FunctionalComponent<Props> = (props: Props) => {
   const selectedLinePhrases = phrase.lines[props.writtenText.line]?.linePhrases;
   const selectedLineTd = selectedLinePhrases?.map((linePhrase, index) =>
     mapLinePhrase(
+      catalog.lang,
       linePhrase,
       curlyName => (
         <td key={index}>

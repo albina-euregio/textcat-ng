@@ -1,4 +1,4 @@
-import { Identifier, IntlText } from ".";
+import { Identifier, IntlText, Lang } from ".";
 
 export interface Phrase {
   $type: "Phrase";
@@ -12,11 +12,13 @@ export interface Phrase {
 }
 
 export function mapLinePhrase<T>(
+  lang: Lang,
   linePhrase: IntlText,
   mapCurlyName: (curlyName: string) => T,
   mapText: (text: IntlText) => T
 ): T {
-  return linePhrase.de?.startsWith("{")
-    ? mapCurlyName(linePhrase.de.substring(1, linePhrase.de.length - 1))
+  const linePhraseLang = linePhrase[lang];
+  return linePhraseLang?.startsWith("{")
+    ? mapCurlyName(linePhraseLang.substring(1, linePhraseLang.length - 1))
     : mapText(linePhrase);
 }

@@ -147,7 +147,6 @@ const writtenText: WrittenText = {
 // 102[6664,6991,7596[7041,3796],7404,9749,10547,9413].
 // 66[3002[3764,7815]]
 
-const catalog = new Satzkatalog();
 const text = `
 ST_Header: Verhältnisse_04
 ST_CurlyName: Verhältnisse04
@@ -192,7 +191,12 @@ RS_CurlyName: Verhältnisse04§Lawinensituation.
 Line: Lawinensituation.
 `;
 
-beforeAll(() => catalog.parse(text, "de"));
+let catalog: Satzkatalog;
+beforeAll(() => {
+  catalog = new Satzkatalog("de");
+  expect(catalog.lang).toBe("de");
+  catalog.parse(text, "de");
+});
 it("should return the correct sentence", () =>
   expect(catalog.sentence("Verhältnisse04")).toStrictEqual(sentence010));
 it("should return the correct phrase", () =>

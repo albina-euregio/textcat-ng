@@ -12,6 +12,7 @@ import { WrittenText, IntlText } from "../../model";
 
 const Home: FunctionalComponent = () => {
   const [catalog, setCatalog] = useState<TextcatCatalog>(new Satzkatalog("de"));
+  const [catalogs, setCatalogs] = useState<TextcatCatalog[]>([]);
   const [writtenText, setWrittenText] = useState<WrittenText>({
     curlyName: "Verhältnisse04",
     line: -999,
@@ -38,23 +39,34 @@ const Home: FunctionalComponent = () => {
       "Verhältnisse04§Lawinensituation.": {
         curlyName: "Verhältnisse04§Lawinensituation.",
         line: 0
+      },
+      Punkt: {
+        curlyName: "Punkt",
+        line: 0
       }
     }
   });
+
+  const addCatalog = (c: TextcatCatalog): void => setCatalogs(cs => [c, ...cs]);
   useEffect(() => {
-    buildTextcat().then(data => {
-      setCatalog(data);
+    buildTextcat("de").then(c => {
+      setCatalog(c);
+      addCatalog(c);
     });
+    buildTextcat("en").then(c => addCatalog(c));
+    buildTextcat("it").then(c => addCatalog(c));
   }, []);
 
-  let translation: IntlText = { de: "" };
-  try {
-    translation = catalog.translate([writtenText]);
-  } catch (e) {
-    console.warn(e);
-    translation = { de: String(e) };
-  }
-  console.log(translation);
+  const translation: IntlText = {};
+  catalogs.forEach(catalog => {
+    const { lang } = catalog;
+    try {
+      translation[lang] = catalog.translate([writtenText])[lang];
+    } catch (e) {
+      console.warn(e);
+      translation[lang] = String(e);
+    }
+  });
 
   return (
     <div class={style.home}>
@@ -68,7 +80,7 @@ const Home: FunctionalComponent = () => {
         ></TextcatSentence>
       </Catalog.Provider>
       <pre>{JSON.stringify(writtenText, undefined, 2)}</pre>
-      <q>{translation.de}</q>
+      <pre>{JSON.stringify(translation, undefined, 2)}</pre>
     </div>
   );
 };
