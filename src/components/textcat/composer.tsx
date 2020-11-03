@@ -2,7 +2,7 @@ import { FunctionalComponent, h } from "preact";
 import { useContext, useState } from "preact/hooks";
 import { WrittenText, Identifier } from "../../model";
 import { Catalog } from "./catalog";
-import TextcatSentence from "./sentence";
+import TextcatPhrase from "./phrase";
 
 interface Props {
   writtenTexts: WrittenText[];
@@ -37,7 +37,7 @@ const TextcatComposer: FunctionalComponent<Props> = (props: Props) => {
       </div>
 
       {props.writtenTexts.map((writtenText, index) => (
-        <TextcatSentence
+        <TextcatPhrase
           key={index}
           writtenText={writtenText}
           setWrittenText={(newText: WrittenText): void =>

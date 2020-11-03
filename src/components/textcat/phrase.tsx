@@ -19,7 +19,8 @@ const TextcatPhrase: FunctionalComponent<Props> = (props: Props) => {
   const phrase = catalog.phrase(props.writtenText.curlyName);
   if (!phrase) return <div></div>;
 
-  const selectedLinePhrases = phrase.lines[props.writtenText.line]?.linePhrases;
+  const line = phrase.lines.length === 1 ? 0 : props.writtenText.line;
+  const selectedLinePhrases = phrase.lines[line]?.linePhrases;
   const selectedLineTd = selectedLinePhrases?.map((linePhrase, index) =>
     mapLinePhrase(
       linePhrase,
@@ -39,7 +40,6 @@ const TextcatPhrase: FunctionalComponent<Props> = (props: Props) => {
     )
   );
 
-  const line = phrase.lines.length === 1 ? 0 : props.writtenText.line;
   const select = (
     <select
       size={line >= 0 ? 1 : phrase.lines.length + 1}

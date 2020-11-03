@@ -14,7 +14,7 @@ export interface WrittenTextProps {
 export function newSentence(curlyName: string): WrittenText {
   return {
     curlyName,
-    line: -999
+    line: 0
   };
 }
 

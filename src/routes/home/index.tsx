@@ -24,7 +24,7 @@ const Home: FunctionalComponent = () => {
   const [writtenTexts, setWrittenTexts] = useState<WrittenText[]>([
     {
       curlyName: "Verhältnisse04",
-      line: -999,
+      line: 0,
       args: {
         "Verhältnisse04§wo_wann3": {
           curlyName: "Verhältnisse04§wo_wann3",

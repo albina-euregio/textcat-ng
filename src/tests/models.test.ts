@@ -65,19 +65,22 @@ const sentence010: Sentence = {
   header: "Verhältnisse_04",
   // en: "Conditions 04",
   // it: "Condizioni 04"
-  phrases: [
-    "Verhältnisse04§wo_wann3",
-    "teils_gefährliche",
-    "Verhältnisse04§Lawinensituation."
-  ],
-  pos: [1, 2, 3],
-  posGerman: [1, 2, 3]
+  lines: [
+    {
+      line: "xxx",
+      linePhrases: [
+        "Verhältnisse04§wo_wann3",
+        "teils_gefährliche",
+        "Verhältnisse04§Lawinensituation."
+      ]
+    }
+  ]
 };
 // equivalent to Phase with `Line: {Verhältnisse04§wo_wann3} {teils_gefährliche} {Verhältnisse04§Lawinensituation}`???
 
 const writtenText: WrittenText = {
   curlyName: "Verhältnisse04",
-  line: -999,
+  line: 0,
   args: {
     "Verhältnisse04§wo_wann3": {
       curlyName: "Verhältnisse04§wo_wann3",
@@ -164,6 +167,24 @@ beforeAll(() => {
 });
 it("should return the correct sentence", () =>
   expect(catalog.sentence("Verhältnisse04")).toStrictEqual(sentence010));
+it("should not convert sentence to phrase when disabled", () =>
+  expect(catalog.phrase("Verhältnisse04", false)).toBeUndefined());
+it("should convert sentence to phrase", () =>
+  expect(catalog.phrase("Verhältnisse04")).toStrictEqual({
+    $type: "Phrase",
+    curlyName: "Verhältnisse04",
+    header: "Verhältnisse_04",
+    lines: [
+      {
+        line: "{Verhältnisse04}",
+        linePhrases: [
+          "{Verhältnisse04§wo_wann3}",
+          "{teils_gefährliche}",
+          "{Verhältnisse04§Lawinensituation.}"
+        ]
+      }
+    ]
+  }));
 it("should return the correct phrase", () =>
   expect(catalog.phrase("Verhältnisse04§wo_wann3")).toStrictEqual(woWann3));
 it("should return always return a unique phrase", () =>

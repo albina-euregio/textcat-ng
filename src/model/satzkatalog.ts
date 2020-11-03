@@ -52,8 +52,22 @@ export class Satzkatalog implements TextcatCatalog {
     return [];
   }
 
-  phrase(curlyName: Identifier): Phrase | undefined {
+  phrase(curlyName: Identifier, convertSentence = true): Phrase | undefined {
     const phrase = this.data[curlyName];
+    if (isSentence(phrase) && convertSentence) {
+      // use sentence as phrase
+      return {
+        $type: "Phrase",
+        curlyName: phrase.curlyName,
+        header: phrase.header,
+        lines: [
+          {
+            line: `{${phrase.curlyName}}`,
+            linePhrases: phrase.phrases.map(p => `{${p}}`)
+          }
+        ]
+      };
+    }
     return isPhrase(phrase) ? phrase : undefined;
   }
 
@@ -137,16 +151,7 @@ export class Satzkatalog implements TextcatCatalog {
 
   translate(writtenTexts: WrittenText[]): IntlText {
     return writtenTexts
-      .map(writtenText => this.translateSentence(writtenText))
-      .reduce(mergeIntlText);
-  }
-
-  private translateSentence(writtenText: WrittenText): IntlText {
-    const sentence = this.sentence(writtenText.curlyName);
-    if (!sentence)
-      throw new Error(`Unknown sentence ${writtenText.curlyName}!`);
-    return sentence.phrases
-      .map(phrase => this.translatePhrase(this.getPhrase(writtenText, phrase)))
+      .map(writtenText => this.translatePhrase(writtenText))
       .reduce(mergeIntlText);
   }
 
