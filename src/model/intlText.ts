@@ -1,11 +1,12 @@
 export type Identifier = string;
 
-export type Lang = "de" | "en" | "fr" | "it";
+export type Lang = "ca" | "de" | "en" | "fr" | "it";
 
 export type IntlText = Partial<Record<Lang, string>>;
 
 export function mergeIntlText(text1: IntlText, text2: IntlText): IntlText {
   return {
+    ca: `${text1.ca} ${text2.ca}`,
     de: `${text1.de} ${text2.de}`,
     en: `${text1.en} ${text2.en}`,
     fr: `${text1.fr} ${text2.fr}`,

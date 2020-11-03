@@ -55,6 +55,7 @@ const Home: FunctionalComponent = () => {
   }, [srcLang]);
   const addCatalog = (c: TextcatCatalog): void => setCatalogs(cs => [c, ...cs]);
   useEffect(() => {
+    buildTextcat("ca").then(c => addCatalog(c));
     buildTextcat("de").then(c => addCatalog(c));
     buildTextcat("en").then(c => addCatalog(c));
     buildTextcat("fr").then(c => addCatalog(c));
@@ -83,6 +84,7 @@ const Home: FunctionalComponent = () => {
             setSrcLang((e.target as HTMLSelectElement).value as Lang)
           }
         >
+          <option value="ca">ca</option>
           <option value="de">de</option>
           <option value="en">en</option>
           <option value="fr">fr</option>
