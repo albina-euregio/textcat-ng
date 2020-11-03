@@ -119,7 +119,14 @@ const Home: FunctionalComponent = () => {
       </Catalog.Provider>
 
       <h2>Output</h2>
-      <pre>{JSON.stringify(translation, undefined, 2)}</pre>
+      <table>
+        {LANGUAGES.map(lang => (
+          <tr key={lang}>
+            <th class="pr-10">{lang}</th>
+            <td>{translation[lang]}</td>
+          </tr>
+        ))}
+      </table>
       <details open={false}>
         <pre>{JSON.stringify(writtenTexts, undefined, 2)}</pre>
       </details>

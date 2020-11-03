@@ -16,3 +16,7 @@ select {
   max-width: 12em;
   text-overflow: ellipsis;
 }
+
+.pr-10 {
+  padding-right: 10px;
+}
