@@ -22,7 +22,6 @@ const TextcatPhrase: FunctionalComponent<Props> = (props: Props) => {
   const selectedLinePhrases = phrase.lines[props.writtenText.line]?.linePhrases;
   const selectedLineTd = selectedLinePhrases?.map((linePhrase, index) =>
     mapLinePhrase(
-      catalog.lang,
       linePhrase,
       curlyName => (
         <td key={index}>
@@ -50,7 +49,7 @@ const TextcatPhrase: FunctionalComponent<Props> = (props: Props) => {
       <option value={-1}></option>
       {phrase.lines.map((line, lineIndex) => (
         <option key={line} value={lineIndex}>
-          {line.line[catalog.lang]}
+          {line.line}
         </option>
       ))}
     </select>

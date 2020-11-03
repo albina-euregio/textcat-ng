@@ -56,7 +56,7 @@ export class Satzkatalog implements TextcatCatalog {
     return phrase?.$type === "Phrase" ? phrase : undefined;
   }
 
-  parse(text: string, lang: Lang): void {
+  parse(text: string): void {
     let current: Sentence | Phrase | undefined;
     let currentRegion: string | undefined = undefined;
     text.split(/[\r\n]+/).forEach(line => {
@@ -116,12 +116,8 @@ export class Satzkatalog implements TextcatCatalog {
         case "Line":
           if (isPhrase(current)) {
             current.lines?.push({
-              line: { [lang]: value },
-              linePhrases: (value.match(/{[^}]+}|[^{}]+/g) ?? []).map(
-                phrase => ({
-                  [lang]: phrase
-                })
-              ),
+              line: value,
+              linePhrases: value.match(/{[^}]+}|[^{}]+/g) ?? [],
               region: currentRegion
             });
           }
@@ -165,7 +161,6 @@ export class Satzkatalog implements TextcatCatalog {
     return linePhrases
       .map(linePhrase =>
         mapLinePhrase(
-          this.lang,
           linePhrase,
           curlyName => this.translatePhrase(getPhrase(writtenText, curlyName)),
           text => text
@@ -184,7 +179,7 @@ export async function buildTextcat(lang: Lang): Promise<TextcatCatalog> {
     if (!response.ok) throw response.statusText;
     const text = await response.text();
     console.time(`parse ${file}`);
-    catalog.parse(text, lang);
+    catalog.parse(text);
     console.timeEnd(`parse ${file}`);
   } catch (e) {
     throw new Error(`Failed to build textcat from ${file}: ${e}`);

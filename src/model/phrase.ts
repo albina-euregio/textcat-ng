@@ -16,13 +16,11 @@ export function isPhrase(p?: Sentence | Phrase): p is Phrase {
 }
 
 export function mapLinePhrase<T>(
-  lang: Lang,
   linePhrase: IntlText,
   mapCurlyName: (curlyName: string) => T,
   mapText: (text: IntlText) => T
 ): T {
-  const linePhraseLang = linePhrase[lang];
-  return linePhraseLang?.startsWith("{")
-    ? mapCurlyName(linePhraseLang.substring(1, linePhraseLang.length - 1))
+  return linePhrase?.startsWith("{")
+    ? mapCurlyName(linePhrase.substring(1, linePhrase.length - 1))
     : mapText(linePhrase);
 }

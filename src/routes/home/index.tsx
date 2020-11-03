@@ -67,11 +67,11 @@ const Home: FunctionalComponent = () => {
     );
   }, []);
 
-  const translation: IntlText = {};
+  const translation: Partial<Record<Lang, IntlText>> = {};
   catalogs.forEach(catalog => {
     const { lang } = catalog;
     try {
-      translation[lang] = catalog.translate(writtenTexts)[lang];
+      translation[lang] = catalog.translate(writtenTexts);
     } catch (e) {
       console.warn(e);
       translation[lang] = String(e);

@@ -17,60 +17,29 @@ const woWann3: Phrase = {
   // it: "dove/quando"
   lines: [
     {
-      line: {
-        de: "[Empty]"
-      },
+      line: "[Empty]",
+      linePhrases: ["[Empty]"],
+      region: undefined
+    },
+    {
+      line: "abseits der Pisten",
       linePhrases: [
-        {
-          de: "[Empty]"
-        }
+        "abseits der Pisten"
+        // en: "for those venturing off piste",
+        // it: "al di fuori delle piste,"
       ],
       region: undefined
     },
     {
-      line: {
-        de: "abseits der Pisten"
-      },
-      linePhrases: [
-        {
-          de: "abseits der Pisten"
-          // en: "for those venturing off piste",
-          // it: "al di fuori delle piste,"
-        }
-      ],
+      line: "abseits gesicherter Pisten",
+      linePhrases: ["abseits gesicherter Pisten"],
       region: undefined
     },
     {
-      line: {
-        de: "abseits gesicherter Pisten"
-      },
-      linePhrases: [
-        {
-          de: "abseits gesicherter Pisten"
-        }
-      ],
-      region: undefined
-    },
-    {
-      line: {
-        de: "im {Exposition} {und_im_Exposition}"
-        // en: "in {Exposition} {und_im_Exposition}",
-        // it: "nelle {Exposition} {und_im_Exposition} (-),"
-      },
-      linePhrases: [
-        {
-          de: "im "
-        },
-        {
-          de: "{Exposition}"
-        },
-        {
-          de: " "
-        },
-        {
-          de: "{und_im_Exposition}"
-        }
-      ],
+      line: "im {Exposition} {und_im_Exposition}",
+      // en: "in {Exposition} {und_im_Exposition}",
+      // it: "nelle {Exposition} {und_im_Exposition} (-),"
+      linePhrases: ["im ", "{Exposition}", " ", "{und_im_Exposition}"],
       region: undefined
     }
   ]
@@ -191,13 +160,13 @@ let catalog: Satzkatalog;
 beforeAll(() => {
   catalog = new Satzkatalog("de");
   expect(catalog.lang).toBe("de");
-  catalog.parse(text, "de");
+  catalog.parse(text);
 });
 it("should return the correct sentence", () =>
   expect(catalog.sentence("Verhältnisse04")).toStrictEqual(sentence010));
 it("should return the correct phrase", () =>
   expect(catalog.phrase("Verhältnisse04§wo_wann3")).toStrictEqual(woWann3));
 it("should translate a text", () =>
-  expect(catalog.translate([writtenText]).de).toBe(
+  expect(catalog.translate([writtenText])).toBe(
     "abseits gesicherter Pisten weiterhin   sehr kritische Lawinensituation."
   ));
