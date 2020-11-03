@@ -4,7 +4,7 @@ import {
   Satzkatalog,
   TextcatCatalog
 } from "../../model/satzkatalog";
-import { useEffect, useState } from "preact/hooks";
+import { useEffect, useMemo, useState } from "preact/hooks";
 import { Catalog } from "../../components/textcat/catalog";
 import TextcatComposer from "../../components/textcat/composer";
 import {
@@ -59,16 +59,19 @@ const Home: FunctionalComponent = () => {
     );
   }, []);
 
-  const translation: Partial<Record<Lang, IntlText>> = {};
-  catalogs.forEach(catalog => {
-    const { lang } = catalog;
-    try {
-      translation[lang] = catalog.translate(writtenTexts);
-    } catch (e) {
-      console.warn(e);
-      translation[lang] = String(e);
-    }
-  });
+  const translation = useMemo(() => {
+    const translation: Partial<Record<Lang, IntlText>> = {};
+    catalogs.forEach(catalog => {
+      const { lang } = catalog;
+      try {
+        translation[lang] = catalog.translate(writtenTexts);
+      } catch (e) {
+        console.warn(e);
+        translation[lang] = String(e);
+      }
+    });
+    return translation;
+  }, [catalogs, writtenTexts]);
 
   return (
     <section>
