@@ -45,7 +45,7 @@ export class Satzkatalog implements TextcatCatalog {
 
   sentence(curlyName: Identifier): Sentence | undefined {
     const sentence = this.data[curlyName];
-    return sentence?.$type === "Sentence" ? sentence : undefined;
+    return isSentence(sentence) ? sentence : undefined;
   }
 
   searchSentences(): Sentence[] {
@@ -54,7 +54,7 @@ export class Satzkatalog implements TextcatCatalog {
 
   phrase(curlyName: Identifier): Phrase | undefined {
     const phrase = this.data[curlyName];
-    return phrase?.$type === "Phrase" ? phrase : undefined;
+    return isPhrase(phrase) ? phrase : undefined;
   }
 
   parse(text: string): void {
