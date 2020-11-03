@@ -5,8 +5,8 @@ import * as style from "./style.css";
 import {
   WrittenText,
   WrittenTextProps,
-  existingOrNewPhrase,
   mapLinePhrase,
+  newPhrase,
   withLine,
   withPhrase
 } from "../../model";
@@ -26,7 +26,9 @@ const TextcatPhrase: FunctionalComponent<Props> = (props: Props) => {
       curlyName => (
         <td key={index}>
           <TextcatPhrase
-            writtenText={existingOrNewPhrase(props.writtenText, curlyName)}
+            writtenText={
+              props.writtenText?.args?.[curlyName] ?? newPhrase(curlyName)
+            }
             setWrittenText={(newPhrase: WrittenText): void =>
               props.setWrittenText(withPhrase(props.writtenText, newPhrase))
             }

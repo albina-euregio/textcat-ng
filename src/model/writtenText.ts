@@ -25,17 +25,6 @@ export function newPhrase(curlyName: string, line = -1): WrittenText {
   };
 }
 
-export function existingOrNewPhrase(
-  writtenText: WrittenText,
-  curlyName: string
-): WrittenText {
-  return (
-    writtenText?.args?.[curlyName] ?? {
-      curlyName,
-      line: -1
-    }
-  );
-}
 export function withPhrase(
   writtenText: WrittenText,
   newPhrase: WrittenText
