@@ -7,7 +7,13 @@ import {
 import { useEffect, useState } from "preact/hooks";
 import { Catalog } from "../../components/textcat/catalog";
 import TextcatComposer from "../../components/textcat/composer";
-import { WrittenText, IntlText, Lang, LANGUAGES } from "../../model";
+import {
+  IntlText,
+  Lang,
+  LANGUAGES,
+  newSentence,
+  WrittenText
+} from "../../model";
 
 const Home: FunctionalComponent = () => {
   const [srcLang, setSrcLang] = useState<Lang>("de");
@@ -105,6 +111,9 @@ const Home: FunctionalComponent = () => {
               newTexts[index] = newText;
               return newTexts;
             })
+          }
+          addSentence={(curlyName): void =>
+            setWrittenTexts(ts => [...ts, newSentence(curlyName)])
           }
         />
       </Catalog.Provider>

@@ -14,8 +14,10 @@ import {
 
 export interface TextcatCatalog {
   lang: Lang;
+  sentences: Sentence[];
   sentence(curlyName: Identifier): Sentence | undefined;
   searchSentences(search: string): Sentence[];
+  phrases: Phrase[];
   phrase(curlyName: Identifier): Phrase | undefined;
   translate(writtenTexts: WrittenText[]): IntlText;
 }
@@ -28,6 +30,18 @@ export class Satzkatalog implements TextcatCatalog {
 
   constructor(lang: Lang) {
     this.lang = lang;
+  }
+
+  get sentences(): Sentence[] {
+    return Object.values(this.data)
+      .filter(isSentence)
+      .sort((s1, s2) =>
+        (s1.header[this.lang] ?? "").localeCompare(s2.header[this.lang] ?? "")
+      );
+  }
+
+  get phrases(): Phrase[] {
+    return Object.values(this.data).filter(isPhrase);
   }
 
   sentence(curlyName: Identifier): Sentence | undefined {
