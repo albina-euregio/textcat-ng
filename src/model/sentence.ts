@@ -1,15 +1,9 @@
-import { Identifier, Phrase } from ".";
+import { SentenceOrPhrase } from ".";
 
-export interface Sentence {
+export interface Sentence extends SentenceOrPhrase {
   $type: "Sentence";
-  curlyName: Identifier;
-  header: string;
-  phrases: Identifier[];
-  pos: number[];
-  posGerman: number[];
-  // phrases+pos+posGerman -> lines
 }
 
-export function isSentence(s?: Sentence | Phrase): s is Sentence {
+export function isSentence(s?: SentenceOrPhrase): s is Sentence {
   return s?.$type === "Sentence";
 }

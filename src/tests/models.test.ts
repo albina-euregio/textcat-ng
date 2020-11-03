@@ -67,11 +67,11 @@ const sentence010: Sentence = {
   // it: "Condizioni 04"
   lines: [
     {
-      line: "xxx",
+      line: "",
       linePhrases: [
-        "Verhältnisse04§wo_wann3",
-        "teils_gefährliche",
-        "Verhältnisse04§Lawinensituation."
+        "{Verhältnisse04§wo_wann3}",
+        "{teils_gefährliche}",
+        "{Verhältnisse04§Lawinensituation.}"
       ]
     }
   ]
@@ -176,7 +176,7 @@ it("should convert sentence to phrase", () =>
     header: "Verhältnisse_04",
     lines: [
       {
-        line: "{Verhältnisse04}",
+        line: "",
         linePhrases: [
           "{Verhältnisse04§wo_wann3}",
           "{teils_gefährliche}",

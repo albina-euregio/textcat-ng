@@ -1,7 +1,7 @@
-import { Identifier, IntlText, Lang, Sentence } from ".";
+import { Identifier, IntlText } from ".";
 
-export interface Phrase {
-  $type: "Phrase";
+export interface SentenceOrPhrase {
+  $type: "Phrase" | "Sentence";
   curlyName: Identifier;
   header: string;
   lines: {
@@ -11,7 +11,11 @@ export interface Phrase {
   }[];
 }
 
-export function isPhrase(p?: Sentence | Phrase): p is Phrase {
+export interface Phrase extends SentenceOrPhrase {
+  $type: "Phrase";
+}
+
+export function isPhrase(p?: SentenceOrPhrase): p is Phrase {
   return p?.$type === "Phrase";
 }
 

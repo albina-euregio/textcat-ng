@@ -55,17 +55,9 @@ export class Satzkatalog implements TextcatCatalog {
   phrase(curlyName: Identifier, convertSentence = true): Phrase | undefined {
     const phrase = this.data[curlyName];
     if (isSentence(phrase) && convertSentence) {
-      // use sentence as phrase
       return {
-        $type: "Phrase",
-        curlyName: phrase.curlyName,
-        header: phrase.header,
-        lines: [
-          {
-            line: `{${phrase.curlyName}}`,
-            linePhrases: phrase.phrases.map(p => `{${p}}`)
-          }
-        ]
+        ...phrase,
+        $type: "Phrase"
       };
     }
     return isPhrase(phrase) ? phrase : undefined;
@@ -85,9 +77,12 @@ export class Satzkatalog implements TextcatCatalog {
             $type: "Sentence",
             header: value,
             curlyName: "",
-            pos: [],
-            posGerman: [],
-            phrases: []
+            lines: [
+              {
+                line: "",
+                linePhrases: []
+              }
+            ]
           };
           break;
         case "ST_CurlyName":
@@ -100,14 +95,14 @@ export class Satzkatalog implements TextcatCatalog {
           break;
         case "PA_Pos":
           if (isSentence(current)) {
-            current.pos?.push(+value);
+            // ignore PA_Pos
           } else {
             console.warn("Ignoring", line);
           }
           break;
         case "PA_PosGerman":
           if (isSentence(current)) {
-            current.posGerman?.push(+value);
+            // ignore PA_PosGerman
           } else {
             console.warn("Ignoring", line);
           }
@@ -122,7 +117,7 @@ export class Satzkatalog implements TextcatCatalog {
           break;
         case "RS_CurlyName":
           if (isSentence(current)) {
-            current.phrases?.push(value);
+            current.lines[0].linePhrases?.push(`{${value}}`);
           } else if (isPhrase(current)) {
             current.curlyName = value;
             this.data[current.curlyName] = current;
