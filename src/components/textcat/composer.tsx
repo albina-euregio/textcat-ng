@@ -11,7 +11,9 @@ interface Props {
 }
 
 const TextcatComposer: FunctionalComponent<Props> = (props: Props) => {
-  const [newSentenceCurlyName, setNewSentenceCurlyName] = useState("");
+  const [newSentenceCurlyName, setNewSentenceCurlyName] = useState(
+    "Verhältnisse01"
+  );
   const catalog = useContext(Catalog);
 
   return (
