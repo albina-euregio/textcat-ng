@@ -50,7 +50,7 @@ const TextcatPhrase: FunctionalComponent<Props> = (props: Props) => {
       <option value={-1}></option>
       {phrase.lines.map((line, lineIndex) => (
         <option key={line} value={lineIndex}>
-          {line.line.de}
+          {line.line[catalog.lang]}
         </option>
       ))}
     </select>
@@ -58,7 +58,7 @@ const TextcatPhrase: FunctionalComponent<Props> = (props: Props) => {
 
   return (
     <table class={style.block}>
-      <caption>{"{" + phrase.header.de + "}"}</caption>
+      <caption>{"{" + phrase.header[catalog.lang] + "}"}</caption>
       <tr>
         <td colSpan={99}>{select}</td>
       </tr>

@@ -8,10 +8,13 @@ import {
 } from "../../model/satzkatalog";
 import { useEffect, useState } from "preact/hooks";
 import { Catalog } from "../../components/textcat/catalog";
-import { WrittenText, IntlText } from "../../model";
+import { WrittenText, IntlText, Lang } from "../../model";
 
 const Home: FunctionalComponent = () => {
-  const [catalog, setCatalog] = useState<TextcatCatalog>(new Satzkatalog("de"));
+  const [srcLang, setSrcLang] = useState<Lang>("de");
+  const [catalog, setCatalog] = useState<TextcatCatalog>(
+    new Satzkatalog(srcLang)
+  );
   const [catalogs, setCatalogs] = useState<TextcatCatalog[]>([]);
   const [writtenText, setWrittenText] = useState<WrittenText>({
     curlyName: "Verhältnisse04",
@@ -47,12 +50,12 @@ const Home: FunctionalComponent = () => {
     }
   });
 
+  useEffect(() => {
+    buildTextcat(srcLang).then(c => setCatalog(c));
+  }, [srcLang]);
   const addCatalog = (c: TextcatCatalog): void => setCatalogs(cs => [c, ...cs]);
   useEffect(() => {
-    buildTextcat("de").then(c => {
-      setCatalog(c);
-      addCatalog(c);
-    });
+    buildTextcat("de").then(c => addCatalog(c));
     buildTextcat("en").then(c => addCatalog(c));
     buildTextcat("it").then(c => addCatalog(c));
   }, []);
@@ -70,7 +73,20 @@ const Home: FunctionalComponent = () => {
 
   return (
     <div class={style.home}>
-      <h1>Home</h1>
+      <h1>textcat-ng</h1>
+      <label>
+        srcLang:{" "}
+        <select
+          value={srcLang}
+          onChange={(e): void =>
+            setSrcLang((e.target as HTMLSelectElement).value as Lang)
+          }
+        >
+          <option value="de">de</option>
+          <option value="en">en</option>
+          <option value="it">it</option>
+        </select>
+      </label>
       <Catalog.Provider value={catalog}>
         <TextcatSentence
           writtenText={writtenText}

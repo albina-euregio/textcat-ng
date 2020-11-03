@@ -19,7 +19,7 @@ const TextcatSentence: FunctionalComponent<Props> = (props: Props) => {
   if (!sentence) return <section></section>;
   return (
     <table class={style.block}>
-      <caption>{sentence.header.de}</caption>
+      <caption>{sentence.header[catalog.lang]}</caption>
       <tr>
         {sentence.phrases.map(phrase => (
           <td key={phrase}>
