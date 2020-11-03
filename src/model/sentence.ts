@@ -1,9 +1,9 @@
-import { Identifier, IntlText, Phrase } from ".";
+import { Identifier, Phrase } from ".";
 
 export interface Sentence {
   $type: "Sentence";
   curlyName: Identifier;
-  header: IntlText;
+  header: string;
   phrases: Identifier[];
   pos: number[];
   posGerman: number[];

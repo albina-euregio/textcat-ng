@@ -35,9 +35,7 @@ export class Satzkatalog implements TextcatCatalog {
   get sentences(): Sentence[] {
     return Object.values(this.data)
       .filter(isSentence)
-      .sort((s1, s2) =>
-        (s1.header[this.lang] ?? "").localeCompare(s2.header[this.lang] ?? "")
-      );
+      .sort((s1, s2) => s1.header.localeCompare(s2.header));
   }
 
   get phrases(): Phrase[] {
@@ -70,7 +68,7 @@ export class Satzkatalog implements TextcatCatalog {
         case "ST_Header":
           current = {
             $type: "Sentence",
-            header: { [lang]: value },
+            header: value,
             curlyName: "",
             pos: [],
             posGerman: [],
@@ -102,7 +100,7 @@ export class Satzkatalog implements TextcatCatalog {
         case "RS_Header":
           current = {
             $type: "Phrase",
-            header: { [lang]: value },
+            header: value,
             curlyName: "",
             lines: []
           };

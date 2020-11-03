@@ -12,11 +12,9 @@ import { Phrase, Sentence, Satzkatalog, WrittenText } from "../model";
 const woWann3: Phrase = {
   $type: "Phrase",
   curlyName: "Verhältnisse04§wo_wann3",
-  header: {
-    de: "wo/wann"
-    // en: "where/when",
-    // it: "dove/quando"
-  },
+  header: "wo/wann",
+  // en: "where/when",
+  // it: "dove/quando"
   lines: [
     {
       line: {
@@ -95,11 +93,9 @@ const woWann3: Phrase = {
 const sentence010: Sentence = {
   $type: "Sentence",
   curlyName: "Verhältnisse04",
-  header: {
-    de: "Verhältnisse_04"
-    // en: "Conditions 04",
-    // it: "Condizioni 04"
-  },
+  header: "Verhältnisse_04",
+  // en: "Conditions 04",
+  // it: "Condizioni 04"
   phrases: [
     "Verhältnisse04§wo_wann3",
     "teils_gefährliche",

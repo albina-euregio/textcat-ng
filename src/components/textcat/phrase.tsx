@@ -58,7 +58,7 @@ const TextcatPhrase: FunctionalComponent<Props> = (props: Props) => {
 
   return (
     <table class={style.block}>
-      <caption>{"{" + phrase.header[catalog.lang] + "}"}</caption>
+      <caption>{"{" + phrase.header + "}"}</caption>
       <tr>
         <td colSpan={99}>{select}</td>
       </tr>

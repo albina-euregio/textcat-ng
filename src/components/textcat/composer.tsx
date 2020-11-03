@@ -13,7 +13,6 @@ interface Props {
 const TextcatComposer: FunctionalComponent<Props> = (props: Props) => {
   const [newSentenceCurlyName, setNewSentenceCurlyName] = useState("");
   const catalog = useContext(Catalog);
-  const { lang } = catalog;
 
   return (
     <section>
@@ -26,7 +25,7 @@ const TextcatComposer: FunctionalComponent<Props> = (props: Props) => {
         >
           {catalog.sentences.map(({ curlyName, header }) => (
             <option key={curlyName} value={curlyName}>
-              {header[lang]}
+              {header}
             </option>
           ))}
         </select>

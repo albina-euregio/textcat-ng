@@ -3,7 +3,7 @@ import { Identifier, IntlText, Lang, Sentence } from ".";
 export interface Phrase {
   $type: "Phrase";
   curlyName: Identifier;
-  header: IntlText;
+  header: string;
   lines: {
     line: IntlText;
     linePhrases?: IntlText[];
