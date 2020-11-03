@@ -1,5 +1,4 @@
 import {
-  getPhrase,
   Identifier,
   IntlText,
   isPhrase,
@@ -7,6 +6,7 @@ import {
   Lang,
   mapLinePhrase,
   mergeIntlText,
+  newPhrase,
   Phrase,
   Sentence,
   WrittenText
@@ -145,7 +145,7 @@ export class Satzkatalog implements TextcatCatalog {
     if (!sentence)
       throw new Error(`Unknown sentence ${writtenText.curlyName}!`);
     return sentence.phrases
-      .map(phrase => this.translatePhrase(getPhrase(writtenText, phrase)))
+      .map(phrase => this.translatePhrase(this.getPhrase(writtenText, phrase)))
       .reduce(mergeIntlText);
   }
 
@@ -162,11 +162,24 @@ export class Satzkatalog implements TextcatCatalog {
       .map(linePhrase =>
         mapLinePhrase(
           linePhrase,
-          curlyName => this.translatePhrase(getPhrase(writtenText, curlyName)),
+          curlyName =>
+            this.translatePhrase(this.getPhrase(writtenText, curlyName)),
           text => text
         )
       )
       .reduce(mergeIntlText);
+  }
+
+  getPhrase(writtenText: WrittenText, curlyName: Identifier): WrittenText {
+    const phrase = writtenText?.args?.[curlyName];
+    if (phrase) {
+      return phrase;
+    }
+    const fromCatalog = this.phrase(curlyName);
+    if (fromCatalog?.lines.length === 1) {
+      return newPhrase(curlyName, 0);
+    }
+    throw new Error(`Unset phrase ${curlyName} in ${writtenText.curlyName}!`);
   }
 }
 

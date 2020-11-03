@@ -97,10 +97,6 @@ const writtenText: WrittenText = {
           line: 2
         }
       }
-    },
-    "Verhältnisse04§Lawinensituation.": {
-      curlyName: "Verhältnisse04§Lawinensituation.",
-      line: 0
     }
   }
 };
@@ -154,6 +150,10 @@ Line: kritische
 RS_Header: Lawinensituation.
 RS_CurlyName: Verhältnisse04§Lawinensituation.
 Line: Lawinensituation.
+
+RS_Header: Punkt
+RS_CurlyName: Punkt
+Line: (-).
 `;
 
 let catalog: Satzkatalog;
@@ -166,6 +166,11 @@ it("should return the correct sentence", () =>
   expect(catalog.sentence("Verhältnisse04")).toStrictEqual(sentence010));
 it("should return the correct phrase", () =>
   expect(catalog.phrase("Verhältnisse04§wo_wann3")).toStrictEqual(woWann3));
+it("should return always return a unique phrase", () =>
+  expect(catalog.getPhrase(writtenText, "Punkt")).toStrictEqual({
+    curlyName: "Punkt",
+    line: 0
+  }));
 it("should translate a text", () =>
   expect(catalog.translate([writtenText])).toBe(
     "abseits gesicherter Pisten weiterhin   sehr kritische Lawinensituation."

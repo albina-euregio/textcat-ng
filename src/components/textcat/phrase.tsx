@@ -37,10 +37,12 @@ const TextcatPhrase: FunctionalComponent<Props> = (props: Props) => {
     )
   );
 
+  const line = phrase.lines.length === 1 ? 0 : props.writtenText.line;
   const select = (
     <select
-      size={props.writtenText.line >= 0 ? 1 : phrase.lines.length + 1}
-      value={props.writtenText.line}
+      size={line >= 0 ? 1 : phrase.lines.length + 1}
+      disabled={phrase.lines.length === 1}
+      value={line}
       onChange={(e): void => {
         const line = +(e.target as HTMLSelectElement).value;
         props.setWrittenText(withLine(props.writtenText, line));

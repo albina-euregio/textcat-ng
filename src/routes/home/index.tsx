@@ -44,14 +44,6 @@ const Home: FunctionalComponent = () => {
               line: 2
             }
           }
-        },
-        "Verhältnisse04§Lawinensituation.": {
-          curlyName: "Verhältnisse04§Lawinensituation.",
-          line: 0
-        },
-        Punkt: {
-          curlyName: "Punkt",
-          line: 0
         }
       }
     }
