@@ -1,5 +1,4 @@
 import { FunctionalComponent, h } from "preact";
-import TextcatSentence from "../../components/textcat/sentence";
 import {
   buildTextcat,
   Satzkatalog,
@@ -7,6 +6,7 @@ import {
 } from "../../model/satzkatalog";
 import { useEffect, useState } from "preact/hooks";
 import { Catalog } from "../../components/textcat/catalog";
+import TextcatComposer from "../../components/textcat/composer";
 import { WrittenText, IntlText, Lang, LANGUAGES } from "../../model";
 
 const Home: FunctionalComponent = () => {
@@ -15,39 +15,41 @@ const Home: FunctionalComponent = () => {
     new Satzkatalog(srcLang)
   );
   const [catalogs, setCatalogs] = useState<TextcatCatalog[]>([]);
-  const [writtenText, setWrittenText] = useState<WrittenText>({
-    curlyName: "Verhältnisse04",
-    line: -999,
-    args: {
-      "Verhältnisse04§wo_wann3": {
-        curlyName: "Verhältnisse04§wo_wann3",
-        line: 2
-      },
-      // eslint-disable-next-line @typescript-eslint/camelcase
-      teils_gefährliche: {
-        curlyName: "teils_gefährliche",
-        line: 1,
-        args: {
-          zeitweise: {
-            curlyName: "zeitweise",
-            line: 1
-          },
-          gefährliche: {
-            curlyName: "gefährliche",
-            line: 2
+  const [writtenTexts, setWrittenTexts] = useState<WrittenText[]>([
+    {
+      curlyName: "Verhältnisse04",
+      line: -999,
+      args: {
+        "Verhältnisse04§wo_wann3": {
+          curlyName: "Verhältnisse04§wo_wann3",
+          line: 2
+        },
+        // eslint-disable-next-line @typescript-eslint/camelcase
+        teils_gefährliche: {
+          curlyName: "teils_gefährliche",
+          line: 1,
+          args: {
+            zeitweise: {
+              curlyName: "zeitweise",
+              line: 1
+            },
+            gefährliche: {
+              curlyName: "gefährliche",
+              line: 2
+            }
           }
+        },
+        "Verhältnisse04§Lawinensituation.": {
+          curlyName: "Verhältnisse04§Lawinensituation.",
+          line: 0
+        },
+        Punkt: {
+          curlyName: "Punkt",
+          line: 0
         }
-      },
-      "Verhältnisse04§Lawinensituation.": {
-        curlyName: "Verhältnisse04§Lawinensituation.",
-        line: 0
-      },
-      Punkt: {
-        curlyName: "Punkt",
-        line: 0
       }
     }
-  });
+  ]);
 
   useEffect(() => {
     buildTextcat(srcLang).then(c => setCatalog(c));
@@ -63,7 +65,7 @@ const Home: FunctionalComponent = () => {
   catalogs.forEach(catalog => {
     const { lang } = catalog;
     try {
-      translation[lang] = catalog.translate([writtenText])[lang];
+      translation[lang] = catalog.translate(writtenTexts)[lang];
     } catch (e) {
       console.warn(e);
       translation[lang] = String(e);
@@ -95,18 +97,22 @@ const Home: FunctionalComponent = () => {
       </h2>
 
       <Catalog.Provider value={catalog}>
-        <TextcatSentence
-          writtenText={writtenText}
-          setWrittenText={(newText: WrittenText): void =>
-            setWrittenText(newText)
+        <TextcatComposer
+          writtenTexts={writtenTexts}
+          updateWrittenText={(newText, index): void =>
+            setWrittenTexts(ts => {
+              const newTexts = [...ts];
+              newTexts[index] = newText;
+              return newTexts;
+            })
           }
-        ></TextcatSentence>
+        />
       </Catalog.Provider>
 
       <h2>Output</h2>
       <pre>{JSON.stringify(translation, undefined, 2)}</pre>
       <details open={false}>
-        <pre>{JSON.stringify(writtenText, undefined, 2)}</pre>
+        <pre>{JSON.stringify(writtenTexts, undefined, 2)}</pre>
       </details>
     </section>
   );
