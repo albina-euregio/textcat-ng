@@ -1,4 +1,4 @@
-import { Identifier, IntlText, Lang } from ".";
+import { Identifier, IntlText, Lang, Sentence } from ".";
 
 export interface Phrase {
   $type: "Phrase";
@@ -9,6 +9,10 @@ export interface Phrase {
     linePhrases?: IntlText[];
     region?: string;
   }[];
+}
+
+export function isPhrase(p?: Sentence | Phrase): p is Phrase {
+  return p?.$type === "Phrase";
 }
 
 export function mapLinePhrase<T>(

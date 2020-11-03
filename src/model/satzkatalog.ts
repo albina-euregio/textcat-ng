@@ -1,7 +1,16 @@
-import { Identifier, Lang, Phrase, Sentence } from ".";
-import { WrittenText, getPhrase } from "./writtenText";
-import { IntlText, mergeIntlText } from "./intlText";
-import { mapLinePhrase } from "./phrase";
+import {
+  getPhrase,
+  Identifier,
+  IntlText,
+  isPhrase,
+  isSentence,
+  Lang,
+  mapLinePhrase,
+  mergeIntlText,
+  Phrase,
+  Sentence,
+  WrittenText
+} from ".";
 
 export interface TextcatCatalog {
   lang: Lang;
@@ -55,7 +64,7 @@ export class Satzkatalog implements TextcatCatalog {
           };
           break;
         case "ST_CurlyName":
-          if (current?.$type === "Sentence") {
+          if (isSentence(current)) {
             current.curlyName = value;
             this.data[current.curlyName] = current;
           } else {
@@ -63,14 +72,14 @@ export class Satzkatalog implements TextcatCatalog {
           }
           break;
         case "PA_Pos":
-          if (current?.$type === "Sentence") {
+          if (isSentence(current)) {
             current.pos?.push(+value);
           } else {
             console.warn("Ignoring", line);
           }
           break;
         case "PA_PosGerman":
-          if (current?.$type === "Sentence") {
+          if (isSentence(current)) {
             current.posGerman?.push(+value);
           } else {
             console.warn("Ignoring", line);
@@ -85,15 +94,15 @@ export class Satzkatalog implements TextcatCatalog {
           };
           break;
         case "RS_CurlyName":
-          if (current?.$type === "Sentence") {
+          if (isSentence(current)) {
             current.phrases?.push(value);
-          } else if (current?.$type === "Phrase") {
+          } else if (isPhrase(current)) {
             current.curlyName = value;
             this.data[current.curlyName] = current;
           }
           break;
         case "Line":
-          if (current?.$type === "Phrase") {
+          if (isPhrase(current)) {
             current.lines?.push({
               line: { [lang]: value },
               linePhrases: (value.match(/{[^}]+}|[^{}]+/g) ?? []).map(

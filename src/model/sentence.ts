@@ -1,4 +1,4 @@
-import { Identifier, IntlText } from ".";
+import { Identifier, IntlText, Phrase } from ".";
 
 export interface Sentence {
   $type: "Sentence";
@@ -8,4 +8,8 @@ export interface Sentence {
   pos: number[];
   posGerman: number[];
   // phrases+pos+posGerman -> lines
+}
+
+export function isSentence(s?: Sentence | Phrase): s is Sentence {
+  return s?.$type === "Sentence";
 }
