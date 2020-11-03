@@ -1,5 +1,4 @@
 import { FunctionalComponent, h } from "preact";
-import * as style from "./style.css";
 import TextcatSentence from "../../components/textcat/sentence";
 import {
   buildTextcat,
@@ -74,23 +73,29 @@ const Home: FunctionalComponent = () => {
   });
 
   return (
-    <div class={style.home}>
-      <h1>textcat-ng</h1>
-      <label>
-        srcLang:{" "}
-        <select
-          value={srcLang}
-          onChange={(e): void =>
-            setSrcLang((e.target as HTMLSelectElement).value as Lang)
-          }
-        >
-          <option value="ca">ca</option>
-          <option value="de">de</option>
-          <option value="en">en</option>
-          <option value="fr">fr</option>
-          <option value="it">it</option>
-        </select>
-      </label>
+    <section>
+      <h1>
+        <abbr title="text catalog: new generation">textcat-ng</abbr>
+      </h1>
+
+      <h2>
+        <label>
+          Input{" "}
+          <select
+            value={srcLang}
+            onChange={(e): void =>
+              setSrcLang((e.target as HTMLSelectElement).value as Lang)
+            }
+          >
+            <option value="ca">ca</option>
+            <option value="de">de</option>
+            <option value="en">en</option>
+            <option value="fr">fr</option>
+            <option value="it">it</option>
+          </select>
+        </label>
+      </h2>
+
       <Catalog.Provider value={catalog}>
         <TextcatSentence
           writtenText={writtenText}
@@ -99,9 +104,13 @@ const Home: FunctionalComponent = () => {
           }
         ></TextcatSentence>
       </Catalog.Provider>
-      <pre>{JSON.stringify(writtenText, undefined, 2)}</pre>
+
+      <h2>Output</h2>
       <pre>{JSON.stringify(translation, undefined, 2)}</pre>
-    </div>
+      <details open={false}>
+        <pre>{JSON.stringify(writtenText, undefined, 2)}</pre>
+      </details>
+    </section>
   );
 };
 
