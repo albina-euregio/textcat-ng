@@ -7,7 +7,7 @@ import {
 } from "../../model/satzkatalog";
 import { useEffect, useState } from "preact/hooks";
 import { Catalog } from "../../components/textcat/catalog";
-import { WrittenText, IntlText, Lang } from "../../model";
+import { WrittenText, IntlText, Lang, LANGUAGES } from "../../model";
 
 const Home: FunctionalComponent = () => {
   const [srcLang, setSrcLang] = useState<Lang>("de");
@@ -54,11 +54,9 @@ const Home: FunctionalComponent = () => {
   }, [srcLang]);
   const addCatalog = (c: TextcatCatalog): void => setCatalogs(cs => [c, ...cs]);
   useEffect(() => {
-    buildTextcat("ca").then(c => addCatalog(c));
-    buildTextcat("de").then(c => addCatalog(c));
-    buildTextcat("en").then(c => addCatalog(c));
-    buildTextcat("fr").then(c => addCatalog(c));
-    buildTextcat("it").then(c => addCatalog(c));
+    Promise.all(
+      LANGUAGES.map(lang => buildTextcat(lang).then(c => addCatalog(c)))
+    );
   }, []);
 
   const translation: IntlText = {};
@@ -87,11 +85,11 @@ const Home: FunctionalComponent = () => {
               setSrcLang((e.target as HTMLSelectElement).value as Lang)
             }
           >
-            <option value="ca">ca</option>
-            <option value="de">de</option>
-            <option value="en">en</option>
-            <option value="fr">fr</option>
-            <option value="it">it</option>
+            {LANGUAGES.map(lang => (
+              <option key={lang} value={lang}>
+                {lang}
+              </option>
+            ))}
           </select>
         </label>
       </h2>
