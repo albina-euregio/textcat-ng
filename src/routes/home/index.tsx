@@ -57,6 +57,7 @@ const Home: FunctionalComponent = () => {
   useEffect(() => {
     buildTextcat("de").then(c => addCatalog(c));
     buildTextcat("en").then(c => addCatalog(c));
+    buildTextcat("fr").then(c => addCatalog(c));
     buildTextcat("it").then(c => addCatalog(c));
   }, []);
 
@@ -84,6 +85,7 @@ const Home: FunctionalComponent = () => {
         >
           <option value="de">de</option>
           <option value="en">en</option>
+          <option value="fr">fr</option>
           <option value="it">it</option>
         </select>
       </label>
