@@ -147,14 +147,19 @@ export class Satzkatalog implements TextcatCatalog {
   }
 }
 
-export async function buildTextcat(): Promise<TextcatCatalog> {
+export async function buildTextcat(lang: Lang): Promise<TextcatCatalog> {
   // awk '{print $0}' DE/Sentences/* DE/Ranges/* > assets/satzkatalog.DE.txt
-  const response = await fetch("./assets/satzkatalog.DE.txt");
-  const text = await response.text();
-
+  const file = `satzkatalog.${lang.toUpperCase()}.txt`;
   const catalog = new Satzkatalog();
-  console.time("parse satzkatalog.DE.txt");
-  catalog.parse(text, "de");
-  console.timeEnd("parse satzkatalog.DE.txt");
+  try {
+    const response = await fetch(`./assets/${file}`);
+    if (!response.ok) throw response.statusText;
+    const text = await response.text();
+    console.time(`parse ${file}`);
+    catalog.parse(text, lang);
+    console.timeEnd(`parse ${file}`);
+  } catch (e) {
+    throw new Error(`Failed to build textcat from ${file}: ${e}`);
+  }
   return catalog;
 }

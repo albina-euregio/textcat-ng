@@ -11,7 +11,7 @@ import { Catalog } from "../../components/textcat/catalog";
 import { WrittenText, IntlText } from "../../model";
 
 const Home: FunctionalComponent = () => {
-  const [catalog, setCatalog] = useState<TextcatCatalog>(new Satzkatalog());
+  const [catalog, setCatalog] = useState<TextcatCatalog>(new Satzkatalog("de"));
   const [writtenText, setWrittenText] = useState<WrittenText>({
     curlyName: "Verhältnisse04",
     line: -999,
