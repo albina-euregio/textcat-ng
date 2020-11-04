@@ -3,19 +3,13 @@ import {
   buildTextcat,
   Satzkatalog,
   TextcatCatalog
-} from "../../model/satzkatalog";
+} from "../model/satzkatalog";
 import { useEffect, useMemo, useState } from "preact/hooks";
-import { Catalog } from "../../components/textcat/catalog";
-import TextcatComposer from "../../components/textcat/composer";
-import {
-  IntlText,
-  Lang,
-  LANGUAGES,
-  newSentence,
-  WrittenText
-} from "../../model";
+import { Catalog } from "./textcat/catalog";
+import TextcatComposer from "./textcat/composer";
+import { IntlText, Lang, LANGUAGES, newSentence, WrittenText } from "../model";
 
-const Home: FunctionalComponent = () => {
+const App: FunctionalComponent = () => {
   const [srcLang, setSrcLang] = useState<Lang>("de");
   const [catalog, setCatalog] = useState<TextcatCatalog>(
     new Satzkatalog(srcLang)
@@ -129,4 +123,4 @@ const Home: FunctionalComponent = () => {
   );
 };
 
-export default Home;
+export default App;

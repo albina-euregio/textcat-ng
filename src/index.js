@@ -1,4 +1,4 @@
 import "./style/index.css";
-import App from "./routes/home";
+import App from "./components/app";
 
 export default App;
