@@ -29,7 +29,10 @@ export function mapLinePhrase<T>(
     : mapText(linePhrase);
 }
 
-export function removeSuffixNO(curlyName: Identifier): Identifier {
+export const SECOND_ITEM_PART_NO_SUFFIX = "_NO";
+export const SECOND_ITEM_PART_NO_REGEX = /_NO$/;
+
+export function normalizeCurlyName(curlyName: Identifier): Identifier {
   // remove _NO suffix for secondary/synchronized phrases
-  return curlyName.replace(/_NO$/, "");
+  return curlyName.replace(SECOND_ITEM_PART_NO_REGEX, "");
 }
