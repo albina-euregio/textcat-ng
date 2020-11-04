@@ -10,3 +10,17 @@ build:
   artifacts:
     paths:
       - build/
+
+deploy to development:
+  stage: deploy
+  script:
+    - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
+    - eval $(ssh-agent -s)
+    - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add - > /dev/null
+    - mkdir -p ~/.ssh && chmod 700 ~/.ssh
+    - echo "$SSH_KNOWN_HOSTS" > ~/.ssh/known_hosts
+    - tar --create --verbose build/ | ssh -o "$SSH_PROXY_COMMAND" "$SSH_SERVER" 'tar --directory=/opt/tomcat/webapps/textcat-ng-dev --extract --strip-components=1'
+  environment:
+    name: development
+  only:
+    - master
