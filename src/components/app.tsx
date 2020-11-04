@@ -70,7 +70,8 @@ const App: FunctionalComponent = () => {
   return (
     <section>
       <h1>
-        <abbr title="text catalog: new generation">textcat-ng</abbr>
+        <abbr title="text catalog: new generation">textcat-ng</abbr>{" "}
+        <small>({process.env.GIT_VERSION})</small>
       </h1>
 
       <h2>
