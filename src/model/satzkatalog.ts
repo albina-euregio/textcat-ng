@@ -127,7 +127,9 @@ export class Satzkatalog implements TextcatCatalog {
           if (isPhrase(current)) {
             current.lines?.push({
               line: value,
-              linePhrases: value.match(/{[^}]+}|[^{}]+/g) ?? [],
+              linePhrases: (value.match(/{[^}]+}|[^{}]+/g) ?? [])
+                .map(s => s.trim())
+                .filter(s => s.length),
               region: currentRegion
             });
           }

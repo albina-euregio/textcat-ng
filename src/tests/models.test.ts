@@ -39,7 +39,7 @@ const woWann3: Phrase = {
       line: "im {Exposition} {und_im_Exposition}",
       // en: "in {Exposition} {und_im_Exposition}",
       // it: "nelle {Exposition} {und_im_Exposition} (-),"
-      linePhrases: ["im ", "{Exposition}", " ", "{und_im_Exposition}"],
+      linePhrases: ["im", "{Exposition}", "{und_im_Exposition}"],
       region: undefined
     }
   ]
@@ -201,5 +201,5 @@ it("should return handle _NO phrases", () =>
   }));
 it("should translate a text", () =>
   expect(catalog.translate([writtenText])).toBe(
-    "abseits gesicherter Pisten weiterhin   sehr kritische Lawinensituation."
+    "abseits gesicherter Pisten weiterhin sehr kritische Lawinensituation."
   ));
