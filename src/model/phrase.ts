@@ -6,7 +6,7 @@ export interface Phrase {
   header: string;
   lines: {
     line: IntlText;
-    linePhrases?: IntlText[];
+    lineFragments?: IntlText[];
     region?: string;
   }[];
 }
@@ -15,16 +15,16 @@ export function isPhrase(p?: Phrase): p is Phrase {
   return p?.$type === "Phrase";
 }
 
-export function mapLinePhrase<T>(
-  linePhrase: IntlText,
+export function mapLineFragment<T>(
+  lineFragment: IntlText,
   mapCurlyName: (curlyName: string, curlyNameSuffix?: "_NO") => T,
   mapText: (text: IntlText) => T
 ): T {
-  return linePhrase?.startsWith("{") && linePhrase?.endsWith("_NO}")
-    ? mapCurlyName(linePhrase.substring(1, linePhrase.length - 4), "_NO")
-    : linePhrase?.startsWith("{")
-    ? mapCurlyName(linePhrase.substring(1, linePhrase.length - 1))
-    : mapText(linePhrase);
+  return lineFragment?.startsWith("{") && lineFragment?.endsWith("_NO}")
+    ? mapCurlyName(lineFragment.substring(1, lineFragment.length - 4), "_NO")
+    : lineFragment?.startsWith("{")
+    ? mapCurlyName(lineFragment.substring(1, lineFragment.length - 1))
+    : mapText(lineFragment);
 }
 
 export const SECOND_ITEM_PART_NO_SUFFIX = "_NO";

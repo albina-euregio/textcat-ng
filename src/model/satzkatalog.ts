@@ -4,7 +4,7 @@ import {
   isPhrase,
   isSentence,
   Lang,
-  mapLinePhrase,
+  mapLineFragment,
   mergeIntlText,
   newPhrase,
   Phrase,
@@ -62,7 +62,7 @@ export class Satzkatalog implements TextcatCatalog {
             lines: [
               {
                 line: "",
-                linePhrases: []
+                lineFragments: []
               }
             ]
           };
@@ -99,7 +99,7 @@ export class Satzkatalog implements TextcatCatalog {
           break;
         case "RS_CurlyName":
           if (isSentence(current)) {
-            current.lines[0].linePhrases?.push(`{${value}}`);
+            current.lines[0].lineFragments?.push(`{${value}}`);
           } else if (isPhrase(current)) {
             current.curlyName = value;
             this.data[current.curlyName] = current;
@@ -109,7 +109,7 @@ export class Satzkatalog implements TextcatCatalog {
           if (isPhrase(current)) {
             current.lines?.push({
               line: value,
-              linePhrases: (value.match(/{[^}]+}|[^{}]+/g) ?? [])
+              lineFragments: (value.match(/{[^}]+}|[^{}]+/g) ?? [])
                 .map(s => s.trim())
                 .filter(s => s.length),
               region: currentRegion
@@ -148,15 +148,15 @@ export class Satzkatalog implements TextcatCatalog {
     const phrase = this.phrase(writtenText.curlyName);
     if (!phrase) throw new Error(`Unknown phrase ${writtenText.curlyName}!`);
     const line = phrase?.lines[writtenText.line];
-    const linePhrases = line?.linePhrases;
-    if (!line || !linePhrases)
+    const lineFragments = line?.lineFragments;
+    if (!line || !lineFragments)
       throw new Error(
         `Unknown line ${writtenText.line} in phrase ${writtenText.curlyName}!`
       );
-    return linePhrases
-      .map(linePhrase =>
-        mapLinePhrase(
-          linePhrase,
+    return lineFragments
+      .map(lineFragment =>
+        mapLineFragment(
+          lineFragment,
           curlyName =>
             this.translatePhrase(this.getPhrase(writtenText, curlyName)),
           text => text

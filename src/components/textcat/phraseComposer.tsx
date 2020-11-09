@@ -1,10 +1,10 @@
-import { ComponentChildren, FunctionalComponent, h, VNode } from "preact";
+import { ComponentChildren, FunctionalComponent, h } from "preact";
 import { useContext } from "preact/hooks";
 import { CatalogContext } from "./contexts";
 import {
   WrittenText,
   WrittenTextProps,
-  mapLinePhrase,
+  mapLineFragment,
   newPhrase,
   withLine,
   withPhrase
@@ -24,10 +24,10 @@ const PhraseComposer: FunctionalComponent<Props> = (props: Props) => {
   if (!phrase) return <div></div>;
 
   const line = phrase.lines.length === 1 ? 0 : props.writtenText.line;
-  const selectedLinePhrases = phrase.lines[line]?.linePhrases;
-  const selectedLineTd = selectedLinePhrases?.map((linePhrase, index) =>
-    mapLinePhrase(
-      linePhrase,
+  const selectedLineFragments = phrase.lines[line]?.lineFragments;
+  const selectedLineTd = selectedLineFragments?.map((lineFragment, index) =>
+    mapLineFragment(
+      lineFragment,
       (curlyName, curlyNameSuffix) => (
         <td key={index}>
           <PhraseComposer

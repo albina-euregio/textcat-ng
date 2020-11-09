@@ -4,7 +4,7 @@ import {
   Satzkatalog,
   WrittenText,
   arrayMove,
-  mapLinePhrase
+  mapLineFragment
 } from "../model";
 
 /**
@@ -25,12 +25,12 @@ const woWann3: Phrase = {
   lines: [
     {
       line: "[Empty]",
-      linePhrases: ["[Empty]"],
+      lineFragments: ["[Empty]"],
       region: undefined
     },
     {
       line: "abseits der Pisten",
-      linePhrases: [
+      lineFragments: [
         "abseits der Pisten"
         // en: "for those venturing off piste",
         // it: "al di fuori delle piste,"
@@ -39,14 +39,14 @@ const woWann3: Phrase = {
     },
     {
       line: "abseits gesicherter Pisten",
-      linePhrases: ["abseits gesicherter Pisten"],
+      lineFragments: ["abseits gesicherter Pisten"],
       region: undefined
     },
     {
       line: "im {Exposition} {und_im_Exposition}",
       // en: "in {Exposition} {und_im_Exposition}",
       // it: "nelle {Exposition} {und_im_Exposition} (-),"
-      linePhrases: ["im", "{Exposition}", "{und_im_Exposition}"],
+      lineFragments: ["im", "{Exposition}", "{und_im_Exposition}"],
       region: undefined
     }
   ]
@@ -75,7 +75,7 @@ const sentence010: Sentence = {
   lines: [
     {
       line: "",
-      linePhrases: [
+      lineFragments: [
         "{Verhältnisse04§wo_wann3}",
         "{teils_gefährliche}",
         "{Verhältnisse04§Lawinensituation.}"
@@ -187,25 +187,25 @@ it("should translate a text", () =>
   expect(catalog.translate([writtenText])).toBe(
     "Abseits gesicherter Pisten weiterhin sehr kritische Lawinensituation."
   ));
-it("should mapLinePhrase for curlyName", () =>
+it("should mapLineFragment for curlyName", () =>
   expect(
-    mapLinePhrase(
+    mapLineFragment(
       "{foo}",
       (c, s) => `curlyName:${c.toUpperCase()} curlyNameSuffix:${s}`,
       () => ""
     )
   ).toBe("curlyName:FOO curlyNameSuffix:undefined"));
-it("should mapLinePhrase for curlyNameNO", () =>
+it("should mapLineFragment for curlyNameNO", () =>
   expect(
-    mapLinePhrase(
+    mapLineFragment(
       "{foo_NO}",
       (c, s) => `curlyName:${c.toUpperCase()} curlyNameSuffix:${s}`,
       () => ""
     )
   ).toBe("curlyName:FOO curlyNameSuffix:_NO"));
-it("should mapLinePhrase for constant", () =>
+it("should mapLineFragment for constant", () =>
   expect(
-    mapLinePhrase(
+    mapLineFragment(
       "constant text",
       () => "",
       c => `constant:${c}`
