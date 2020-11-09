@@ -21,18 +21,14 @@ export function isPhrase(p?: SentenceOrPhrase): p is Phrase {
 
 export function mapLinePhrase<T>(
   linePhrase: IntlText,
-  mapCurlyName: (curlyName: string) => T,
+  mapCurlyName: (curlyName: string, curlyNameSuffix?: "_NO") => T,
   mapText: (text: IntlText) => T
 ): T {
-  return linePhrase?.startsWith("{")
+  return linePhrase?.startsWith("{") && linePhrase?.endsWith("_NO}")
+    ? mapCurlyName(linePhrase.substring(1, linePhrase.length - 4), "_NO")
+    : linePhrase?.startsWith("{")
     ? mapCurlyName(linePhrase.substring(1, linePhrase.length - 1))
     : mapText(linePhrase);
 }
 
 export const SECOND_ITEM_PART_NO_SUFFIX = "_NO";
-export const SECOND_ITEM_PART_NO_REGEX = /_NO$/;
-
-export function normalizeCurlyName(curlyName: Identifier): Identifier {
-  // remove _NO suffix for secondary/synchronized phrases
-  return curlyName.replace(SECOND_ITEM_PART_NO_REGEX, "");
-}

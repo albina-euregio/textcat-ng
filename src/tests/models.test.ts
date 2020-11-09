@@ -1,4 +1,10 @@
-import { Phrase, Sentence, Satzkatalog, WrittenText } from "../model";
+import {
+  Phrase,
+  Sentence,
+  Satzkatalog,
+  WrittenText,
+  mapLinePhrase
+} from "../model";
 
 /**
  * > cat DE/Ranges/Verhältnisse04§wo_wann3.txt
@@ -192,14 +198,31 @@ it("should return always return a unique phrase", () =>
     curlyName: "Punkt",
     line: 0
   }));
-it("should return handle _NO phrases", () =>
-  expect(
-    catalog.getPhrase(writtenText, "Verhältnisse04§wo_wann3_NO")
-  ).toStrictEqual({
-    curlyName: "Verhältnisse04§wo_wann3",
-    line: 2
-  }));
 it("should translate a text", () =>
   expect(catalog.translate([writtenText])).toBe(
     "abseits gesicherter Pisten weiterhin sehr kritische Lawinensituation."
   ));
+it("should mapLinePhrase for curlyName", () =>
+  expect(
+    mapLinePhrase(
+      "{foo}",
+      (c, s) => `curlyName:${c.toUpperCase()} curlyNameSuffix:${s}`,
+      () => ""
+    )
+  ).toBe("curlyName:FOO curlyNameSuffix:undefined"));
+it("should mapLinePhrase for curlyNameNO", () =>
+  expect(
+    mapLinePhrase(
+      "{foo_NO}",
+      (c, s) => `curlyName:${c.toUpperCase()} curlyNameSuffix:${s}`,
+      () => ""
+    )
+  ).toBe("curlyName:FOO curlyNameSuffix:_NO"));
+it("should mapLinePhrase for constant", () =>
+  expect(
+    mapLinePhrase(
+      "constant text",
+      () => "",
+      c => `constant:${c}`
+    )
+  ).toBe("constant:constant text"));

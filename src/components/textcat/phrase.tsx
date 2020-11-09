@@ -12,11 +12,15 @@ import {
 } from "../../model";
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
-interface Props extends WrittenTextProps {}
+interface Props extends WrittenTextProps {
+  curlyNameSuffix?: "_NO";
+}
 
 const TextcatPhrase: FunctionalComponent<Props> = (props: Props) => {
   const catalog = useContext(Catalog);
-  const phrase = catalog.phrase(props.writtenText.curlyName);
+  const phrase = catalog.phrase(
+    props.writtenText.curlyName + (props.curlyNameSuffix ?? "")
+  );
   if (!phrase) return <div></div>;
 
   const line = phrase.lines.length === 1 ? 0 : props.writtenText.line;
@@ -24,9 +28,10 @@ const TextcatPhrase: FunctionalComponent<Props> = (props: Props) => {
   const selectedLineTd = selectedLinePhrases?.map((linePhrase, index) =>
     mapLinePhrase(
       linePhrase,
-      curlyName => (
+      (curlyName, curlyNameSuffix) => (
         <td key={index}>
           <TextcatPhrase
+            curlyNameSuffix={curlyNameSuffix}
             writtenText={
               props.writtenText?.args?.[curlyName] ?? newPhrase(curlyName)
             }
