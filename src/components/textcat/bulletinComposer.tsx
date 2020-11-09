@@ -9,7 +9,7 @@ interface Props {
   addSentence: (curlyName: Identifier) => void;
 }
 
-const TextcatComposer: FunctionalComponent<Props> = (props: Props) => {
+const BulletinComposer: FunctionalComponent<Props> = (props: Props) => {
   return (
     <section>
       <AddSentencePane addSentence={props.addSentence} />
@@ -27,4 +27,4 @@ const TextcatComposer: FunctionalComponent<Props> = (props: Props) => {
   );
 };
 
-export default TextcatComposer;
+export default BulletinComposer;

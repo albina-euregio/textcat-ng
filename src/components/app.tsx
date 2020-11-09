@@ -6,7 +6,7 @@ import {
 } from "../model/satzkatalog";
 import { useEffect, useState } from "preact/hooks";
 import { CatalogContext } from "./textcat/contexts";
-import TextcatComposer from "./textcat/composer";
+import BulletinComposer from "./textcat/bulletinComposer";
 import {
   defaultLang,
   defaultWrittenText,
@@ -63,7 +63,7 @@ const App: FunctionalComponent = () => {
       </h2>
 
       <CatalogContext.Provider value={catalog}>
-        <TextcatComposer
+        <BulletinComposer
           writtenTexts={writtenTexts}
           updateWrittenText={(newText, index): void =>
             setWrittenTexts(ts => {
