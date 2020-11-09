@@ -22,11 +22,9 @@ export interface TextcatCatalog {
   translate(writtenTexts: WrittenText[]): IntlText;
 }
 
-type Data = Record<Identifier, Sentence | Phrase>;
-
 export class Satzkatalog implements TextcatCatalog {
   public readonly lang: Lang;
-  private data: Data = {};
+  private data: Record<Identifier, Phrase> = {};
 
   constructor(lang: Lang) {
     this.lang = lang;
@@ -51,15 +49,8 @@ export class Satzkatalog implements TextcatCatalog {
     return [];
   }
 
-  phrase(curlyName: Identifier, convertSentence = true): Phrase | undefined {
-    const phrase = this.data[curlyName];
-    if (isSentence(phrase) && convertSentence) {
-      return {
-        ...phrase,
-        $type: "Phrase"
-      };
-    }
-    return isPhrase(phrase) ? phrase : undefined;
+  phrase(curlyName: Identifier): Phrase | undefined {
+    return this.data[curlyName];
   }
 
   parse(text: string): void {

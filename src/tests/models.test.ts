@@ -173,11 +173,9 @@ beforeAll(() => {
 });
 it("should return the correct sentence", () =>
   expect(catalog.sentence("Verhältnisse04")).toStrictEqual(sentence010));
-it("should not convert sentence to phrase when disabled", () =>
-  expect(catalog.phrase("Verhältnisse04", false)).toBeUndefined());
 it("should convert sentence to phrase", () =>
   expect(catalog.phrase("Verhältnisse04")).toStrictEqual({
-    $type: "Phrase",
+    $type: "Sentence",
     curlyName: "Verhältnisse04",
     header: "Verhältnisse_04",
     lines: [
