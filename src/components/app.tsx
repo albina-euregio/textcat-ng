@@ -4,18 +4,18 @@ import {
   Satzkatalog,
   TextcatCatalog
 } from "../model/satzkatalog";
-import { useEffect, useMemo, useState } from "preact/hooks";
+import { useEffect, useState } from "preact/hooks";
 import { CatalogContext } from "./textcat/contexts";
 import TextcatComposer from "./textcat/composer";
 import {
   defaultLang,
   defaultWrittenText,
-  IntlText,
   Lang,
   LANGUAGES,
   newSentence,
   WrittenText
 } from "../model";
+import TranslationPreview from "./textcat/translationPreview";
 
 const App: FunctionalComponent = () => {
   const [srcLang, setSrcLang] = useState<Lang>(defaultLang());
@@ -36,20 +36,6 @@ const App: FunctionalComponent = () => {
       LANGUAGES.map(lang => buildTextcat(lang).then(c => addCatalog(c)))
     );
   }, []);
-
-  const translation = useMemo(() => {
-    const translation: Partial<Record<Lang, IntlText>> = {};
-    catalogs.forEach(catalog => {
-      const { lang } = catalog;
-      try {
-        translation[lang] = catalog.translate(writtenTexts);
-      } catch (e) {
-        console.warn(e);
-        translation[lang] = String(e);
-      }
-    });
-    return translation;
-  }, [catalogs, writtenTexts]);
 
   return (
     <section>
@@ -93,17 +79,7 @@ const App: FunctionalComponent = () => {
       </CatalogContext.Provider>
 
       <h2>Output</h2>
-      <table>
-        {LANGUAGES.map(lang => (
-          <tr key={lang}>
-            <th class="pr-10">{lang}</th>
-            <td>{translation[lang]}</td>
-          </tr>
-        ))}
-      </table>
-      <details open={false}>
-        <pre>{JSON.stringify(writtenTexts, undefined, 2)}</pre>
-      </details>
+      <TranslationPreview catalogs={catalogs} writtenTexts={writtenTexts} />
     </section>
   );
 };
