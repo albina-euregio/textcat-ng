@@ -166,11 +166,62 @@ RS_CurlyName: Punkt
 Line: (-).
 `;
 
+const textIT = `
+ST_Header: Condizioni_04
+ST_CurlyName: Verhältnisse04
+PA_Pos: 1
+PA_PosGerman: 1
+RS_CurlyName: Verhältnisse04§wo_wann3
+PA_Pos: 2
+PA_PosGerman: 3
+RS_CurlyName: Verhältnisse04§Lawinensituation.
+PA_Pos: 3
+PA_PosGerman: 2
+RS_CurlyName: teils_gefährliche
+PA_Pos: 4
+PA_PosGerman: 0
+RS_CurlyName: Punkt
+
+RS_Header: situazione valanghe
+RS_CurlyName: Verhältnisse04§Lawinensituation.
+Line: la situazione valanghiva è
+
+RS_Header: dove/quando
+RS_CurlyName: Verhältnisse04§wo_wann3
+Line: [Empty]
+Line: al di fuori delle piste,
+Line: al di fuori delle piste assicurate,
+Line: nelle {Exposition} {und_im_Exposition} (-),
+Line: {im_Gebiet} {im_Gebiet2_optional} {und_im_Gebiet} (-),
+
+RS_Header: parzialmente pericolose
+RS_CurlyName: teils_gefährliche
+Line: {gebietsweise2} {gefährliche2}
+Line: {zeitweise} {gefährliche}
+
+RS_Header: a tratti
+RS_CurlyName: zeitweise
+Line: [Empty]
+Line: ancora
+Line: in parte ancora
+Line: ancora
+
+RS_Header: pericolosa
+RS_CurlyName: gefährliche
+Line: molto pericolosa
+Line: pericolosa
+Line: molto critica
+Line: critica
+
+RS_Header: Punkt
+RS_CurlyName: Punkt
+Line: (-).
+`;
+
 let catalog: Satzkatalog;
 beforeAll(() => {
-  catalog = new Satzkatalog("de");
+  catalog = new Satzkatalog("de").parse(text);
   expect(catalog.lang).toBe("de");
-  catalog.parse(text);
 });
 it("should return the correct sentence", () =>
   expect(catalog.sentence("Verhältnisse04")).toStrictEqual(sentence010));
@@ -186,6 +237,10 @@ it("should return always return a unique phrase", () =>
 it("should translate a text", () =>
   expect(catalog.translate([writtenText])).toBe(
     "Abseits gesicherter Pisten weiterhin sehr kritische Lawinensituation."
+  ));
+it("should translate a text to IT", () =>
+  expect(new Satzkatalog("it").parse(textIT).translate([writtenText])).toBe(
+    "Al di fuori delle piste assicurate, la situazione valanghiva è ancora molto critica."
   ));
 it("should mapLineFragment for curlyName", () =>
   expect(

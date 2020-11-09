@@ -46,7 +46,7 @@ export class Satzkatalog implements TextcatCatalog {
     return this.data[curlyName];
   }
 
-  parse(text: string): void {
+  parse(text: string): this {
     let current: Sentence | Phrase | undefined;
     let currentRegion: string | undefined = undefined;
     text.split(/[\r\n]+/).forEach(line => {
@@ -131,6 +131,7 @@ export class Satzkatalog implements TextcatCatalog {
     this.sentences = Object.values(this.data)
       .filter(isSentence)
       .sort((s1, s2) => s1.header.localeCompare(s2.header));
+    return this;
   }
 
   translate(writtenTexts: WrittenText[]): IntlText {
