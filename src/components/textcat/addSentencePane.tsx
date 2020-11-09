@@ -2,6 +2,7 @@ import { FunctionalComponent, h } from "preact";
 import { useContext, useState } from "preact/hooks";
 import { defaultNewSentenceCurlyName } from "../../model";
 import { CatalogContext } from "./contexts";
+import plusSquare from "bootstrap-icons/icons/plus-square.svg";
 
 interface Props {
   addSentence: (curlyName: string) => void;
@@ -28,7 +29,7 @@ const AddSentencePane: FunctionalComponent<Props> = (props: Props) => {
         ))}
       </select>
       <button onClick={(): void => props.addSentence(newSentenceCurlyName)}>
-        Add sentence
+        <img src={plusSquare} width={16} height={16} />
       </button>
     </div>
   );

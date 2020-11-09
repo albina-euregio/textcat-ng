@@ -2,6 +2,9 @@ import { FunctionalComponent, h } from "preact";
 import { WrittenText, Identifier } from "../../model";
 import AddSentencePane from "./addSentencePane";
 import PhraseComposer from "./phraseComposer";
+import caretDownSquare from "bootstrap-icons/icons/caret-down-square.svg";
+import caretUpSquare from "bootstrap-icons/icons/caret-up-square.svg";
+import xSquare from "bootstrap-icons/icons/x-square.svg";
 
 interface Props {
   writtenTexts: WrittenText[];
@@ -24,9 +27,15 @@ const BulletinComposer: FunctionalComponent<Props> = (props: Props) => {
           }
         >
           {" "}
-          <button onClick={(): void => props.moveSentence(index, -1)}>↥</button>
-          <button onClick={(): void => props.moveSentence(index, 0)}>✗</button>
-          <button onClick={(): void => props.moveSentence(index, +1)}>↧</button>
+          <button onClick={(): void => props.moveSentence(index, -1)}>
+            <img src={caretUpSquare} width={16} height={16} />
+          </button>
+          <button onClick={(): void => props.moveSentence(index, 0)}>
+            <img src={xSquare} width={16} height={16} />
+          </button>
+          <button onClick={(): void => props.moveSentence(index, +1)}>
+            <img src={caretDownSquare} width={16} height={16} />
+          </button>
         </PhraseComposer>
       ))}
     </section>
