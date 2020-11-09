@@ -17,7 +17,7 @@ const TranslationPreview: FunctionalComponent<Props> = (props: Props) => {
       try {
         translation[lang] = catalog.translate(writtenTexts);
       } catch (e) {
-        if (!String(e).startsWith("Unset phrase")) {
+        if (!String(e).includes("Unset phrase")) {
           console.warn(e);
         }
         translation[lang] = String(e);
