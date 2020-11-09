@@ -1,6 +1,5 @@
 import webpack from "webpack";
 import { execSync } from "child_process";
-import { resolve } from "path";
 
 function git(command) {
   return execSync(`git ${command}`, { encoding: "utf8" }).trim();
@@ -26,12 +25,5 @@ export default {
       })
     );
     config.output.publicPath = "./";
-
-    // Use any `index` file, not just index.js
-    config.resolve.alias["preact-cli-entrypoint"] = resolve(
-      process.cwd(),
-      "src",
-      "index"
-    );
   }
 };
