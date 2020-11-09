@@ -16,6 +16,7 @@ import TranslationPreview from "./textcat/translationPreview";
 
 const App: FunctionalComponent = () => {
   const [srcLang, setSrcLang] = useState<Lang>(defaultLang());
+  const [srcRegion, setSrcRegion] = useState<string>("");
   const [catalog, setCatalog] = useState<TextCatalogue>(
     new TextCatalogue(srcLang)
   );
@@ -55,6 +56,21 @@ const App: FunctionalComponent = () => {
                 {lang}
               </option>
             ))}
+          </select>{" "}
+          <select
+            value={srcRegion}
+            onChange={(e): void =>
+              setSrcRegion((e.target as HTMLSelectElement).value)
+            }
+          >
+            <option value=""></option>
+            {Array.from(catalog.regions)
+              .sort()
+              .map(region => (
+                <option key={region} value={region}>
+                  {region}
+                </option>
+              ))}
           </select>
         </label>
       </h2>
@@ -62,6 +78,7 @@ const App: FunctionalComponent = () => {
       <CatalogContext.Provider value={catalog}>
         <BulletinComposer
           writtenTexts={writtenTexts}
+          srcRegion={srcRegion}
           updateWrittenText={(newText, index): void =>
             setWrittenTexts(ts => {
               const newTexts = [...ts];

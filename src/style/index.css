@@ -38,3 +38,7 @@ select {
 td {
   vertical-align: top;
 }
+
+.d-none {
+  display: none;
+}

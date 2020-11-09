@@ -8,6 +8,7 @@ import xSquare from "bootstrap-icons/icons/x-square.svg";
 
 interface Props {
   writtenTexts: WrittenText[];
+  srcRegion: string;
   updateWrittenText: (writtenText: WrittenText, index: number) => void;
   addSentence: (curlyName: Identifier) => void;
   moveSentence: (index: number, direction: number) => void;
@@ -21,6 +22,7 @@ const BulletinComposer: FunctionalComponent<Props> = (props: Props) => {
       {props.writtenTexts.map((writtenText, index) => (
         <PhraseComposer
           curlyNameSuffix=""
+          srcRegion={props.srcRegion}
           key={index}
           writtenText={writtenText}
           setWrittenText={(newText: WrittenText): void =>

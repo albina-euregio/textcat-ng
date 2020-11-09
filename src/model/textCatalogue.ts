@@ -18,6 +18,7 @@ export class TextCatalogue {
   private data: Record<Identifier, Phrase> = {};
   public sentences: Sentence[] = [];
   public phrases: Phrase[] = [];
+  public readonly regions: Set<string> = new Set<string>();
 
   constructor(lang: Lang) {
     this.lang = lang;
@@ -109,6 +110,7 @@ export class TextCatalogue {
           break;
         case "Begin":
           currentRegion = value;
+          this.regions.add(currentRegion);
           break;
         case "End":
           currentRegion = undefined;

@@ -15,6 +15,7 @@ import {
 interface Props extends WrittenTextProps {
   children?: ComponentChildren;
   curlyNameSuffix: CurlyNameSuffix;
+  srcRegion: string;
 }
 
 const PhraseComposer: FunctionalComponent<Props> = (props: Props) => {
@@ -33,6 +34,7 @@ const PhraseComposer: FunctionalComponent<Props> = (props: Props) => {
         <td key={index}>
           <PhraseComposer
             curlyNameSuffix={curlyNameSuffix}
+            srcRegion={props.srcRegion}
             writtenText={
               props.writtenText?.args?.[curlyName] ?? newPhrase(curlyName)
             }
@@ -46,6 +48,8 @@ const PhraseComposer: FunctionalComponent<Props> = (props: Props) => {
     )
   );
 
+  const isRegionVisible = (region?: string): boolean =>
+    !region || !props.srcRegion || props.srcRegion === region;
   const select = (
     <select
       size={line >= 0 ? 1 : phrase.lines.length + 1}
@@ -58,7 +62,11 @@ const PhraseComposer: FunctionalComponent<Props> = (props: Props) => {
     >
       <option value={-1}></option>
       {phrase.lines.map((line, lineIndex) => (
-        <option key={line} value={lineIndex}>
+        <option
+          key={line}
+          value={lineIndex}
+          class={isRegionVisible(line.region) ? undefined : "d-none"}
+        >
           {line.line}
         </option>
       ))}
