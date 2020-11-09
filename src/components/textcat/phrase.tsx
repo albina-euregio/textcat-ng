@@ -1,7 +1,6 @@
 import { FunctionalComponent, h } from "preact";
 import { useContext } from "preact/hooks";
 import { CatalogContext } from "./contexts";
-import * as style from "./style.css";
 import {
   WrittenText,
   WrittenTextProps,
@@ -65,7 +64,7 @@ const TextcatPhrase: FunctionalComponent<Props> = (props: Props) => {
   );
 
   return (
-    <table class={style.block}>
+    <table class="block">
       <caption>{"{" + phrase.header + "}"}</caption>
       {phrase.$type === "Phrase" && (
         <tr>

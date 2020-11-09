@@ -20,3 +20,21 @@ select {
 .pr-10 {
   padding-right: 10px;
 }
+
+.block {
+  border: 1px solid black;
+  padding: 3px 5px;
+  margin: 8px 5px;
+}
+
+.block header {
+  font-weight: bold;
+}
+
+.block:hover {
+  background: #19abff20;
+}
+
+td {
+  vertical-align: top;
+}
