@@ -1,6 +1,6 @@
 import { createContext } from "preact";
-import { Satzkatalog, TextcatCatalog } from "../../model";
+import { defaultLang, Satzkatalog, TextcatCatalog } from "../../model";
 
 export const CatalogContext = createContext<TextcatCatalog>(
-  new Satzkatalog("en")
+  new Satzkatalog(defaultLang())
 );

@@ -7,40 +7,24 @@ import {
 import { useEffect, useMemo, useState } from "preact/hooks";
 import { CatalogContext } from "./textcat/contexts";
 import TextcatComposer from "./textcat/composer";
-import { IntlText, Lang, LANGUAGES, newSentence, WrittenText } from "../model";
+import {
+  defaultLang,
+  defaultWrittenText,
+  IntlText,
+  Lang,
+  LANGUAGES,
+  newSentence,
+  WrittenText
+} from "../model";
 
 const App: FunctionalComponent = () => {
-  const [srcLang, setSrcLang] = useState<Lang>("de");
+  const [srcLang, setSrcLang] = useState<Lang>(defaultLang());
   const [catalog, setCatalog] = useState<TextcatCatalog>(
     new Satzkatalog(srcLang)
   );
   const [catalogs, setCatalogs] = useState<TextcatCatalog[]>([]);
   const [writtenTexts, setWrittenTexts] = useState<WrittenText[]>([
-    {
-      curlyName: "Verhältnisse04",
-      line: 0,
-      args: {
-        "Verhältnisse04§wo_wann3": {
-          curlyName: "Verhältnisse04§wo_wann3",
-          line: 2
-        },
-        // eslint-disable-next-line @typescript-eslint/camelcase
-        teils_gefährliche: {
-          curlyName: "teils_gefährliche",
-          line: 1,
-          args: {
-            zeitweise: {
-              curlyName: "zeitweise",
-              line: 1
-            },
-            gefährliche: {
-              curlyName: "gefährliche",
-              line: 2
-            }
-          }
-        }
-      }
-    }
+    defaultWrittenText()
   ]);
 
   useEffect(() => {

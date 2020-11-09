@@ -1,5 +1,6 @@
 import { FunctionalComponent, h } from "preact";
 import { useContext, useState } from "preact/hooks";
+import { defaultNewSentenceCurlyName } from "../../model";
 import { CatalogContext } from "./contexts";
 
 interface Props {
@@ -8,7 +9,7 @@ interface Props {
 
 const AddSentencePane: FunctionalComponent<Props> = (props: Props) => {
   const [newSentenceCurlyName, setNewSentenceCurlyName] = useState(
-    "Verhältnisse01"
+    defaultNewSentenceCurlyName()
   );
   const catalog = useContext(CatalogContext);
 
