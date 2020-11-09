@@ -3,6 +3,7 @@ import {
   Sentence,
   Satzkatalog,
   WrittenText,
+  arrayMove,
   mapLinePhrase
 } from "../model";
 
@@ -210,3 +211,12 @@ it("should mapLinePhrase for constant", () =>
       c => `constant:${c}`
     )
   ).toBe("constant:constant text"));
+it("should arrayMove", () => {
+  const arr = [0, 1, 2, 3, 4, 5];
+  expect(arrayMove(arr, 2)).toStrictEqual([0, 1, 3, 4, 5]);
+  expect(arrayMove(arr, 2, 0)).toStrictEqual([2, 0, 1, 3, 4, 5]);
+  expect(arrayMove(arr, 2, 1)).toStrictEqual([0, 2, 1, 3, 4, 5]);
+  expect(arrayMove(arr, 2, 2)).toStrictEqual([0, 1, 2, 3, 4, 5]);
+  expect(arrayMove(arr, 2, 3)).toStrictEqual([0, 1, 3, 2, 4, 5]);
+  expect(arrayMove(arr, 2, 4)).toStrictEqual([0, 1, 3, 4, 2, 5]);
+});

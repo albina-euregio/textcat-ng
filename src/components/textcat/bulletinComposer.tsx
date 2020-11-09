@@ -7,6 +7,7 @@ interface Props {
   writtenTexts: WrittenText[];
   updateWrittenText: (writtenText: WrittenText, index: number) => void;
   addSentence: (curlyName: Identifier) => void;
+  moveSentence: (index: number, direction: number) => void;
 }
 
 const BulletinComposer: FunctionalComponent<Props> = (props: Props) => {
@@ -21,7 +22,12 @@ const BulletinComposer: FunctionalComponent<Props> = (props: Props) => {
           setWrittenText={(newText: WrittenText): void =>
             props.updateWrittenText(newText, index)
           }
-        />
+        >
+          {" "}
+          <button onClick={(): void => props.moveSentence(index, -1)}>↥</button>
+          <button onClick={(): void => props.moveSentence(index, 0)}>✗</button>
+          <button onClick={(): void => props.moveSentence(index, +1)}>↧</button>
+        </PhraseComposer>
       ))}
     </section>
   );

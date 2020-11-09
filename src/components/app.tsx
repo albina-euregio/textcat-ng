@@ -8,6 +8,7 @@ import { useEffect, useState } from "preact/hooks";
 import { CatalogContext } from "./textcat/contexts";
 import BulletinComposer from "./textcat/bulletinComposer";
 import {
+  arrayMove,
   defaultLang,
   defaultWrittenText,
   Lang,
@@ -75,6 +76,15 @@ const App: FunctionalComponent = () => {
           addSentence={(curlyName): void =>
             setWrittenTexts(ts => [...ts, newSentence(curlyName)])
           }
+          moveSentence={(index, direction): void => {
+            setWrittenTexts(ts =>
+              arrayMove(
+                ts,
+                index,
+                direction === 0 ? undefined : index + direction
+              )
+            );
+          }}
         />
       </CatalogContext.Provider>
 

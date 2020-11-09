@@ -41,3 +41,17 @@ export function withPhrase(
 export function withLine(writtenText: WrittenText, line: number): WrittenText {
   return { ...writtenText, line };
 }
+
+export function arrayMove<T>(
+  arr: T[],
+  fromIndex: number,
+  toIndex?: number
+): T[] {
+  arr = [...arr];
+  const element = arr[fromIndex];
+  arr.splice(fromIndex, 1);
+  if (toIndex !== undefined) {
+    arr.splice(toIndex, 0, element);
+  }
+  return arr;
+}

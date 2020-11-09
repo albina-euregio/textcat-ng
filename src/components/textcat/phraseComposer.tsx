@@ -1,4 +1,4 @@
-import { FunctionalComponent, h } from "preact";
+import { ComponentChildren, FunctionalComponent, h, VNode } from "preact";
 import { useContext } from "preact/hooks";
 import { CatalogContext } from "./contexts";
 import {
@@ -12,6 +12,7 @@ import {
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 interface Props extends WrittenTextProps {
+  children?: ComponentChildren;
   curlyNameSuffix?: "_NO";
 }
 
@@ -65,7 +66,10 @@ const PhraseComposer: FunctionalComponent<Props> = (props: Props) => {
 
   return (
     <table class="block">
-      <caption>{"{" + phrase.header + "}"}</caption>
+      <caption>
+        {"{" + phrase.header + "}"}
+        {props.children}
+      </caption>
       {phrase.$type === "Phrase" && (
         <tr>
           <td colSpan={99}>{select}</td>
