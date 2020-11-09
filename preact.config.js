@@ -21,7 +21,7 @@ export default {
       new webpack.EnvironmentPlugin({
         GIT_VERSION: [
           git("describe --always"),
-          git("log -1 --format=%as")
+          git("log -1 --format=%ad --date=iso").substring(0, 10)
         ].join(", ")
       })
     );
