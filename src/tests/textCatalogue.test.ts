@@ -1,7 +1,7 @@
 import {
   Phrase,
   Sentence,
-  Satzkatalog,
+  TextCatalogue,
   WrittenText,
   arrayMove,
   mapLineFragment
@@ -290,9 +290,9 @@ RS_CurlyName: Punkt
 Line: (-).
 `;
 
-let catalog: Satzkatalog;
+let catalog: TextCatalogue;
 beforeAll(() => {
-  catalog = new Satzkatalog("de").parse(text);
+  catalog = new TextCatalogue("de").parse(text);
   expect(catalog.lang).toBe("de");
 });
 it("should return the correct sentence", () =>
@@ -311,11 +311,11 @@ it("should translate a text", () =>
     "Abseits gesicherter Pisten weiterhin sehr kritische Lawinensituation."
   ));
 it("should translate a text to IT", () =>
-  expect(new Satzkatalog("it").parse(textIT).translate([writtenText])).toBe(
+  expect(new TextCatalogue("it").parse(textIT).translate([writtenText])).toBe(
     "Al di fuori delle piste assicurate, la situazione valanghiva è ancora molto critica."
   ));
 it("should translate a text to IT (including _NO phrase)", () =>
-  expect(new Satzkatalog("it").parse(textIT).translate([writtenText2])).toBe(
+  expect(new TextCatalogue("it").parse(textIT).translate([writtenText2])).toBe(
     "Le condizioni rimangono pericolose."
   ));
 it("should mapLineFragment for curlyName", () =>

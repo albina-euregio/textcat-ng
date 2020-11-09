@@ -1,10 +1,10 @@
 import { FunctionalComponent, h } from "preact";
-import { TextcatCatalog } from "../../model";
+import { TextCatalogue } from "../../model";
 import { useMemo } from "preact/hooks";
 import { IntlText, Lang, LANGUAGES, WrittenText } from "../../model";
 
 interface Props {
-  catalogs: TextcatCatalog[];
+  catalogs: TextCatalogue[];
   writtenTexts: WrittenText[];
 }
 

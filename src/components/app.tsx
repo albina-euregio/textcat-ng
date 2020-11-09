@@ -1,9 +1,5 @@
 import { FunctionalComponent, h } from "preact";
-import {
-  buildTextcat,
-  Satzkatalog,
-  TextcatCatalog
-} from "../model/satzkatalog";
+import { buildTextcat, TextCatalogue } from "../model";
 import { useEffect, useState } from "preact/hooks";
 import { CatalogContext } from "./textcat/contexts";
 import BulletinComposer from "./textcat/bulletinComposer";
@@ -20,10 +16,10 @@ import TranslationPreview from "./textcat/translationPreview";
 
 const App: FunctionalComponent = () => {
   const [srcLang, setSrcLang] = useState<Lang>(defaultLang());
-  const [catalog, setCatalog] = useState<TextcatCatalog>(
-    new Satzkatalog(srcLang)
+  const [catalog, setCatalog] = useState<TextCatalogue>(
+    new TextCatalogue(srcLang)
   );
-  const [catalogs, setCatalogs] = useState<TextcatCatalog[]>([]);
+  const [catalogs, setCatalogs] = useState<TextCatalogue[]>([]);
   const [writtenTexts, setWrittenTexts] = useState<WrittenText[]>([
     defaultWrittenText()
   ]);
@@ -31,7 +27,7 @@ const App: FunctionalComponent = () => {
   useEffect(() => {
     buildTextcat(srcLang).then(c => setCatalog(c));
   }, [srcLang]);
-  const addCatalog = (c: TextcatCatalog): void => setCatalogs(cs => [c, ...cs]);
+  const addCatalog = (c: TextCatalogue): void => setCatalogs(cs => [c, ...cs]);
   useEffect(() => {
     Promise.all(
       LANGUAGES.map(lang => buildTextcat(lang).then(c => addCatalog(c)))

@@ -13,17 +13,7 @@ import {
   WrittenText
 } from ".";
 
-export interface TextcatCatalog {
-  lang: Lang;
-  sentences: Sentence[];
-  sentence(curlyName: Identifier): Sentence | undefined;
-  searchSentences(search: string): Sentence[];
-  phrases: Phrase[];
-  phrase(curlyName: Identifier): Phrase | undefined;
-  translate(writtenTexts: WrittenText[]): IntlText;
-}
-
-export class Satzkatalog implements TextcatCatalog {
+export class TextCatalogue {
   public readonly lang: Lang;
   private data: Record<Identifier, Phrase> = {};
   public sentences: Sentence[] = [];
@@ -191,10 +181,10 @@ export class Satzkatalog implements TextcatCatalog {
   }
 }
 
-export async function buildTextcat(lang: Lang): Promise<TextcatCatalog> {
+export async function buildTextcat(lang: Lang): Promise<TextCatalogue> {
   // awk '{print $0}' DE/Sentences/* DE/Ranges/* > assets/satzkatalog.DE.txt
   const file = `satzkatalog.${lang.toUpperCase()}.txt`;
-  const catalog = new Satzkatalog(lang);
+  const catalog = new TextCatalogue(lang);
   try {
     const response = await fetch(`./assets/${file}`);
     if (!response.ok) throw response.statusText;
