@@ -25,19 +25,11 @@ export interface TextcatCatalog {
 export class Satzkatalog implements TextcatCatalog {
   public readonly lang: Lang;
   private data: Record<Identifier, Phrase> = {};
+  public sentences: Sentence[] = [];
+  public phrases: Phrase[] = [];
 
   constructor(lang: Lang) {
     this.lang = lang;
-  }
-
-  get sentences(): Sentence[] {
-    return Object.values(this.data)
-      .filter(isSentence)
-      .sort((s1, s2) => s1.header.localeCompare(s2.header));
-  }
-
-  get phrases(): Phrase[] {
-    return Object.values(this.data).filter(isPhrase);
   }
 
   sentence(curlyName: Identifier): Sentence | undefined {
@@ -134,6 +126,10 @@ export class Satzkatalog implements TextcatCatalog {
           console.warn("Ignoring", line);
       }
     });
+    this.phrases = Object.values(this.data);
+    this.sentences = Object.values(this.data)
+      .filter(isSentence)
+      .sort((s1, s2) => s1.header.localeCompare(s2.header));
   }
 
   translate(writtenTexts: WrittenText[]): IntlText {
