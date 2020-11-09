@@ -110,6 +110,25 @@ const writtenText: WrittenText = {
     }
   }
 };
+const writtenText2: WrittenText = {
+  curlyName: "Verhältnisse01",
+  line: 0,
+  args: {
+    "Verhältnisse01§Verhältnisse": {
+      curlyName: "Verhältnisse01§Verhältnisse",
+      line: 0
+    },
+    "Verhältnisse01§sind": {
+      curlyName: "Verhältnisse01§sind",
+      line: 5
+    },
+    // eslint-disable-next-line @typescript-eslint/camelcase
+    gefährlich_Verhältnisse: {
+      curlyName: "gefährlich_Verhältnisse",
+      line: 1
+    }
+  }
+};
 
 // legacy snowpackStructureCommentTextcat
 // 33[6610,6817,562].
@@ -213,6 +232,59 @@ Line: pericolosa
 Line: molto critica
 Line: critica
 
+ST_Header: Condizioni_01
+ST_CurlyName: Verhältnisse01
+PA_Pos: 1
+PA_PosGerman: 3
+RS_CurlyName: Verhältnisse01§sind
+PA_Pos: 2
+PA_PosGerman: 1
+RS_CurlyName: Verhältnisse01§Die
+PA_Pos: 3
+PA_PosGerman: 2
+RS_CurlyName: Verhältnisse01§Verhältnisse
+PA_Pos: 4
+PA_PosGerman: 0
+RS_CurlyName: Verhältnisse01§sind_NO
+PA_Pos: 5
+PA_PosGerman: 4
+RS_CurlyName: gefährlich_Verhältnisse
+PA_Pos: 6
+PA_PosGerman: 5
+RS_CurlyName: Punkt
+
+RS_Header: le
+RS_CurlyName: Verhältnisse01§Die
+Line: le
+
+RS_Header: condizioni
+RS_CurlyName: Verhältnisse01§Verhältnisse
+Line: condizioni
+Line: condizioni valanghive
+
+RS_Header: sono
+RS_CurlyName: Verhältnisse01§sind
+Line: [Empty]
+Line: al mattino
+Line: dopo una notte serena, al mattino
+Line: {Höhe_Höhenlage}
+Line: {Höhe_Höhenlage1} al mattino
+Line: [Empty]
+
+RS_Header: sono
+RS_CurlyName: Verhältnisse01§sind_NO
+Line: sono
+Line: sono
+Line: sono
+Line: sono
+Line: sono
+Line: rimangono
+
+RS_Header: condizioni pericolose
+RS_CurlyName: gefährlich_Verhältnisse
+Line: molto pericolose
+Line: pericolose
+
 RS_Header: Punkt
 RS_CurlyName: Punkt
 Line: (-).
@@ -230,7 +302,7 @@ it("should convert sentence to phrase", () =>
 it("should return the correct phrase", () =>
   expect(catalog.phrase("Verhältnisse04§wo_wann3")).toStrictEqual(woWann3));
 it("should return always return a unique phrase", () =>
-  expect(catalog.getPhrase(writtenText, "Punkt")).toStrictEqual({
+  expect(catalog.getPhrase(writtenText, "Punkt", "")).toStrictEqual({
     curlyName: "Punkt",
     line: 0
   }));
@@ -241,6 +313,10 @@ it("should translate a text", () =>
 it("should translate a text to IT", () =>
   expect(new Satzkatalog("it").parse(textIT).translate([writtenText])).toBe(
     "Al di fuori delle piste assicurate, la situazione valanghiva è ancora molto critica."
+  ));
+it("should translate a text to IT (including _NO phrase)", () =>
+  expect(new Satzkatalog("it").parse(textIT).translate([writtenText2])).toBe(
+    "Le condizioni rimangono pericolose."
   ));
 it("should mapLineFragment for curlyName", () =>
   expect(

@@ -159,22 +159,31 @@ export class Satzkatalog implements TextcatCatalog {
       .map(lineFragment =>
         mapLineFragment(
           lineFragment,
-          curlyName =>
-            this.translatePhrase(this.getPhrase(writtenText, curlyName)),
+          (curlyName, curlyNameSuffix) =>
+            this.translatePhrase(
+              this.getPhrase(writtenText, curlyName, curlyNameSuffix)
+            ),
           text => text
         )
       )
       .reduce(mergeIntlText);
   }
 
-  getPhrase(writtenText: WrittenText, curlyName: Identifier): WrittenText {
+  getPhrase(
+    writtenText: WrittenText,
+    curlyName: Identifier,
+    curlyNameSuffix: CurlyNameSuffix
+  ): WrittenText {
     // lookup in writtenText
     const phrase = writtenText?.args?.[curlyName];
     if (phrase) {
-      return phrase;
+      return {
+        ...phrase,
+        curlyName: curlyName + curlyNameSuffix
+      };
     }
     // find unique line from catalog
-    const fromCatalog = this.phrase(curlyName);
+    const fromCatalog = this.phrase(curlyName + curlyNameSuffix);
     if (fromCatalog?.lines.length === 1) {
       return newPhrase(curlyName, 0);
     }
