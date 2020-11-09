@@ -1,6 +1,6 @@
 import { FunctionalComponent, h } from "preact";
 import { useContext } from "preact/hooks";
-import { Catalog } from "./catalog";
+import { CatalogContext } from "./contexts";
 import * as style from "./style.css";
 import {
   WrittenText,
@@ -17,7 +17,7 @@ interface Props extends WrittenTextProps {
 }
 
 const TextcatPhrase: FunctionalComponent<Props> = (props: Props) => {
-  const catalog = useContext(Catalog);
+  const catalog = useContext(CatalogContext);
   const phrase = catalog.phrase(
     props.writtenText.curlyName + (props.curlyNameSuffix ?? "")
   );

@@ -5,7 +5,7 @@ import {
   TextcatCatalog
 } from "../model/satzkatalog";
 import { useEffect, useMemo, useState } from "preact/hooks";
-import { Catalog } from "./textcat/catalog";
+import { CatalogContext } from "./textcat/contexts";
 import TextcatComposer from "./textcat/composer";
 import { IntlText, Lang, LANGUAGES, newSentence, WrittenText } from "../model";
 
@@ -92,7 +92,7 @@ const App: FunctionalComponent = () => {
         </label>
       </h2>
 
-      <Catalog.Provider value={catalog}>
+      <CatalogContext.Provider value={catalog}>
         <TextcatComposer
           writtenTexts={writtenTexts}
           updateWrittenText={(newText, index): void =>
@@ -106,7 +106,7 @@ const App: FunctionalComponent = () => {
             setWrittenTexts(ts => [...ts, newSentence(curlyName)])
           }
         />
-      </Catalog.Provider>
+      </CatalogContext.Provider>
 
       <h2>Output</h2>
       <table>

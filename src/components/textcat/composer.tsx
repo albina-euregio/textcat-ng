@@ -1,7 +1,7 @@
 import { FunctionalComponent, h } from "preact";
 import { useContext, useState } from "preact/hooks";
 import { WrittenText, Identifier } from "../../model";
-import { Catalog } from "./catalog";
+import { CatalogContext } from "./contexts";
 import TextcatPhrase from "./phrase";
 
 interface Props {
@@ -14,7 +14,7 @@ const TextcatComposer: FunctionalComponent<Props> = (props: Props) => {
   const [newSentenceCurlyName, setNewSentenceCurlyName] = useState(
     "Verhältnisse01"
   );
-  const catalog = useContext(Catalog);
+  const catalog = useContext(CatalogContext);
 
   return (
     <section>
