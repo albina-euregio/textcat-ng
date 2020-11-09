@@ -1,7 +1,6 @@
 import { FunctionalComponent, h } from "preact";
-import { useContext, useState } from "preact/hooks";
 import { WrittenText, Identifier } from "../../model";
-import { CatalogContext } from "./contexts";
+import AddSentencePane from "./addSentencePane";
 import TextcatPhrase from "./phrase";
 
 interface Props {
@@ -11,30 +10,9 @@ interface Props {
 }
 
 const TextcatComposer: FunctionalComponent<Props> = (props: Props) => {
-  const [newSentenceCurlyName, setNewSentenceCurlyName] = useState(
-    "Verhältnisse01"
-  );
-  const catalog = useContext(CatalogContext);
-
   return (
     <section>
-      <div>
-        <select
-          value={newSentenceCurlyName}
-          onChange={(e): void =>
-            setNewSentenceCurlyName((e.target as HTMLSelectElement).value)
-          }
-        >
-          {catalog.sentences.map(({ curlyName, header }) => (
-            <option key={curlyName} value={curlyName}>
-              {header}
-            </option>
-          ))}
-        </select>
-        <button onClick={(): void => props.addSentence(newSentenceCurlyName)}>
-          Add sentence
-        </button>
-      </div>
+      <AddSentencePane addSentence={props.addSentence} />
 
       {props.writtenTexts.map((writtenText, index) => (
         <TextcatPhrase
