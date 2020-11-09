@@ -15,7 +15,7 @@ interface Props extends WrittenTextProps {
   curlyNameSuffix?: "_NO";
 }
 
-const TextcatPhrase: FunctionalComponent<Props> = (props: Props) => {
+const PhraseComposer: FunctionalComponent<Props> = (props: Props) => {
   const catalog = useContext(CatalogContext);
   const phrase = catalog.phrase(
     props.writtenText.curlyName + (props.curlyNameSuffix ?? "")
@@ -29,7 +29,7 @@ const TextcatPhrase: FunctionalComponent<Props> = (props: Props) => {
       linePhrase,
       (curlyName, curlyNameSuffix) => (
         <td key={index}>
-          <TextcatPhrase
+          <PhraseComposer
             curlyNameSuffix={curlyNameSuffix}
             writtenText={
               props.writtenText?.args?.[curlyName] ?? newPhrase(curlyName)
@@ -76,4 +76,4 @@ const TextcatPhrase: FunctionalComponent<Props> = (props: Props) => {
   );
 };
 
-export default TextcatPhrase;
+export default PhraseComposer;

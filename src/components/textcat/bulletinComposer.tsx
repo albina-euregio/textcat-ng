@@ -1,7 +1,7 @@
 import { FunctionalComponent, h } from "preact";
 import { WrittenText, Identifier } from "../../model";
 import AddSentencePane from "./addSentencePane";
-import TextcatPhrase from "./phrase";
+import PhraseComposer from "./phraseComposer";
 
 interface Props {
   writtenTexts: WrittenText[];
@@ -15,7 +15,7 @@ const BulletinComposer: FunctionalComponent<Props> = (props: Props) => {
       <AddSentencePane addSentence={props.addSentence} />
 
       {props.writtenTexts.map((writtenText, index) => (
-        <TextcatPhrase
+        <PhraseComposer
           key={index}
           writtenText={writtenText}
           setWrittenText={(newText: WrittenText): void =>
