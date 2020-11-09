@@ -4,6 +4,7 @@ import {
   isPhrase,
   isSentence,
   Lang,
+  CurlyNameSuffix,
   mapLineFragment,
   mergeIntlText,
   newPhrase,

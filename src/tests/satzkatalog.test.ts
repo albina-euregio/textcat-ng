@@ -194,7 +194,7 @@ it("should mapLineFragment for curlyName", () =>
       (c, s) => `curlyName:${c.toUpperCase()} curlyNameSuffix:${s}`,
       () => ""
     )
-  ).toBe("curlyName:FOO curlyNameSuffix:undefined"));
+  ).toBe("curlyName:FOO curlyNameSuffix:"));
 it("should mapLineFragment for curlyNameNO", () =>
   expect(
     mapLineFragment(

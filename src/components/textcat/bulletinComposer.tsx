@@ -20,6 +20,7 @@ const BulletinComposer: FunctionalComponent<Props> = (props: Props) => {
 
       {props.writtenTexts.map((writtenText, index) => (
         <PhraseComposer
+          curlyNameSuffix=""
           key={index}
           writtenText={writtenText}
           setWrittenText={(newText: WrittenText): void =>

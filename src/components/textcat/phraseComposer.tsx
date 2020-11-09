@@ -2,6 +2,7 @@ import { ComponentChildren, FunctionalComponent, h } from "preact";
 import { useContext } from "preact/hooks";
 import { CatalogContext } from "./contexts";
 import {
+  CurlyNameSuffix,
   WrittenText,
   WrittenTextProps,
   mapLineFragment,
@@ -13,13 +14,13 @@ import {
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 interface Props extends WrittenTextProps {
   children?: ComponentChildren;
-  curlyNameSuffix?: "_NO";
+  curlyNameSuffix: CurlyNameSuffix;
 }
 
 const PhraseComposer: FunctionalComponent<Props> = (props: Props) => {
   const catalog = useContext(CatalogContext);
   const phrase = catalog.phrase(
-    props.writtenText.curlyName + (props.curlyNameSuffix ?? "")
+    props.writtenText.curlyName + props.curlyNameSuffix
   );
   if (!phrase) return <div></div>;
 
