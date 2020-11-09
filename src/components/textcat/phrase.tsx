@@ -67,9 +67,11 @@ const TextcatPhrase: FunctionalComponent<Props> = (props: Props) => {
   return (
     <table class={style.block}>
       <caption>{"{" + phrase.header + "}"}</caption>
-      <tr>
-        <td colSpan={99}>{select}</td>
-      </tr>
+      {phrase.$type === "Phrase" && (
+        <tr>
+          <td colSpan={99}>{select}</td>
+        </tr>
+      )}
       <tr>{selectedLineTd}</tr>
     </table>
   );
