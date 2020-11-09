@@ -174,21 +174,7 @@ beforeAll(() => {
 it("should return the correct sentence", () =>
   expect(catalog.sentence("Verhältnisse04")).toStrictEqual(sentence010));
 it("should convert sentence to phrase", () =>
-  expect(catalog.phrase("Verhältnisse04")).toStrictEqual({
-    $type: "Sentence",
-    curlyName: "Verhältnisse04",
-    header: "Verhältnisse_04",
-    lines: [
-      {
-        line: "",
-        linePhrases: [
-          "{Verhältnisse04§wo_wann3}",
-          "{teils_gefährliche}",
-          "{Verhältnisse04§Lawinensituation.}"
-        ]
-      }
-    ]
-  }));
+  expect(catalog.phrase("Verhältnisse04")).toStrictEqual(sentence010));
 it("should return the correct phrase", () =>
   expect(catalog.phrase("Verhältnisse04§wo_wann3")).toStrictEqual(woWann3));
 it("should return always return a unique phrase", () =>
