@@ -134,7 +134,13 @@ export class Satzkatalog implements TextcatCatalog {
 
   translate(writtenTexts: WrittenText[]): IntlText {
     return writtenTexts
-      .map(writtenText => this.translatePhrase(writtenText))
+      .map(writtenText =>
+        this.translatePhrase(writtenText)
+          .replace(/\[Empty\] /g, "")
+          .replace(/ \[Empty\]/g, "")
+          .replace(/\s+\(-\)/g, "")
+          .replace(/^[a-z]/, s => s.toLocaleUpperCase(this.lang))
+      )
       .reduce(mergeIntlText);
   }
 

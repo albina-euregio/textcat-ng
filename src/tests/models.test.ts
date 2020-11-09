@@ -198,7 +198,7 @@ it("should return always return a unique phrase", () =>
   }));
 it("should translate a text", () =>
   expect(catalog.translate([writtenText])).toBe(
-    "abseits gesicherter Pisten weiterhin sehr kritische Lawinensituation."
+    "Abseits gesicherter Pisten weiterhin sehr kritische Lawinensituation."
   ));
 it("should mapLinePhrase for curlyName", () =>
   expect(
