@@ -351,3 +351,16 @@ it("should arrayMove", () => {
   expect(arrayMove(arr, 2, 3)).toStrictEqual([0, 1, 3, 2, 4, 5]);
   expect(arrayMove(arr, 2, 4)).toStrictEqual([0, 1, 3, 4, 2, 5]);
 });
+
+it("should build a search index", () => {
+  catalog.buildSearchIndex();
+  // skipped
+  expect(catalog.wordToPhraseMap.get("[empty]")).toBeUndefined();
+  // stopword
+  expect(catalog.wordToPhraseMap.get("der")).toBeUndefined();
+  // not present
+  expect(catalog.wordToPhraseMap.get("gefahrenstufe")).toBeUndefined();
+  expect(catalog.wordToPhraseMap.get("lawinensituation")).toContainEqual(
+    "Verhältnisse04§Lawinensituation."
+  );
+});

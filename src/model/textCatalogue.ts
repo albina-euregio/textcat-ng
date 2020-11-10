@@ -12,6 +12,7 @@ import {
   Sentence,
   WrittenText
 } from ".";
+import stopwordsDE from "stopwords-de";
 
 export class TextCatalogue {
   public readonly lang: Lang;
@@ -19,6 +20,7 @@ export class TextCatalogue {
   public sentences: Sentence[] = [];
   public phrases: Phrase[] = [];
   public readonly regions: Set<string> = new Set<string>();
+  public readonly wordToPhraseMap: Map<string, Set<string>> = new Map();
 
   constructor(lang: Lang) {
     this.lang = lang;
@@ -123,6 +125,34 @@ export class TextCatalogue {
     this.sentences = Object.values(this.data)
       .filter(isSentence)
       .sort((s1, s2) => s1.header.localeCompare(s2.header));
+    return this;
+  }
+
+  buildSearchIndex(): this {
+    this.phrases.forEach(phrase =>
+      phrase.lines.forEach(({ line }) =>
+        line.split(/[\s.,"„“()]+/).forEach(lineFragment =>
+          mapLineFragment(
+            lineFragment,
+            () => undefined,
+            word => {
+              if (phrase.curlyName.includes("Gebiet")) return;
+              if (word === "[Empty]") return;
+              if (/^\d+$/.exec(word)) return;
+              word = word
+                .toLowerCase()
+                .replace(/\(-\)/g, "")
+                .trim();
+              if (!word) return;
+              if (this.lang === "de" && stopwordsDE.includes(word)) return;
+              const set = this.wordToPhraseMap.get(word) ?? new Set();
+              if (!set.size) this.wordToPhraseMap.set(word, set);
+              set.add(phrase.curlyName);
+            }
+          )
+        )
+      )
+    );
     return this;
   }
 
