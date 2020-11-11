@@ -4,6 +4,7 @@ import {
   isPhrase,
   isSentence,
   Lang,
+  LANGUAGES,
   CurlyNameSuffix,
   longestCommonPrefix,
   mapLineFragment,
@@ -281,4 +282,8 @@ export async function buildTextcat(lang: Lang): Promise<TextCatalogue> {
     throw new Error(`Failed to build textcat from ${file}: ${e}`);
   }
   return catalog;
+}
+
+export async function buildAllTextcat(): Promise<TextCatalogue[]> {
+  return Promise.all(LANGUAGES.map(lang => buildTextcat(lang)));
 }
