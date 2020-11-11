@@ -20,7 +20,7 @@ const TranslationPreview: FunctionalComponent<Props> = (props: Props) => {
         if (!String(e).includes("Unset phrase")) {
           console.warn(e);
         }
-        translation[lang] = String(e);
+        translation[lang] = `⚠ ${e}`;
       }
     });
     return translation;
