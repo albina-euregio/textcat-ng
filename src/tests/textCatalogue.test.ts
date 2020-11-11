@@ -291,8 +291,10 @@ Line: (-).
 `;
 
 let catalog: TextCatalogue;
+let catalogIT: TextCatalogue;
 beforeAll(() => {
   catalog = new TextCatalogue("de").parse(text);
+  catalogIT = new TextCatalogue("it").parse(textIT);
   expect(catalog.lang).toBe("de");
 });
 it("should return the correct sentence", () =>
@@ -311,11 +313,11 @@ it("should translate a text", () =>
     "Abseits gesicherter Pisten weiterhin sehr kritische Lawinensituation."
   ));
 it("should translate a text to IT", () =>
-  expect(new TextCatalogue("it").parse(textIT).translate([writtenText])).toBe(
+  expect(catalogIT.translate([writtenText])).toBe(
     "Al di fuori delle piste assicurate, la situazione valanghiva è ancora molto critica."
   ));
 it("should translate a text to IT (including _NO phrase)", () =>
-  expect(new TextCatalogue("it").parse(textIT).translate([writtenText2])).toBe(
+  expect(catalogIT.translate([writtenText2])).toBe(
     "Le condizioni rimangono pericolose."
   ));
 it("should mapLineFragment for curlyName", () =>
@@ -376,4 +378,9 @@ it("should search by prefix", () => {
     "Abseits gesicherter Pisten weiterhin sehr kritische Lawinensituation",
     sentence010
   );
+  expect(
+    catalogIT.searchSentences(
+      "Al di fuori delle piste assicurate, la situazione valanghiva è pericolosa"
+    )
+  ).toStrictEqual([catalogIT.sentence("Verhältnisse04")]);
 });

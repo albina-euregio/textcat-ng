@@ -50,6 +50,7 @@ export class TextCatalogue {
     if (phrase === undefined) return false;
     if (prefix.length === 0) return "";
     const PREFIX = prefix;
+    const r = new Set<string>();
     LINES: for (const { lineFragments } of phrase.lines) {
       let prefix = PREFIX;
       for (const lineFragment of lineFragments ?? []) {
@@ -79,12 +80,12 @@ export class TextCatalogue {
           prefix = falseOrRemaining;
         }
       }
-      if (prefix !== PREFIX) {
-        // TODO consider alternative lines as well!
-        return prefix;
-      }
+      r.add(prefix);
     }
-    return false;
+    // return the shortest remaining prefix
+    return r.size
+      ? Array.from(r).reduce((p1, p2) => (p1.length < p2.length ? p1 : p2))
+      : false;
   }
 
   phrase(curlyName: Identifier): Phrase | undefined {
