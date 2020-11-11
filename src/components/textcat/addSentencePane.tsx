@@ -15,7 +15,8 @@ const AddSentencePane: FunctionalComponent<Props> = (props: Props) => {
   const catalog = useContext(CatalogContext);
 
   return (
-    <div>
+    <label>
+      {"[Sentence: "}
       <select
         value={newSentenceCurlyName}
         onChange={(e): void =>
@@ -27,11 +28,12 @@ const AddSentencePane: FunctionalComponent<Props> = (props: Props) => {
             {header}
           </option>
         ))}
-      </select>
+      </select>{" "}
       <button onClick={(): void => props.addSentence(newSentenceCurlyName)}>
         <img src={plusSquare} width={16} height={16} />
       </button>
-    </div>
+      {"]"}
+    </label>
   );
 };
 
