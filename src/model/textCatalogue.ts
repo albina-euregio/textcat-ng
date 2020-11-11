@@ -287,3 +287,22 @@ export async function buildTextcat(lang: Lang): Promise<TextCatalogue> {
 export async function buildAllTextcat(): Promise<TextCatalogue[]> {
   return Promise.all(LANGUAGES.map(lang => buildTextcat(lang)));
 }
+
+export function translateAll(
+  catalogs: TextCatalogue[],
+  writtenTexts: WrittenText[]
+): Partial<Record<Lang, IntlText>> {
+  const translation: Partial<Record<Lang, IntlText>> = {};
+  catalogs.forEach(catalog => {
+    const { lang } = catalog;
+    try {
+      translation[lang] = catalog.translate(writtenTexts);
+    } catch (e) {
+      if (!String(e).includes("Unset phrase")) {
+        console.warn(e);
+      }
+      translation[lang] = `⚠ ${e}`;
+    }
+  });
+  return translation;
+}

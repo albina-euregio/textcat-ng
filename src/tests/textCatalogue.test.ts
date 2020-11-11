@@ -4,7 +4,8 @@ import {
   TextCatalogue,
   WrittenText,
   arrayMove,
-  mapLineFragment
+  mapLineFragment,
+  translateAll
 } from "../model";
 
 /**
@@ -320,6 +321,13 @@ it("should translate a text to IT (including _NO phrase)", () =>
   expect(catalogIT.translate([writtenText2])).toBe(
     "Le condizioni rimangono pericolose."
   ));
+it("should translate a text to DE and IT", () =>
+  expect(translateAll([catalog, catalogIT], [writtenText])).toStrictEqual({
+    de: "Abseits gesicherter Pisten weiterhin sehr kritische Lawinensituation.",
+    it:
+      "Al di fuori delle piste assicurate, la situazione valanghiva è ancora molto critica."
+  }));
+
 it("should mapLineFragment for curlyName", () =>
   expect(
     mapLineFragment(

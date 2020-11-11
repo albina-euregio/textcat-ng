@@ -1,7 +1,11 @@
 import { FunctionalComponent, h } from "preact";
-import { TextCatalogue } from "../../model";
 import { useMemo } from "preact/hooks";
-import { IntlText, Lang, LANGUAGES, WrittenText } from "../../model";
+import {
+  LANGUAGES,
+  TextCatalogue,
+  translateAll,
+  WrittenText
+} from "../../model";
 
 interface Props {
   catalogs: TextCatalogue[];
@@ -10,21 +14,10 @@ interface Props {
 
 const TranslationPreview: FunctionalComponent<Props> = (props: Props) => {
   const { catalogs, writtenTexts } = props;
-  const translation = useMemo(() => {
-    const translation: Partial<Record<Lang, IntlText>> = {};
-    catalogs.forEach(catalog => {
-      const { lang } = catalog;
-      try {
-        translation[lang] = catalog.translate(writtenTexts);
-      } catch (e) {
-        if (!String(e).includes("Unset phrase")) {
-          console.warn(e);
-        }
-        translation[lang] = `⚠ ${e}`;
-      }
-    });
-    return translation;
-  }, [catalogs, writtenTexts]);
+  const translation = useMemo(() => translateAll(catalogs, writtenTexts), [
+    catalogs,
+    writtenTexts
+  ]);
 
   return (
     <section>
