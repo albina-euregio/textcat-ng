@@ -1,6 +1,12 @@
 import { FunctionalComponent, h } from "preact";
-import { buildTextcat, buildAllTextcat, TextCatalogue } from "../model";
-import { useEffect, useState } from "preact/hooks";
+import { useEffect, useState, useMemo } from "preact/hooks";
+import {
+  buildTextcat,
+  buildAllTextcat,
+  TextCatalogue,
+  translateAll,
+  Translations
+} from "../model";
 import { CatalogContext } from "./textcat/contexts";
 import BulletinComposer from "./textcat/bulletinComposer";
 import {
@@ -15,22 +21,28 @@ import {
 import TranslationPreview from "./textcat/translationPreview";
 
 const App: FunctionalComponent = () => {
-  const [srcLang, setSrcLang] = useState<Lang>(defaultLang());
   const [srcRegion, setSrcRegion] = useState<string>("");
+
+  const [srcLang, setSrcLang] = useState<Lang>(defaultLang());
   const [catalog, setCatalog] = useState<TextCatalogue>(
     new TextCatalogue(srcLang)
   );
-  const [catalogs, setCatalogs] = useState<TextCatalogue[]>([]);
+  useEffect(() => {
+    buildTextcat(srcLang).then(c => setCatalog(c));
+  }, [srcLang]);
+
   const [writtenTexts, setWrittenTexts] = useState<WrittenText[]>([
     defaultWrittenText()
   ]);
 
-  useEffect(() => {
-    buildTextcat(srcLang).then(c => setCatalog(c));
-  }, [srcLang]);
+  const [catalogs, setCatalogs] = useState<TextCatalogue[]>([]);
   useEffect(() => {
     buildAllTextcat().then(cs => setCatalogs(cs));
   }, []);
+  const translations: Translations = useMemo(
+    () => translateAll(catalogs, writtenTexts),
+    [catalogs, writtenTexts]
+  );
 
   return (
     <section>
@@ -107,7 +119,10 @@ const App: FunctionalComponent = () => {
       </CatalogContext.Provider>
 
       <h2>Output</h2>
-      <TranslationPreview catalogs={catalogs} writtenTexts={writtenTexts} />
+      <TranslationPreview
+        translations={translations}
+        writtenTexts={writtenTexts}
+      />
     </section>
   );
 };

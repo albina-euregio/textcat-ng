@@ -1,23 +1,13 @@
 import { FunctionalComponent, h } from "preact";
-import { useMemo } from "preact/hooks";
-import {
-  LANGUAGES,
-  TextCatalogue,
-  translateAll,
-  WrittenText
-} from "../../model";
+import { LANGUAGES, Translations, WrittenText } from "../../model";
 
 interface Props {
-  catalogs: TextCatalogue[];
+  translations: Translations;
   writtenTexts: WrittenText[];
 }
 
 const TranslationPreview: FunctionalComponent<Props> = (props: Props) => {
-  const { catalogs, writtenTexts } = props;
-  const translation = useMemo(() => translateAll(catalogs, writtenTexts), [
-    catalogs,
-    writtenTexts
-  ]);
+  const { translations, writtenTexts } = props;
 
   return (
     <section>
@@ -25,7 +15,7 @@ const TranslationPreview: FunctionalComponent<Props> = (props: Props) => {
         {LANGUAGES.map(lang => (
           <tr key={lang}>
             <th class="pr-10">{lang}</th>
-            <td>{translation[lang]}</td>
+            <td>{translations[lang]}</td>
           </tr>
         ))}
       </table>

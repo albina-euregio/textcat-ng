@@ -288,11 +288,13 @@ export async function buildAllTextcat(): Promise<TextCatalogue[]> {
   return Promise.all(LANGUAGES.map(lang => buildTextcat(lang)));
 }
 
+export type Translations = Record<Lang, IntlText>;
+
 export function translateAll(
   catalogs: TextCatalogue[],
   writtenTexts: WrittenText[]
-): Partial<Record<Lang, IntlText>> {
-  const translation: Partial<Record<Lang, IntlText>> = {};
+): Translations {
+  const translation = {} as Translations;
   catalogs.forEach(catalog => {
     const { lang } = catalog;
     try {
