@@ -5,6 +5,7 @@ import {
   isSentence,
   Lang,
   CurlyNameSuffix,
+  longestCommonPrefix,
   mapLineFragment,
   mergeIntlText,
   newPhrase,
@@ -31,8 +32,59 @@ export class TextCatalogue {
     return isSentence(sentence) ? sentence : undefined;
   }
 
-  searchSentences(): Sentence[] {
-    return [];
+  searchSentences(prefix: string): Sentence[] {
+    prefix = prefix.toLowerCase();
+    return this.sentences.filter(s => this.hasPrefix(s, prefix) === "");
+  }
+
+  /**
+   * Tests whether the given phrase starts with the given prefix
+   * @param phrase the phrase to test
+   * @param prefix the prefix to test
+   * @returns false or the remaining prefix (after this phrase)
+   */
+  private hasPrefix(
+    phrase: Phrase | undefined,
+    prefix: string
+  ): false | string {
+    if (phrase === undefined) return false;
+    if (prefix.length === 0) return "";
+    const PREFIX = prefix;
+    LINES: for (const { lineFragments } of phrase.lines) {
+      let prefix = PREFIX;
+      for (const lineFragment of lineFragments ?? []) {
+        if (prefix.length === 0) return "";
+        const falseOrRemaining = mapLineFragment(
+          lineFragment,
+          (curlyName, curlyNameSuffix) => {
+            const p = this.phrase(curlyName + curlyNameSuffix);
+            return this.hasPrefix(p, prefix);
+          },
+          text => {
+            if (text === "[Empty]") return prefix;
+            text = text.toLowerCase();
+            const commonPrefix = longestCommonPrefix(text, prefix);
+            if (text === commonPrefix) {
+              return prefix.substring(commonPrefix.length).trim();
+            } else if (prefix === commonPrefix) {
+              return "";
+            } else {
+              return false;
+            }
+          }
+        );
+        if (falseOrRemaining === false) {
+          continue LINES;
+        } else {
+          prefix = falseOrRemaining;
+        }
+      }
+      if (prefix !== PREFIX) {
+        // TODO consider alternative lines as well!
+        return prefix;
+      }
+    }
+    return false;
   }
 
   phrase(curlyName: Identifier): Phrase | undefined {

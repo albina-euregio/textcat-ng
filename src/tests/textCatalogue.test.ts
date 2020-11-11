@@ -364,3 +364,16 @@ it("should build a search index", () => {
     "Verhältnisse04§Lawinensituation."
   );
 });
+
+it("should search by prefix", () => {
+  const expectSearch = (prefix: string, ...s: Sentence[]): void =>
+    expect(catalog.searchSentences(prefix)).toStrictEqual(s);
+  expectSearch("Auf Pisten");
+  expectSearch("Abseits blauer Pisten");
+  expectSearch("Abseits gesicherter Pisten ist");
+  expectSearch("Abseits gesicherter Pisten", sentence010);
+  expectSearch(
+    "Abseits gesicherter Pisten weiterhin sehr kritische Lawinensituation",
+    sentence010
+  );
+});
