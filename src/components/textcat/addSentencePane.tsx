@@ -9,18 +9,16 @@ interface Props {
 }
 
 const AddSentencePane: FunctionalComponent<Props> = (props: Props) => {
-  const [newSentenceCurlyName, setNewSentenceCurlyName] = useState(
-    defaultNewSentenceCurlyName()
-  );
+  const [curlyName, setCurlyName] = useState(defaultNewSentenceCurlyName());
   const catalog = useContext(CatalogContext);
 
   return (
     <label>
       {"[Sentence: "}
       <select
-        value={newSentenceCurlyName}
+        value={curlyName}
         onChange={(e): void =>
-          setNewSentenceCurlyName((e.target as HTMLSelectElement).value)
+          setCurlyName((e.target as HTMLSelectElement).value)
         }
       >
         {catalog.sentences.map(({ curlyName, header }) => (
@@ -29,7 +27,7 @@ const AddSentencePane: FunctionalComponent<Props> = (props: Props) => {
           </option>
         ))}
       </select>{" "}
-      <button onClick={(): void => props.addSentence(newSentenceCurlyName)}>
+      <button onClick={(): void => props.addSentence(curlyName)}>
         <img src={plusSquare} width={16} height={16} />
       </button>
       {"]"}
