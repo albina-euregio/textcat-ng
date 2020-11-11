@@ -11,7 +11,8 @@ export interface Phrase {
   }[];
 }
 
-export type CurlyNameSuffix = "" | "_NO";
+export const SECOND_ITEM_PART_NO_SUFFIX = "_NO";
+export type CurlyNameSuffix = "" | typeof SECOND_ITEM_PART_NO_SUFFIX;
 
 export function isPhrase(p?: Phrase): p is Phrase {
   return p?.$type === "Phrase";
@@ -28,5 +29,3 @@ export function mapLineFragment<T>(
     ? mapCurlyName(lineFragment.substring(1, lineFragment.length - 1), "")
     : mapText(lineFragment);
 }
-
-export const SECOND_ITEM_PART_NO_SUFFIX = "_NO";
