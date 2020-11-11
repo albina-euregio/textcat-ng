@@ -43,36 +43,44 @@ const App: FunctionalComponent = () => {
       </h1>
 
       <h2>
-        <label>
-          Input{" "}
-          <select
-            value={srcLang}
-            onChange={(e): void =>
-              setSrcLang((e.target as HTMLSelectElement).value as Lang)
-            }
-          >
-            {LANGUAGES.map(lang => (
-              <option key={lang} value={lang}>
-                {lang}
-              </option>
-            ))}
-          </select>{" "}
-          <select
-            value={srcRegion}
-            onChange={(e): void =>
-              setSrcRegion((e.target as HTMLSelectElement).value)
-            }
-          >
-            <option value=""></option>
-            {Array.from(catalog.regions)
-              .sort()
-              .map(region => (
-                <option key={region} value={region}>
-                  {region}
+        Input{" "}
+        <small>
+          <label>
+            {"[Language: "}
+            <select
+              value={srcLang}
+              onChange={(e): void =>
+                setSrcLang((e.target as HTMLSelectElement).value as Lang)
+              }
+            >
+              {LANGUAGES.map(lang => (
+                <option key={lang} value={lang}>
+                  {lang}
                 </option>
               ))}
-          </select>
-        </label>
+            </select>
+            {"]"}
+          </label>{" "}
+          <label>
+            {"[Region: "}
+            <select
+              value={srcRegion}
+              onChange={(e): void =>
+                setSrcRegion((e.target as HTMLSelectElement).value)
+              }
+            >
+              <option value=""></option>
+              {Array.from(catalog.regions)
+                .sort()
+                .map(region => (
+                  <option key={region} value={region}>
+                    {region}
+                  </option>
+                ))}
+            </select>
+            {"]"}
+          </label>
+        </small>
       </h2>
 
       <CatalogContext.Provider value={catalog}>
