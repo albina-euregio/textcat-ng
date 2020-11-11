@@ -14,12 +14,16 @@ body {
   box-sizing: border-box;
 }
 
+button,
+input,
 select {
   font-family: inherit;
   font-size: inherit;
   line-height: inherit;
   max-width: 12em;
   text-overflow: ellipsis;
+  padding: 1px 2px;
+  margin: 0;
 }
 
 .pr-10 {
