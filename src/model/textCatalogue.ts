@@ -211,6 +211,7 @@ export class TextCatalogue {
   }
 
   translate(writtenTexts: WrittenText[]): IntlText {
+    if (!writtenTexts || writtenTexts.length === 0) return "";
     return writtenTexts
       .map(writtenText =>
         this.translatePhrase(writtenText)
