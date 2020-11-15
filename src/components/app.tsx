@@ -19,6 +19,7 @@ import {
   WrittenText
 } from "../model";
 import TranslationPreview from "./textcat/translationPreview";
+import { usePmData } from "./textcat/pmData";
 
 const App: FunctionalComponent = () => {
   const [srcRegion, setSrcRegion] = useState<string>("");
@@ -43,6 +44,8 @@ const App: FunctionalComponent = () => {
     () => translateAll(catalogs, writtenTexts),
     [catalogs, writtenTexts]
   );
+
+  const { postPmData } = usePmData(setSrcLang, setWrittenTexts);
 
   return (
     <section>
@@ -122,6 +125,10 @@ const App: FunctionalComponent = () => {
       <TranslationPreview
         translations={translations}
         writtenTexts={writtenTexts}
+      />
+      <input
+        type="submit"
+        onClick={(): void => postPmData(writtenTexts, translations)}
       />
     </section>
   );
