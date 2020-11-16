@@ -327,6 +327,40 @@ it("should translate a text to DE and IT", () =>
     it:
       "Al di fuori delle piste assicurate, la situazione valanghiva è ancora molto critica."
   }));
+it("should fix the typography", () => {
+  const catalogue = new TextCatalogue("en");
+  catalogue.parse(
+    `
+ST_Header: FOO
+ST_CurlyName: FOO
+RS_CurlyName: foo
+
+ST_Header: BAR_BAZ
+ST_CurlyName: BAR_BAZ
+RS_CurlyName: bar
+RS_CurlyName: baz
+
+RS_Header: foo
+RS_CurlyName: foo
+Line: foo.
+
+RS_Header: bar
+RS_CurlyName: bar
+Line: (--) bar
+
+RS_Header: baz
+RS_CurlyName: baz
+Line: (-), baz.
+`
+  );
+  expect(catalogue.translate([{ curlyName: "FOO", line: 0 }])).toBe("Foo.");
+  expect(
+    catalogue.translate([
+      { curlyName: "FOO", line: 0 },
+      { curlyName: "BAR_BAZ", line: 0 }
+    ])
+  ).toBe("Foo bar, baz.");
+});
 
 it("should mapLineFragment for curlyName", () =>
   expect(

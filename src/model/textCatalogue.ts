@@ -220,7 +220,8 @@ export class TextCatalogue {
           .replace(/\s+\(-\)/g, "")
           .replace(/^[a-z]/, s => s.toLocaleUpperCase(this.lang))
       )
-      .reduce(mergeIntlText);
+      .reduce(mergeIntlText)
+      .replace(/[.:]\s+\(--\)/g, "");
   }
 
   private translatePhrase(writtenText: WrittenText): IntlText {
