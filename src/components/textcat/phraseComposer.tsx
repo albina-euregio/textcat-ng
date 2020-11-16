@@ -11,7 +11,6 @@ import {
   withPhrase
 } from "../../model";
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
 interface Props extends WrittenTextProps {
   children?: ComponentChildren;
   curlyNameSuffix: CurlyNameSuffix;
