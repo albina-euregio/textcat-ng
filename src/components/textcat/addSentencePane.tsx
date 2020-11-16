@@ -4,6 +4,7 @@ import { defaultNewSentenceCurlyName } from "../../model";
 import { CatalogContext } from "./contexts";
 import plusSquare from "bootstrap-icons/icons/plus-square.svg";
 import search from "bootstrap-icons/icons/search.svg";
+import { t } from "../../i18n";
 
 interface Props {
   addSentence: (curlyName: string) => void;
@@ -22,7 +23,7 @@ const AddSentencePane: FunctionalComponent<Props> = (props: Props) => {
   return (
     <div>
       <label>
-        {"[Search: "}
+        {`[${t("search")}: `}
         <input
           type="text"
           value={searchText}
@@ -31,6 +32,7 @@ const AddSentencePane: FunctionalComponent<Props> = (props: Props) => {
           }
         />
         <button
+          title={t("sentence.search")}
           onChange={(e): void =>
             setSearchText((e.target as HTMLInputElement).value)
           }
@@ -53,7 +55,10 @@ const AddSentencePane: FunctionalComponent<Props> = (props: Props) => {
             </option>
           ))}
         </select>{" "}
-        <button onClick={(): void => props.addSentence(curlyName)}>
+        <button
+          title={t("sentence.add")}
+          onClick={(): void => props.addSentence(curlyName)}
+        >
           <img src={plusSquare} width={16} height={16} />
         </button>
         {"]"}

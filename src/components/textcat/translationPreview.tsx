@@ -1,5 +1,6 @@
 import { FunctionalComponent, h } from "preact";
 import { LANGUAGES, Translations, WrittenText } from "../../model";
+import { t } from "../../i18n";
 
 interface Props {
   translations: Translations;
@@ -20,6 +21,7 @@ const TranslationPreview: FunctionalComponent<Props> = (props: Props) => {
         ))}
       </table>
       <details open={false}>
+        <summary>{t("showDetails")}</summary>
         <pre>{JSON.stringify(writtenTexts, undefined, 2)}</pre>
       </details>
     </section>

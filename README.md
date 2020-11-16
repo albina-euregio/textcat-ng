@@ -23,6 +23,10 @@ For detailed explanation on how things work, checkout the [CLI Readme](https://g
 
 </details>
 
+## Translation
+
+This project uses Transifex for its translations: https://www.transifex.com/albina-euregio/textcat-ng/dashboard/
+
 ## Author and License
 
 - Author: Simon Legner ([simon04](https://gitlab.com/simon04))

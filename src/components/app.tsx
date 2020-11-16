@@ -21,6 +21,7 @@ import {
 import TranslationPreview from "./textcat/translationPreview";
 import { usePmData } from "./textcat/pmData";
 import TextcatFooter from "./textcat/textcatFooter";
+import { t, setI18nLang } from "../i18n";
 
 const App: FunctionalComponent = () => {
   const [srcRegion, setSrcRegion] = useState<string>("");
@@ -31,6 +32,7 @@ const App: FunctionalComponent = () => {
   );
   useEffect(() => {
     buildTextcat(srcLang).then(c => setCatalog(c));
+    setI18nLang(srcLang);
   }, [srcLang]);
 
   const [writtenTexts, setWrittenTexts] = useState<WrittenText[]>([
@@ -53,10 +55,10 @@ const App: FunctionalComponent = () => {
       <h1 class="d-none">textcat-ng</h1>
 
       <h2>
-        Input{" "}
+        {`${t("input")} `}
         <small>
           <label>
-            {"[Language: "}
+            {`[${t("language")}: `}
             <select
               value={srcLang}
               onChange={(e): void =>
@@ -72,7 +74,7 @@ const App: FunctionalComponent = () => {
             {"]"}
           </label>{" "}
           <label>
-            {"[Region: "}
+            {`[${t("region")}: `}
             <select
               value={srcRegion}
               onChange={(e): void =>
@@ -119,13 +121,14 @@ const App: FunctionalComponent = () => {
         />
       </CatalogContext.Provider>
 
-      <h2>Output</h2>
+      <h2>{t("translations")}</h2>
       <TranslationPreview
         translations={translations}
         writtenTexts={writtenTexts}
       />
       <input
         type="submit"
+        value={t("translations.submit")}
         onClick={(): void => postPmData(writtenTexts, translations)}
       />
 

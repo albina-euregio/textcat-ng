@@ -1,0 +1,18 @@
+{
+  "input": "Input",
+  "language": "Language",
+  "output": "Output",
+  "region": "Region",
+  "search": "Search",
+  "sentence.add": "Add sentence",
+  "sentence.moveDown": "Move sentence down",
+  "sentence.moveUp": "Move sentence up",
+  "sentence.remove": "Remove sentence",
+  "sentence.search": "Search sentence",
+  "sentence": "Sentence",
+  "showDetails": "Show details",
+  "translation": "Translation",
+  "translations.submit": "Submit translations",
+  "translations": "Translations",
+  "version": "Version"
+}

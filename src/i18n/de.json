@@ -1,0 +1,18 @@
+{
+  "input": "Eingabe",
+  "language": "Sprace",
+  "output": "Ausgabe",
+  "region": "Region",
+  "search": "Suche",
+  "sentence.add": "Satz hinzufügen",
+  "sentence.moveDown": "Satz nach unten verschieben",
+  "sentence.moveUp": "Satz nach oben verschieben",
+  "sentence.remove": "Satz entfernen",
+  "sentence.search": "Satz suchen",
+  "sentence": "Satz",
+  "showDetails": "Details anzeigen",
+  "translation": "Übersetzung",
+  "translations.submit": "Übersetzungen absenden",
+  "translations": "Übersetzungen",
+  "version": "Version"
+}
