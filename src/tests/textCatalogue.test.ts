@@ -342,7 +342,7 @@ RS_CurlyName: baz
 
 RS_Header: foo
 RS_CurlyName: foo
-Line: foo.
+Line: äfoo.
 
 RS_Header: bar
 RS_CurlyName: bar
@@ -353,13 +353,13 @@ RS_CurlyName: baz
 Line: (-), baz.
 `
   );
-  expect(catalogue.translate([{ curlyName: "FOO", line: 0 }])).toBe("Foo.");
+  expect(catalogue.translate([{ curlyName: "FOO", line: 0 }])).toBe("Äfoo.");
   expect(
     catalogue.translate([
       { curlyName: "FOO", line: 0 },
       { curlyName: "BAR_BAZ", line: 0 }
     ])
-  ).toBe("Foo bar, baz.");
+  ).toBe("Äfoo bar, baz.");
 });
 
 it("should mapLineFragment for curlyName", () =>

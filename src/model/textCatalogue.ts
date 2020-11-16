@@ -218,7 +218,7 @@ export class TextCatalogue {
           .replace(/\[Empty\] /g, "")
           .replace(/ \[Empty\]/g, "")
           .replace(/\s+\(-\)/g, "")
-          .replace(/^[a-z]/, s => s.toLocaleUpperCase(this.lang))
+          .replace(/^./, s => s.toLocaleUpperCase(this.lang))
       )
       .reduce(mergeIntlText)
       .replace(/[.:]\s+\(--\)/g, "");
