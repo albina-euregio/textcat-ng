@@ -49,10 +49,7 @@ const App: FunctionalComponent = () => {
 
   return (
     <section>
-      <h1>
-        <abbr title="text catalog: new generation">textcat-ng</abbr>{" "}
-        <small>({process.env.GIT_VERSION})</small>
-      </h1>
+      <h1 class="d-none">textcat-ng</h1>
 
       <h2>
         Input{" "}
@@ -130,6 +127,12 @@ const App: FunctionalComponent = () => {
         type="submit"
         onClick={(): void => postPmData(writtenTexts, translations)}
       />
+
+      <footer>
+        <hr />
+        <abbr title="text catalog: new generation">textcat-ng</abbr>{" "}
+        <span>({process.env.GIT_VERSION})</span>
+      </footer>
     </section>
   );
 };
