@@ -1,12 +1,13 @@
 export type Identifier = string;
 
-export type Lang = "ar" | "ca" | "de" | "en" | "fr" | "it";
+export type Lang = "ar" | "ca" | "de" | "en" | "es" | "fr" | "it";
 
 export const LANGUAGES: readonly Lang[] = Object.freeze([
   "ar",
   "ca",
   "de",
   "en",
+  "es",
   "fr",
   "it"
 ]);
