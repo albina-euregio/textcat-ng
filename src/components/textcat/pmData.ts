@@ -31,25 +31,27 @@ export function usePmData(
 } {
   const [textField, setTextField] = useState("");
 
-  function receivePmData(event: MessageEvent) {
-    if (typeof event.data !== "string") return;
-    const pmData = JSON.parse(event.data) as TextcatLegacyIn;
-    if (typeof pmData.textDef !== "string") return;
-    console.log("Received message", pmData);
-    setTextField(pmData.textField);
-    setSrcLang(pmData.currentLang);
-    const text = pmData.textDef
-      ? (JSON.parse(pmData.textDef) as WrittenText[])
-      : [];
-    setWrittenTexts(text);
-  }
-
   useEffect(() => {
+    function receivePmData(event: MessageEvent): void {
+      if (typeof event.data !== "string") return;
+      const pmData = JSON.parse(event.data) as TextcatLegacyIn;
+      if (typeof pmData.textDef !== "string") return;
+      console.log("Received message", pmData);
+      setTextField(pmData.textField);
+      setSrcLang(pmData.currentLang);
+      const text = pmData.textDef
+        ? (JSON.parse(pmData.textDef) as WrittenText[])
+        : [];
+      setWrittenTexts(text);
+    }
     window.addEventListener("message", receivePmData);
-    return () => window.removeEventListener("message", receivePmData);
-  }, []);
+    return (): void => window.removeEventListener("message", receivePmData);
+  }, [setSrcLang, setWrittenTexts, setTextField]);
 
-  function postPmData(writtenTexts: WrittenText[], translations: Translations) {
+  function postPmData(
+    writtenTexts: WrittenText[],
+    translations: Translations
+  ): void {
     const pmData: TextcatLegacyOut = {
       textDef: JSON.stringify(writtenTexts),
       textField,
