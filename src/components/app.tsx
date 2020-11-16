@@ -130,7 +130,9 @@ const App: FunctionalComponent = () => {
 
       <footer>
         <hr />
-        <abbr title="text catalog: new generation">textcat-ng</abbr>{" "}
+        <abbr title="avalanche bulletin text catalogue: the new generation">
+          textcat-ng
+        </abbr>{" "}
         <span>({process.env.GIT_VERSION})</span>
       </footer>
     </section>
