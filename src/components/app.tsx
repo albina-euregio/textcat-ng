@@ -22,6 +22,7 @@ import TranslationPreview from "./textcat/translationPreview";
 import { usePmData } from "./textcat/pmData";
 import TextcatFooter from "./textcat/textcatFooter";
 import { t, setI18nLang } from "../i18n";
+import checkSquare from "bootstrap-icons/icons/check-square.svg";
 
 const App: FunctionalComponent = () => {
   const [srcRegion, setSrcRegion] = useState<string>("");
@@ -126,11 +127,13 @@ const App: FunctionalComponent = () => {
         translations={translations}
         writtenTexts={writtenTexts}
       />
-      <input
+      <button
+        class="mt-10"
         type="submit"
-        value={t("translations.submit")}
         onClick={(): void => postPmData(writtenTexts, translations)}
-      />
+      >
+        <img src={checkSquare}></img> {t("translations.submit")}
+      </button>
 
       <TextcatFooter />
     </section>
