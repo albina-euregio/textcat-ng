@@ -13,9 +13,11 @@ interface TextcatLegacyIn {
 interface TextcatLegacyOut {
   textDef: string;
   textField: string;
+  textAr: string;
   textDe: string;
   textIt: string;
   textEn: string;
+  textEs: string;
   textFr: string;
   textCa: string;
 }
@@ -51,9 +53,11 @@ export function usePmData(
     const pmData: TextcatLegacyOut = {
       textDef: JSON.stringify(writtenTexts),
       textField,
+      textAr: translations.ar,
       textCa: translations.ca,
       textDe: translations.de,
       textEn: translations.en,
+      textEs: translations.es,
       textFr: translations.fr,
       textIt: translations.it
     };
