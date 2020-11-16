@@ -3,7 +3,7 @@ import { useContext } from "preact/hooks";
 import { CatalogContext } from "./contexts";
 import {
   CurlyNameSuffix,
-  WrittenText,
+  WrittenPhrase,
   WrittenTextProps,
   mapLineFragment,
   newPhrase,
@@ -20,11 +20,11 @@ interface Props extends WrittenTextProps {
 const PhraseComposer: FunctionalComponent<Props> = (props: Props) => {
   const catalog = useContext(CatalogContext);
   const phrase = catalog.phrase(
-    props.writtenText.curlyName + props.curlyNameSuffix
+    props.writtenPhrase.curlyName + props.curlyNameSuffix
   );
   if (!phrase) return <div></div>;
 
-  const line = phrase.lines.length === 1 ? 0 : props.writtenText.line;
+  const line = phrase.lines.length === 1 ? 0 : props.writtenPhrase.line;
   const selectedLineFragments = phrase.lines[line]?.lineFragments;
   const selectedLineTd = selectedLineFragments?.map((lineFragment, index) =>
     mapLineFragment(
@@ -34,11 +34,11 @@ const PhraseComposer: FunctionalComponent<Props> = (props: Props) => {
           <PhraseComposer
             curlyNameSuffix={curlyNameSuffix}
             srcRegion={props.srcRegion}
-            writtenText={
-              props.writtenText?.args?.[curlyName] ?? newPhrase(curlyName)
+            writtenPhrase={
+              props.writtenPhrase?.args?.[curlyName] ?? newPhrase(curlyName)
             }
-            setWrittenText={(newPhrase: WrittenText): void =>
-              props.setWrittenText(withPhrase(props.writtenText, newPhrase))
+            setWrittenPhrase={(newPhrase: WrittenPhrase): void =>
+              props.setWrittenPhrase(withPhrase(props.writtenPhrase, newPhrase))
             }
           />
         </td>
@@ -56,7 +56,7 @@ const PhraseComposer: FunctionalComponent<Props> = (props: Props) => {
       value={line}
       onChange={(e): void => {
         const line = +(e.target as HTMLSelectElement).value;
-        props.setWrittenText(withLine(props.writtenText, line));
+        props.setWrittenPhrase(withLine(props.writtenPhrase, line));
       }}
     >
       <option value={-1}></option>

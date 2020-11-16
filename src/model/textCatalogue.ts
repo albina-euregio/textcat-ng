@@ -12,6 +12,7 @@ import {
   newPhrase,
   Phrase,
   Sentence,
+  WrittenPhrase,
   WrittenText
 } from ".";
 import stopwordsDE from "stopwords-de";
@@ -210,11 +211,11 @@ export class TextCatalogue {
     return this;
   }
 
-  translate(writtenTexts: WrittenText[]): IntlText {
-    if (!writtenTexts || writtenTexts.length === 0) return "";
-    return writtenTexts
-      .map(writtenText =>
-        this.translatePhrase(writtenText)
+  translate(writtenText: WrittenText): IntlText {
+    if (!writtenText || writtenText.length === 0) return "";
+    return writtenText
+      .map(writtenPhrase =>
+        this.translatePhrase(writtenPhrase)
           .replace(/\[Empty\] /g, "")
           .replace(/ \[Empty\]/g, "")
           .replace(/\s+\(-\)/g, "")
@@ -224,14 +225,14 @@ export class TextCatalogue {
       .replace(/[.:]\s+\(--\)/g, "");
   }
 
-  private translatePhrase(writtenText: WrittenText): IntlText {
-    const phrase = this.phrase(writtenText.curlyName);
-    if (!phrase) throw new Error(`Unknown phrase ${writtenText.curlyName}!`);
-    const line = phrase?.lines[writtenText.line];
+  private translatePhrase(writtenPhrase: WrittenPhrase): IntlText {
+    const phrase = this.phrase(writtenPhrase.curlyName);
+    if (!phrase) throw new Error(`Unknown phrase ${writtenPhrase.curlyName}!`);
+    const line = phrase?.lines[writtenPhrase.line];
     const lineFragments = line?.lineFragments;
     if (!line || !lineFragments)
       throw new Error(
-        `Unknown line ${writtenText.line} in phrase ${writtenText.curlyName}!`
+        `Unknown line ${writtenPhrase.line} in phrase ${writtenPhrase.curlyName}!`
       );
     return lineFragments
       .map(lineFragment =>
@@ -239,7 +240,7 @@ export class TextCatalogue {
           lineFragment,
           (curlyName, curlyNameSuffix) =>
             this.translatePhrase(
-              this.getPhrase(writtenText, curlyName, curlyNameSuffix)
+              this.getPhrase(writtenPhrase, curlyName, curlyNameSuffix)
             ),
           text => text
         )
@@ -248,12 +249,12 @@ export class TextCatalogue {
   }
 
   getPhrase(
-    writtenText: WrittenText,
+    writtenPhrase: WrittenPhrase,
     curlyName: Identifier,
     curlyNameSuffix: CurlyNameSuffix
-  ): WrittenText {
-    // lookup in writtenText
-    const phrase = writtenText?.args?.[curlyName];
+  ): WrittenPhrase {
+    // lookup in writtenPhrase
+    const phrase = writtenPhrase?.args?.[curlyName];
     if (phrase) {
       return {
         ...phrase,
@@ -265,7 +266,7 @@ export class TextCatalogue {
     if (fromCatalog?.lines.length === 1) {
       return newPhrase(curlyName, 0);
     }
-    throw new Error(`Unset phrase ${curlyName} in ${writtenText.curlyName}!`);
+    throw new Error(`Unset phrase ${curlyName} in ${writtenPhrase.curlyName}!`);
   }
 }
 
@@ -294,14 +295,14 @@ export type Translations = Record<Lang, IntlText>;
 
 export function translateAll(
   catalogs: TextCatalogue[],
-  writtenTexts: WrittenText[]
+  writtenText: WrittenText
 ): Translations {
   console.time("translateAll");
   const translation = {} as Translations;
   catalogs.forEach(catalog => {
     const { lang } = catalog;
     try {
-      translation[lang] = catalog.translate(writtenTexts);
+      translation[lang] = catalog.translate(writtenText);
     } catch (e) {
       if (!String(e).includes("Unset phrase")) {
         console.warn(e);

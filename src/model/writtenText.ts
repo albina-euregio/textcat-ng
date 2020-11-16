@@ -1,24 +1,26 @@
 import { Identifier } from ".";
 
-export interface WrittenText {
+export interface WrittenPhrase {
   curlyName: Identifier;
   line: number;
-  args?: Record<Identifier, WrittenText>;
+  args?: Record<Identifier, WrittenPhrase>;
 }
+
+export type WrittenText = WrittenPhrase[];
 
 export interface WrittenTextProps {
-  writtenText: WrittenText;
-  setWrittenText: (writtenText: WrittenText) => void;
+  writtenPhrase: WrittenPhrase;
+  setWrittenPhrase: (writtenPhrase: WrittenPhrase) => void;
 }
 
-export function newSentence(curlyName: string): WrittenText {
+export function newSentence(curlyName: string): WrittenPhrase {
   return {
     curlyName,
     line: 0
   };
 }
 
-export function newPhrase(curlyName: string, line = -1): WrittenText {
+export function newPhrase(curlyName: string, line = -1): WrittenPhrase {
   return {
     curlyName,
     line
@@ -26,20 +28,23 @@ export function newPhrase(curlyName: string, line = -1): WrittenText {
 }
 
 export function withPhrase(
-  writtenText: WrittenText,
-  newPhrase: WrittenText
-): WrittenText {
+  writtenPhrase: WrittenPhrase,
+  newPhrase: WrittenPhrase
+): WrittenPhrase {
   return {
-    ...writtenText,
+    ...writtenPhrase,
     args: {
-      ...writtenText.args,
+      ...writtenPhrase.args,
       [newPhrase.curlyName]: newPhrase
     }
   };
 }
 
-export function withLine(writtenText: WrittenText, line: number): WrittenText {
-  return { ...writtenText, line };
+export function withLine(
+  writtenPhrase: WrittenPhrase,
+  line: number
+): WrittenPhrase {
+  return { ...writtenPhrase, line };
 }
 
 export function arrayMove<T>(

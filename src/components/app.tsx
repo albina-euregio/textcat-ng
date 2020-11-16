@@ -12,7 +12,7 @@ import BulletinComposer from "./textcat/bulletinComposer";
 import {
   arrayMove,
   defaultLang,
-  defaultWrittenText,
+  defaultWrittenPhrase,
   Lang,
   LANGUAGES,
   newSentence,
@@ -36,8 +36,8 @@ const App: FunctionalComponent = () => {
     setI18nLang(srcLang);
   }, [srcLang]);
 
-  const [writtenTexts, setWrittenTexts] = useState<WrittenText[]>([
-    defaultWrittenText()
+  const [writtenText, setWrittenText] = useState<WrittenText>([
+    defaultWrittenPhrase()
   ]);
 
   const [catalogs, setCatalogs] = useState<TextCatalogue[]>([]);
@@ -45,11 +45,11 @@ const App: FunctionalComponent = () => {
     buildAllTextcat().then(cs => setCatalogs(cs));
   }, []);
   const translations: Translations = useMemo(
-    () => translateAll(catalogs, writtenTexts),
-    [catalogs, writtenTexts]
+    () => translateAll(catalogs, writtenText),
+    [catalogs, writtenText]
   );
 
-  const { postPmData } = usePmData(setSrcLang, setWrittenTexts);
+  const { postPmData } = usePmData(setSrcLang, setWrittenText);
 
   return (
     <section>
@@ -98,20 +98,20 @@ const App: FunctionalComponent = () => {
 
       <CatalogContext.Provider value={catalog}>
         <BulletinComposer
-          writtenTexts={writtenTexts}
+          writtenText={writtenText}
           srcRegion={srcRegion}
-          updateWrittenText={(newText, index): void =>
-            setWrittenTexts(ts => {
+          updateWrittenPhrase={(newText, index): void =>
+            setWrittenText(ts => {
               const newTexts = [...ts];
               newTexts[index] = newText;
               return newTexts;
             })
           }
           addSentence={(curlyName): void =>
-            setWrittenTexts(ts => [...ts, newSentence(curlyName)])
+            setWrittenText(ts => [...ts, newSentence(curlyName)])
           }
           moveSentence={(index, direction): void => {
-            setWrittenTexts(ts =>
+            setWrittenText(ts =>
               arrayMove(
                 ts,
                 index,
@@ -125,12 +125,12 @@ const App: FunctionalComponent = () => {
       <h2>{t("translations")}</h2>
       <TranslationPreview
         translations={translations}
-        writtenTexts={writtenTexts}
+        writtenText={writtenText}
       />
       <button
         class="mt-10"
         type="submit"
-        onClick={(): void => postPmData(writtenTexts, translations)}
+        onClick={(): void => postPmData(writtenText, translations)}
       >
         <img src={checkSquare}></img> {t("translations.submit")}
       </button>

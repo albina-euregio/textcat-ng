@@ -2,7 +2,7 @@ import {
   Phrase,
   Sentence,
   TextCatalogue,
-  WrittenText,
+  WrittenPhrase,
   arrayMove,
   mapLineFragment,
   translateAll
@@ -86,7 +86,7 @@ const sentence010: Sentence = {
 };
 // equivalent to Phase with `Line: {Verhältnisse04§wo_wann3} {teils_gefährliche} {Verhältnisse04§Lawinensituation}`???
 
-const writtenText: WrittenText = {
+const writtenPhrase: WrittenPhrase = {
   curlyName: "Verhältnisse04",
   line: 0,
   args: {
@@ -111,7 +111,7 @@ const writtenText: WrittenText = {
     }
   }
 };
-const writtenText2: WrittenText = {
+const writtenText2: WrittenPhrase = {
   curlyName: "Verhältnisse01",
   line: 0,
   args: {
@@ -305,16 +305,16 @@ it("should convert sentence to phrase", () =>
 it("should return the correct phrase", () =>
   expect(catalog.phrase("Verhältnisse04§wo_wann3")).toStrictEqual(woWann3));
 it("should return always return a unique phrase", () =>
-  expect(catalog.getPhrase(writtenText, "Punkt", "")).toStrictEqual({
+  expect(catalog.getPhrase(writtenPhrase, "Punkt", "")).toStrictEqual({
     curlyName: "Punkt",
     line: 0
   }));
 it("should translate a text", () =>
-  expect(catalog.translate([writtenText])).toBe(
+  expect(catalog.translate([writtenPhrase])).toBe(
     "Abseits gesicherter Pisten weiterhin sehr kritische Lawinensituation."
   ));
 it("should translate a text to IT", () =>
-  expect(catalogIT.translate([writtenText])).toBe(
+  expect(catalogIT.translate([writtenPhrase])).toBe(
     "Al di fuori delle piste assicurate, la situazione valanghiva è ancora molto critica."
   ));
 it("should translate a text to IT (including _NO phrase)", () =>
@@ -322,7 +322,7 @@ it("should translate a text to IT (including _NO phrase)", () =>
     "Le condizioni rimangono pericolose."
   ));
 it("should translate a text to DE and IT", () =>
-  expect(translateAll([catalog, catalogIT], [writtenText])).toStrictEqual({
+  expect(translateAll([catalog, catalogIT], [writtenPhrase])).toStrictEqual({
     de: "Abseits gesicherter Pisten weiterhin sehr kritische Lawinensituation.",
     it:
       "Al di fuori delle piste assicurate, la situazione valanghiva è ancora molto critica."

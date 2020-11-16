@@ -4,11 +4,11 @@ import { t } from "../../i18n";
 
 interface Props {
   translations: Translations;
-  writtenTexts: WrittenText[];
+  writtenText: WrittenText;
 }
 
 const TranslationPreview: FunctionalComponent<Props> = (props: Props) => {
-  const { translations, writtenTexts } = props;
+  const { translations, writtenText } = props;
 
   return (
     <section>
@@ -22,7 +22,7 @@ const TranslationPreview: FunctionalComponent<Props> = (props: Props) => {
       </table>
       <details open={false}>
         <summary>{t("showDetails")}</summary>
-        <pre>{JSON.stringify(writtenTexts, undefined, 2)}</pre>
+        <pre>{JSON.stringify(writtenText, undefined, 2)}</pre>
       </details>
     </section>
   );

@@ -1,5 +1,5 @@
 import { FunctionalComponent, h } from "preact";
-import { WrittenText, Identifier } from "../../model";
+import { WrittenPhrase, WrittenText, Identifier } from "../../model";
 import AddSentencePane from "./addSentencePane";
 import PhraseComposer from "./phraseComposer";
 import caretDownSquare from "bootstrap-icons/icons/caret-down-square.svg";
@@ -8,9 +8,9 @@ import xSquare from "bootstrap-icons/icons/x-square.svg";
 import { t } from "../../i18n";
 
 interface Props {
-  writtenTexts: WrittenText[];
+  writtenText: WrittenText;
   srcRegion: string;
-  updateWrittenText: (writtenText: WrittenText, index: number) => void;
+  updateWrittenPhrase: (writtenPhrase: WrittenPhrase, index: number) => void;
   addSentence: (curlyName: Identifier) => void;
   moveSentence: (index: number, direction: number) => void;
 }
@@ -20,14 +20,14 @@ const BulletinComposer: FunctionalComponent<Props> = (props: Props) => {
     <section>
       <AddSentencePane addSentence={props.addSentence} />
 
-      {props.writtenTexts.map((writtenText, index) => (
+      {props.writtenText.map((writtenPhrase, index) => (
         <PhraseComposer
           curlyNameSuffix=""
           srcRegion={props.srcRegion}
           key={index}
-          writtenText={writtenText}
-          setWrittenText={(newText: WrittenText): void =>
-            props.updateWrittenText(newText, index)
+          writtenPhrase={writtenPhrase}
+          setWrittenPhrase={(newText: WrittenPhrase): void =>
+            props.updateWrittenPhrase(newText, index)
           }
         >
           {" "}

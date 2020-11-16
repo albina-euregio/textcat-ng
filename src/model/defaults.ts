@@ -1,5 +1,5 @@
 import { Lang } from "./";
-import { WrittenText } from "./writtenText";
+import { WrittenPhrase } from "./writtenText";
 
 export function defaultLang(): Lang {
   return "de";
@@ -8,7 +8,7 @@ export function defaultNewSentenceCurlyName(): string {
   return "Verhältnisse01";
 }
 
-export function defaultWrittenText(): WrittenText {
+export function defaultWrittenPhrase(): WrittenPhrase {
   return {
     curlyName: "Verhältnisse04",
     line: 0,
