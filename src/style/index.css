@@ -14,6 +14,13 @@ body {
   box-sizing: border-box;
 }
 
+a {
+  color: #1278b3;
+}
+a:hover {
+  color: #179ae6;
+}
+
 button,
 input,
 select {
@@ -55,4 +62,15 @@ td {
 footer {
   opacity: 0.8;
   margin-top: 20px;
+}
+
+ul.inline,
+ul.inline > li {
+  display: inline;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+ul.inline > li:nth-child(n + 2)::before {
+  content: " • ";
 }

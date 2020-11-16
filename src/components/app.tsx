@@ -20,6 +20,7 @@ import {
 } from "../model";
 import TranslationPreview from "./textcat/translationPreview";
 import { usePmData } from "./textcat/pmData";
+import TextcatFooter from "./textcat/textcatFooter";
 
 const App: FunctionalComponent = () => {
   const [srcRegion, setSrcRegion] = useState<string>("");
@@ -128,13 +129,7 @@ const App: FunctionalComponent = () => {
         onClick={(): void => postPmData(writtenTexts, translations)}
       />
 
-      <footer>
-        <hr />
-        <abbr title="avalanche bulletin text catalogue: the new generation">
-          textcat-ng
-        </abbr>{" "}
-        <span>({process.env.GIT_VERSION})</span>
-      </footer>
+      <TextcatFooter />
     </section>
   );
 };
