@@ -295,6 +295,7 @@ export function translateAll(
   catalogs: TextCatalogue[],
   writtenTexts: WrittenText[]
 ): Translations {
+  console.time("translateAll");
   const translation = {} as Translations;
   catalogs.forEach(catalog => {
     const { lang } = catalog;
@@ -307,5 +308,6 @@ export function translateAll(
       translation[lang] = `⚠ ${e}`;
     }
   });
+  console.timeEnd("translateAll");
   return translation;
 }
