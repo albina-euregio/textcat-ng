@@ -9,6 +9,7 @@
   "sentence.moveUp": "Move sentence up",
   "sentence.remove": "Remove sentence",
   "sentence.search": "Search sentence",
+  "sentence.search.prefix": "Search sentence by prefix",
   "sentence": "Sentence",
   "showDetails": "Show details",
   "translation": "Translation",

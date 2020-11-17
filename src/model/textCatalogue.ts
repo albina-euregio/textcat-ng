@@ -15,7 +15,11 @@ import {
   WrittenPhrase,
   WrittenText
 } from ".";
-import stopwordsDE from "stopwords-de";
+
+export enum SearchMode {
+  PREFIX,
+  WORDS
+}
 
 export class TextCatalogue {
   public readonly lang: Lang;
@@ -34,9 +38,16 @@ export class TextCatalogue {
     return isSentence(sentence) ? sentence : undefined;
   }
 
-  searchSentences(prefix: string): Sentence[] {
-    prefix = prefix.toLowerCase();
-    return this.sentences.filter(s => this.hasPrefix(s, prefix) === "");
+  searchSentences(query: string, mode = SearchMode.WORDS): Sentence[] {
+    query = query.toLowerCase();
+    if (mode === SearchMode.PREFIX) {
+      return this.sentences.filter(s => this.hasPrefix(s, query) === "");
+    } else {
+      const words = query.toLowerCase().split(/[\s.:,]+/g);
+      return this.sentences.filter(s =>
+        words.every(word => this.containsString(s, word))
+      );
+    }
   }
 
   /**
@@ -88,6 +99,28 @@ export class TextCatalogue {
     return r.size
       ? Array.from(r).reduce((p1, p2) => (p1.length < p2.length ? p1 : p2))
       : false;
+  }
+
+  /**
+   * Tests whether the given phrase contains the given string
+   * @param phrase the phrase to test
+   * @param string the string to test
+   * @returns whether the given phrase contains the given string
+   */
+  private containsString(phrase: Phrase | undefined, string: string): boolean {
+    if (phrase === undefined) return false;
+    return phrase.lines.some(({ lineFragments }) =>
+      lineFragments?.some(lineFragment =>
+        mapLineFragment(
+          lineFragment,
+          (curlyName, curlyNameSuffix) => {
+            const p = this.phrase(curlyName + curlyNameSuffix);
+            return this.containsString(p, string);
+          },
+          text => text.toLowerCase().includes(string)
+        )
+      )
+    );
   }
 
   phrase(curlyName: Identifier): Phrase | undefined {
@@ -180,34 +213,6 @@ export class TextCatalogue {
     this.sentences = Object.values(this.data)
       .filter(isSentence)
       .sort((s1, s2) => s1.header.localeCompare(s2.header));
-    return this;
-  }
-
-  buildSearchIndex(): this {
-    this.phrases.forEach(phrase =>
-      phrase.lines.forEach(({ line }) =>
-        line.split(/[\s.,"„“()]+/).forEach(lineFragment =>
-          mapLineFragment(
-            lineFragment,
-            () => undefined,
-            word => {
-              if (phrase.curlyName.includes("Gebiet")) return;
-              if (word === "[Empty]") return;
-              if (/^\d+$/.exec(word)) return;
-              word = word
-                .toLowerCase()
-                .replace(/\(-\)/g, "")
-                .trim();
-              if (!word) return;
-              if (this.lang === "de" && stopwordsDE.includes(word)) return;
-              const set = this.wordToPhraseMap.get(word) ?? new Set();
-              if (!set.size) this.wordToPhraseMap.set(word, set);
-              set.add(phrase.curlyName);
-            }
-          )
-        )
-      )
-    );
     return this;
   }
 

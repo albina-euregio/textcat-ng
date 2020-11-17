@@ -5,7 +5,8 @@ import {
   WrittenPhrase,
   arrayMove,
   mapLineFragment,
-  translateAll
+  translateAll,
+  SearchMode
 } from "../model";
 
 /**
@@ -396,22 +397,9 @@ it("should arrayMove", () => {
   expect(arrayMove(arr, 2, 4)).toStrictEqual([0, 1, 3, 4, 2, 5]);
 });
 
-it("should build a search index", () => {
-  catalog.buildSearchIndex();
-  // skipped
-  expect(catalog.wordToPhraseMap.get("[empty]")).toBeUndefined();
-  // stopword
-  expect(catalog.wordToPhraseMap.get("der")).toBeUndefined();
-  // not present
-  expect(catalog.wordToPhraseMap.get("gefahrenstufe")).toBeUndefined();
-  expect(catalog.wordToPhraseMap.get("lawinensituation")).toContainEqual(
-    "Verhältnisse04§Lawinensituation."
-  );
-});
-
 it("should search by prefix", () => {
   const expectSearch = (prefix: string, ...s: Sentence[]): void =>
-    expect(catalog.searchSentences(prefix)).toStrictEqual(s);
+    expect(catalog.searchSentences(prefix, SearchMode.PREFIX)).toStrictEqual(s);
   expectSearch("Auf Pisten");
   expectSearch("Abseits blauer Pisten");
   expectSearch("Abseits gesicherter Pisten ist");
@@ -422,7 +410,17 @@ it("should search by prefix", () => {
   );
   expect(
     catalogIT.searchSentences(
-      "Al di fuori delle piste assicurate, la situazione valanghiva è pericolosa"
+      "Al di fuori delle piste assicurate, la situazione valanghiva è pericolosa",
+      SearchMode.PREFIX
     )
   ).toStrictEqual([catalogIT.sentence("Verhältnisse04")]);
+});
+
+it("should search by words", () => {
+  const expectSearch = (words: string, ...s: Sentence[]): void =>
+    expect(catalog.searchSentences(words, SearchMode.WORDS)).toStrictEqual(s);
+  expectSearch("Pluto");
+  expectSearch("gesicherter", sentence010);
+  expectSearch("Lawinensituation gesicherter", sentence010);
+  expectSearch("Lawinensituation gesicherter Pluto");
 });

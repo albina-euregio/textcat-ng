@@ -1,8 +1,9 @@
 import { FunctionalComponent, h } from "preact";
 import { useContext, useMemo, useState } from "preact/hooks";
-import { defaultNewSentenceCurlyName } from "../../model";
+import { defaultNewSentenceCurlyName, SearchMode } from "../../model";
 import { CatalogContext } from "./contexts";
 import plusSquare from "bootstrap-icons/icons/plus-square.svg";
+import filter from "bootstrap-icons/icons/filter.svg";
 import search from "bootstrap-icons/icons/search.svg";
 import { t } from "../../i18n";
 
@@ -14,11 +15,12 @@ const AddSentencePane: FunctionalComponent<Props> = (props: Props) => {
   const [curlyName, setCurlyName] = useState(defaultNewSentenceCurlyName());
   const catalog = useContext(CatalogContext);
   const [searchText, setSearchText] = useState("");
-  const filteredSentences = useMemo(
-    () =>
-      searchText ? catalog.searchSentences(searchText) : catalog.sentences,
-    [catalog, searchText]
-  );
+  const [searchMode, setSearchMode] = useState(SearchMode.WORDS);
+  const filteredSentences = useMemo(() => {
+    return searchText
+      ? catalog.searchSentences(searchText, searchMode)
+      : catalog.sentences;
+  }, [catalog, searchText, searchMode]);
 
   return (
     <div>
@@ -33,9 +35,13 @@ const AddSentencePane: FunctionalComponent<Props> = (props: Props) => {
         />
         <button
           title={t("sentence.search")}
-          onChange={(e): void =>
-            setSearchText((e.target as HTMLInputElement).value)
-          }
+          onClick={(): void => setSearchMode(SearchMode.WORDS)}
+        >
+          <img src={filter} width={16} height={16} />
+        </button>
+        <button
+          title={t("sentence.search.prefix")}
+          onClick={(): void => setSearchMode(SearchMode.PREFIX)}
         >
           <img src={search} width={16} height={16} />
         </button>
