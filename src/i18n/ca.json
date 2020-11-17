@@ -1,0 +1,19 @@
+{
+  "input": "Entrada",
+  "language": "Idioma",
+  "output": "Sortida",
+  "region": "Regió",
+  "search": "Cercar",
+  "sentence.add": "Afegir frase",
+  "sentence.moveDown": "Moure la frase cap avall",
+  "sentence.moveUp": "Moure la frase cap amunt",
+  "sentence.remove": "Eliminar frase",
+  "sentence.search": "Cercar frase",
+  "sentence.search.prefix": "Cercar frase per prefix",
+  "sentence": "Frase",
+  "showDetails": "Mostrar detalls",
+  "translation": "Traducció",
+  "translations.submit": "Enviar traduccions",
+  "translations": "Traduccions",
+  "version": "Versió"
+}

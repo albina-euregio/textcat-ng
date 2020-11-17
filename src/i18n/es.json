@@ -1,0 +1,19 @@
+{
+  "input": "Entrada",
+  "language": "Idioma",
+  "output": "Salida",
+  "region": "Región",
+  "search": "Buscar",
+  "sentence.add": "Añadir frase",
+  "sentence.moveDown": "Mover la frase hacia abajo",
+  "sentence.moveUp": "Mover la frase hacia arriba",
+  "sentence.remove": "Eliminar frase",
+  "sentence.search": "Buscar frase",
+  "sentence.search.prefix": "Buscar frase por prefijo",
+  "sentence": "Frase",
+  "showDetails": "Mostrar detalles",
+  "translation": "Traducción",
+  "translations.submit": "Enviar traducciones",
+  "translations": "Traducciones",
+  "version": "Versión"
+}

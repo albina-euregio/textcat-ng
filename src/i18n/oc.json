@@ -1,0 +1,19 @@
+{
+  "input": "Entrada",
+  "language": "Idiòma",
+  "output": "Gessuda",
+  "region": "Region",
+  "search": "Cercar",
+  "sentence.add": "Íger frasa",
+  "sentence.moveDown": "Botjar frasa cap enjós",
+  "sentence.moveUp": "Botjar frasa cap ensús",
+  "sentence.remove": "Eliminar frasa",
+  "sentence.search": "Cercar frasa",
+  "sentence.search.prefix": "Cercar frasa per prefixe",
+  "sentence": "Frasa",
+  "showDetails": "Mostrar detalhs",
+  "translation": "Revirada",
+  "translations.submit": "Enviar revirades",
+  "translations": "Revirades",
+  "version": "Version"
+}

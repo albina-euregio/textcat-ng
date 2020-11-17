@@ -1,10 +1,18 @@
 import { Lang, defaultLang } from "../model";
 
+import ca from "./ca.json";
 import de from "./de.json";
 import en from "./en.json";
+import es from "./es.json";
+import fr from "./fr.json";
+import it from "./it.json";
 const i18nMessages: Partial<Record<Lang, Record<string, string>>> = {
+  ca,
   de,
-  en
+  en,
+  es,
+  fr,
+  it
 };
 
 let lang: Lang = defaultLang();
