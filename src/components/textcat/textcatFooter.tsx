@@ -1,4 +1,5 @@
 import { FunctionalComponent, h } from "preact";
+import { t } from "../../i18n";
 
 const TextcatFooter: FunctionalComponent = () => (
   <footer>
@@ -9,7 +10,9 @@ const TextcatFooter: FunctionalComponent = () => (
           textcat-ng
         </abbr>
       </li>
-      <li>version {process.env.GIT_VERSION}</li>
+      <li>
+        {t("version")} {process.env.GIT_VERSION}
+      </li>
       <li>
         <a
           href="https://gitlab.com/albina-euregio/textcat-ng"
