@@ -5,7 +5,6 @@ import { Lang, Translations, WrittenText } from "../../model";
 interface TextcatLegacyIn {
   textDef: string;
   textField: string;
-  srcLang: number | Lang;
   currentLang: Lang;
   region: string;
 }
