@@ -49,7 +49,7 @@ const App: FunctionalComponent = () => {
     [catalogs, writtenText]
   );
 
-  const { postPmData } = usePmData(setSrcLang, setWrittenText);
+  const { postPmData } = usePmData(setSrcLang, setSrcRegion, setWrittenText);
 
   return (
     <section>

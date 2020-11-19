@@ -7,6 +7,7 @@ interface TextcatLegacyIn {
   textField: string;
   srcLang: number | Lang;
   currentLang: Lang;
+  region: string;
 }
 
 // alias pmData, alias outputText
@@ -25,6 +26,7 @@ interface TextcatLegacyOut {
 // interoperability with albina-admin-gui: send/receive pmData messages
 export function usePmData(
   setSrcLang: StateUpdater<Lang>,
+  setSrcRegion: StateUpdater<string>,
   setWrittenText: StateUpdater<WrittenText>
 ): {
   postPmData: (writtenText: WrittenText, translations: Translations) => void;
@@ -39,6 +41,7 @@ export function usePmData(
       console.log("Received message", pmData);
       setTextField(pmData.textField);
       setSrcLang(pmData.currentLang);
+      setSrcRegion(pmData.region ?? "");
       const text = pmData.textDef
         ? (JSON.parse(pmData.textDef) as WrittenText)
         : [];
@@ -46,7 +49,7 @@ export function usePmData(
     }
     window.addEventListener("message", receivePmData);
     return (): void => window.removeEventListener("message", receivePmData);
-  }, [setSrcLang, setWrittenText, setTextField]);
+  }, [setSrcLang, setSrcRegion, setWrittenText, setTextField]);
 
   function postPmData(
     writtenText: WrittenText,
