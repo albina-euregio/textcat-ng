@@ -15,6 +15,25 @@ import {
   WrittenPhrase,
   WrittenText
 } from ".";
+import { t } from "../i18n";
+
+export class UnknownLineError extends Error {
+  constructor(line: number, context: string) {
+    super(t("unknownLine", line, context));
+  }
+}
+
+export class UnknownPhraseError extends Error {
+  constructor(phrase: string) {
+    super(t("unknownPhrase", phrase));
+  }
+}
+
+export class UnsetPhraseError extends Error {
+  constructor(phrase: string, context: string) {
+    super(t("unsetPhrase", phrase, context));
+  }
+}
 
 export enum SearchMode {
   PREFIX,
@@ -232,13 +251,11 @@ export class TextCatalogue {
 
   private translatePhrase(writtenPhrase: WrittenPhrase): IntlText {
     const phrase = this.phrase(writtenPhrase.curlyName);
-    if (!phrase) throw new Error(`Unknown phrase ${writtenPhrase.curlyName}!`);
+    if (!phrase) throw new UnknownPhraseError(writtenPhrase.curlyName);
     const line = phrase?.lines[writtenPhrase.line];
     const lineFragments = line?.lineFragments;
     if (!line || !lineFragments)
-      throw new Error(
-        `Unknown line ${writtenPhrase.line} in phrase ${writtenPhrase.curlyName}!`
-      );
+      throw new UnknownLineError(writtenPhrase.line, writtenPhrase.curlyName);
     return lineFragments
       .map(lineFragment =>
         mapLineFragment(
@@ -271,7 +288,7 @@ export class TextCatalogue {
     if (fromCatalog?.lines.length === 1) {
       return newPhrase(curlyName, 0);
     }
-    throw new Error(`Unset phrase ${curlyName} in ${writtenPhrase.curlyName}!`);
+    throw new UnsetPhraseError(curlyName, writtenPhrase.curlyName);
   }
 }
 
@@ -309,7 +326,7 @@ export function translateAll(
     try {
       translation[lang] = catalog.translate(writtenText);
     } catch (e) {
-      if (!String(e).includes("Unset phrase")) {
+      if (!(e instanceof UnsetPhraseError)) {
         console.warn(e);
       }
       translation[lang] = `⚠ ${e}`;
