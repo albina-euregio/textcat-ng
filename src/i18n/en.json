@@ -17,6 +17,6 @@
   "translations": "Translations",
   "unknownLine": "Unknown line $1 in $2!",
   "unknownPhrase": "Unknown phrase $1!",
-  "unsetPhrase": "Unset phrase $1 in $2!",
+  "unsetPhrase": "Unset phrase $1!",
   "version": "Version"
 }

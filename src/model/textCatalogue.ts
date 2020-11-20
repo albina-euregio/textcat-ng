@@ -31,8 +31,8 @@ export class UnknownPhraseError extends Error {
 }
 
 export class UnsetPhraseError extends Error {
-  constructor(phrase: string, context: string) {
-    super(t("unsetPhrase", phrase, context));
+  constructor(phrase: string) {
+    super(t("unsetPhrase", phrase));
   }
 }
 
@@ -272,17 +272,20 @@ export class TextCatalogue {
   ): IntlText {
     const phrase = this.phrase(writtenPhrase.curlyName + curlyNameSuffix);
     if (!phrase) throw new UnknownPhraseError(writtenPhrase.curlyName);
-    const line = phrase?.lines[writtenPhrase.line];
-    const lineFragments = line?.lineFragments;
-    if (!line || !lineFragments)
+    const lineFragments =
+      phrase?.lines[writtenPhrase.line]?.lineFragments ??
+      this.uniqueLineFragments(writtenPhrase.curlyName);
+    if (!lineFragments && writtenPhrase.line >= 0)
       throw new UnknownLineError(writtenPhrase.line, writtenPhrase.curlyName);
+    else if (!lineFragments)
+      throw new UnsetPhraseError(writtenPhrase.curlyName);
     return lineFragments
       .map(lineFragment =>
         mapLineFragment(
           lineFragment,
           (curlyName, curlyNameSuffix) =>
             this.translatePhrase(
-              this.getPhrase(writtenPhrase, curlyName),
+              writtenPhrase?.args?.[curlyName] ?? newPhrase(curlyName),
               curlyNameSuffix
             ),
           text => text
@@ -291,21 +294,13 @@ export class TextCatalogue {
       .reduce(mergeIntlText);
   }
 
-  getPhrase(
-    writtenPhrase: WrittenPhrase,
-    curlyName: Identifier
-  ): WrittenPhrase {
-    // lookup in writtenPhrase
-    const phrase = writtenPhrase?.args?.[curlyName];
-    if (phrase) {
-      return phrase;
-    }
-    // find unique line from catalog
+  uniqueLineFragments(curlyName: Identifier): string[] | undefined {
     const fromCatalog = this.phrase(curlyName);
     if (fromCatalog?.lines.length === 1) {
-      return newPhrase(curlyName, 0);
+      return fromCatalog?.lines[0].lineFragments;
+    } else {
+      return undefined;
     }
-    throw new UnsetPhraseError(curlyName, writtenPhrase.curlyName);
   }
 }
 
