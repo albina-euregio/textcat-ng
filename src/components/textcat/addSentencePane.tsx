@@ -56,9 +56,11 @@ const AddSentencePane: FunctionalComponent<Props> = (props: Props) => {
             setCurlyName((e.target as HTMLSelectElement).value)
           }
         >
-          {filteredSentences.map(({ curlyName, header }) => (
+          {filteredSentences.map(({ curlyName, header, lines }) => (
             <option key={curlyName} value={curlyName}>
               {header}
+              {" \u2014 "}
+              {catalog.translateLineFragments(lines?.[0]?.lineFragments)}
             </option>
           ))}
         </select>{" "}
