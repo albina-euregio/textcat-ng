@@ -77,11 +77,14 @@ const PhraseComposer: FunctionalComponent<Props> = (props: Props) => {
     </select>
   );
 
-  let summary = "{" + phrase.header + "}";
+  let summary;
   try {
-    summary = catalog.translate([props.writtenPhrase]);
+    summary = catalog.translatePhrase(
+      props.writtenPhrase,
+      props.curlyNameSuffix
+    );
   } catch (e) {
-    // ignore error
+    summary = `{${phrase.header}}: ⚠ ${e}`;
   }
 
   return (
