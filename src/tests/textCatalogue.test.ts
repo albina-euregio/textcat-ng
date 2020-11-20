@@ -306,7 +306,7 @@ it("should convert sentence to phrase", () =>
 it("should return the correct phrase", () =>
   expect(catalog.phrase("Verhältnisse04§wo_wann3")).toStrictEqual(woWann3));
 it("should return always return a unique phrase", () =>
-  expect(catalog.getPhrase(writtenPhrase, "Punkt", "")).toStrictEqual({
+  expect(catalog.getPhrase(writtenPhrase, "Punkt")).toStrictEqual({
     curlyName: "Punkt",
     line: 0
   }));

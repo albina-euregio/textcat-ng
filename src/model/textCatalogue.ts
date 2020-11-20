@@ -245,7 +245,7 @@ export class TextCatalogue {
         mapLineFragment<string>(
           lineFragment,
           (curlyName, curlyNameSuffix) =>
-            "{" + this.phrase(curlyName)?.header + curlyNameSuffix + "}",
+            "{" + this.phrase(curlyName + curlyNameSuffix)?.header + "}",
           text => text
         )
       )
@@ -256,7 +256,7 @@ export class TextCatalogue {
     if (!writtenText || writtenText.length === 0) return "";
     return writtenText
       .map(writtenPhrase =>
-        this.translatePhrase(writtenPhrase)
+        this.translatePhrase(writtenPhrase, "")
           .replace(/\[Empty\] /g, "")
           .replace(/ \[Empty\]/g, "")
           .replace(/\s+\(-\)/g, "")
@@ -266,8 +266,11 @@ export class TextCatalogue {
       .replace(/[.:]\s+\(--\)/g, "");
   }
 
-  private translatePhrase(writtenPhrase: WrittenPhrase): IntlText {
-    const phrase = this.phrase(writtenPhrase.curlyName);
+  translatePhrase(
+    writtenPhrase: WrittenPhrase,
+    curlyNameSuffix: string
+  ): IntlText {
+    const phrase = this.phrase(writtenPhrase.curlyName + curlyNameSuffix);
     if (!phrase) throw new UnknownPhraseError(writtenPhrase.curlyName);
     const line = phrase?.lines[writtenPhrase.line];
     const lineFragments = line?.lineFragments;
@@ -279,7 +282,8 @@ export class TextCatalogue {
           lineFragment,
           (curlyName, curlyNameSuffix) =>
             this.translatePhrase(
-              this.getPhrase(writtenPhrase, curlyName, curlyNameSuffix)
+              this.getPhrase(writtenPhrase, curlyName),
+              curlyNameSuffix
             ),
           text => text
         )
@@ -289,19 +293,15 @@ export class TextCatalogue {
 
   getPhrase(
     writtenPhrase: WrittenPhrase,
-    curlyName: Identifier,
-    curlyNameSuffix: CurlyNameSuffix
+    curlyName: Identifier
   ): WrittenPhrase {
     // lookup in writtenPhrase
     const phrase = writtenPhrase?.args?.[curlyName];
     if (phrase) {
-      return {
-        ...phrase,
-        curlyName: curlyName + curlyNameSuffix
-      };
+      return phrase;
     }
     // find unique line from catalog
-    const fromCatalog = this.phrase(curlyName + curlyNameSuffix);
+    const fromCatalog = this.phrase(curlyName);
     if (fromCatalog?.lines.length === 1) {
       return newPhrase(curlyName, 0);
     }
