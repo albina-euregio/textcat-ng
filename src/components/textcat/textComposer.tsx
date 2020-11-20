@@ -20,7 +20,7 @@ const TextComposer: FunctionalComponent<Props> = (props: Props) => {
     <section>
       <AddSentencePane addSentence={props.addSentence} />
 
-      {props.writtenText.map((writtenPhrase, index) => (
+      {props.writtenText.map((writtenPhrase, index, array) => (
         <PhraseComposer
           curlyNameSuffix=""
           srcRegion={props.srcRegion}
@@ -31,24 +31,28 @@ const TextComposer: FunctionalComponent<Props> = (props: Props) => {
           }
         >
           {" "}
-          <button
-            onClick={(): void => props.moveSentence(index, -1)}
-            title={t("sentence.moveUp")}
-          >
-            <img src={caretUpSquare} width={16} height={16} />
-          </button>
+          {index > 0 && (
+            <button
+              onClick={(): void => props.moveSentence(index, -1)}
+              title={t("sentence.moveUp")}
+            >
+              <img src={caretUpSquare} width={16} height={16} />
+            </button>
+          )}
           <button
             onClick={(): void => props.moveSentence(index, 0)}
             title={t("sentence.remove")}
           >
             <img src={xSquare} width={16} height={16} />
           </button>
-          <button
-            onClick={(): void => props.moveSentence(index, +1)}
-            title={t("sentence.moveDown")}
-          >
-            <img src={caretDownSquare} width={16} height={16} />
-          </button>
+          {index < array.length - 1 && (
+            <button
+              onClick={(): void => props.moveSentence(index, +1)}
+              title={t("sentence.moveDown")}
+            >
+              <img src={caretDownSquare} width={16} height={16} />
+            </button>
+          )}
         </PhraseComposer>
       ))}
     </section>
