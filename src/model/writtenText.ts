@@ -31,12 +31,16 @@ export function withPhrase(
   writtenPhrase: WrittenPhrase,
   newPhrase: WrittenPhrase
 ): WrittenPhrase {
+  const args = {
+    ...writtenPhrase.args,
+    [newPhrase.curlyName]: newPhrase
+  };
+  if (newPhrase.line < 0) {
+    delete args[newPhrase.curlyName];
+  }
   return {
     ...writtenPhrase,
-    args: {
-      ...writtenPhrase.args,
-      [newPhrase.curlyName]: newPhrase
-    }
+    args
   };
 }
 
