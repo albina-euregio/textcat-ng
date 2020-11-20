@@ -15,7 +15,7 @@ interface Props {
   moveSentence: (index: number, direction: number) => void;
 }
 
-const BulletinComposer: FunctionalComponent<Props> = (props: Props) => {
+const TextComposer: FunctionalComponent<Props> = (props: Props) => {
   return (
     <section>
       <AddSentencePane addSentence={props.addSentence} />
@@ -55,4 +55,4 @@ const BulletinComposer: FunctionalComponent<Props> = (props: Props) => {
   );
 };
 
-export default BulletinComposer;
+export default TextComposer;

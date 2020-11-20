@@ -8,7 +8,7 @@ import {
   Translations
 } from "../model";
 import { CatalogContext } from "./textcat/contexts";
-import BulletinComposer from "./textcat/bulletinComposer";
+import TextComposer from "./textcat/textComposer";
 import {
   arrayMove,
   defaultLang,
@@ -97,7 +97,7 @@ const App: FunctionalComponent = () => {
       </h2>
 
       <CatalogContext.Provider value={catalog}>
-        <BulletinComposer
+        <TextComposer
           writtenText={writtenText}
           srcRegion={srcRegion}
           updateWrittenPhrase={(newText, index): void =>
