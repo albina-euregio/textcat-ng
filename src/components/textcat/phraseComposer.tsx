@@ -73,10 +73,17 @@ const PhraseComposer: FunctionalComponent<Props> = (props: Props) => {
     </select>
   );
 
+  let summary = "{" + phrase.header + "}";
+  try {
+    summary = catalog.translate([props.writtenPhrase]);
+  } catch (e) {
+    // ignore error
+  }
+
   return (
     <details open={true} class="block">
       <summary>
-        {"{" + phrase.header + "}"}
+        {summary}
         {props.children}
       </summary>
       <table>
