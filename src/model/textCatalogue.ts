@@ -6,6 +6,7 @@ import {
   Lang,
   LANGUAGES,
   CurlyNameSuffix,
+  FULL_STOP,
   longestCommonPrefix,
   mapLineFragment,
   mergeIntlText,
@@ -239,6 +240,7 @@ export class TextCatalogue {
   translateLineFragments(lineFragments?: string[]): IntlText {
     if (!lineFragments || lineFragments.length === 0) return "";
     return lineFragments
+      .filter(lineFragment => lineFragment !== FULL_STOP)
       .map(lineFragment =>
         mapLineFragment<string>(
           lineFragment,

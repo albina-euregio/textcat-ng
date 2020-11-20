@@ -11,6 +11,7 @@ export interface Phrase {
   }[];
 }
 
+export const FULL_STOP = "{Punkt}";
 export const SECOND_ITEM_PART_NO_SUFFIX = "_NO";
 export type CurlyNameSuffix = "" | typeof SECOND_ITEM_PART_NO_SUFFIX;
 

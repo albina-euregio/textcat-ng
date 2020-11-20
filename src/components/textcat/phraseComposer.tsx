@@ -3,6 +3,7 @@ import { useContext } from "preact/hooks";
 import { CatalogContext } from "./contexts";
 import {
   CurlyNameSuffix,
+  FULL_STOP,
   WrittenPhrase,
   WrittenTextProps,
   mapLineFragment,
@@ -25,7 +26,10 @@ const PhraseComposer: FunctionalComponent<Props> = (props: Props) => {
   if (!phrase) return <div></div>;
 
   const line = phrase.lines.length === 1 ? 0 : props.writtenPhrase.line;
-  const selectedLineFragments = phrase.lines[line]?.lineFragments;
+  const selectedLine = phrase.lines[line];
+  const selectedLineFragments = selectedLine?.lineFragments?.filter(
+    lineFragment => lineFragment !== FULL_STOP
+  );
   const selectedLineTd = selectedLineFragments?.map((lineFragment, index) =>
     mapLineFragment(
       lineFragment,
