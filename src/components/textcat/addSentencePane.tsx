@@ -23,10 +23,11 @@ const AddSentencePane: FunctionalComponent<Props> = (props: Props) => {
   }, [catalog, searchText, searchMode]);
 
   return (
-    <div>
-      <label>
-        {`[${t("search")}: `}
+    <div class="block">
+      <label class="d-flex">
+        <span class="pr-10">{`${t("search")}:`}</span>
         <input
+          class="f-auto"
           type="text"
           value={searchText}
           onChange={(e): void =>
@@ -45,11 +46,11 @@ const AddSentencePane: FunctionalComponent<Props> = (props: Props) => {
         >
           <img src={search} width={16} height={16} />
         </button>
-        {"]"}
-      </label>{" "}
-      <label>
-        {"[Sentence: "}
+      </label>
+      <label class="d-flex mt-10">
+        <span class="pr-10">{`${t("sentence")}:`}</span>
         <select
+          class="f-auto"
           value={curlyName}
           onChange={(e): void =>
             setCurlyName((e.target as HTMLSelectElement).value)
@@ -67,7 +68,6 @@ const AddSentencePane: FunctionalComponent<Props> = (props: Props) => {
         >
           <img src={plusSquare} width={16} height={16} />
         </button>
-        {"]"}
       </label>
     </div>
   );

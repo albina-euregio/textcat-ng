@@ -27,13 +27,12 @@ select {
   font-family: inherit;
   font-size: inherit;
   line-height: inherit;
-  max-width: 12em;
   text-overflow: ellipsis;
   padding: 1px 2px;
   margin: 0;
 }
-button {
-  max-width: unset;
+.max-width-12 {
+  max-width: 12em;
 }
 
 .mt-10 {
@@ -63,6 +62,18 @@ td {
 
 .d-none {
   display: none;
+}
+.d-flex {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.f-0 {
+  flex: 0;
+}
+.f-auto {
+  flex: auto;
 }
 
 footer {
