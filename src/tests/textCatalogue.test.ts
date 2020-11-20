@@ -430,6 +430,7 @@ it("should search by words", () => {
   const expectSearch = (words: string, ...s: Sentence[]): void =>
     expect(catalog.searchSentences(words, SearchMode.WORDS)).toStrictEqual(s);
   expectSearch("Pluto");
+  expectSearch("Verhältnisse_04", sentence010);
   expectSearch("gesicherter", sentence010);
   expectSearch("Lawinensituation gesicherter", sentence010);
   expectSearch("Lawinensituation gesicherter Pluto");

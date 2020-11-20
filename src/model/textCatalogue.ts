@@ -128,6 +128,7 @@ export class TextCatalogue {
    */
   private containsString(phrase: Phrase | undefined, string: string): boolean {
     if (phrase === undefined) return false;
+    if (phrase.header.toLowerCase().includes(string)) return true;
     return phrase.lines.some(({ lineFragments }) =>
       lineFragments?.some(lineFragment =>
         mapLineFragment(
