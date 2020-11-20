@@ -123,10 +123,7 @@ const App: FunctionalComponent = () => {
       </CatalogContext.Provider>
 
       <h2>{t("translations")}</h2>
-      <TranslationPreview
-        translations={translations}
-        writtenText={writtenText}
-      />
+      <TranslationPreview translations={translations} />
       <button
         class="mt-10"
         type="submit"

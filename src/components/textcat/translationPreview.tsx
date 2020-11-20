@@ -1,14 +1,12 @@
 import { FunctionalComponent, h } from "preact";
-import { LANGUAGES, Translations, WrittenText } from "../../model";
-import { t } from "../../i18n";
+import { LANGUAGES, Translations } from "../../model";
 
 interface Props {
   translations: Translations;
-  writtenText: WrittenText;
 }
 
 const TranslationPreview: FunctionalComponent<Props> = (props: Props) => {
-  const { translations, writtenText } = props;
+  const { translations } = props;
 
   return (
     <section>
@@ -20,10 +18,6 @@ const TranslationPreview: FunctionalComponent<Props> = (props: Props) => {
           </tr>
         ))}
       </table>
-      <details open={false}>
-        <summary>{t("showDetails")}</summary>
-        <pre>{JSON.stringify(writtenText, undefined, 2)}</pre>
-      </details>
     </section>
   );
 };
