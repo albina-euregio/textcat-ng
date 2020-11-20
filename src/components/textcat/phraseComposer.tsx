@@ -74,18 +74,20 @@ const PhraseComposer: FunctionalComponent<Props> = (props: Props) => {
   );
 
   return (
-    <table class="block">
-      <caption>
+    <details open={true} class="block">
+      <summary>
         {"{" + phrase.header + "}"}
         {props.children}
-      </caption>
-      {phrase.$type === "Phrase" && (
-        <tr>
-          <td colSpan={99}>{select}</td>
-        </tr>
-      )}
-      <tr>{selectedLineTd}</tr>
-    </table>
+      </summary>
+      <table>
+        {phrase.$type === "Phrase" && (
+          <tr>
+            <td colSpan={99}>{select}</td>
+          </tr>
+        )}
+        <tr>{selectedLineTd}</tr>
+      </table>
+    </details>
   );
 };
 
