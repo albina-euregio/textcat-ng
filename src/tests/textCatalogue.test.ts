@@ -310,6 +310,16 @@ it("should return always return a unique phrase", () =>
     curlyName: "Punkt",
     line: 0
   }));
+
+it("should translate line fragments", () => {
+  const lines = catalogIT.phrase("teils_gefährliche")?.lines;
+  expect(
+    lines?.map(({ lineFragments }) =>
+      catalogIT.translateLineFragments(lineFragments)
+    )
+  ).toStrictEqual(["{undefined} {undefined}", "{a tratti} {pericolosa}"]);
+});
+
 it("should translate a text", () =>
   expect(catalog.translate([writtenPhrase])).toBe(
     "Abseits gesicherter Pisten weiterhin sehr kritische Lawinensituation."

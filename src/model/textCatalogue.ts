@@ -235,6 +235,20 @@ export class TextCatalogue {
     return this;
   }
 
+  translateLineFragments(lineFragments?: string[]): IntlText {
+    if (!lineFragments || lineFragments.length === 0) return "";
+    return lineFragments
+      .map(lineFragment =>
+        mapLineFragment<string>(
+          lineFragment,
+          (curlyName, curlyNameSuffix) =>
+            "{" + this.phrase(curlyName)?.header + curlyNameSuffix + "}",
+          text => text
+        )
+      )
+      .reduce(mergeIntlText);
+  }
+
   translate(writtenText: WrittenText): IntlText {
     if (!writtenText || writtenText.length === 0) return "";
     return writtenText

@@ -67,7 +67,7 @@ const PhraseComposer: FunctionalComponent<Props> = (props: Props) => {
           value={lineIndex}
           class={isRegionVisible(line.region) ? undefined : "d-none"}
         >
-          {line.line}
+          {catalog.translateLineFragments(line.lineFragments)}
         </option>
       ))}
     </select>
