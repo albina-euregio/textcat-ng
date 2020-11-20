@@ -5,7 +5,6 @@ import {
   isSentence,
   Lang,
   LANGUAGES,
-  CurlyNameSuffix,
   FULL_STOP,
   longestCommonPrefix,
   mapLineFragment,
@@ -13,6 +12,7 @@ import {
   newPhrase,
   Phrase,
   Sentence,
+  uniqueLineFragments,
   WrittenPhrase,
   WrittenText
 } from ".";
@@ -272,13 +272,16 @@ export class TextCatalogue {
   ): IntlText {
     const phrase = this.phrase(writtenPhrase.curlyName + curlyNameSuffix);
     if (!phrase) throw new UnknownPhraseError(writtenPhrase.curlyName);
+
     const lineFragments =
       phrase?.lines[writtenPhrase.line]?.lineFragments ??
-      this.uniqueLineFragments(writtenPhrase.curlyName);
+      uniqueLineFragments(phrase) ??
+      undefined;
     if (!lineFragments && writtenPhrase.line >= 0)
       throw new UnknownLineError(writtenPhrase.line, writtenPhrase.curlyName);
     else if (!lineFragments)
       throw new UnsetPhraseError(writtenPhrase.curlyName);
+
     return lineFragments
       .map(lineFragment =>
         mapLineFragment(
@@ -292,15 +295,6 @@ export class TextCatalogue {
         )
       )
       .reduce(mergeIntlText);
-  }
-
-  uniqueLineFragments(curlyName: Identifier): string[] | undefined {
-    const fromCatalog = this.phrase(curlyName);
-    if (fromCatalog?.lines.length === 1) {
-      return fromCatalog?.lines[0].lineFragments;
-    } else {
-      return undefined;
-    }
   }
 }
 

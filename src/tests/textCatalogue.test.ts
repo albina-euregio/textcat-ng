@@ -306,7 +306,9 @@ it("should convert sentence to phrase", () =>
 it("should return the correct phrase", () =>
   expect(catalog.phrase("Verhältnisse04§wo_wann3")).toStrictEqual(woWann3));
 it("should return unique phrase line fragments", () =>
-  expect(catalog.uniqueLineFragments("Punkt")).toStrictEqual(["(-)."]));
+  expect(catalog.translatePhrase({ curlyName: "Punkt", line: -1 }, "")).toBe(
+    "(-)."
+  ));
 
 it("should translate line fragments", () => {
   const lines = catalogIT.phrase("teils_gefährliche")?.lines;

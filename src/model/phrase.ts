@@ -19,6 +19,14 @@ export function isPhrase(p?: Phrase): p is Phrase {
   return p?.$type === "Phrase";
 }
 
+export function uniqueLineFragments(phrase: Phrase): string[] | undefined {
+  if (phrase?.lines.length === 1) {
+    return phrase?.lines[0].lineFragments;
+  } else {
+    return undefined;
+  }
+}
+
 export function mapLineFragment<T>(
   lineFragment: IntlText,
   mapCurlyName: (curlyName: string, curlyNameSuffix: CurlyNameSuffix) => T,
