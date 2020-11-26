@@ -55,8 +55,6 @@ const App: FunctionalComponent = () => {
     <section>
       <h1 class="d-none">textcat-ng</h1>
 
-      <h2>{`${t("input")} `}</h2>
-
       <CatalogContext.Provider value={catalog}>
         <TextComposer
           writtenText={writtenText}
@@ -80,7 +78,7 @@ const App: FunctionalComponent = () => {
         />
       </CatalogContext.Provider>
 
-      <h2>{t("translations")}</h2>
+      <h2>{t("heading.translations")}</h2>
       <TranslationPreview translations={translations} />
       <button
         class="mt-10"

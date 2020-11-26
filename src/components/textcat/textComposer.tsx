@@ -1,11 +1,12 @@
 import { FunctionalComponent, h } from "preact";
-import { WrittenPhrase, WrittenText, Identifier } from "../../model";
-import AddSentencePane from "./addSentencePane";
+import { WrittenPhrase, WrittenText } from "../../model";
+import FilterSentencesPane from "./filterSentencesPane";
 import PhraseComposer from "./phraseComposer";
 import caretDownSquare from "bootstrap-icons/icons/caret-down-square.svg";
 import caretUpSquare from "bootstrap-icons/icons/caret-up-square.svg";
 import xSquare from "bootstrap-icons/icons/x-square.svg";
 import { t } from "../../i18n";
+import AllSentencesSelect from "./allSentencesSelect";
 
 interface Props {
   writtenText: WrittenText;
@@ -15,14 +16,14 @@ interface Props {
 }
 
 const TextComposer: FunctionalComponent<Props> = (props: Props) => {
+  const addWrittenPhrase = (phrase: WrittenPhrase): void =>
+    props.setWrittenPhrase(phrase, props.writtenText.length);
   return (
     <section>
-      <AddSentencePane
-        addWrittenPhrase={(phrase): void =>
-          props.setWrittenPhrase(phrase, props.writtenText.length)
-        }
-      />
+      <AllSentencesSelect addWrittenPhrase={addWrittenPhrase} />
+      <FilterSentencesPane addWrittenPhrase={addWrittenPhrase} />
 
+      <h2>{t("heading.selectedSentences")}</h2>
       {props.writtenText.map((writtenPhrase, index, array) => (
         <PhraseComposer
           curlyNameSuffix=""

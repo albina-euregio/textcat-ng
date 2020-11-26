@@ -1,10 +1,8 @@
 import { FunctionalComponent, h } from "preact";
 import { useContext, useMemo, useState } from "preact/hooks";
 import {
-  defaultNewSentenceCurlyName,
   SearchMode,
   newSentence,
-  sentencePreview,
   Identifier,
   WrittenPhrase
 } from "../../model";
@@ -19,8 +17,7 @@ interface Props {
   addWrittenPhrase: (writtenPhrase: WrittenPhrase) => void;
 }
 
-const AddSentencePane: FunctionalComponent<Props> = (props: Props) => {
-  const [curlyName, setCurlyName] = useState(defaultNewSentenceCurlyName());
+const FilterSentencesPane: FunctionalComponent<Props> = (props: Props) => {
   const catalog = useContext(CatalogContext);
   const [searchText, setSearchText] = useState("");
   const [searchMode, setSearchMode] = useState(SearchMode.WORDS);
@@ -50,6 +47,7 @@ const AddSentencePane: FunctionalComponent<Props> = (props: Props) => {
 
   return (
     <div class="block">
+      <h2>{`${t("heading.searchSentences")} `}</h2>
       <label class="d-flex">
         <span class="pr-10">{`${t("search")}:`}</span>
         {/* search */}
@@ -74,36 +72,13 @@ const AddSentencePane: FunctionalComponent<Props> = (props: Props) => {
           <img src={search} width={16} height={16} />
         </button>
       </label>
-      {/* dropdown for filtered sentences */}
-      <label class="d-flex mt-10">
-        <span class="pr-10">{`${t("sentence")}:`}</span>
-        <select
-          class="f-auto"
-          value={curlyName}
-          onChange={(e): void =>
-            setCurlyName((e.target as HTMLSelectElement).value)
-          }
-        >
-          {filteredSentences.map(sentence => (
-            <option key={sentence.curlyName} value={sentence.curlyName}>
-              {sentencePreview(sentence, catalog)}
-            </option>
-          ))}
-        </select>{" "}
-        <button
-          title={t("sentence.add")}
-          onClick={(): void => props.addWrittenPhrase(newSentence(curlyName))}
-        >
-          <img src={plusSquare} width={16} height={16} />
-        </button>
-      </label>
       {/* composer for filtered sentences */}
       {searchText &&
         filteredSentences
           .map(({ curlyName }) => writtenPhraseDraft(curlyName))
           .map(writtenPhrase => (
             <PhraseComposer
-              key={curlyName}
+              key={writtenPhrase.curlyName}
               curlyNameSuffix={""}
               srcRegion={""}
               writtenPhrase={writtenPhrase}
@@ -122,4 +97,4 @@ const AddSentencePane: FunctionalComponent<Props> = (props: Props) => {
   );
 };
 
-export default AddSentencePane;
+export default FilterSentencesPane;
