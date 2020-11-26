@@ -14,12 +14,13 @@ import {
   defaultLang,
   defaultWrittenPhrase,
   Lang,
-  LANGUAGES,
   WrittenText
 } from "../model";
 import TranslationPreview from "./textcat/translationPreview";
 import { usePmData } from "./textcat/pmData";
 import TextcatFooter from "./textcat/textcatFooter";
+import LanguageSelect from "./textcat/languageSelect";
+import RegionSelect from "./textcat/regionSelect";
 import { t, setI18nLang } from "../i18n";
 import checkSquare from "bootstrap-icons/icons/check-square.svg";
 
@@ -57,41 +58,12 @@ const App: FunctionalComponent = () => {
       <h2>
         {`${t("input")} `}
         <small>
-          <label>
-            {`[${t("language")}: `}
-            <select
-              value={srcLang}
-              onChange={(e): void =>
-                setSrcLang((e.target as HTMLSelectElement).value as Lang)
-              }
-            >
-              {LANGUAGES.map(lang => (
-                <option key={lang} value={lang}>
-                  {lang}
-                </option>
-              ))}
-            </select>
-            {"]"}
-          </label>{" "}
-          <label>
-            {`[${t("region")}: `}
-            <select
-              value={srcRegion}
-              onChange={(e): void =>
-                setSrcRegion((e.target as HTMLSelectElement).value)
-              }
-            >
-              <option value=""></option>
-              {Array.from(catalog.regions)
-                .sort()
-                .map(region => (
-                  <option key={region} value={region}>
-                    {region}
-                  </option>
-                ))}
-            </select>
-            {"]"}
-          </label>
+          <LanguageSelect srcLang={srcLang} setSrcLang={setSrcLang} />
+          <RegionSelect
+            regions={catalog.regions}
+            srcRegion={srcRegion}
+            setSrcRegion={setSrcRegion}
+          />
         </small>
       </h2>
 
