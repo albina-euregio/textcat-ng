@@ -9,7 +9,10 @@ import {
   mapLineFragment,
   newPhrase,
   withLine,
-  withPhrase
+  withPhrase,
+  isPhrase,
+  isSentence,
+  sentencePreview
 } from "../../model";
 
 interface Props extends WrittenTextProps {
@@ -84,17 +87,19 @@ const PhraseComposer: FunctionalComponent<Props> = (props: Props) => {
       props.curlyNameSuffix
     );
   } catch (e) {
-    summary = `{${phrase.header}}: ⚠ ${e}`;
+    summary = isSentence(phrase)
+      ? sentencePreview(phrase, catalog)
+      : `{${phrase.header}}: ⚠ ${e}`;
   }
 
   return (
-    <details open={true} class="block">
+    <details open={isPhrase(phrase)} class="block">
       <summary>
         {summary}
         {props.children}
       </summary>
       <table>
-        {phrase.$type === "Phrase" && (
+        {isPhrase(phrase) && (
           <tr>
             <td colSpan={99}>{select}</td>
           </tr>
