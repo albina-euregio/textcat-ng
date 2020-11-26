@@ -5,9 +5,11 @@ import {
   SearchMode,
   newSentence,
   sentencePreview,
+  Identifier,
   WrittenPhrase
 } from "../../model";
 import { CatalogContext } from "./contexts";
+import PhraseComposer from "./phraseComposer";
 import plusSquare from "bootstrap-icons/icons/plus-square.svg";
 import filter from "bootstrap-icons/icons/filter.svg";
 import search from "bootstrap-icons/icons/search.svg";
@@ -28,10 +30,29 @@ const AddSentencePane: FunctionalComponent<Props> = (props: Props) => {
       : catalog.sentences;
   }, [catalog, searchText, searchMode]);
 
+  const [writtenPhraseDrafts, setWrittenPhraseDrafts] = useState<
+    Record<Identifier, WrittenPhrase>
+  >({});
+  function setWrittenPhraseDraft(writtenPhrase: WrittenPhrase): void {
+    setWrittenPhraseDrafts(ps => ({
+      ...ps,
+      [writtenPhrase.curlyName]: writtenPhrase
+    }));
+  }
+  function writtenPhraseDraft(curlyName: Identifier): WrittenPhrase {
+    let phrase = writtenPhraseDrafts[curlyName];
+    if (!phrase) {
+      phrase = newSentence(curlyName);
+      setWrittenPhraseDraft(phrase);
+    }
+    return phrase;
+  }
+
   return (
     <div class="block">
       <label class="d-flex">
         <span class="pr-10">{`${t("search")}:`}</span>
+        {/* search */}
         <input
           class="f-auto"
           type="text"
@@ -53,6 +74,7 @@ const AddSentencePane: FunctionalComponent<Props> = (props: Props) => {
           <img src={search} width={16} height={16} />
         </button>
       </label>
+      {/* dropdown for filtered sentences */}
       <label class="d-flex mt-10">
         <span class="pr-10">{`${t("sentence")}:`}</span>
         <select
@@ -75,6 +97,27 @@ const AddSentencePane: FunctionalComponent<Props> = (props: Props) => {
           <img src={plusSquare} width={16} height={16} />
         </button>
       </label>
+      {/* composer for filtered sentences */}
+      {searchText &&
+        filteredSentences
+          .map(({ curlyName }) => writtenPhraseDraft(curlyName))
+          .map(writtenPhrase => (
+            <PhraseComposer
+              key={curlyName}
+              curlyNameSuffix={""}
+              srcRegion={""}
+              writtenPhrase={writtenPhrase}
+              setWrittenPhrase={(phrase): void => setWrittenPhraseDraft(phrase)}
+            >
+              {" "}
+              <button
+                title={t("sentence.add")}
+                onClick={(): void => props.addWrittenPhrase(writtenPhrase)}
+              >
+                <img src={plusSquare} width={16} height={16} />
+              </button>
+            </PhraseComposer>
+          ))}
     </div>
   );
 };
