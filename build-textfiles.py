@@ -12,6 +12,8 @@ def concat_textfile(file: pathlib.Path, dst: typing.IO):
     with file.open(encoding='utf-8-sig') as src:
         for line in src.readlines():
             line = line.strip('\r\n')
+            line = line.replace('Line: Begin: ', 'Begin: ')
+            line = line.replace('Line: End: ', 'End: ')
             print(line, file=dst)
 
 
