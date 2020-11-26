@@ -3,7 +3,9 @@ import { useContext, useMemo, useState } from "preact/hooks";
 import {
   defaultNewSentenceCurlyName,
   SearchMode,
-  sentencePreview
+  newSentence,
+  sentencePreview,
+  WrittenPhrase
 } from "../../model";
 import { CatalogContext } from "./contexts";
 import plusSquare from "bootstrap-icons/icons/plus-square.svg";
@@ -12,7 +14,7 @@ import search from "bootstrap-icons/icons/search.svg";
 import { t } from "../../i18n";
 
 interface Props {
-  addSentence: (curlyName: string) => void;
+  addWrittenPhrase: (writtenPhrase: WrittenPhrase) => void;
 }
 
 const AddSentencePane: FunctionalComponent<Props> = (props: Props) => {
@@ -68,7 +70,7 @@ const AddSentencePane: FunctionalComponent<Props> = (props: Props) => {
         </select>{" "}
         <button
           title={t("sentence.add")}
-          onClick={(): void => props.addSentence(curlyName)}
+          onClick={(): void => props.addWrittenPhrase(newSentence(curlyName))}
         >
           <img src={plusSquare} width={16} height={16} />
         </button>

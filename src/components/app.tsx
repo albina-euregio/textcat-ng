@@ -15,7 +15,6 @@ import {
   defaultWrittenPhrase,
   Lang,
   LANGUAGES,
-  newSentence,
   WrittenText
 } from "../model";
 import TranslationPreview from "./textcat/translationPreview";
@@ -106,9 +105,6 @@ const App: FunctionalComponent = () => {
               newTexts[index] = newText;
               return newTexts;
             })
-          }
-          addSentence={(curlyName): void =>
-            setWrittenText(ts => [...ts, newSentence(curlyName)])
           }
           moveSentence={(index, direction): void => {
             setWrittenText(ts =>

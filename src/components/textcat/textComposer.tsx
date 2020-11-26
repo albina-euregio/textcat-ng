@@ -11,14 +11,17 @@ interface Props {
   writtenText: WrittenText;
   srcRegion: string;
   setWrittenPhrase: (writtenPhrase: WrittenPhrase, index: number) => void;
-  addSentence: (curlyName: Identifier) => void;
   moveSentence: (index: number, direction: number) => void;
 }
 
 const TextComposer: FunctionalComponent<Props> = (props: Props) => {
   return (
     <section>
-      <AddSentencePane addSentence={props.addSentence} />
+      <AddSentencePane
+        addWrittenPhrase={(phrase): void =>
+          props.setWrittenPhrase(phrase, props.writtenText.length)
+        }
+      />
 
       {props.writtenText.map((writtenPhrase, index, array) => (
         <PhraseComposer
