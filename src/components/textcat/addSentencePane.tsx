@@ -1,6 +1,10 @@
 import { FunctionalComponent, h } from "preact";
 import { useContext, useMemo, useState } from "preact/hooks";
-import { defaultNewSentenceCurlyName, SearchMode } from "../../model";
+import {
+  defaultNewSentenceCurlyName,
+  SearchMode,
+  sentencePreview
+} from "../../model";
 import { CatalogContext } from "./contexts";
 import plusSquare from "bootstrap-icons/icons/plus-square.svg";
 import filter from "bootstrap-icons/icons/filter.svg";
@@ -56,11 +60,9 @@ const AddSentencePane: FunctionalComponent<Props> = (props: Props) => {
             setCurlyName((e.target as HTMLSelectElement).value)
           }
         >
-          {filteredSentences.map(({ curlyName, header, lines }) => (
-            <option key={curlyName} value={curlyName}>
-              {header}
-              {" \u2014 "}
-              {catalog.translateLineFragments(lines?.[0]?.lineFragments)}
+          {filteredSentences.map(sentence => (
+            <option key={sentence.curlyName} value={sentence.curlyName}>
+              {sentencePreview(sentence, catalog)}
             </option>
           ))}
         </select>{" "}
