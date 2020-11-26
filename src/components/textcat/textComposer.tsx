@@ -34,7 +34,6 @@ const TextComposer: FunctionalComponent<Props> = (props: Props) => {
             props.setWrittenPhrase(newText, index)
           }
         >
-          {" "}
           <button
             disabled={index === 0}
             onClick={(): void => props.moveSentence(index, -1)}
@@ -54,7 +53,7 @@ const TextComposer: FunctionalComponent<Props> = (props: Props) => {
             title={t("sentence.moveDown")}
           >
             <img src={caretDownSquare} width={16} height={16} />
-          </button>
+          </button>{" "}
         </PhraseComposer>
       ))}
     </section>

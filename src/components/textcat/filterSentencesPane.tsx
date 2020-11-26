@@ -51,14 +51,6 @@ const FilterSentencesPane: FunctionalComponent<Props> = (props: Props) => {
       <label class="d-flex">
         <span class="pr-10">{`${t("search")}:`}</span>
         {/* search */}
-        <input
-          class="f-auto"
-          type="text"
-          value={searchText}
-          onChange={(e): void =>
-            setSearchText((e.target as HTMLInputElement).value)
-          }
-        />
         <button
           title={t("sentence.search")}
           onClick={(): void => setSearchMode(SearchMode.WORDS)}
@@ -71,6 +63,14 @@ const FilterSentencesPane: FunctionalComponent<Props> = (props: Props) => {
         >
           <img src={search} width={16} height={16} />
         </button>
+        <input
+          class="f-auto"
+          type="text"
+          value={searchText}
+          onChange={(e): void =>
+            setSearchText((e.target as HTMLInputElement).value)
+          }
+        />
       </label>
       {/* composer for filtered sentences */}
       {searchText &&
@@ -84,13 +84,12 @@ const FilterSentencesPane: FunctionalComponent<Props> = (props: Props) => {
               writtenPhrase={writtenPhrase}
               setWrittenPhrase={(phrase): void => setWrittenPhraseDraft(phrase)}
             >
-              {" "}
               <button
                 title={t("sentence.add")}
                 onClick={(): void => props.addWrittenPhrase(writtenPhrase)}
               >
                 <img src={plusSquare} width={16} height={16} />
-              </button>
+              </button>{" "}
             </PhraseComposer>
           ))}
     </div>

@@ -95,8 +95,8 @@ const PhraseComposer: FunctionalComponent<Props> = (props: Props) => {
   return (
     <details open={isPhrase(phrase)} class="block">
       <summary>
-        {summary}
         {props.children}
+        {summary}
       </summary>
       <table>
         {isPhrase(phrase) && (

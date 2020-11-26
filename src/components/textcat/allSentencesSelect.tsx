@@ -21,6 +21,12 @@ const AllSentencesSelect: FunctionalComponent<Props> = (props: Props) => {
     <div class="block">
       <h2>{`${t("heading.allSentences")} `}</h2>
       <label class="d-flex mt-10">
+        <button
+          title={t("sentence.add")}
+          onClick={(): void => props.addWrittenPhrase(newSentence(curlyName))}
+        >
+          <img src={plusSquare} width={16} height={16} />
+        </button>
         <select
           class="f-auto"
           value={curlyName}
@@ -33,13 +39,7 @@ const AllSentencesSelect: FunctionalComponent<Props> = (props: Props) => {
               {sentencePreview(sentence, catalog)}
             </option>
           ))}
-        </select>{" "}
-        <button
-          title={t("sentence.add")}
-          onClick={(): void => props.addWrittenPhrase(newSentence(curlyName))}
-        >
-          <img src={plusSquare} width={16} height={16} />
-        </button>
+        </select>
       </label>
     </div>
   );
