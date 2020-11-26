@@ -1,7 +1,11 @@
-import { FunctionalComponent, h } from "preact";
+import { FunctionalComponent, h, ComponentChildren } from "preact";
 import { t } from "../../i18n";
 
-const TextcatFooter: FunctionalComponent = () => (
+interface Props {
+  children?: ComponentChildren;
+}
+
+const TextcatFooter: FunctionalComponent = (props: Props) => (
   <footer>
     <hr />
     <ul class="inline">
@@ -31,6 +35,7 @@ const TextcatFooter: FunctionalComponent = () => (
           GPL v3
         </a>
       </li>
+      {props.children}
     </ul>
   </footer>
 );

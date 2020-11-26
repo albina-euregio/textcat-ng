@@ -55,17 +55,7 @@ const App: FunctionalComponent = () => {
     <section>
       <h1 class="d-none">textcat-ng</h1>
 
-      <h2>
-        {`${t("input")} `}
-        <small>
-          <LanguageSelect srcLang={srcLang} setSrcLang={setSrcLang} />
-          <RegionSelect
-            regions={catalog.regions}
-            srcRegion={srcRegion}
-            setSrcRegion={setSrcRegion}
-          />
-        </small>
-      </h2>
+      <h2>{`${t("input")} `}</h2>
 
       <CatalogContext.Provider value={catalog}>
         <TextComposer
@@ -100,7 +90,18 @@ const App: FunctionalComponent = () => {
         <img src={checkSquare}></img> {t("translations.submit")}
       </button>
 
-      <TextcatFooter />
+      <TextcatFooter>
+        <li>
+          <LanguageSelect srcLang={srcLang} setSrcLang={setSrcLang} />
+        </li>
+        <li>
+          <RegionSelect
+            regions={catalog.regions}
+            srcRegion={srcRegion}
+            setSrcRegion={setSrcRegion}
+          />
+        </li>
+      </TextcatFooter>
     </section>
   );
 };
