@@ -10,7 +10,7 @@ import { t } from "../../i18n";
 interface Props {
   writtenText: WrittenText;
   srcRegion: string;
-  updateWrittenPhrase: (writtenPhrase: WrittenPhrase, index: number) => void;
+  setWrittenPhrase: (writtenPhrase: WrittenPhrase, index: number) => void;
   addSentence: (curlyName: Identifier) => void;
   moveSentence: (index: number, direction: number) => void;
 }
@@ -27,7 +27,7 @@ const TextComposer: FunctionalComponent<Props> = (props: Props) => {
           key={index}
           writtenPhrase={writtenPhrase}
           setWrittenPhrase={(newText: WrittenPhrase): void =>
-            props.updateWrittenPhrase(newText, index)
+            props.setWrittenPhrase(newText, index)
           }
         >
           {" "}

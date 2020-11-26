@@ -100,7 +100,7 @@ const App: FunctionalComponent = () => {
         <TextComposer
           writtenText={writtenText}
           srcRegion={srcRegion}
-          updateWrittenPhrase={(newText, index): void =>
+          setWrittenPhrase={(newText, index): void =>
             setWrittenText(ts => {
               const newTexts = [...ts];
               newTexts[index] = newText;
