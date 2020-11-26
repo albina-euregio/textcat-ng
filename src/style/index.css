@@ -75,6 +75,13 @@ td {
 .f-auto {
   flex: auto;
 }
+.f-truncate {
+  /* https://css-tricks.com/flexbox-truncated-text/ */
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
 
 footer {
   opacity: 0.8;

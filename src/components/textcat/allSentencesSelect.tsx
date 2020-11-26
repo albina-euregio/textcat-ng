@@ -28,7 +28,7 @@ const AllSentencesSelect: FunctionalComponent<Props> = (props: Props) => {
           <img src={plusSquare} width={16} height={16} />
         </button>
         <select
-          class="f-auto"
+          class="f-auto f-truncate"
           value={curlyName}
           onChange={(e): void =>
             setCurlyName((e.target as HTMLSelectElement).value)
