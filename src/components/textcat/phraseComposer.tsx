@@ -58,7 +58,6 @@ const PhraseComposer: FunctionalComponent<Props> = (props: Props) => {
     !region || !props.srcRegion || props.srcRegion === region;
   const select = (
     <select
-      class="max-width-12"
       size={line >= 0 ? 1 : phrase.lines.length + 1}
       disabled={phrase.lines.length === 1}
       value={line}
