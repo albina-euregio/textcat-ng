@@ -337,6 +337,31 @@ it("should translate a text to DE and IT", () =>
     it:
       "Al di fuori delle piste assicurate, la situazione valanghiva è ancora molto critica."
   }));
+it("should handle punctuation correctly", () => {
+  const catalogue = new TextCatalogue("en");
+  catalogue.parse(`
+ST_Header: FOO_BAR
+ST_CurlyName: FOO_BAR
+RS_CurlyName: foo
+RS_CurlyName: Doppelpunkt
+RS_CurlyName: bar
+
+RS_Header: foo
+RS_CurlyName: foo
+Line: foo
+
+RS_Header: bar
+RS_CurlyName: bar
+Line: bar.
+
+RS_Header: Doppelpunkt
+RS_CurlyName: Doppelpunkt
+Line: (-):
+`);
+  expect(catalogue.translate([{ curlyName: "FOO_BAR", line: 0 }])).toBe(
+    "Foo: bar."
+  );
+});
 it("should fix the typography", () => {
   const catalogue = new TextCatalogue("en");
   catalogue.parse(

@@ -155,7 +155,9 @@ export class TextCatalogue {
       if (!line) {
         return;
       }
-      const [key, value] = line.split(/\s*:\s*/, 2);
+      const colonIndex = line.indexOf(":");
+      const key = line.substring(0, colonIndex).trim();
+      const value = line.substring(colonIndex + 1).trim();
       switch (key) {
         case "ST_Header":
           current = {
