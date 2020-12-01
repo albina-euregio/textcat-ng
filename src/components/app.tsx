@@ -9,13 +9,7 @@ import {
 } from "../model";
 import { CatalogContext } from "./textcat/contexts";
 import TextComposer from "./textcat/textComposer";
-import {
-  arrayMove,
-  defaultLang,
-  defaultWrittenPhrase,
-  Lang,
-  WrittenText
-} from "../model";
+import { arrayMove, defaultLang, Lang, WrittenText } from "../model";
 import TranslationPreview from "./textcat/translationPreview";
 import { usePmData } from "./textcat/pmData";
 import TextcatFooter from "./textcat/textcatFooter";
@@ -36,9 +30,7 @@ const App: FunctionalComponent = () => {
     setI18nLang(srcLang);
   }, [srcLang]);
 
-  const [writtenText, setWrittenText] = useState<WrittenText>([
-    defaultWrittenPhrase()
-  ]);
+  const [writtenText, setWrittenText] = useState<WrittenText>([]);
 
   const [catalogs, setCatalogs] = useState<TextCatalogue[]>([]);
   useEffect(() => {
