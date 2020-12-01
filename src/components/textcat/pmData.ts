@@ -22,6 +22,26 @@ interface TextcatLegacyOut {
   textCa: string;
 }
 
+function parsePmData(event: MessageEvent): TextcatLegacyIn | undefined {
+  if (typeof event.data !== "string") return;
+  if (!event.data.startsWith("{")) return;
+  const pmData = JSON.parse(event.data) as TextcatLegacyIn;
+  if (typeof pmData.textDef !== "string") return;
+  console.log("Received pmData", pmData);
+  return pmData;
+}
+
+/**
+ * Messages received before `usePmData.useEffect` has been called.
+ */
+const PM_DATA_QUEUE: TextcatLegacyIn[] = [];
+function receiveInitialPmData(event: MessageEvent): void {
+  const pmData = parsePmData(event);
+  if (!pmData) return;
+  PM_DATA_QUEUE.push(pmData);
+}
+window.addEventListener("message", receiveInitialPmData);
+
 // interoperability with albina-admin-gui: send/receive pmData messages
 export function usePmData(
   setSrcLang: StateUpdater<Lang>,
@@ -33,11 +53,9 @@ export function usePmData(
   const [textField, setTextField] = useState("");
 
   useEffect(() => {
-    function receivePmData(event: MessageEvent): void {
-      if (typeof event.data !== "string") return;
-      const pmData = JSON.parse(event.data) as TextcatLegacyIn;
-      if (typeof pmData.textDef !== "string") return;
-      console.log("Received message", pmData);
+    function processPmData(pmData: TextcatLegacyIn | undefined): void {
+      if (!pmData) return;
+      console.log("Processing pmData", pmData);
       setTextField(pmData.textField);
       setSrcLang(pmData.currentLang);
       setSrcRegion(pmData.region ?? "");
@@ -46,6 +64,11 @@ export function usePmData(
         : [];
       setWrittenText(text);
     }
+    function receivePmData(event: MessageEvent): void {
+      processPmData(parsePmData(event));
+    }
+    window.removeEventListener("message", receiveInitialPmData);
+    PM_DATA_QUEUE.forEach(pmData => processPmData(pmData));
     window.addEventListener("message", receivePmData);
     return (): void => window.removeEventListener("message", receivePmData);
   }, [setSrcLang, setSrcRegion, setWrittenText, setTextField]);
