@@ -12,6 +12,8 @@ export const LANGUAGES: readonly Lang[] = Object.freeze([
   "it"
 ]);
 
+export const DEFAULT_LANG: Lang = "de";
+
 export type IntlText = string;
 
 export function mergeIntlText(text1: IntlText, text2: IntlText): IntlText {

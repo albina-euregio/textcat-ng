@@ -9,7 +9,7 @@ import {
 } from "../model";
 import { CatalogContext } from "./textcat/contexts";
 import TextComposer from "./textcat/textComposer";
-import { arrayMove, defaultLang, Lang, WrittenText } from "../model";
+import { arrayMove, DEFAULT_LANG, Lang, WrittenText } from "../model";
 import TranslationPreview from "./textcat/translationPreview";
 import { usePmData } from "./textcat/pmData";
 import TextcatFooter from "./textcat/textcatFooter";
@@ -21,7 +21,7 @@ import checkSquare from "bootstrap-icons/icons/check-square.svg";
 const App: FunctionalComponent = () => {
   const [srcRegion, setSrcRegion] = useState<string>("");
 
-  const [srcLang, setSrcLang] = useState<Lang>(defaultLang());
+  const [srcLang, setSrcLang] = useState<Lang>(DEFAULT_LANG);
   const [catalog, setCatalog] = useState<TextCatalogue>(
     new TextCatalogue(srcLang)
   );

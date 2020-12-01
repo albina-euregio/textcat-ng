@@ -1,4 +1,4 @@
-import { Lang, defaultLang } from "../model";
+import { Lang, DEFAULT_LANG } from "../model";
 
 import ca from "./ca.json";
 import de from "./de.json";
@@ -15,7 +15,7 @@ const i18nMessages: Partial<Record<Lang, Record<string, string>>> = {
   it
 };
 
-let lang: Lang = defaultLang();
+let lang: Lang = DEFAULT_LANG;
 
 export function setI18nLang(l: Lang): void {
   lang = l;
