@@ -1,5 +1,5 @@
 import { ComponentChildren, FunctionalComponent, h } from "preact";
-import { useContext } from "preact/hooks";
+import { useContext, useMemo } from "preact/hooks";
 import { CatalogContext } from "./contexts";
 import {
   CurlyNameSuffix,
@@ -26,6 +26,21 @@ const PhraseComposer: FunctionalComponent<Props> = (props: Props) => {
   const phrase = catalog.phrase(
     props.writtenPhrase.curlyName + props.curlyNameSuffix
   );
+
+  const summary = useMemo((): string => {
+    if (!phrase) return "";
+    try {
+      return catalog.translatePhrase(
+        props.writtenPhrase,
+        props.curlyNameSuffix
+      );
+    } catch (e) {
+      return isSentence(phrase)
+        ? sentencePreview(phrase, catalog)
+        : `{${phrase.header}}: ⚠ ${e}`;
+    }
+  }, [catalog, phrase, props.writtenPhrase, props.curlyNameSuffix]);
+
   if (!phrase) return <div></div>;
 
   const line = phrase.lines.length === 1 ? 0 : props.writtenPhrase.line;
@@ -78,18 +93,6 @@ const PhraseComposer: FunctionalComponent<Props> = (props: Props) => {
       ))}
     </select>
   );
-
-  let summary;
-  try {
-    summary = catalog.translatePhrase(
-      props.writtenPhrase,
-      props.curlyNameSuffix
-    );
-  } catch (e) {
-    summary = isSentence(phrase)
-      ? sentencePreview(phrase, catalog)
-      : `{${phrase.header}}: ⚠ ${e}`;
-  }
 
   return (
     <details open={isPhrase(phrase)} class="block">
