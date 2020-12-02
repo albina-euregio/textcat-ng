@@ -1,5 +1,5 @@
 import {
-  Identifier,
+  CurlyName,
   IntlText,
   isPhrase,
   isSentence,
@@ -43,7 +43,7 @@ export enum SearchMode {
 
 export class TextCatalogue {
   public readonly lang: Lang;
-  private data: Record<Identifier, Phrase> = {};
+  private data: Record<CurlyName, Phrase> = {};
   public sentences: Sentence[] = [];
   public phrases: Phrase[] = [];
   public readonly regions: Set<string> = new Set<string>();
@@ -53,7 +53,7 @@ export class TextCatalogue {
     this.lang = lang;
   }
 
-  sentence(curlyName: Identifier): Sentence | undefined {
+  sentence(curlyName: CurlyName): Sentence | undefined {
     const sentence = this.data[curlyName];
     return isSentence(sentence) ? sentence : undefined;
   }
@@ -144,7 +144,7 @@ export class TextCatalogue {
     );
   }
 
-  phrase(curlyName: Identifier): Phrase | undefined {
+  phrase(curlyName: CurlyName): Phrase | undefined {
     return this.data[curlyName];
   }
 

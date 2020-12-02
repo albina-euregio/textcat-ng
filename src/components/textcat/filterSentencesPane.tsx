@@ -1,11 +1,6 @@
 import { FunctionalComponent, h } from "preact";
 import { useContext, useMemo, useState } from "preact/hooks";
-import {
-  SearchMode,
-  newSentence,
-  Identifier,
-  WrittenPhrase
-} from "../../model";
+import { SearchMode, newSentence, CurlyName, WrittenPhrase } from "../../model";
 import { CatalogContext } from "./contexts";
 import PhraseComposer from "./phraseComposer";
 import plusSquare from "bootstrap-icons/icons/plus-square.svg";
@@ -28,7 +23,7 @@ const FilterSentencesPane: FunctionalComponent<Props> = (props: Props) => {
   }, [catalog, searchText, searchMode]);
 
   const [writtenPhraseDrafts, setWrittenPhraseDrafts] = useState<
-    Record<Identifier, WrittenPhrase>
+    Record<CurlyName, WrittenPhrase>
   >({});
   function setWrittenPhraseDraft(writtenPhrase: WrittenPhrase): void {
     setWrittenPhraseDrafts(ps => ({
@@ -36,7 +31,7 @@ const FilterSentencesPane: FunctionalComponent<Props> = (props: Props) => {
       [writtenPhrase.curlyName]: writtenPhrase
     }));
   }
-  function writtenPhraseDraft(curlyName: Identifier): WrittenPhrase {
+  function writtenPhraseDraft(curlyName: CurlyName): WrittenPhrase {
     let phrase = writtenPhraseDrafts[curlyName];
     if (!phrase) {
       phrase = newSentence(curlyName);

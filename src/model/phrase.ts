@@ -1,8 +1,10 @@
-import { Identifier, IntlText } from ".";
+import { IntlText } from ".";
+
+export type CurlyName = string;
 
 export interface Phrase {
   $type: "Phrase" | "Sentence";
-  curlyName: Identifier;
+  curlyName: CurlyName;
   header: string;
   lines: {
     line: IntlText;
@@ -29,7 +31,7 @@ export function uniqueLineFragments(phrase: Phrase): string[] | undefined {
 
 export function mapLineFragment<T>(
   lineFragment: IntlText,
-  mapCurlyName: (curlyName: string, curlyNameSuffix: CurlyNameSuffix) => T,
+  mapCurlyName: (curlyName: CurlyName, curlyNameSuffix: CurlyNameSuffix) => T,
   mapText: (text: IntlText) => T
 ): T {
   return lineFragment?.startsWith("{") && lineFragment?.endsWith("_NO}")

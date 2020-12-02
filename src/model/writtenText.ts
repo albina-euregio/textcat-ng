@@ -1,9 +1,9 @@
-import { Identifier } from ".";
+import { CurlyName } from ".";
 
 export interface WrittenPhrase {
-  curlyName: Identifier;
+  curlyName: CurlyName;
   line: number;
-  args?: Record<Identifier, WrittenPhrase>;
+  args?: Record<CurlyName, WrittenPhrase>;
 }
 
 export type WrittenText = WrittenPhrase[];
@@ -13,14 +13,14 @@ export interface WrittenTextProps {
   setWrittenPhrase: (writtenPhrase: WrittenPhrase) => void;
 }
 
-export function newSentence(curlyName: string): WrittenPhrase {
+export function newSentence(curlyName: CurlyName): WrittenPhrase {
   return {
     curlyName,
     line: 0
   };
 }
 
-export function newPhrase(curlyName: string, line = -1): WrittenPhrase {
+export function newPhrase(curlyName: CurlyName, line = -1): WrittenPhrase {
   return {
     curlyName,
     line
