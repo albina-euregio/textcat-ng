@@ -30,10 +30,13 @@ const PhraseComposer: FunctionalComponent<Props> = (props: Props) => {
   const summary = useMemo((): string => {
     if (!phrase) return "";
     try {
-      return catalog.translatePhrase(
+      const translation = catalog.translatePhrase(
         props.writtenPhrase,
         props.curlyNameSuffix
       );
+      return isSentence(phrase)
+        ? sentencePreview(phrase, catalog, translation)
+        : translation;
     } catch (e) {
       return isSentence(phrase)
         ? sentencePreview(phrase, catalog)
