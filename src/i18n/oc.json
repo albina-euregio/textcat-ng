@@ -1,7 +1,9 @@
 {
-  "input": "Entrada",
+  "heading.allSentences": "Totes es frases",
+  "heading.searchSentences": "Cercar frases",
+  "heading.selectedSentences": "Frases seleccionades",
+  "heading.translations": "Revirades",
   "language": "Idiòma",
-  "output": "Gessuda",
   "region": "Region",
   "search": "Cercar",
   "sentence.add": "Íger frasa",
@@ -11,9 +13,9 @@
   "sentence.search": "Cercar frasa",
   "sentence.search.prefix": "Cercar frasa per prefixe",
   "sentence": "Frasa",
-  "showDetails": "Mostrar detalhs",
-  "translation": "Revirada",
   "translations.submit": "Enviar revirades",
-  "translations": "Revirades",
+  "unknownLine": "Linha desconeishuda $1 en $2!",
+  "unknownPhrase": "Frase desconeshuda $1!",
+  "unsetPhrase": "Frase non definida $1!",
   "version": "Version"
 }

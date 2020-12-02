@@ -1,7 +1,9 @@
 {
-  "input": "Entrada",
+  "heading.allSentences": "Totes les frases",
+  "heading.searchSentences": "Buscar frases",
+  "heading.selectedSentences": "Frases seleccionades",
+  "heading.translations": "Traduccions",
   "language": "Idioma",
-  "output": "Sortida",
   "region": "Regió",
   "search": "Cercar",
   "sentence.add": "Afegir frase",
@@ -11,9 +13,9 @@
   "sentence.search": "Cercar frase",
   "sentence.search.prefix": "Cercar frase per prefix",
   "sentence": "Frase",
-  "showDetails": "Mostrar detalls",
-  "translation": "Traducció",
   "translations.submit": "Enviar traduccions",
-  "translations": "Traduccions",
+  "unknownLine": "Línia desconeguda $1 en $2!",
+  "unknownPhrase": "Frase desconeguda $1!",
+  "unsetPhrase": "Frase sense definir $1!",
   "version": "Versió"
 }
