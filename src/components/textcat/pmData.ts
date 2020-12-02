@@ -13,13 +13,13 @@ interface TextcatLegacyIn {
 interface TextcatLegacyOut {
   textDef: string;
   textField: string;
-  textAr: string;
   textDe: string;
   textIt: string;
   textEn: string;
   textEs: string;
   textFr: string;
   textCa: string;
+  textOc: string;
 }
 
 function parsePmData(event: MessageEvent): TextcatLegacyIn | undefined {
@@ -80,13 +80,13 @@ export function usePmData(
     const pmData: TextcatLegacyOut = {
       textDef: JSON.stringify(writtenText),
       textField,
-      textAr: translations.ar,
       textCa: translations.ca,
       textDe: translations.de,
       textEn: translations.en,
       textEs: translations.es,
       textFr: translations.fr,
-      textIt: translations.it
+      textIt: translations.it,
+      textOc: translations.oc
     };
     console.log("Sending message", pmData);
     if (window.parent.opener) {
