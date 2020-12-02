@@ -6,13 +6,15 @@ import en from "./en.json";
 import es from "./es.json";
 import fr from "./fr.json";
 import it from "./it.json";
+import oc from "./oc.json";
 const i18nMessages: Partial<Record<Lang, Record<string, string>>> = {
   ca,
   de,
   en,
   es,
   fr,
-  it
+  it,
+  oc
 };
 
 let lang: Lang = DEFAULT_LANG;

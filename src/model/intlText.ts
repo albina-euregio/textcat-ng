@@ -1,15 +1,29 @@
 export type Identifier = string;
 
-export type Lang = "ar" | "ca" | "de" | "en" | "es" | "fr" | "it";
+export type Lang =
+  /** Catalan language */
+  | "ca"
+  /** German */
+  | "de"
+  /** English */
+  | "en"
+  /** Spanish */
+  | "es"
+  /** French */
+  | "fr"
+  /** Italian */
+  | "it"
+  /** Occitan language */
+  | "oc";
 
 export const LANGUAGES: readonly Lang[] = Object.freeze([
-  "ar",
   "ca",
   "de",
   "en",
   "es",
   "fr",
-  "it"
+  "it",
+  "oc"
 ]);
 
 export const DEFAULT_LANG: Lang = "de";
