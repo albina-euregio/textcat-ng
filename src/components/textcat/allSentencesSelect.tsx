@@ -3,6 +3,7 @@ import { useContext, useState } from "preact/hooks";
 import { t } from "../../i18n";
 import { sentencePreview, WrittenPhrase, newSentence } from "../../model";
 import { CatalogContext } from "./contexts";
+import PlusSquare from "../bootstrap-icons/plus-square";
 
 interface Props {
   addWrittenPhrase: (writtenPhrase: WrittenPhrase) => void;
@@ -20,7 +21,7 @@ const AllSentencesSelect: FunctionalComponent<Props> = (props: Props) => {
           disabled={!curlyName}
           onClick={(): void => props.addWrittenPhrase(newSentence(curlyName))}
         >
-          <span class="bootstrap-icon bi-plus-square"></span>
+          <PlusSquare />
         </button>
         <select
           class="f-auto f-truncate"

@@ -4,6 +4,9 @@ import FilterSentencesPane from "./filterSentencesPane";
 import PhraseComposer from "./phraseComposer";
 import { t } from "../../i18n";
 import AllSentencesSelect from "./allSentencesSelect";
+import CaretUpSquare from "../bootstrap-icons/caret-up-square";
+import XSquare from "../bootstrap-icons/x-square";
+import CaretDownSquare from "../bootstrap-icons/caret-down-square";
 
 interface Props {
   writtenText: WrittenText;
@@ -36,20 +39,20 @@ const TextComposer: FunctionalComponent<Props> = (props: Props) => {
             onClick={(): void => props.moveSentence(index, -1)}
             title={t("sentence.moveUp")}
           >
-            <span class="bootstrap-icon bi-caret-up-square"></span>
+            <CaretUpSquare />
           </button>
           <button
             onClick={(): void => props.moveSentence(index, 0)}
             title={t("sentence.remove")}
           >
-            <span class="bootstrap-icon bi-x-square"></span>
+            <XSquare />
           </button>
           <button
             disabled={index >= array.length - 1}
             onClick={(): void => props.moveSentence(index, +1)}
             title={t("sentence.moveDown")}
           >
-            <span class="bootstrap-icon bi-caret-down-square"></span>
+            <CaretDownSquare />
           </button>{" "}
         </PhraseComposer>
       ))}

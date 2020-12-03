@@ -16,6 +16,7 @@ import TextcatFooter from "./textcat/textcatFooter";
 import LanguageSelect from "./textcat/languageSelect";
 import RegionSelect from "./textcat/regionSelect";
 import { t, setI18nLang } from "../i18n";
+import CheckSquare from "./bootstrap-icons/check-square";
 
 const App: FunctionalComponent = () => {
   const [srcRegion, setSrcRegion] = useState<string>("");
@@ -76,7 +77,7 @@ const App: FunctionalComponent = () => {
         type="submit"
         onClick={(): void => postPmData(writtenText, translations)}
       >
-        <span class="bootstrap-icon bi-check-square"></span>
+        <CheckSquare />
         {t("translations.submit")}
       </button>
 

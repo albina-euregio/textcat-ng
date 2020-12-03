@@ -4,6 +4,9 @@ import { SearchMode, newSentence, CurlyName, WrittenPhrase } from "../../model";
 import { CatalogContext } from "./contexts";
 import PhraseComposer from "./phraseComposer";
 import { t } from "../../i18n";
+import Filter from "../bootstrap-icons/filter";
+import Search from "../bootstrap-icons/search";
+import PlusSquare from "../bootstrap-icons/plus-square";
 
 interface Props {
   addWrittenPhrase: (writtenPhrase: WrittenPhrase) => void;
@@ -47,13 +50,13 @@ const FilterSentencesPane: FunctionalComponent<Props> = (props: Props) => {
           title={t("sentence.search")}
           onClick={(): void => setSearchMode(SearchMode.WORDS)}
         >
-          <span class="bootstrap-icon bi-filter"></span>
+          <Filter />
         </button>
         <button
           title={t("sentence.search.prefix")}
           onClick={(): void => setSearchMode(SearchMode.PREFIX)}
         >
-          <span class="bootstrap-icon bi-search"></span>
+          <Search />
         </button>
         <input
           class="f-auto"
@@ -80,7 +83,7 @@ const FilterSentencesPane: FunctionalComponent<Props> = (props: Props) => {
                 title={t("sentence.add")}
                 onClick={(): void => props.addWrittenPhrase(writtenPhrase)}
               >
-                <span class="bootstrap-icon bi-plus-square"></span>
+                <PlusSquare />
               </button>{" "}
             </PhraseComposer>
           ))}
