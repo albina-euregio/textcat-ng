@@ -95,3 +95,34 @@ ul.inline > li {
 ul.inline > li:nth-child(n + 2)::before {
   content: " • ";
 }
+
+.bootstrap-icon::before {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  content: "";
+  background-repeat: no-repeat;
+  background-size: 1rem 1rem;
+  padding-right: 0.5rem;
+}
+.bi-caret-down-square::before {
+  background-image: url("/node_modules/bootstrap-icons/icons/caret-down-square.svg");
+}
+.bi-caret-up-square::before {
+  background-image: url("/node_modules/bootstrap-icons/icons/caret-up-square.svg");
+}
+.bi-check-square::before {
+  background-image: url("/node_modules/bootstrap-icons/icons/check-square.svg");
+}
+.bi-filter::before {
+  background-image: url("/node_modules/bootstrap-icons/icons/filter.svg");
+}
+.bi-plus-square::before {
+  background-image: url("/node_modules/bootstrap-icons/icons/plus-square.svg");
+}
+.bi-search::before {
+  background-image: url("/node_modules/bootstrap-icons/icons/search.svg");
+}
+.bi-x-square::before {
+  background-image: url("/node_modules/bootstrap-icons/icons/x-square.svg");
+}

@@ -36,32 +36,20 @@ const TextComposer: FunctionalComponent<Props> = (props: Props) => {
             onClick={(): void => props.moveSentence(index, -1)}
             title={t("sentence.moveUp")}
           >
-            <img
-              src="node_modules/bootstrap-icons/icons/caret-up-square.svg"
-              width={16}
-              height={16}
-            />
+            <span class="bootstrap-icon bi-caret-up-square"></span>
           </button>
           <button
             onClick={(): void => props.moveSentence(index, 0)}
             title={t("sentence.remove")}
           >
-            <img
-              src="node_modules/bootstrap-icons/icons/x-square.svg"
-              width={16}
-              height={16}
-            />
+            <span class="bootstrap-icon bi-x-square"></span>
           </button>
           <button
             disabled={index >= array.length - 1}
             onClick={(): void => props.moveSentence(index, +1)}
             title={t("sentence.moveDown")}
           >
-            <img
-              src="node_modules/bootstrap-icons/icons/caret-down-square.svg"
-              width={16}
-              height={16}
-            />
+            <span class="bootstrap-icon bi-caret-down-square"></span>
           </button>{" "}
         </PhraseComposer>
       ))}

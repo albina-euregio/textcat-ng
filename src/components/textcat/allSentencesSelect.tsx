@@ -20,11 +20,7 @@ const AllSentencesSelect: FunctionalComponent<Props> = (props: Props) => {
           disabled={!curlyName}
           onClick={(): void => props.addWrittenPhrase(newSentence(curlyName))}
         >
-          <img
-            src="node_modules/bootstrap-icons/icons/plus-square.svg"
-            width={16}
-            height={16}
-          />
+          <span class="bootstrap-icon bi-plus-square"></span>
         </button>
         <select
           class="f-auto f-truncate"

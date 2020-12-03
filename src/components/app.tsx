@@ -76,7 +76,7 @@ const App: FunctionalComponent = () => {
         type="submit"
         onClick={(): void => postPmData(writtenText, translations)}
       >
-        <img src="node_modules/bootstrap-icons/icons/check-square.svg"></img>{" "}
+        <span class="bootstrap-icon bi-check-square"></span>
         {t("translations.submit")}
       </button>
 

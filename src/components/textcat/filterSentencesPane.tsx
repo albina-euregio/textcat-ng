@@ -47,21 +47,13 @@ const FilterSentencesPane: FunctionalComponent<Props> = (props: Props) => {
           title={t("sentence.search")}
           onClick={(): void => setSearchMode(SearchMode.WORDS)}
         >
-          <img
-            src="node_modules/bootstrap-icons/icons/filter.svg"
-            width={16}
-            height={16}
-          />
+          <span class="bootstrap-icon bi-filter"></span>
         </button>
         <button
           title={t("sentence.search.prefix")}
           onClick={(): void => setSearchMode(SearchMode.PREFIX)}
         >
-          <img
-            src="node_modules/bootstrap-icons/icons/search.svg"
-            width={16}
-            height={16}
-          />
+          <span class="bootstrap-icon bi-search"></span>
         </button>
         <input
           class="f-auto"
@@ -88,11 +80,7 @@ const FilterSentencesPane: FunctionalComponent<Props> = (props: Props) => {
                 title={t("sentence.add")}
                 onClick={(): void => props.addWrittenPhrase(writtenPhrase)}
               >
-                <img
-                  src="node_modules/bootstrap-icons/icons/plus-square.svg"
-                  width={16}
-                  height={16}
-                />
+                <span class="bootstrap-icon bi-plus-square"></span>
               </button>{" "}
             </PhraseComposer>
           ))}
