@@ -1,6 +1,5 @@
 import { FunctionalComponent, h } from "preact";
 import { useContext, useState } from "preact/hooks";
-import plusSquare from "bootstrap-icons/icons/plus-square.svg";
 import { t } from "../../i18n";
 import { sentencePreview, WrittenPhrase, newSentence } from "../../model";
 import { CatalogContext } from "./contexts";
@@ -21,7 +20,11 @@ const AllSentencesSelect: FunctionalComponent<Props> = (props: Props) => {
           disabled={!curlyName}
           onClick={(): void => props.addWrittenPhrase(newSentence(curlyName))}
         >
-          <img src={plusSquare} width={16} height={16} />
+          <img
+            src="node_modules/bootstrap-icons/icons/plus-square.svg"
+            width={16}
+            height={16}
+          />
         </button>
         <select
           class="f-auto f-truncate"

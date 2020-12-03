@@ -7,7 +7,7 @@ import {
   mapLineFragment,
   translateAll,
   SearchMode
-} from "../model";
+} from ".";
 
 /**
  * > cat DE/Ranges/Verhältnisse04§wo_wann3.txt

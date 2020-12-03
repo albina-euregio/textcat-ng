@@ -18,8 +18,7 @@ module.exports = {
   parserOptions: {
     ecmaFeatures: {
       jsx: true
-    },
-    project: "./tsconfig.eslint.json"
+    }
   },
   rules: {
     "prettier/prettier": "warn",

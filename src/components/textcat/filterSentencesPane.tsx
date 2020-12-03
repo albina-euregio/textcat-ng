@@ -3,9 +3,6 @@ import { useContext, useMemo, useState } from "preact/hooks";
 import { SearchMode, newSentence, CurlyName, WrittenPhrase } from "../../model";
 import { CatalogContext } from "./contexts";
 import PhraseComposer from "./phraseComposer";
-import plusSquare from "bootstrap-icons/icons/plus-square.svg";
-import filter from "bootstrap-icons/icons/filter.svg";
-import search from "bootstrap-icons/icons/search.svg";
 import { t } from "../../i18n";
 
 interface Props {
@@ -50,13 +47,21 @@ const FilterSentencesPane: FunctionalComponent<Props> = (props: Props) => {
           title={t("sentence.search")}
           onClick={(): void => setSearchMode(SearchMode.WORDS)}
         >
-          <img src={filter} width={16} height={16} />
+          <img
+            src="node_modules/bootstrap-icons/icons/filter.svg"
+            width={16}
+            height={16}
+          />
         </button>
         <button
           title={t("sentence.search.prefix")}
           onClick={(): void => setSearchMode(SearchMode.PREFIX)}
         >
-          <img src={search} width={16} height={16} />
+          <img
+            src="node_modules/bootstrap-icons/icons/search.svg"
+            width={16}
+            height={16}
+          />
         </button>
         <input
           class="f-auto"
@@ -83,7 +88,11 @@ const FilterSentencesPane: FunctionalComponent<Props> = (props: Props) => {
                 title={t("sentence.add")}
                 onClick={(): void => props.addWrittenPhrase(writtenPhrase)}
               >
-                <img src={plusSquare} width={16} height={16} />
+                <img
+                  src="node_modules/bootstrap-icons/icons/plus-square.svg"
+                  width={16}
+                  height={16}
+                />
               </button>{" "}
             </PhraseComposer>
           ))}

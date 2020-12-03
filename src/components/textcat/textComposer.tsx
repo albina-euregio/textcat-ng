@@ -2,9 +2,6 @@ import { FunctionalComponent, h } from "preact";
 import { WrittenPhrase, WrittenText } from "../../model";
 import FilterSentencesPane from "./filterSentencesPane";
 import PhraseComposer from "./phraseComposer";
-import caretDownSquare from "bootstrap-icons/icons/caret-down-square.svg";
-import caretUpSquare from "bootstrap-icons/icons/caret-up-square.svg";
-import xSquare from "bootstrap-icons/icons/x-square.svg";
 import { t } from "../../i18n";
 import AllSentencesSelect from "./allSentencesSelect";
 
@@ -39,20 +36,32 @@ const TextComposer: FunctionalComponent<Props> = (props: Props) => {
             onClick={(): void => props.moveSentence(index, -1)}
             title={t("sentence.moveUp")}
           >
-            <img src={caretUpSquare} width={16} height={16} />
+            <img
+              src="node_modules/bootstrap-icons/icons/caret-up-square.svg"
+              width={16}
+              height={16}
+            />
           </button>
           <button
             onClick={(): void => props.moveSentence(index, 0)}
             title={t("sentence.remove")}
           >
-            <img src={xSquare} width={16} height={16} />
+            <img
+              src="node_modules/bootstrap-icons/icons/x-square.svg"
+              width={16}
+              height={16}
+            />
           </button>
           <button
             disabled={index >= array.length - 1}
             onClick={(): void => props.moveSentence(index, +1)}
             title={t("sentence.moveDown")}
           >
-            <img src={caretDownSquare} width={16} height={16} />
+            <img
+              src="node_modules/bootstrap-icons/icons/caret-down-square.svg"
+              width={16}
+              height={16}
+            />
           </button>{" "}
         </PhraseComposer>
       ))}

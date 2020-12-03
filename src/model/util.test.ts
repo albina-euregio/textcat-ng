@@ -1,4 +1,4 @@
-import { longestCommonPrefix } from "../model";
+import { longestCommonPrefix } from ".";
 
 it("should find the longest common prefix", () => {
   expect(longestCommonPrefix()).toBe("");

@@ -1,4 +1,4 @@
-import { setI18nLang, t } from "../i18n";
+import { setI18nLang, t } from ".";
 
 it("should translate", () => {
   setI18nLang("en");

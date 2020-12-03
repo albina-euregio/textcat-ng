@@ -14,7 +14,7 @@ build:
     - yarn build
   artifacts:
     paths:
-      - build/
+      - dist/
 
 deploy to development:
   stage: deploy
@@ -24,7 +24,7 @@ deploy to development:
     - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add - > /dev/null
     - mkdir -p ~/.ssh && chmod 700 ~/.ssh
     - echo "$SSH_KNOWN_HOSTS" > ~/.ssh/known_hosts
-    - tar --create --verbose build/ | ssh -o "$SSH_PROXY_COMMAND" "$SSH_SERVER" 'tar --directory=/opt/tomcat/webapps/textcat-ng-dev --extract --strip-components=1'
+    - tar --create --verbose dist/ | ssh -o "$SSH_PROXY_COMMAND" "$SSH_SERVER" 'tar --directory=/opt/tomcat/webapps/textcat-ng-dev --extract --strip-components=1'
   environment:
     name: development
   only:
@@ -38,7 +38,7 @@ deploy to production:
     - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add - > /dev/null
     - mkdir -p ~/.ssh && chmod 700 ~/.ssh
     - echo "$SSH_KNOWN_HOSTS" > ~/.ssh/known_hosts
-    - tar --create --verbose build/ | ssh -o "$SSH_PROXY_COMMAND" "$SSH_SERVER" 'tar --directory=/opt/tomcat/webapps/textcat-ng --extract --strip-components=1'
+    - tar --create --verbose dist/ | ssh -o "$SSH_PROXY_COMMAND" "$SSH_SERVER" 'tar --directory=/opt/tomcat/webapps/textcat-ng --extract --strip-components=1'
   environment:
     name: production
   only:

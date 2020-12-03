@@ -16,7 +16,6 @@ import TextcatFooter from "./textcat/textcatFooter";
 import LanguageSelect from "./textcat/languageSelect";
 import RegionSelect from "./textcat/regionSelect";
 import { t, setI18nLang } from "../i18n";
-import checkSquare from "bootstrap-icons/icons/check-square.svg";
 
 const App: FunctionalComponent = () => {
   const [srcRegion, setSrcRegion] = useState<string>("");
@@ -77,7 +76,8 @@ const App: FunctionalComponent = () => {
         type="submit"
         onClick={(): void => postPmData(writtenText, translations)}
       >
-        <img src={checkSquare}></img> {t("translations.submit")}
+        <img src="node_modules/bootstrap-icons/icons/check-square.svg"></img>{" "}
+        {t("translations.submit")}
       </button>
 
       <TextcatFooter>
