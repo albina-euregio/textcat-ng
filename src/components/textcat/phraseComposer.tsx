@@ -1,4 +1,4 @@
-import { ComponentChildren, FunctionalComponent, h } from "preact";
+import { ComponentChildren, FunctionalComponent } from "preact";
 import { useContext, useMemo } from "preact/hooks";
 import { CatalogContext } from "./contexts";
 import {

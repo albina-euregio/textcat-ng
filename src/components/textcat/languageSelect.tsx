@@ -1,4 +1,4 @@
-import { FunctionalComponent, h } from "preact";
+import { FunctionalComponent } from "preact";
 import { StateUpdater } from "preact/hooks";
 import { LANGUAGES, Lang } from "../../model";
 import { t } from "../../i18n";

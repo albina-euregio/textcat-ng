@@ -1,4 +1,4 @@
-import { FunctionalComponent, h } from "preact";
+import { FunctionalComponent } from "preact";
 import { useContext, useState } from "preact/hooks";
 import { t } from "../../i18n";
 import { sentencePreview, WrittenPhrase, newSentence } from "../../model";

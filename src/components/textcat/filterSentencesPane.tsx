@@ -1,4 +1,4 @@
-import { FunctionalComponent, h } from "preact";
+import { FunctionalComponent } from "preact";
 import { useContext, useMemo, useState } from "preact/hooks";
 import { SearchMode, newSentence, CurlyName, WrittenPhrase } from "../../model";
 import { CatalogContext } from "./contexts";

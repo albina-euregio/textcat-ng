@@ -1,4 +1,4 @@
-import { FunctionalComponent, h } from "preact";
+import { FunctionalComponent } from "preact";
 import { WrittenPhrase, WrittenText } from "../../model";
 import FilterSentencesPane from "./filterSentencesPane";
 import PhraseComposer from "./phraseComposer";

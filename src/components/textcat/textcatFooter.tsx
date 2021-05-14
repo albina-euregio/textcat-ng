@@ -1,4 +1,4 @@
-import { FunctionalComponent, h, ComponentChildren } from "preact";
+import { FunctionalComponent, ComponentChildren } from "preact";
 import { t } from "../../i18n";
 
 interface Props {

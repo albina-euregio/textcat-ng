@@ -1,4 +1,4 @@
-import { FunctionalComponent, h } from "preact";
+import { FunctionalComponent } from "preact";
 import { LANGUAGES, Translations } from "../../model";
 
 interface Props {

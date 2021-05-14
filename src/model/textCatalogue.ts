@@ -93,6 +93,7 @@ export class TextCatalogue {
           (curlyName, curlyNameSuffix) => {
             const p = this.phrase(curlyName + curlyNameSuffix);
             return this.hasPrefix(p, prefix);
+            //TODO
           },
           text => {
             if (text === "[Empty]") return prefix;

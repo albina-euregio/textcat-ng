@@ -1,4 +1,4 @@
-import { FunctionalComponent, h } from "preact";
+import { FunctionalComponent } from "preact";
 import { useEffect, useState, useMemo } from "preact/hooks";
 import {
   buildTextcat,
