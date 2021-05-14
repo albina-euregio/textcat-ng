@@ -334,8 +334,7 @@ it("should translate a text to IT (including _NO phrase)", () =>
 it("should translate a text to DE and IT", () =>
   expect(translateAll([catalog, catalogIT], [writtenPhrase])).toStrictEqual({
     de: "Abseits gesicherter Pisten weiterhin sehr kritische Lawinensituation.",
-    it:
-      "Al di fuori delle piste assicurate, la situazione valanghiva è ancora molto critica."
+    it: "Al di fuori delle piste assicurate, la situazione valanghiva è ancora molto critica."
   }));
 it("should handle punctuation correctly", () => {
   const catalogue = new TextCatalogue("en");
