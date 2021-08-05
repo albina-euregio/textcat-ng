@@ -2,7 +2,9 @@
 image: node:lts
 
 cache:
-  key: ${CI_COMMIT_REF_SLUG}
+  key:
+    files:
+      - yarn.lock
   paths:
     - .cache/yarn
 
@@ -16,29 +18,26 @@ build:
     paths:
       - dist/
 
-deploy to development:
+.deploy:
   stage: deploy
   script:
+    - 'which rsync || ( apt-get update -y && apt-get install rsync -y )'
     - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
     - eval $(ssh-agent -s)
     - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add - > /dev/null
     - mkdir -p ~/.ssh && chmod 700 ~/.ssh
     - echo "$SSH_KNOWN_HOSTS" > ~/.ssh/known_hosts
-    - tar --create --verbose dist/ | ssh -o "$SSH_PROXY_COMMAND" "$SSH_SERVER" 'tar --directory=/opt/tomcat/webapps/textcat-ng-dev --extract --strip-components=1'
+    - rsync -avz -e 'ssh -p2201' dist/ $SFTP_SERVER
+
+deploy to development:
+  extends: .deploy
   environment:
     name: development
   only:
     - master
 
 deploy to production:
-  stage: deploy
-  script:
-    - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
-    - eval $(ssh-agent -s)
-    - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add - > /dev/null
-    - mkdir -p ~/.ssh && chmod 700 ~/.ssh
-    - echo "$SSH_KNOWN_HOSTS" > ~/.ssh/known_hosts
-    - tar --create --verbose dist/ | ssh -o "$SSH_PROXY_COMMAND" "$SSH_SERVER" 'tar --directory=/opt/tomcat/webapps/textcat-ng --extract --strip-components=1'
+  extends: .deploy
   environment:
     name: production
   only:
