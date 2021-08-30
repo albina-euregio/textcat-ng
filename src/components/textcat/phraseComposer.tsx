@@ -14,10 +14,12 @@ import {
   isSentence,
   sentencePreview
 } from "../../model";
+import TextHighlighter from "./textHighlighter";
 
 interface Props extends WrittenTextProps {
   children?: ComponentChildren;
   curlyNameSuffix: CurlyNameSuffix;
+  searchWords?: string[];
   srcRegion: string;
 }
 
@@ -59,6 +61,7 @@ const PhraseComposer: FunctionalComponent<Props> = (props: Props) => {
           <PhraseComposer
             curlyNameSuffix={curlyNameSuffix}
             srcRegion={props.srcRegion}
+            searchWords={props.searchWords}
             writtenPhrase={
               props.writtenPhrase?.args?.[curlyName] ?? newPhrase(curlyName)
             }
@@ -91,7 +94,10 @@ const PhraseComposer: FunctionalComponent<Props> = (props: Props) => {
           value={lineIndex}
           class={isRegionVisible(line.region) ? undefined : "d-none"}
         >
-          {catalog.translateLineFragments(line.lineFragments)}
+          <TextHighlighter
+            text={catalog.translateLineFragments(line.lineFragments)}
+            searchWords={props.searchWords}
+          />
         </option>
       ))}
     </select>
@@ -101,7 +107,7 @@ const PhraseComposer: FunctionalComponent<Props> = (props: Props) => {
     <details open={isPhrase(phrase)} class="block">
       <summary>
         {props.children}
-        {summary}
+        <TextHighlighter text={summary} searchWords={props.searchWords} />
       </summary>
       <table>
         {isPhrase(phrase) && (

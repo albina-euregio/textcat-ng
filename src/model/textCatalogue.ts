@@ -63,11 +63,15 @@ export class TextCatalogue {
     if (mode === SearchMode.PREFIX) {
       return this.sentences.filter(s => this.hasPrefix(s, query) === "");
     } else {
-      const words = query.toLowerCase().split(/[\s.:,]+/g);
+      const words = this.splitSearchText(query);
       return this.sentences.filter(s =>
         words.every(word => this.containsString(s, word))
       );
     }
+  }
+
+  splitSearchText(searchText: string): string[] {
+    return searchText.toLowerCase().split(/[\s.:,]+/g);
   }
 
   /**

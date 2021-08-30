@@ -76,6 +76,7 @@ const FilterSentencesPane: FunctionalComponent<Props> = (props: Props) => {
               key={writtenPhrase.curlyName}
               curlyNameSuffix={""}
               srcRegion={""}
+              searchWords={catalog.splitSearchText(searchText)}
               writtenPhrase={writtenPhrase}
               setWrittenPhrase={(phrase): void => setWrittenPhraseDraft(phrase)}
             >
