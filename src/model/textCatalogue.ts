@@ -262,15 +262,27 @@ export class TextCatalogue {
   translate(writtenText: WrittenText): IntlText {
     if (!writtenText || writtenText.length === 0) return "";
     return writtenText
-      .map(writtenPhrase =>
-        this.translatePhrase(writtenPhrase, "")
-          .replace(/\[Empty\] /g, "")
-          .replace(/ \[Empty\]/g, "")
-          .replace(/\s+\(-\)/g, "")
-          .replace(/^./, s => s.toLocaleUpperCase(this.lang))
-      )
+      .map(writtenPhrase => this.translateSentence(writtenPhrase))
       .reduce(mergeIntlText)
       .replace(/[.:]\s+\(--\)/g, "");
+  }
+
+  private translateSentence(writtenPhrase: WrittenPhrase): IntlText {
+    try {
+      return this.translatePhrase(writtenPhrase, "")
+        .replace(/\[Empty\] /g, "")
+        .replace(/ \[Empty\]/g, "")
+        .replace(/\s+\(-\)/g, "")
+        .replace(/^./, s => s.toLocaleUpperCase(this.lang));
+    } catch (e) {
+      if (e instanceof UnsetPhraseError) {
+        const phrase = this.phrase(writtenPhrase.curlyName);
+        if (isSentence(phrase)) {
+          e.message = `${phrase.header} \u2014 ${e.message}`;
+        }
+      }
+      throw e;
+    }
   }
 
   translatePhrase(
