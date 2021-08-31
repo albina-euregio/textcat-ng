@@ -278,7 +278,7 @@ export class TextCatalogue {
       if (e instanceof UnsetPhraseError) {
         const phrase = this.phrase(writtenPhrase.curlyName);
         if (isSentence(phrase)) {
-          e.message = `${phrase.header} \u2014 ${e.message}`;
+          e.message += ` \u2014 ${phrase.header}`;
         }
       }
       throw e;
