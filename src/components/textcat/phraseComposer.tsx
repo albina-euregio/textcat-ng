@@ -21,6 +21,7 @@ interface Props extends WrittenTextProps {
   curlyNameSuffix: CurlyNameSuffix;
   searchWords?: string[];
   srcRegion: string;
+  showError?: boolean;
 }
 
 const PhraseComposer: FunctionalComponent<Props> = (props: Props) => {
@@ -40,7 +41,9 @@ const PhraseComposer: FunctionalComponent<Props> = (props: Props) => {
         ? sentencePreview(phrase, catalog, translation)
         : translation;
     } catch (e) {
-      return isSentence(phrase)
+      return isSentence(phrase) && props.showError
+        ? `⚠ ${e} \u2014 ${sentencePreview(phrase, catalog)}`
+        : isSentence(phrase)
         ? sentencePreview(phrase, catalog)
         : `{${phrase.header}}: ⚠ ${e}`;
     }

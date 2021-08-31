@@ -29,6 +29,7 @@ const TextComposer: FunctionalComponent<Props> = (props: Props) => {
           curlyNameSuffix=""
           srcRegion={props.srcRegion}
           key={index}
+          showError={true}
           writtenPhrase={writtenPhrase}
           setWrittenPhrase={(newText: WrittenPhrase): void =>
             props.setWrittenPhrase(newText, index)
