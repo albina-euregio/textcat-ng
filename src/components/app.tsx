@@ -15,11 +15,13 @@ import { usePmData } from "./textcat/pmData";
 import TextcatFooter from "./textcat/textcatFooter";
 import LanguageSelect from "./textcat/languageSelect";
 import RegionSelect from "./textcat/regionSelect";
+import TranslationCheckbox from "./textcat/translationCheckbox";
 import { t, setI18nLang } from "../i18n";
 import CheckSquare from "./bootstrap-icons/check-square";
 
 const App: FunctionalComponent = () => {
   const [srcRegion, setSrcRegion] = useState<string>("");
+  const [showTranslation, setShowTranslation] = useState(true);
 
   const [srcLang, setSrcLang] = useState<Lang>(DEFAULT_LANG);
   const [catalog, setCatalog] = useState<TextCatalogue>(
@@ -65,7 +67,7 @@ const App: FunctionalComponent = () => {
       </CatalogContext.Provider>
 
       <h2>{t("heading.translations")}</h2>
-      <TranslationPreview translations={translations} />
+      {showTranslation && <TranslationPreview translations={translations} />}
       <button
         class="mt-10"
         type="submit"
@@ -84,6 +86,12 @@ const App: FunctionalComponent = () => {
             regions={catalog.regions}
             srcRegion={srcRegion}
             setSrcRegion={setSrcRegion}
+          />
+        </li>
+        <li>
+          <TranslationCheckbox
+            showTranslation={showTranslation}
+            setShowTranslation={setShowTranslation}
           />
         </li>
       </TextcatFooter>

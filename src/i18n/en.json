@@ -13,6 +13,7 @@
   "sentence.search": "Search sentence",
   "sentence.search.prefix": "Search sentence by prefix",
   "sentence": "Sentence",
+  "translations.show": "Show translations",
   "translations.submit": "Submit translations",
   "unknownLine": "Unknown line $1 in $2!",
   "unknownPhrase": "Unknown phrase $1!",
