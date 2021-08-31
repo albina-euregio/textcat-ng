@@ -34,6 +34,18 @@ const TextComposer: FunctionalComponent<Props> = (props: Props) => {
           setWrittenPhrase={(newText: WrittenPhrase): void =>
             props.setWrittenPhrase(newText, index)
           }
+          onDragStart={event => {
+            if (!event.dataTransfer) return;
+            event.dataTransfer.setData("text", JSON.stringify(index));
+            event.dataTransfer.dropEffect = "move";
+          }}
+          onDrop={event => {
+            event.stopPropagation();
+            event.preventDefault();
+            const fromIndex = event.dataTransfer?.getData("text");
+            if (fromIndex === undefined) return;
+            props.moveSentence(+fromIndex, index);
+          }}
         >
           <button
             disabled={index === 0}

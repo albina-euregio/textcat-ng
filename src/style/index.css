@@ -57,6 +57,14 @@ button {
   background: #19abff20;
 }
 
+.block.dragover {
+  background: #19abff40;
+}
+
+[draggable="true"] {
+  cursor: move;
+}
+
 td {
   vertical-align: top;
 }

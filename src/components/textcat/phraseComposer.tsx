@@ -1,5 +1,5 @@
 import { ComponentChildren, FunctionalComponent } from "preact";
-import { useContext, useMemo } from "preact/hooks";
+import { useContext, useMemo, useState } from "preact/hooks";
 import { CatalogContext } from "./contexts";
 import {
   CurlyNameSuffix,
@@ -22,6 +22,8 @@ interface Props extends WrittenTextProps {
   searchWords?: string[];
   srcRegion: string;
   showError?: boolean;
+  onDragStart?: (event: DragEvent) => void;
+  onDrop?: (event: DragEvent) => void;
 }
 
 const PhraseComposer: FunctionalComponent<Props> = (props: Props) => {
@@ -106,9 +108,25 @@ const PhraseComposer: FunctionalComponent<Props> = (props: Props) => {
     </select>
   );
 
+  const isDraggable = !!props.onDragStart;
+  const [isDragOver, setDragOver] = useState(false);
+
   return (
-    <details open={isPhrase(phrase)} class="block">
-      <summary>
+    <details
+      open={isPhrase(phrase)}
+      class={isDragOver ? "block dragover" : "block"}
+    >
+      <summary
+        draggable={isDraggable}
+        onDragStart={props.onDragStart}
+        onDragEnter={() => setDragOver(true)}
+        onDragLeave={() => setDragOver(false)}
+        onDragOver={event => event.preventDefault()}
+        onDrop={event => {
+          setDragOver(false);
+          props.onDrop?.(event);
+        }}
+      >
         {props.children}
         <TextHighlighter text={summary} searchWords={props.searchWords} />
       </summary>
