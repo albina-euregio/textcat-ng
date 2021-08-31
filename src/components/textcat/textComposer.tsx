@@ -12,7 +12,7 @@ interface Props {
   writtenText: WrittenText;
   srcRegion: string;
   setWrittenPhrase: (writtenPhrase: WrittenPhrase, index: number) => void;
-  moveSentence: (index: number, direction: number) => void;
+  moveSentence: (fromIndex: number, toIndex: number | undefined) => void;
 }
 
 const TextComposer: FunctionalComponent<Props> = (props: Props) => {
@@ -37,20 +37,20 @@ const TextComposer: FunctionalComponent<Props> = (props: Props) => {
         >
           <button
             disabled={index === 0}
-            onClick={(): void => props.moveSentence(index, -1)}
+            onClick={(): void => props.moveSentence(index, index - 1)}
             title={t("sentence.moveUp")}
           >
             <CaretUpSquare />
           </button>
           <button
-            onClick={(): void => props.moveSentence(index, 0)}
+            onClick={(): void => props.moveSentence(index, undefined)}
             title={t("sentence.remove")}
           >
             <XSquare />
           </button>
           <button
             disabled={index >= array.length - 1}
-            onClick={(): void => props.moveSentence(index, +1)}
+            onClick={(): void => props.moveSentence(index, index + 1)}
             title={t("sentence.moveDown")}
           >
             <CaretDownSquare />

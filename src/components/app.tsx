@@ -58,14 +58,8 @@ const App: FunctionalComponent = () => {
               return newTexts;
             })
           }
-          moveSentence={(index, direction): void => {
-            setWrittenText(ts =>
-              arrayMove(
-                ts,
-                index,
-                direction === 0 ? undefined : index + direction
-              )
-            );
+          moveSentence={(fromIndex, toIndex): void => {
+            setWrittenText(ts => arrayMove(ts, fromIndex, toIndex));
           }}
         />
       </CatalogContext.Provider>
