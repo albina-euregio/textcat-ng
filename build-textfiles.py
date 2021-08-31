@@ -18,7 +18,7 @@ def concat_textfile(file: pathlib.Path, dst: typing.IO):
 
 
 for lang in 'AR CA DE EN ES FR IT'.split():
-    dst_file = pathlib.Path(f'./src/assets/satzkatalog.{lang}.txt')
+    dst_file = pathlib.Path(f'./public/assets/satzkatalog.{lang}.txt')
     with dst_file.open(mode='w', encoding='utf-8') as dst:
         print('Building', dst)
         for file in textfiles(lang):
