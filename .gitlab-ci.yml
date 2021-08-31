@@ -1,22 +1,21 @@
 ---
 image: node:lts
 
-cache:
-  key:
-    files:
-      - yarn.lock
-  paths:
-    - .cache/yarn
-
 build:
   stage: build
   script:
-    - yarn --no-progress --frozen-lockfile
+    - yarn --no-progress --frozen-lockfile --cache-folder .yarn-cache/
     - yarn test
     - yarn build
   artifacts:
     paths:
       - dist/
+  cache:
+    key:
+      files:
+        - yarn.lock
+    paths:
+      - .yarn-cache/
 
 .deploy:
   stage: deploy
