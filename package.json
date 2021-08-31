@@ -3,6 +3,10 @@
   "name": "textcat-ng",
   "version": "0.0.0",
   "license": "GPL-3.0-or-later",
+  "author": {
+    "name": "Simon Legner",
+    "email": "Simon.Legner@gmail.com"
+  },
   "scripts": {
     "build": "tsc && vite build",
     "dev": "vite",
