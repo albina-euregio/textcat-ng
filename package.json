@@ -7,6 +7,14 @@
     "name": "Simon Legner",
     "email": "Simon.Legner@gmail.com"
   },
+  "homepage": "https://gitlab.com/albina-euregio/textcat-ng",
+  "repository": {
+    "type": "git",
+    "url": "https://gitlab.com/albina-euregio/textcat-ng.git"
+  },
+  "bugs": {
+    "url": "https://gitlab.com/albina-euregio/textcat-ng/-/issues"
+  },
   "scripts": {
     "build": "tsc && vite build",
     "dev": "vite",
