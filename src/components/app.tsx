@@ -78,6 +78,7 @@ const App: FunctionalComponent = () => {
       </button>
 
       <TextcatFooter>
+        {catalog.lastModified && <li>satzkatalog {catalog.lastModified}</li>}
         <li>
           <LanguageSelect srcLang={srcLang} setSrcLang={setSrcLang} />
         </li>

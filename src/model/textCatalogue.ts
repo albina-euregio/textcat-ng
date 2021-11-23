@@ -48,6 +48,7 @@ export class TextCatalogue {
   public phrases: Phrase[] = [];
   public readonly regions: Set<string> = new Set<string>();
   public readonly wordToPhraseMap: Map<string, Set<string>> = new Map();
+  public lastModified?: string;
 
   constructor(lang: Lang) {
     this.lang = lang;
@@ -315,6 +316,16 @@ export class TextCatalogue {
       )
       .reduce(mergeIntlText);
   }
+
+  updateLastModified(lastModifiedString: string | null) {
+    if (!lastModifiedString) return;
+    const lastModified = new Date(lastModifiedString)
+      .toISOString()
+      .slice(0, "2021-11-18".length);
+    if (!this.lastModified || this.lastModified < lastModified) {
+      this.lastModified = lastModified;
+    }
+  }
 }
 
 export async function buildTextcat(lang: Lang): Promise<TextCatalogue> {
@@ -327,6 +338,7 @@ export async function buildTextcat(lang: Lang): Promise<TextCatalogue> {
     const text = await response.text();
     console.time(`parse ${file}`);
     catalog.parse(text);
+    catalog.updateLastModified(response.headers.get("Last-Modified"));
     console.timeEnd(`parse ${file}`);
   } catch (e) {
     throw new Error(`Failed to build textcat from ${file}: ${e}`);
