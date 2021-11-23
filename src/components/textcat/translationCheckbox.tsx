@@ -9,7 +9,7 @@ interface Props {
 
 const TranslationCheckbox: FunctionalComponent<Props> = (props: Props) => (
   <label>
-    {'['}
+    {"["}
     <input
       type="checkbox"
       checked={props.showTranslation}

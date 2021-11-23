@@ -49,7 +49,16 @@ const PhraseComposer: FunctionalComponent<Props> = (props: Props) => {
         ? sentencePreview(phrase, catalog)
         : `{${phrase.header}}: ⚠ ${e}`;
     }
-  }, [catalog, phrase, props.writtenPhrase, props.curlyNameSuffix]);
+  }, [
+    catalog,
+    phrase,
+    props.writtenPhrase,
+    props.curlyNameSuffix,
+    props.showError
+  ]);
+
+  const isDraggable = !!props.onDragStart;
+  const [isDragOver, setDragOver] = useState(false);
 
   if (!phrase) return <div></div>;
 
@@ -107,9 +116,6 @@ const PhraseComposer: FunctionalComponent<Props> = (props: Props) => {
       ))}
     </select>
   );
-
-  const isDraggable = !!props.onDragStart;
-  const [isDragOver, setDragOver] = useState(false);
 
   return (
     <details

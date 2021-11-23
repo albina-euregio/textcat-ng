@@ -95,7 +95,6 @@ const writtenPhrase: WrittenPhrase = {
       curlyName: "Verhältnisse04§wo_wann3",
       line: 2
     },
-    // eslint-disable-next-line @typescript-eslint/camelcase
     teils_gefährliche: {
       curlyName: "teils_gefährliche",
       line: 1,
@@ -124,7 +123,6 @@ const writtenText2: WrittenPhrase = {
       curlyName: "Verhältnisse01§sind",
       line: 5
     },
-    // eslint-disable-next-line @typescript-eslint/camelcase
     gefährlich_Verhältnisse: {
       curlyName: "gefährlich_Verhältnisse",
       line: 1
