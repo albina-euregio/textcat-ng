@@ -15,7 +15,7 @@ const TextcatFooter: FunctionalComponent = (props: Props) => (
         </abbr>
       </li>
       <li>
-        {t("version")} {(import.meta as any).env.VITE_GIT_VERSION}
+        {t("version")} {import.meta.env.VITE_GIT_VERSION}
       </li>
       <li>
         <a
