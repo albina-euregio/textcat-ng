@@ -37,8 +37,6 @@ $ find ../satzkatalog/data -name S010.txt -or -name Verhältnisse04§wo_wann3.tx
 ../satzkatalog/data/FR/Sentences/S010.txt
 ../satzkatalog/data/IT/Ranges/Verhältnisse04§wo_wann3.txt
 ../satzkatalog/data/IT/Sentences/S010.txt
-../satzkatalog/data/AR/Ranges/Verhältnisse04§wo_wann3.txt
-../satzkatalog/data/AR/Sentences/S010.txt
 ../satzkatalog/data/CA/Ranges/Verhältnisse04§wo_wann3.txt
 ../satzkatalog/data/CA/Sentences/S010.txt
 
@@ -52,14 +50,12 @@ public/assets/satzkatalog.ES.txt
 public/assets/satzkatalog.FR.txt
 public/assets/satzkatalog.IT.txt
 public/assets/satzkatalog.OC.txt
-public/assets/satzkatalog.AR.txt
 
 $ yarn install
 $ yarn run build
 $ find dist
 dist
 dist/assets
-dist/assets/satzkatalog.AR.txt
 dist/assets/satzkatalog.CA.txt
 dist/assets/satzkatalog.DE.txt
 dist/assets/satzkatalog.EN.txt
