@@ -21,5 +21,5 @@ for lang in 'CA DE EN ES FR IT OC'.split():
     dst_file = pathlib.Path(f'./public/assets/satzkatalog.{lang}.txt')
     with dst_file.open(mode='w', encoding='utf-8') as dst:
         print('Building', dst)
-        for file in textfiles(lang):
+        for file in sorted(textfiles(lang)):
             concat_textfile(file, dst)
