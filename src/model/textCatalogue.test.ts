@@ -1,4 +1,4 @@
-import { beforeAll, expect, it } from 'vitest'
+import { beforeAll, expect, it } from "vitest";
 import {
   Phrase,
   Sentence,

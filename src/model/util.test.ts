@@ -1,4 +1,4 @@
-import { expect, it } from 'vitest'
+import { expect, it } from "vitest";
 import { longestCommonPrefix } from ".";
 
 it("should find the longest common prefix", () => {
