@@ -23,7 +23,7 @@ module.exports = {
     "prettier/prettier": "warn",
     "@typescript-eslint/interface-name-prefix": "off",
     "react/react-in-jsx-scope": "off",
-    "react/no-unknown-property": ["error", { ignore: ["class"] }]
+    "react/no-unknown-property": ["error", { ignore: ["class", "fill-rule"] }]
   },
   settings: {
     react: {
