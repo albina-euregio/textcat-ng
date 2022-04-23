@@ -1,3 +1,4 @@
+import { expect, it } from 'vitest'
 import { setI18nLang, t } from ".";
 
 it("should translate", () => {
