@@ -37,11 +37,11 @@
     "@sentry/browser": "^5.27.6",
     "@sentry/tracing": "^5.27.6",
     "highlight-words-core": "^1.2.2",
-    "preact": "^10.5.7",
-    "preact-render-to-string": "^5.1.12"
+    "preact": "^10.7.1",
+    "preact-render-to-string": "^5.1.21"
   },
   "devDependencies": {
-    "@preact/preset-vite": "^2.1.0",
+    "@preact/preset-vite": "^2.2.0",
     "@types/highlight-words-core": "^1.2.1",
     "@types/jest": "^26.0.8",
     "@typescript-eslint/eslint-plugin": "^5.4.0",
