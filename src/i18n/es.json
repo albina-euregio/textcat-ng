@@ -13,6 +13,7 @@
   "sentence.search": "Buscar frase",
   "sentence.search.prefix": "Buscar frase por prefijo",
   "sentence": "Frase",
+  "translations.show": "Mostrar traducciones",
   "translations.submit": "Enviar traducciones",
   "unknownLine": "Línea desconocida $1 en $2!",
   "unknownPhrase": "Frase desconocida $1!",
