@@ -2,6 +2,8 @@
 
 Webapp to compose avalanche bulletins and translate them to multiple languages.
 
+![Screenshot](/uploads/1fa4ffe7f2f00798f9d3a8d8f5243925/Screenshot_2022-11-28_at_22-39-33_Avalanche.report.png)
+
 ## CLI Commands
 
 <details>
