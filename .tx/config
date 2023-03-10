@@ -1,7 +1,7 @@
 [main]
 host = https://www.transifex.com
 
-[textcat-ng.textcat-ng]
+[o:albina-euregio:p:textcat-ng:r:textcat-ng]
 file_filter = src/i18n/<lang>.json
 source_file = src/i18n/en.json
 source_lang = en
