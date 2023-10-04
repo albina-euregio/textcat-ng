@@ -60,6 +60,13 @@ const App: FunctionalComponent = () => {
               return newTexts;
             })
           }
+          addSentence={(newText, index): void =>
+            setWrittenText(ts => {
+              const newTexts = [...ts];
+              newTexts.splice(index, 0, newText);
+              return newTexts;
+            })
+          }
           moveSentence={(fromIndex, toIndex): void => {
             setWrittenText(ts => arrayMove(ts, fromIndex, toIndex));
           }}

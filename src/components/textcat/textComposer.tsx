@@ -7,17 +7,35 @@ import AllSentencesSelect from "./allSentencesSelect";
 import CaretUpSquare from "../bootstrap-icons/caret-up-square";
 import XSquare from "../bootstrap-icons/x-square";
 import CaretDownSquare from "../bootstrap-icons/caret-down-square";
+import Clipboard from "../bootstrap-icons/clipboard";
+import Copy from "../bootstrap-icons/copy";
 
 interface Props {
   writtenText: WrittenText;
   srcRegion: string;
   setWrittenPhrase: (writtenPhrase: WrittenPhrase, index: number) => void;
+  addSentence: (writtenPhrase: WrittenPhrase, index: number) => void;
   moveSentence: (fromIndex: number, toIndex: number | undefined) => void;
 }
 
 const TextComposer: FunctionalComponent<Props> = (props: Props) => {
   const addWrittenPhrase = (phrase: WrittenPhrase): void =>
-    props.setWrittenPhrase(phrase, props.writtenText.length);
+    props.addSentence(phrase, props.writtenText.length);
+  const copySentenceToClipboard = (writtenPhrase: WrittenPhrase) => {
+    navigator.clipboard.writeText(JSON.stringify(writtenPhrase));
+  };
+
+  const pasteSentenceFromClipboard = (index: number) => {
+    navigator.clipboard.readText().then(copiedPhrase => {
+      try {
+        const phrase: WrittenPhrase = JSON.parse(copiedPhrase);
+        console.log(phrase);
+        props.addSentence(phrase, index + 1);
+      } catch (error) {
+        console.error(error);
+      }
+    });
+  };
   return (
     <section>
       <AllSentencesSelect addWrittenPhrase={addWrittenPhrase} />
@@ -66,6 +84,18 @@ const TextComposer: FunctionalComponent<Props> = (props: Props) => {
             title={t("sentence.moveDown")}
           >
             <CaretDownSquare />
+          </button>
+          <button
+            onClick={(): void => copySentenceToClipboard(writtenPhrase)}
+            title={t("sentence.copy")}
+          >
+            <Copy />
+          </button>
+          <button
+            onClick={(): void => pasteSentenceFromClipboard(index)}
+            title={t("sentence.paste")}
+          >
+            <Clipboard />
           </button>{" "}
         </PhraseComposer>
       ))}
