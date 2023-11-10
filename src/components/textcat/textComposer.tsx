@@ -30,7 +30,10 @@ const TextComposer: FunctionalComponent<Props> = (props: Props) => {
     const copiedPhrase = await navigator.clipboard.readText();
     try {
       const phrase: WrittenPhrase = JSON.parse(copiedPhrase);
-      console.log(phrase);
+      if (!phrase.curlyName) {
+        return;
+      }
+      console.log("Pasting sentence", phrase);
       props.addSentence(phrase, index + 1);
     } catch (error) {
       console.error(error);
