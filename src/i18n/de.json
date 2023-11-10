@@ -10,6 +10,8 @@
   "sentence.moveDown": "Satz nach unten verschieben",
   "sentence.moveUp": "Satz nach oben verschieben",
   "sentence.remove": "Satz entfernen",
+  "sentence.copy": "Satz kopieren",
+  "sentence.paste": "Satz einfügen",
   "sentence.search": "Sätze suchen",
   "sentence.search.prefix": "Sätze mittels Präfix suchen",
   "sentence": "Satz",

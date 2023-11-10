@@ -10,6 +10,8 @@
   "sentence.moveDown": "Botjar frasa cap enjós",
   "sentence.moveUp": "Botjar frasa cap ensús",
   "sentence.remove": "Eliminar frasa",
+  "sentence.copy": "Copy sentence",
+  "sentence.paste": "Paste sentence below",
   "sentence.search": "Cercar frasa",
   "sentence.search.prefix": "Cercar frasa per prefixe",
   "sentence": "Frasa",

@@ -10,6 +10,8 @@
   "sentence.moveDown": "Moure la frase cap avall",
   "sentence.moveUp": "Moure la frase cap amunt",
   "sentence.remove": "Eliminar frase",
+  "sentence.copy": "Copy sentence",
+  "sentence.paste": "Paste sentence below",
   "sentence.search": "Cercar frase",
   "sentence.search.prefix": "Cercar frase per prefix",
   "sentence": "Frase",

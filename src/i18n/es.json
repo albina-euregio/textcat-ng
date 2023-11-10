@@ -10,6 +10,8 @@
   "sentence.moveDown": "Mover la frase hacia abajo",
   "sentence.moveUp": "Mover la frase hacia arriba",
   "sentence.remove": "Eliminar frase",
+  "sentence.copy": "Copy sentence",
+  "sentence.paste": "Paste sentence below",
   "sentence.search": "Buscar frase",
   "sentence.search.prefix": "Buscar frase por prefijo",
   "sentence": "Frase",
