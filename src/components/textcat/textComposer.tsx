@@ -90,12 +90,20 @@ const TextComposer: FunctionalComponent<Props> = (props: Props) => {
             <CaretDownSquare />
           </button>
           <button
+            disabled={
+              typeof navigator.clipboard.writeText !== "function" ||
+              typeof navigator.clipboard.readText !== "function"
+            }
             onClick={(): void => copySentenceToClipboard(writtenPhrase)}
             title={t("sentence.copy")}
           >
             <Copy />
           </button>
           <button
+            disabled={
+              typeof navigator.clipboard.writeText !== "function" ||
+              typeof navigator.clipboard.readText !== "function"
+            }
             onClick={(): void => {
               pasteSentenceFromClipboard(index);
             }}
