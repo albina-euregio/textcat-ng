@@ -136,17 +136,18 @@ export class TextCatalogue {
   private containsString(phrase: Phrase | undefined, string: string): boolean {
     if (phrase === undefined) return false;
     if (phrase.header.toLowerCase().includes(string)) return true;
-    return phrase.lines.some(({ lineFragments }) =>
-      lineFragments?.some(lineFragment =>
-        mapLineFragment(
-          lineFragment,
-          (curlyName, curlyNameSuffix) => {
-            const p = this.phrase(curlyName + curlyNameSuffix);
-            return this.containsString(p, string);
-          },
-          text => text.toLowerCase().includes(string)
+    return phrase.lines.some(
+      ({ lineFragments }) =>
+        lineFragments?.some(lineFragment =>
+          mapLineFragment(
+            lineFragment,
+            (curlyName, curlyNameSuffix) => {
+              const p = this.phrase(curlyName + curlyNameSuffix);
+              return this.containsString(p, string);
+            },
+            text => text.toLowerCase().includes(string)
+          )
         )
-      )
     );
   }
 

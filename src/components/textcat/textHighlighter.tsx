@@ -15,7 +15,7 @@ const TextHighlighter: FunctionalComponent<Props> = (props: Props) => {
     searchWords: props.searchWords
   }).map(({ highlight, start, end }) =>
     highlight ? (
-      <mark>{props.text.slice(start, end)}</mark>
+      <mark key={start}>{props.text.slice(start, end)}</mark>
     ) : (
       <>{props.text.slice(start, end)}</>
     )

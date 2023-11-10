@@ -6,6 +6,7 @@ build:
   script:
     - yarn --no-progress --frozen-lockfile --cache-folder .yarn-cache/
     - yarn test
+    - yarn lint
     - yarn build
   artifacts:
     paths:
