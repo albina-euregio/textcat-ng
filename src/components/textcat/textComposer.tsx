@@ -21,21 +21,22 @@ interface Props {
 const TextComposer: FunctionalComponent<Props> = (props: Props) => {
   const addWrittenPhrase = (phrase: WrittenPhrase): void =>
     props.addSentence(phrase, props.writtenText.length);
+
   const copySentenceToClipboard = (writtenPhrase: WrittenPhrase) => {
     navigator.clipboard.writeText(JSON.stringify(writtenPhrase));
   };
 
-  const pasteSentenceFromClipboard = (index: number) => {
-    navigator.clipboard.readText().then(copiedPhrase => {
-      try {
-        const phrase: WrittenPhrase = JSON.parse(copiedPhrase);
-        console.log(phrase);
-        props.addSentence(phrase, index + 1);
-      } catch (error) {
-        console.error(error);
-      }
-    });
+  const pasteSentenceFromClipboard = async (index: number) => {
+    const copiedPhrase = await navigator.clipboard.readText();
+    try {
+      const phrase: WrittenPhrase = JSON.parse(copiedPhrase);
+      console.log(phrase);
+      props.addSentence(phrase, index + 1);
+    } catch (error) {
+      console.error(error);
+    }
   };
+
   return (
     <section>
       <AllSentencesSelect addWrittenPhrase={addWrittenPhrase} />
@@ -92,7 +93,9 @@ const TextComposer: FunctionalComponent<Props> = (props: Props) => {
             <Copy />
           </button>
           <button
-            onClick={(): void => pasteSentenceFromClipboard(index)}
+            onClick={(): void => {
+              pasteSentenceFromClipboard(index);
+            }}
             title={t("sentence.paste")}
           >
             <Clipboard />
