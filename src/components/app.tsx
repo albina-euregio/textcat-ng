@@ -80,8 +80,7 @@ const App: FunctionalComponent = () => {
         type="submit"
         onClick={(): void => postPmData(writtenText, translations)}
       >
-        <CheckSquare />
-        {t("translations.submit")}
+        <CheckSquare /> {t("translations.submit")}
       </button>
 
       <TextcatFooter>
