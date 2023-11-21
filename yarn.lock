@@ -595,10 +595,10 @@
     picocolors "^1.0.0"
     tslib "^2.6.0"
 
-"@preact/preset-vite@^2.6.0":
-  version "2.6.0"
-  resolved "https://registry.yarnpkg.com/@preact/preset-vite/-/preset-vite-2.6.0.tgz#2b2c54ee2196d75b7b9e0297998497d3dbe37ce0"
-  integrity sha512-5nztNzXbCpqyVum/K94nB2YQ5PTnvWdz4u7/X0jc8+kLyskSSpkNUxLQJeI90zfGSFIX1Ibj2G2JIS/mySHWYQ==
+"@preact/preset-vite@^2.7.0":
+  version "2.7.0"
+  resolved "https://registry.yarnpkg.com/@preact/preset-vite/-/preset-vite-2.7.0.tgz#6e78b300c6b38aa2c0b49bc74d7d44c6270bba59"
+  integrity sha512-m5N0FVtxbCCDxNk55NGhsRpKJChYcupcuQHzMJc/Bll07IKZKn8amwYciyKFS9haU6AgzDAJ/ewvApr6Qg1DHw==
   dependencies:
     "@babel/plugin-transform-react-jsx" "^7.22.15"
     "@babel/plugin-transform-react-jsx-development" "^7.22.5"
@@ -3699,10 +3699,10 @@ vite-node@0.34.6:
   optionalDependencies:
     fsevents "~2.3.2"
 
-vite@^5.0.0-beta.17:
-  version "5.0.0-beta.17"
-  resolved "https://registry.yarnpkg.com/vite/-/vite-5.0.0-beta.17.tgz#208d13b4a53c603e5c6082ffa6be964d73510495"
-  integrity sha512-ZTWO3PUCil8l23vHQjkyyhUzZ3bsG3KqVUlqpkcPZ0KHrPkzL97fIy3yYtb2aedteJj8gqXnKqOZU+LCNJnDOw==
+vite@^5.0.2:
+  version "5.0.2"
+  resolved "https://registry.yarnpkg.com/vite/-/vite-5.0.2.tgz#3c94627dace83b9bf04b64eaf618038e30fb95c0"
+  integrity sha512-6CCq1CAJCNM1ya2ZZA7+jS2KgnhbzvxakmlIjN24cF/PXhRMzpM/z8QgsVJA/Dm5fWUWnVEsmtBoMhmerPxT0g==
   dependencies:
     esbuild "^0.19.3"
     postcss "^8.4.31"
