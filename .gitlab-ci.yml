@@ -1,7 +1,7 @@
 ---
 
 build:
-  image: node:lts
+  image: node:20
   stage: build
   script:
     - yarn --no-progress --frozen-lockfile --cache-folder .yarn-cache/
