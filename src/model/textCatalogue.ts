@@ -14,7 +14,10 @@ import {
   Sentence,
   uniqueLineFragments,
   WrittenPhrase,
-  WrittenText
+  WrittenText,
+  isJoker,
+  Joker,
+  sentencePreview
 } from ".";
 import { t } from "../i18n";
 
@@ -33,6 +36,12 @@ export class UnknownPhraseError extends Error {
 export class UnsetPhraseError extends Error {
   constructor(phrase: string) {
     super(t("unsetPhrase", phrase));
+  }
+}
+
+export class IncompleteJokerError extends Error {
+  constructor() {
+    super(t("incompleteJoker"));
   }
 }
 
@@ -287,10 +296,22 @@ export class TextCatalogue {
     }
   }
 
+  private translateJoker(writtenPhrase: Joker): IntlText {
+    const text = writtenPhrase.args[this.lang];
+    if (!text) {
+      throw new IncompleteJokerError();
+    }
+    return text;
+  }
+
   translatePhrase(
     writtenPhrase: WrittenPhrase,
     curlyNameSuffix: string
   ): IntlText {
+    if (isJoker(writtenPhrase)) {
+      return this.translateJoker(writtenPhrase);
+    }
+
     const phrase = this.phrase(writtenPhrase.curlyName + curlyNameSuffix);
     if (!phrase) throw new UnknownPhraseError(writtenPhrase.curlyName);
 
@@ -316,6 +337,34 @@ export class TextCatalogue {
         )
       )
       .reduce(mergeIntlText);
+  }
+
+  previewPhrase(
+    writtenPhrase: WrittenPhrase,
+    curlyNameSuffix: string,
+    showError?: boolean
+  ): IntlText {
+    if (isJoker(writtenPhrase)) {
+      try {
+        return this.translateJoker(writtenPhrase);
+      } catch (e) {
+        return `⚠ ${e}`;
+      }
+    }
+    const phrase = this.phrase(writtenPhrase.curlyName + curlyNameSuffix);
+    if (!phrase) return "";
+    try {
+      const translation = this.translatePhrase(writtenPhrase, curlyNameSuffix);
+      return isSentence(phrase)
+        ? sentencePreview(phrase, this, translation)
+        : translation;
+    } catch (e) {
+      return isSentence(phrase) && showError
+        ? `⚠ ${e} \u2014 ${sentencePreview(phrase, this)}`
+        : isSentence(phrase)
+        ? sentencePreview(phrase, this)
+        : `{${phrase.header}}: ⚠ ${e}`;
+    }
   }
 
   updateLastModified(lastModifiedString: string | null) {

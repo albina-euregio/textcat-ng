@@ -1,8 +1,14 @@
 import { FunctionalComponent } from "preact";
 import { useContext, useState } from "preact/hooks";
 import { t } from "../../i18n";
-import { sentencePreview, WrittenPhrase, newSentence } from "../../model";
+import {
+  sentencePreview,
+  WrittenPhrase,
+  newSentence,
+  newJoker
+} from "../../model";
 import { CatalogContext } from "./contexts";
+import BracesAsterisk from "../bootstrap-icons/braces-asterisk";
 import PlusSquare from "../bootstrap-icons/plus-square";
 
 interface Props {
@@ -15,6 +21,14 @@ const AllSentencesSelect: FunctionalComponent<Props> = (props: Props) => {
   return (
     <div class="block">
       <h2>{`${t("heading.allSentences")} `}</h2>
+      <label class="d-flex mt-10">
+        <button
+          title={t("sentence.add")}
+          onClick={(): void => props.addWrittenPhrase(newJoker())}
+        >
+          <BracesAsterisk /> {t("sentence.joker")}
+        </button>
+      </label>
       <label class="d-flex mt-10">
         <button
           title={t("sentence.add")}

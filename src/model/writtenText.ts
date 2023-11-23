@@ -1,9 +1,21 @@
-import { CurlyName } from ".";
+import { CurlyName, LANGUAGES, Lang } from ".";
 
-export interface WrittenPhrase {
-  curlyName: CurlyName;
-  line: number;
-  args?: Record<CurlyName, WrittenPhrase>;
+export type Joker = {
+  curlyName: "JOKER";
+  line: 0;
+  args: Record<Lang, string>;
+};
+
+export type WrittenPhrase =
+  | {
+      curlyName: CurlyName;
+      line: number;
+      args?: Record<CurlyName, WrittenPhrase>;
+    }
+  | Joker;
+
+export function isJoker(writtenPhase: WrittenPhrase): writtenPhase is Joker {
+  return (writtenPhase as Joker)?.curlyName === "JOKER";
 }
 
 export type WrittenText = WrittenPhrase[];
@@ -11,6 +23,17 @@ export type WrittenText = WrittenPhrase[];
 export interface WrittenTextProps {
   writtenPhrase: WrittenPhrase;
   setWrittenPhrase: (writtenPhrase: WrittenPhrase) => void;
+}
+
+export function newJoker(): Joker {
+  return {
+    curlyName: "JOKER",
+    line: 0,
+    args: Object.fromEntries(LANGUAGES.map(lang => [lang, ""])) as Record<
+      Lang,
+      string
+    >
+  };
 }
 
 export function newSentence(curlyName: CurlyName): WrittenPhrase {
@@ -31,6 +54,7 @@ export function withPhrase(
   writtenPhrase: WrittenPhrase,
   newPhrase: WrittenPhrase
 ): WrittenPhrase {
+  if (isJoker(writtenPhrase)) throw new Error();
   const args = {
     ...writtenPhrase.args,
     [newPhrase.curlyName]: newPhrase
@@ -48,6 +72,7 @@ export function withLine(
   writtenPhrase: WrittenPhrase,
   line: number
 ): WrittenPhrase {
+  if (isJoker(writtenPhrase)) throw new Error();
   return { ...writtenPhrase, line };
 }
 

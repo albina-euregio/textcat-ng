@@ -7,6 +7,7 @@ import {
   arrayMove,
   mapLineFragment,
   translateAll,
+  Joker,
   SearchMode
 } from ".";
 
@@ -321,6 +322,15 @@ it("should translate line fragments", () => {
 it("should translate a text", () =>
   expect(catalog.translate([writtenPhrase])).toBe(
     "Abseits gesicherter Pisten weiterhin sehr kritische Lawinensituation."
+  ));
+it("should translate a joker text", () =>
+  expect(
+    catalog.translate([
+      { curlyName: "JOKER", args: { de: "Hallo textcat-ng!" } } as Joker,
+      writtenPhrase
+    ])
+  ).toBe(
+    "Hallo textcat-ng! Abseits gesicherter Pisten weiterhin sehr kritische Lawinensituation."
   ));
 it("should translate a text to IT", () =>
   expect(catalogIT.translate([writtenPhrase])).toBe(

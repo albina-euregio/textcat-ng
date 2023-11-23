@@ -11,10 +11,13 @@ import {
   withLine,
   withPhrase,
   isPhrase,
-  isSentence,
-  sentencePreview
+  isJoker,
+  LANGUAGES,
+  Phrase
 } from "../../model";
 import TextHighlighter from "./textHighlighter";
+import BracesAsterisk from "../bootstrap-icons/braces-asterisk";
+import { t } from "../../i18n";
 
 interface Props extends WrittenTextProps {
   children?: ComponentChildren;
@@ -32,94 +35,25 @@ const PhraseComposer: FunctionalComponent<Props> = (props: Props) => {
     props.writtenPhrase.curlyName + props.curlyNameSuffix
   );
 
-  const summary = useMemo((): string => {
-    if (!phrase) return "";
-    try {
-      const translation = catalog.translatePhrase(
+  const summary = useMemo(
+    (): string =>
+      catalog.previewPhrase(
         props.writtenPhrase,
-        props.curlyNameSuffix
-      );
-      return isSentence(phrase)
-        ? sentencePreview(phrase, catalog, translation)
-        : translation;
-    } catch (e) {
-      return isSentence(phrase) && props.showError
-        ? `⚠ ${e} \u2014 ${sentencePreview(phrase, catalog)}`
-        : isSentence(phrase)
-        ? sentencePreview(phrase, catalog)
-        : `{${phrase.header}}: ⚠ ${e}`;
-    }
-  }, [
-    catalog,
-    phrase,
-    props.writtenPhrase,
-    props.curlyNameSuffix,
-    props.showError
-  ]);
+        props.curlyNameSuffix,
+        props.showError
+      ),
+
+    [catalog, props.writtenPhrase, props.curlyNameSuffix, props.showError]
+  );
 
   const isDraggable = !!props.onDragStart;
   const [isDragOver, setDragOver] = useState(false);
 
-  if (!phrase) return <div></div>;
-
-  const line = phrase.lines.length === 1 ? 0 : props.writtenPhrase.line;
-  const selectedLine = phrase.lines[line];
-  const selectedLineFragments = selectedLine?.lineFragments?.filter(
-    lineFragment => lineFragment !== FULL_STOP
-  );
-  const selectedLineTd = selectedLineFragments?.map((lineFragment, index) =>
-    mapLineFragment(
-      lineFragment,
-      (curlyName, curlyNameSuffix) => (
-        <td key={index}>
-          <PhraseComposer
-            curlyNameSuffix={curlyNameSuffix}
-            srcRegion={props.srcRegion}
-            searchWords={props.searchWords}
-            writtenPhrase={
-              props.writtenPhrase?.args?.[curlyName] ?? newPhrase(curlyName)
-            }
-            setWrittenPhrase={(newPhrase: WrittenPhrase): void =>
-              props.setWrittenPhrase(withPhrase(props.writtenPhrase, newPhrase))
-            }
-          />
-        </td>
-      ),
-      () => undefined
-    )
-  );
-
-  const isRegionVisible = (region?: string): boolean =>
-    !region || !props.srcRegion || props.srcRegion === region;
-  const select = (
-    <select
-      size={line >= 0 ? 1 : phrase.lines.length + 1}
-      disabled={phrase.lines.length === 1}
-      value={line}
-      onChange={(e): void => {
-        const line = +(e.target as HTMLSelectElement).value;
-        props.setWrittenPhrase(withLine(props.writtenPhrase, line));
-      }}
-    >
-      <option value={-1}></option>
-      {phrase.lines.map((line, lineIndex) => (
-        <option
-          key={line}
-          value={lineIndex}
-          class={isRegionVisible(line.region) ? undefined : "d-none"}
-        >
-          <TextHighlighter
-            text={catalog.translateLineFragments(line.lineFragments)}
-            searchWords={props.searchWords}
-          />
-        </option>
-      ))}
-    </select>
-  );
+  if (!isJoker(props.writtenPhrase) && !phrase) return <></>;
 
   return (
     <details
-      open={isPhrase(phrase)}
+      open={isPhrase(phrase) || isJoker(props.writtenPhrase)}
       class={isDragOver ? "block dragover" : "block"}
     >
       <summary
@@ -134,18 +68,148 @@ const PhraseComposer: FunctionalComponent<Props> = (props: Props) => {
         }}
       >
         {props.children}
+        {isJoker(props.writtenPhrase) && (
+          <abbr title={t("sentence.joker")}>
+            <BracesAsterisk />
+          </abbr>
+        )}
         <TextHighlighter text={summary} searchWords={props.searchWords} />
       </summary>
-      <table>
-        {isPhrase(phrase) && (
-          <tr>
-            <td colSpan={99}>{select}</td>
-          </tr>
-        )}
-        <tr>{selectedLineTd}</tr>
-      </table>
+      {isJoker(props.writtenPhrase) ? (
+        <JokerComposer {...props} />
+      ) : (
+        phrase && <PhraseTable {...props} phrase={phrase} />
+      )}
     </details>
   );
 };
 
 export default PhraseComposer;
+
+const JokerComposer: FunctionalComponent<WrittenTextProps> = ({
+  writtenPhrase,
+  setWrittenPhrase
+}: WrittenTextProps) => {
+  if (!isJoker(writtenPhrase)) throw new Error();
+  return (
+    <table class={"joker"}>
+      {LANGUAGES.map(lang => (
+        <tr key={lang}>
+          <th>{lang}</th>
+          <td>
+            <input
+              type="text"
+              lang={lang}
+              spellCheck={true}
+              value={writtenPhrase.args[lang]}
+              onChange={e => {
+                setWrittenPhrase({
+                  ...writtenPhrase,
+                  args: {
+                    ...writtenPhrase.args,
+                    [lang]: (e.target as HTMLInputElement).value
+                  }
+                });
+              }}
+            ></input>
+          </td>
+        </tr>
+      ))}
+    </table>
+  );
+};
+
+type SelectLineProps = Props & { phrase: Phrase };
+
+const SelectLine: FunctionalComponent<SelectLineProps> = ({
+  phrase,
+  searchWords,
+  setWrittenPhrase,
+  srcRegion,
+  writtenPhrase
+}: SelectLineProps) => {
+  const catalog = useContext(CatalogContext);
+  const line = phrase.lines.length === 1 ? 0 : writtenPhrase.line;
+  const isRegionVisible = (region?: string): boolean =>
+    !region || !srcRegion || srcRegion === region;
+
+  return (
+    <tr>
+      <td colSpan={99}>
+        <select
+          size={line >= 0 ? 1 : phrase.lines.length + 1}
+          disabled={phrase.lines.length === 1}
+          value={line}
+          onChange={(e): void => {
+            const line = +(e.target as HTMLSelectElement).value;
+            setWrittenPhrase(withLine(writtenPhrase, line));
+          }}
+        >
+          <option value={-1}></option>
+          {phrase.lines.map((line, lineIndex) => (
+            <option
+              key={line}
+              value={lineIndex}
+              class={isRegionVisible(line.region) ? undefined : "d-none"}
+            >
+              <TextHighlighter
+                text={catalog.translateLineFragments(line.lineFragments)}
+                searchWords={searchWords}
+              />
+            </option>
+          ))}
+        </select>
+      </td>
+    </tr>
+  );
+};
+
+const SelectedLine: FunctionalComponent<SelectLineProps> = ({
+  phrase,
+  searchWords,
+  setWrittenPhrase,
+  srcRegion,
+  writtenPhrase
+}: SelectLineProps) => {
+  const line = phrase.lines.length === 1 ? 0 : writtenPhrase.line;
+  const selectedLine = phrase.lines[line];
+  if (isJoker(writtenPhrase)) throw new Error();
+  return (
+    <tr>
+      {selectedLine?.lineFragments
+        ?.filter(lineFragment => lineFragment !== FULL_STOP)
+        ?.map((lineFragment, index) =>
+          mapLineFragment(
+            lineFragment,
+            (curlyName, curlyNameSuffix) => (
+              <td key={index}>
+                <PhraseComposer
+                  curlyNameSuffix={curlyNameSuffix}
+                  srcRegion={srcRegion}
+                  searchWords={searchWords}
+                  writtenPhrase={
+                    writtenPhrase?.args?.[curlyName] ?? newPhrase(curlyName)
+                  }
+                  setWrittenPhrase={(newPhrase: WrittenPhrase): void =>
+                    setWrittenPhrase(withPhrase(writtenPhrase, newPhrase))
+                  }
+                />
+              </td>
+            ),
+            () => undefined
+          )
+        )}
+    </tr>
+  );
+};
+
+const PhraseTable: FunctionalComponent<SelectLineProps> = (
+  props: SelectLineProps
+) => {
+  return (
+    <table>
+      {isPhrase(props.phrase) && <SelectLine {...props} />}
+      {props.phrase && <SelectedLine {...props} />}
+    </table>
+  );
+};

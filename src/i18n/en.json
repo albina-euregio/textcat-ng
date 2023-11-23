@@ -7,6 +7,7 @@
   "region": "Region",
   "search": "Search",
   "sentence.add": "Add sentence",
+  "sentence.joker": "Joker sentence",
   "sentence.moveDown": "Move sentence down",
   "sentence.moveUp": "Move sentence up",
   "sentence.remove": "Remove sentence",
@@ -20,5 +21,6 @@
   "unknownLine": "Unknown line $1 in $2!",
   "unknownPhrase": "Unknown phrase $1!",
   "unsetPhrase": "Unset phrase $1!",
+  "incompleteJoker": "Incomplete joker sentence",
   "version": "Version"
 }
