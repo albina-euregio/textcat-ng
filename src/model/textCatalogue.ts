@@ -400,7 +400,7 @@ export async function buildAllTextcat(): Promise<TextCatalogue[]> {
   return Promise.all(LANGUAGES.map(lang => buildTextcat(lang)));
 }
 
-export type Translations = Record<Lang, IntlText>;
+export type Translations = Record<Lang | "de_AT", IntlText>;
 
 export function translateAll(
   catalogs: TextCatalogue[],
@@ -412,6 +412,9 @@ export function translateAll(
     const { lang } = catalog;
     try {
       translation[lang] = catalog.translate(writtenText);
+      if (lang === "de") {
+        translation["de_AT"] = translateGerman(translation[lang]);
+      }
     } catch (e) {
       if (!(e instanceof UnsetPhraseError)) {
         console.warn(e);
@@ -421,4 +424,33 @@ export function translateAll(
   });
   console.timeEnd("translateAll");
   return translation;
+
+  function translateGerman(translation: IntlText): IntlText {
+    const mapping = {
+      ausser: "außer",
+      Ausser: "Außer",
+      reissen: "reißen",
+      Reissen: "Reißen",
+      mitreiss: "mitreiß",
+      Mitreiss: "Mitreiß",
+      gross: "groß",
+      Gross: "Groß",
+      grösse: "größe",
+      Grösse: "Größe",
+      mässig: "mäßig",
+      Mässig: "Mäßig",
+      massnahmen: "maßnahmen",
+      Massnahmen: "Maßnahmen",
+      strassen: "straßen",
+      Strassen: "Straßen",
+      stossen: "stoßen",
+      Stossen: "Stoßen",
+      fuss: "fuß",
+      Fuss: "Fuß",
+      füsse: "füße",
+      Füsse: "Füße"
+    };
+    const re = new RegExp(Object.keys(mapping).join("|"), "gi");
+    return translation.replace(re, s => mapping[s as keyof typeof mapping]);
+  }
 }

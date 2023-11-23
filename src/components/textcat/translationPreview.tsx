@@ -7,11 +7,14 @@ interface Props {
 
 const TranslationPreview: FunctionalComponent<Props> = (props: Props) => {
   const { translations } = props;
+  const langs = [...LANGUAGES, "de_AT" as const].sort((l1, l2) =>
+    l1.localeCompare(l2)
+  );
 
   return (
     <section>
       <table>
-        {LANGUAGES.map(lang => (
+        {langs.map(lang => (
           <tr key={lang}>
             <th class="pr-10">{lang}</th>
             <td>{translations[lang]}</td>
