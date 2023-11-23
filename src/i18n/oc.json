@@ -7,6 +7,7 @@
   "region": "Region",
   "search": "Cercar",
   "sentence.add": "Íger frasa",
+  "sentence.joker": "Joker sentence",
   "sentence.moveDown": "Botjar frasa cap enjós",
   "sentence.moveUp": "Botjar frasa cap ensús",
   "sentence.remove": "Eliminar frasa",
@@ -20,5 +21,6 @@
   "unknownLine": "Linha desconeishuda $1 en $2!",
   "unknownPhrase": "Frase desconeshuda $1!",
   "unsetPhrase": "Frase non definida $1!",
+  "incompleteJoker": "Incomplete joker sentence",
   "version": "Version"
 }

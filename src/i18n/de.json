@@ -7,6 +7,7 @@
   "region": "Region",
   "search": "Suche",
   "sentence.add": "Satz hinzufügen",
+  "sentence.joker": "Joker-Satz",
   "sentence.moveDown": "Satz nach unten verschieben",
   "sentence.moveUp": "Satz nach oben verschieben",
   "sentence.remove": "Satz entfernen",
@@ -20,5 +21,6 @@
   "unknownLine": "Unbekannte Zeile $1 in $2!",
   "unknownPhrase": "Unbekannte Phrase $1!",
   "unsetPhrase": "Nicht ausgewählte Phrase $1!",
+  "incompleteJoker": "Joker-Satz unvollständig",
   "version": "Version"
 }

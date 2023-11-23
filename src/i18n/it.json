@@ -7,6 +7,7 @@
   "region": "Regione",
   "search": "Ricerca",
   "sentence.add": "Aggiungi frase",
+  "sentence.joker": "Joker sentence",
   "sentence.moveDown": "Spostare la frase in basso",
   "sentence.moveUp": "Spostare la frase in alto",
   "sentence.remove": "Rimuovere la frase",
@@ -20,5 +21,6 @@
   "unknownLine": "Linea sconosciuta $1 in $2!",
   "unknownPhrase": "Frase sconosciuta $1!",
   "unsetPhrase": "Frase non terminata $1!",
+  "incompleteJoker": "Incomplete joker sentence",
   "version": "Versione"
 }
