@@ -131,6 +131,14 @@ const writtenText2: WrittenPhrase = {
     }
   }
 };
+const writtenText3: WrittenPhrase = {
+  curlyName: "Gefährdung03",
+  line: 0,
+  args: {
+    Sicherheitsmassnahmen: { curlyName: "Sicherheitsmassnahmen", line: 0 },
+    "Gefährdung03§prüfen.": { curlyName: "Gefährdung03§prüfen.", line: 11 }
+  }
+};
 
 // legacy snowpackStructureCommentTextcat
 // 33[6610,6817,562].
@@ -185,6 +193,56 @@ Line: Lawinensituation.
 RS_Header: Punkt
 RS_CurlyName: Punkt
 Line: (-).
+
+ST_Header: Gefährdung_03
+ST_CurlyName: Gefährdung03
+PA_Pos: 1
+PA_PosGerman: 1
+RS_CurlyName: Sicherheitsmassnahmen
+PA_Pos: 2
+PA_PosGerman: 2
+RS_CurlyName: Gefährdung03§prüfen.
+
+RS_Header: Sicherheitsmassnahmen
+RS_CurlyName: Sicherheitsmassnahmen
+Line: Sicherheitsmassnahmen
+Line: umfangreiche Sicherheitsmassnahmen
+Line: punktuelle Sicherheitsmassnahmen
+Line: vorsorgliche Sicherheitsmassnahmen
+Line: temporäre Sicherheitsmassnahmen
+Line: Sperrungen exponierter Verkehrswege
+Line: Sperrungen von Verkehrswegen
+Line: vorsorgliche Sperrungen von exponierten Verkehrswegen
+Line: vorsorgliche Sperrungen von Verkehrswegen
+Line: Sperrungen von Verkehrswegen und Evakuationen
+Line: vorsorgliche Sperrungen von Verkehrswegen und allfällige Evakuationen
+Line: temporäre Sperrungen
+Line: Strassensperrungen
+Line: Strassensperrungen und Evakuationen besonders gefährdeter Gebäude
+Line: Strassensperrungen und Evakuationen gefährdeter Gebäude
+Line: Strassensperrungen und umfangreiche Evakuationen
+Line: Evakuationen
+Line: Evakuationen einzelner Gebäude
+Line: einzelne Evakuationen
+Line: Evakuationen besonders gefährdeter Gebäude
+Line: Evakuationen gefährdeter Gebäude
+Line: umfangreiche Evakuationen
+Line: Sperrungen
+
+RS_Header: prüfen
+RS_CurlyName: Gefährdung03§prüfen.
+Line: sollten geprüft werden.
+Line: sind lokal zu prüfen.
+Line: werden empfohlen.
+Line: sind nötig.
+Line: können nötig werden.
+Line: können lokal nötig werden.
+Line: sollten beibehalten werden.
+Line: sollten ausgedehnt werden.
+Line: sollten erst nach eingehender Beurteilung aufgehoben werden.
+Line: können nach eingehender Prüfung aufgehoben werden.
+Line: können nach entsprechender Prüfung gelockert werden.
+Line: können allmählich reduziert werden.
 `;
 
 const textIT = `
@@ -290,6 +348,56 @@ Line: pericolose
 RS_Header: Punkt
 RS_CurlyName: Punkt
 Line: (-).
+
+ST_Header: In_pericolo_03
+ST_CurlyName: Gefährdung03
+PA_Pos: 1
+PA_PosGerman: 1
+RS_CurlyName: Sicherheitsmassnahmen
+PA_Pos: 2
+PA_PosGerman: 2
+RS_CurlyName: Gefährdung03§prüfen.
+
+RS_Header: misure di sicurezza
+RS_CurlyName: Sicherheitsmassnahmen
+Line: misure di sicurezza
+Line: ampie misure di sicurezza
+Line: puntuali misure di sicurezza
+Line: misure preventive di sicurezza
+Line: misure temporanee di sicurezza
+Line: misure di sbarramento delle vie di comunicazione esposte
+Line: misure di sbarramento delle vie di comunicazione
+Line: misure temporanee di sbarramento delle vie di comunicazione esposte
+Line: misure preventive di sbarramento delle vie di comunicazione
+Line: misure di sbarramento delle vie di comunicazione ed evacuazioni
+Line: misure preventive di sbarramento delle vie di comunicazione ed eventuali evacuazioni
+Line: misure temporanee di sbarramento
+Line: misure di sbarramento delle strade
+Line: misure di sbarramento delle strade e di evacuazione degli edifici particolarmente minacciati
+Line: misure di sbarramento delle strade e di evacuazione degli edifici minacciati
+Line: misure di sbarramento delle strade e misure ampie di evacuazione
+Line: misure di evacuazione
+Line: misure di evacuazione degli edifici isolati
+Line: singole misure di evacuazione
+Line: misure di evacuazione degli edifici particolarmente minacciati
+Line: misure di evacuazione degli edifici minacciati
+Line: ampie misure di evacuazione
+Line: misure di sbarramento
+
+RS_Header: verificare
+RS_CurlyName: Gefährdung03§prüfen.
+Line: dovrebbero essere controllate.
+Line: devono essere controllate a livello locale.
+Line: sono consigliate.
+Line: sono necessarie.
+Line: potrebbero rendersi necessarie.
+Line: potrebbero rendersi necessarie a livello locale.
+Line: dovrebbero essere mantenute.
+Line: dovrebbero essere estese.
+Line: dovrebbero essere revocate solo dopo un'attenta valutazione.
+Line: possono essere revocate dopo un'attenta valutazione.
+Line: possono essere allentate dopo un'adeguata verifica.
+Line: possono essere progressivamente ridotte.
 `;
 
 let catalog: TextCatalogue;
@@ -341,13 +449,15 @@ it("should translate a text to IT (including _NO phrase)", () =>
     "Le condizioni rimangono pericolose."
   ));
 it("should translate a text to DE and IT", () =>
-  expect(translateAll([catalog, catalogIT], [writtenPhrase])).toStrictEqual({
-    de: "Abseits gesicherter Pisten weiterhin sehr kritische Lawinensituation.",
+  expect(
+    translateAll([catalog, catalogIT], [writtenPhrase, writtenText3])
+  ).toStrictEqual({
+    de: "Abseits gesicherter Pisten weiterhin sehr kritische Lawinensituation. Sicherheitsmassnahmen können allmählich reduziert werden.",
     de_AT:
-      "Abseits gesicherter Pisten weiterhin sehr kritische Lawinensituation.",
+      "Abseits gesicherter Pisten weiterhin sehr kritische Lawinensituation. Sicherheitsmaßnahmen können allmählich reduziert werden.",
     de_CH:
-      "Abseits gesicherter Pisten weiterhin sehr kritische Lawinensituation.",
-    it: "Al di fuori delle piste assicurate, la situazione valanghiva è ancora molto critica."
+      "Abseits gesicherter Pisten weiterhin sehr kritische Lawinensituation. Sicherheitsmassnahmen können allmählich reduziert werden.",
+    it: "Al di fuori delle piste assicurate, la situazione valanghiva è ancora molto critica. Misure di sicurezza possono essere progressivamente ridotte."
   }));
 it("should handle punctuation correctly", () => {
   const catalogue = new TextCatalogue("en");
