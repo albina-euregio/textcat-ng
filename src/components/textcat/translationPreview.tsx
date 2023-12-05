@@ -7,8 +7,8 @@ interface Props {
 
 const TranslationPreview: FunctionalComponent<Props> = (props: Props) => {
   const { translations } = props;
-  const langs = [...LANGUAGES, "de_AT" as const].sort((l1, l2) =>
-    l1.localeCompare(l2)
+  const langs = [...LANGUAGES, "de_AT" as const, "de_CH" as const].sort(
+    (l1, l2) => l1.localeCompare(l2)
   );
 
   return (

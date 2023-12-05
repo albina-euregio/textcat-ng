@@ -400,7 +400,7 @@ export async function buildAllTextcat(): Promise<TextCatalogue[]> {
   return Promise.all(LANGUAGES.map(lang => buildTextcat(lang)));
 }
 
-export type Translations = Record<Lang | "de_AT", IntlText>;
+export type Translations = Record<Lang | "de_AT" | "de_CH", IntlText>;
 
 export function translateAll(
   catalogs: TextCatalogue[],
@@ -414,6 +414,7 @@ export function translateAll(
       translation[lang] = catalog.translate(writtenText);
       if (lang === "de") {
         translation["de_AT"] = translateGerman(translation[lang]);
+        translation["de_CH"] = translation[lang];
       }
     } catch (e) {
       if (!(e instanceof UnsetPhraseError)) {

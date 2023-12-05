@@ -345,6 +345,8 @@ it("should translate a text to DE and IT", () =>
     de: "Abseits gesicherter Pisten weiterhin sehr kritische Lawinensituation.",
     de_AT:
       "Abseits gesicherter Pisten weiterhin sehr kritische Lawinensituation.",
+    de_CH:
+      "Abseits gesicherter Pisten weiterhin sehr kritische Lawinensituation.",
     it: "Al di fuori delle piste assicurate, la situazione valanghiva è ancora molto critica."
   }));
 it("should handle punctuation correctly", () => {
