@@ -60,12 +60,12 @@ const FilterSentencesPane: FunctionalComponent<Props> = (props: Props) => {
           <Search />
         </button>
         <input
-          class="f-auto"
+          class="f-auto sentences"
           type="text"
           value={searchText}
-          onChange={(e): void =>
-            setSearchText((e.target as HTMLInputElement).value)
-          }
+          onInput={(e): void => {
+            setSearchText((e.target as HTMLInputElement).value);
+          }}
         />
       </label>
       {/* composer for filtered sentences */}
@@ -74,6 +74,7 @@ const FilterSentencesPane: FunctionalComponent<Props> = (props: Props) => {
           .map(({ curlyName }) => writtenPhraseDraft(curlyName))
           .map(writtenPhrase => (
             <PhraseComposer
+              readOnly={false}
               key={writtenPhrase.curlyName}
               curlyNameSuffix={""}
               srcRegion={props.srcRegion}

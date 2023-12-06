@@ -21,7 +21,8 @@ import Copy from "./bootstrap-icons/copy.tsx";
 const App: FunctionalComponent = () => {
   const textcatEditor = import.meta.env.VITE_TEXTCAT_EDITOR === "1";
   const [srcRegion, setSrcRegion] = useState<string>("");
-  const [showTranslation, setShowTranslation] = useState(true);
+  const [showTranslation, setShowTranslation] = useState(false);
+  const [readOnly, setReadOnly] = useState(false);
 
   const [dirHandle, setDirHandle] = useState<
     FileSystemDirectoryHandle | undefined
@@ -60,7 +61,12 @@ const App: FunctionalComponent = () => {
     [catalogs, writtenText]
   );
 
-  const { postPmData } = usePmData(setSrcLang, setSrcRegion, setWrittenText);
+  const { postPmData } = usePmData(
+    setReadOnly,
+    setSrcLang,
+    setSrcRegion,
+    setWrittenText
+  );
 
   return (
     <I18nContext.Provider value={t}>
@@ -98,6 +104,7 @@ const App: FunctionalComponent = () => {
             <TextComposer
               writtenText={writtenText}
               srcRegion={srcRegion}
+              readOnly={readOnly}
               setWrittenPhrase={(newText, index): void =>
                 setWrittenText(ts => {
                   const newTexts = [...ts];

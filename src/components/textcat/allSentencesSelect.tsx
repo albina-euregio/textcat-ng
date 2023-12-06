@@ -46,7 +46,7 @@ const AllSentencesSelect: FunctionalComponent<Props> = (props: Props) => {
           <PlusSquare />
         </button>
         <select
-          class="f-auto f-truncate"
+          class="f-auto f-truncate sentences"
           value={curlyName}
           onChange={(e): void =>
             setCurlyName((e.target as HTMLSelectElement).value)

@@ -371,12 +371,12 @@ export class TextCatalogue {
       return isSentence(phrase)
         ? sentencePreview(phrase, this, translation)
         : translation;
-    } catch (e) {
+    } catch {
       return isSentence(phrase) && showError
-        ? `⚠ ${e} \u2014 ${sentencePreview(phrase, this)}`
+        ? `⚠ ${sentencePreview(phrase, this)}`
         : isSentence(phrase)
           ? sentencePreview(phrase, this)
-          : `{${phrase.header}}: ⚠ ${e}`;
+          : `{${phrase.header}}: ⚠ `;
     }
   }
 

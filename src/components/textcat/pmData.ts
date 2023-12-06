@@ -7,6 +7,7 @@ interface TextcatLegacyIn {
   textField: string;
   currentLang: Lang;
   region: string;
+  readOnly: boolean;
 }
 
 // alias pmData, alias outputText
@@ -46,6 +47,7 @@ window.addEventListener("message", receiveInitialPmData);
 
 // interoperability with albina-admin-gui: send/receive pmData messages
 export function usePmData(
+  setReadOnly: Dispatch<StateUpdater<boolean>>,
   setSrcLang: Dispatch<StateUpdater<Lang>>,
   setSrcRegion: Dispatch<StateUpdater<string>>,
   setWrittenText: Dispatch<StateUpdater<WrittenText>>
@@ -61,6 +63,7 @@ export function usePmData(
       setTextField(pmData.textField);
       setSrcLang(pmData.currentLang);
       setSrcRegion(pmData.region ?? "");
+      setReadOnly(pmData.readOnly || false);
       const text = pmData.textDef
         ? (JSON.parse(pmData.textDef) as WrittenText)
         : [];
@@ -73,7 +76,7 @@ export function usePmData(
     PM_DATA_QUEUE.forEach(pmData => processPmData(pmData));
     window.addEventListener("message", receivePmData);
     return (): void => window.removeEventListener("message", receivePmData);
-  }, [setSrcLang, setSrcRegion, setWrittenText, setTextField]);
+  }, [setSrcLang, setSrcRegion, setWrittenText, setTextField, setReadOnly]);
 
   function postPmData(
     writtenText: WrittenText,

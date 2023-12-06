@@ -30,6 +30,7 @@ interface Props extends WrittenTextProps {
   showError?: boolean;
   onDragStart?: (event: DragEvent) => void;
   onDrop?: (event: DragEvent) => void;
+  readOnly: boolean;
 }
 
 const PhraseComposer: FunctionalComponent<Props> = (props: Props) => {
@@ -79,7 +80,9 @@ const PhraseComposer: FunctionalComponent<Props> = (props: Props) => {
         )}
         <TextHighlighter text={summary} searchWords={props.searchWords} />
       </summary>
-      {isJoker(props.writtenPhrase) ? (
+      {!props.readOnly ? (
+        <></>
+      ) : isJoker(props.writtenPhrase) ? (
         <JokerComposer {...props} />
       ) : (
         phrase && <PhraseTable {...props} phrase={phrase} />
@@ -187,6 +190,7 @@ const SelectLine: FunctionalComponent<SelectLineProps> = ({
 };
 
 const SelectedLine: FunctionalComponent<SelectLineProps> = ({
+  readOnly,
   phrase,
   searchWords,
   setWrittenPhrase,
@@ -206,6 +210,7 @@ const SelectedLine: FunctionalComponent<SelectLineProps> = ({
             (curlyName, curlyNameSuffix) => (
               <td key={index}>
                 <PhraseComposer
+                  readOnly={readOnly}
                   curlyNameSuffix={curlyNameSuffix}
                   srcRegion={srcRegion}
                   searchWords={searchWords}

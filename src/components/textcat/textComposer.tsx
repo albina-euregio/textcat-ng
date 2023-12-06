@@ -14,6 +14,7 @@ import Copy from "../bootstrap-icons/copy";
 interface Props {
   writtenText: WrittenText;
   srcRegion: string;
+  readOnly: boolean;
   setWrittenPhrase: (writtenPhrase: WrittenPhrase, index: number) => void;
   addSentence: (writtenPhrase: WrittenPhrase, index: number) => void;
   moveSentence: (fromIndex: number, toIndex: number | undefined) => void;
@@ -40,17 +41,22 @@ const TextComposer: FunctionalComponent<Props> = (props: Props) => {
 
   return (
     <section>
-      <AllSentencesSelect addWrittenPhrase={addWrittenPhrase} />
-      <FilterSentencesPane
-        addWrittenPhrase={addWrittenPhrase}
-        srcRegion={props.srcRegion}
-      />
+      {!props.readOnly && (
+        <AllSentencesSelect addWrittenPhrase={addWrittenPhrase} />
+      )}
+      {!props.readOnly && (
+        <FilterSentencesPane
+          addWrittenPhrase={addWrittenPhrase}
+          srcRegion={props.srcRegion}
+        />
+      )}
 
       <h2>{t("heading.selectedSentences")}</h2>
       {props.writtenText.map((writtenPhrase, index, array) => (
         <PhraseComposer
           curlyNameSuffix=""
           srcRegion={props.srcRegion}
+          readOnly={props.readOnly}
           key={index}
           showError={true}
           writtenPhrase={writtenPhrase}
@@ -82,39 +88,47 @@ const TextComposer: FunctionalComponent<Props> = (props: Props) => {
           >
             <Copy />
           </button>
-          <button
-            disabled={
-              typeof navigator.clipboard.writeText !== "function" ||
-              typeof navigator.clipboard.readText !== "function"
-            }
-            onClick={(): void => {
-              pasteSentenceFromClipboard(index);
-            }}
-            title={t("sentence.paste")}
-          >
-            <Clipboard />
-          </button>
-          <button
-            disabled={index === 0}
-            onClick={(): void => props.moveSentence(index, index - 1)}
-            title={t("sentence.moveUp")}
-          >
-            <CaretUpSquare />
-          </button>
-          <button
-            disabled={index >= array.length - 1}
-            onClick={(): void => props.moveSentence(index, index + 1)}
-            title={t("sentence.moveDown")}
-          >
-            <CaretDownSquare />
-          </button>
-          <button
-            onClick={(): void => props.moveSentence(index, undefined)}
-            title={t("sentence.remove")}
-            class="x-square"
-          >
-            <XSquare />
-          </button>{" "}
+          {!props.readOnly && (
+            <button
+              disabled={
+                typeof navigator.clipboard.writeText !== "function" ||
+                typeof navigator.clipboard.readText !== "function"
+              }
+              onClick={(): void => {
+                pasteSentenceFromClipboard(index);
+              }}
+              title={t("sentence.paste")}
+            >
+              <Clipboard />
+            </button>
+          )}
+          {!props.readOnly && (
+            <button
+              disabled={index === 0}
+              onClick={(): void => props.moveSentence(index, index - 1)}
+              title={t("sentence.moveUp")}
+            >
+              <CaretUpSquare />
+            </button>
+          )}
+          {!props.readOnly && (
+            <button
+              disabled={index >= array.length - 1}
+              onClick={(): void => props.moveSentence(index, index + 1)}
+              title={t("sentence.moveDown")}
+            >
+              <CaretDownSquare />
+            </button>
+          )}
+          {!props.readOnly && (
+            <button
+              onClick={(): void => props.moveSentence(index, undefined)}
+              title={t("sentence.remove")}
+              class="x-square"
+            >
+              <XSquare />
+            </button>
+          )}{" "}
         </PhraseComposer>
       ))}
     </section>
