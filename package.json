@@ -17,15 +17,14 @@
     "url": "https://gitlab.com/albina-euregio/textcat-ng/-/issues"
   },
   "scripts": {
+    "postinstall": "simple-git-hooks",
     "build": "tsc && vite build",
     "dev": "vite",
     "lint": "eslint src/",
     "test": "vitest run"
   },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
+  "simple-git-hooks": {
+    "pre-commit": "yarn lint-staged"
   },
   "lint-staged": {
     "*.{css,md,scss}": "prettier --write",
@@ -49,9 +48,9 @@
     "eslint-plugin-prettier": "^5.0.1",
     "eslint-plugin-react": "^7.33.2",
     "eslint-plugin-react-hooks": "^4.6.0",
-    "husky": "^4.2.1",
-    "lint-staged": "^10.0.7",
+    "lint-staged": "^15.2.0",
     "prettier": "^3.0.3",
+    "simple-git-hooks": "^2.9.0",
     "typescript": "^5.3.3",
     "vite": "^5.0.10",
     "vitest": "^1.0.4"
