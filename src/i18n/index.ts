@@ -7,7 +7,7 @@ import es from "./es.json";
 import fr from "./fr.json";
 import it from "./it.json";
 import oc from "./oc.json";
-const i18nMessages: Partial<Record<Lang, Record<string, string>>> = {
+const i18nMessages: Partial<Record<Lang, Record<keyof typeof en, string>>> = {
   ca,
   de,
   en,
