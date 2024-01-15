@@ -14,6 +14,8 @@ interface TextcatLegacyOut {
   textDef: string;
   textField: string;
   textDe: string;
+  textDe_AT: string;
+  textDe_CH: string;
   textIt: string;
   textEn: string;
   textEs: string;
@@ -82,6 +84,8 @@ export function usePmData(
       textField,
       textCa: translations.ca,
       textDe: translations.de,
+      textDe_AT: translations.de_AT,
+      textDe_CH: translations.de_CH,
       textEn: translations.en,
       textEs: translations.es,
       textFr: translations.fr,
