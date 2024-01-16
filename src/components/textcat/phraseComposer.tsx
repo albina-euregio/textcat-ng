@@ -8,6 +8,7 @@ import {
   WrittenTextProps,
   mapLineFragment,
   newPhrase,
+  withJokerText,
   withLine,
   withPhrase,
   isPhrase,
@@ -103,13 +104,13 @@ const JokerComposer: FunctionalComponent<WrittenTextProps> = ({
               spellCheck={true}
               value={writtenPhrase.args[lang]}
               onChange={e => {
-                setWrittenPhrase({
-                  ...writtenPhrase,
-                  args: {
-                    ...writtenPhrase.args,
-                    [lang]: (e.target as HTMLInputElement).value
-                  }
-                });
+                setWrittenPhrase(
+                  withJokerText(
+                    writtenPhrase,
+                    lang,
+                    (e.target as HTMLInputElement).value
+                  )
+                );
               }}
             ></input>
           </td>
