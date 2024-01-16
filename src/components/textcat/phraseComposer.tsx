@@ -14,7 +14,9 @@ import {
   isPhrase,
   isJoker,
   LANGUAGES,
-  Phrase
+  Phrase,
+  DEEPL_LANGUAGES,
+  translateJoker
 } from "../../model";
 import TextHighlighter from "./textHighlighter";
 import BracesAsterisk from "../bootstrap-icons/braces-asterisk";
@@ -113,6 +115,18 @@ const JokerComposer: FunctionalComponent<WrittenTextProps> = ({
                 );
               }}
             ></input>
+          </td>
+          <td>
+            {DEEPL_LANGUAGES.includes(lang) && (
+              <button
+                disabled={!writtenPhrase.args[lang]}
+                onClick={async () =>
+                  setWrittenPhrase(await translateJoker(writtenPhrase, lang))
+                }
+              >
+                DeepL
+              </button>
+            )}
           </td>
         </tr>
       ))}
