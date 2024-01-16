@@ -76,6 +76,21 @@ export function withLine(
   return { ...writtenPhrase, line };
 }
 
+export function withJokerText(
+  writtenPhrase: Joker,
+  lang: Lang,
+  text: string
+): Joker {
+  if (!isJoker(writtenPhrase)) throw new Error();
+  return {
+    ...writtenPhrase,
+    args: {
+      ...writtenPhrase.args,
+      [lang]: text
+    }
+  };
+}
+
 export function arrayMove<T>(
   arr: T[],
   fromIndex: number,
