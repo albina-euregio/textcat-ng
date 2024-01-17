@@ -3,8 +3,11 @@ import { Joker, isJoker, withJokerText } from "./writtenText";
 
 export const DEEPL_LANGUAGES: Lang[] = ["de", "en", "es", "fr", "it"];
 
+const VITE_DEEPL_API = import.meta.env.VITE_DEEPL_API;
+const VITE_DEEPL_API_KEY = import.meta.env.VITE_DEEPL_API_KEY;
+
 export function isTranslateJokerEnabled(): boolean {
-  return !!import.meta.env.DEEPL;
+  return !!VITE_DEEPL_API;
 }
 
 export async function translateJoker(writtenPhrase: Joker, sourceLang: Lang) {
@@ -16,18 +19,17 @@ export async function translateJoker(writtenPhrase: Joker, sourceLang: Lang) {
   for (const targetLang of LANGUAGES) {
     if (sourceLang === targetLang) continue;
     if (!DEEPL_LANGUAGES.includes(targetLang)) continue;
-    const url = "https://api-free.deepl.com/v2/translate";
     const body = {
       text: [writtenPhrase.args[sourceLang]],
       source_lang: sourceLang.toUpperCase(),
       target_lang: targetLang.toUpperCase()
     };
-    const response = await fetch(url, {
+    const response = await fetch(VITE_DEEPL_API, {
       method: "POST",
       body: JSON.stringify(body),
       headers: {
-        Authorization: "DeepL-Auth-Key " + import.meta.env.DEEPL,
-        "Accept-Encoding": "application/json",
+        Authorization: "DeepL-Auth-Key " + VITE_DEEPL_API_KEY,
+        Accept: "application/json",
         "Content-Type": "application/json"
       }
     });
