@@ -3,6 +3,10 @@ import { Joker, isJoker, withJokerText } from "./writtenText";
 
 export const DEEPL_LANGUAGES: Lang[] = ["de", "en", "es", "fr", "it"];
 
+export function isTranslateJokerEnabled(): boolean {
+  return !!import.meta.env.DEEPL;
+}
+
 export async function translateJoker(writtenPhrase: Joker, sourceLang: Lang) {
   // https://www.deepl.com/docs-api/translate-text
   if (!isJoker(writtenPhrase)) throw new Error();
