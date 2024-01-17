@@ -16,6 +16,7 @@ import {
   LANGUAGES,
   Phrase,
   DEEPL_LANGUAGES,
+  isTranslateJokerEnabled,
   translateJoker
 } from "../../model";
 import TextHighlighter from "./textHighlighter";
@@ -117,7 +118,7 @@ const JokerComposer: FunctionalComponent<WrittenTextProps> = ({
             ></input>
           </td>
           <td>
-            {DEEPL_LANGUAGES.includes(lang) && (
+            {isTranslateJokerEnabled() && DEEPL_LANGUAGES.includes(lang) && (
               <button
                 disabled={!writtenPhrase.args[lang]}
                 onClick={async () =>
