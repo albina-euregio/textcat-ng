@@ -47,6 +47,16 @@ const App: FunctionalComponent = () => {
 
   return (
     <section>
+      <button
+        onClick={async () => {
+          const dirHandle = await window.showDirectoryPicker();
+          for await (const entry of dirHandle.values()) {
+            console.log(entry.kind, entry.name);
+          }
+        }}
+      >
+        Open directory
+      </button>
       <h1 class="d-none">textcat-ng</h1>
 
       <CatalogContext.Provider value={catalog}>
