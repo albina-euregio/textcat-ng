@@ -1,7 +1,6 @@
 import { FunctionalComponent } from "preact";
 import { useEffect, useState, useMemo } from "preact/hooks";
 import {
-  buildTextcat,
   buildAllTextcat,
   TextCatalogue,
   translateAll,
@@ -28,18 +27,17 @@ const App: FunctionalComponent = () => {
   >(undefined);
 
   const [srcLang, setSrcLang] = useState<Lang>(DEFAULT_LANG);
-  const [catalog, setCatalog] = useState<TextCatalogue>(
-    new TextCatalogue(srcLang)
-  );
   useEffect(() => {
-    if (!dirHandle) return;
-    buildTextcat(dirHandle, srcLang).then(c => setCatalog(c));
     setI18nLang(srcLang);
   }, [dirHandle, srcLang]);
 
   const [writtenText, setWrittenText] = useState<WrittenText>([]);
 
   const [catalogs, setCatalogs] = useState<TextCatalogue[]>([]);
+  const catalog = useMemo(
+    () => catalogs.find(c => c.lang === srcLang),
+    [catalogs, srcLang]
+  );
   useEffect(() => {
     if (!dirHandle) return;
     buildAllTextcat(dirHandle).then(cs => setCatalogs(cs));
@@ -63,29 +61,31 @@ const App: FunctionalComponent = () => {
       </button>
       <h1 class="d-none">textcat-ng</h1>
 
-      <CatalogContext.Provider value={catalog}>
-        <TextComposer
-          writtenText={writtenText}
-          srcRegion={srcRegion}
-          setWrittenPhrase={(newText, index): void =>
-            setWrittenText(ts => {
-              const newTexts = [...ts];
-              newTexts[index] = newText;
-              return newTexts;
-            })
-          }
-          addSentence={(newText, index): void =>
-            setWrittenText(ts => {
-              const newTexts = [...ts];
-              newTexts.splice(index, 0, newText);
-              return newTexts;
-            })
-          }
-          moveSentence={(fromIndex, toIndex): void => {
-            setWrittenText(ts => arrayMove(ts, fromIndex, toIndex));
-          }}
-        />
-      </CatalogContext.Provider>
+      {catalog && (
+        <CatalogContext.Provider value={catalog}>
+          <TextComposer
+            writtenText={writtenText}
+            srcRegion={srcRegion}
+            setWrittenPhrase={(newText, index): void =>
+              setWrittenText(ts => {
+                const newTexts = [...ts];
+                newTexts[index] = newText;
+                return newTexts;
+              })
+            }
+            addSentence={(newText, index): void =>
+              setWrittenText(ts => {
+                const newTexts = [...ts];
+                newTexts.splice(index, 0, newText);
+                return newTexts;
+              })
+            }
+            moveSentence={(fromIndex, toIndex): void => {
+              setWrittenText(ts => arrayMove(ts, fromIndex, toIndex));
+            }}
+          />
+        </CatalogContext.Provider>
+      )}
 
       <h2>{t("heading.translations")}</h2>
       {showTranslation && <TranslationPreview translations={translations} />}
@@ -98,17 +98,19 @@ const App: FunctionalComponent = () => {
       </button>
 
       <TextcatFooter>
-        {catalog.lastModified && <li>satzkatalog {catalog.lastModified}</li>}
+        {catalog?.lastModified && <li>satzkatalog {catalog.lastModified}</li>}
         <li>
           <LanguageSelect srcLang={srcLang} setSrcLang={setSrcLang} />
         </li>
-        <li>
-          <RegionSelect
-            regions={catalog.regions}
-            srcRegion={srcRegion}
-            setSrcRegion={setSrcRegion}
-          />
-        </li>
+        {catalog && (
+          <li>
+            <RegionSelect
+              regions={catalog.regions}
+              srcRegion={srcRegion}
+              setSrcRegion={setSrcRegion}
+            />
+          </li>
+        )}
         <li>
           <TranslationCheckbox
             showTranslation={showTranslation}
