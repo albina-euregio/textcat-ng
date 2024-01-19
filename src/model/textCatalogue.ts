@@ -247,7 +247,9 @@ export class TextCatalogue {
           console.warn("Ignoring", line);
       }
     });
-    this.phrases = Object.values(this.data);
+    this.phrases = Object.values(this.data)
+      .filter(isPhrase)
+      .sort((s1, s2) => s1.curlyName.localeCompare(s2.curlyName));
     this.sentences = Object.values(this.data)
       .filter(isSentence)
       .sort((s1, s2) => s1.header.localeCompare(s2.header));
