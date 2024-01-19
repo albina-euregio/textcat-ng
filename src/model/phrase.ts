@@ -29,6 +29,19 @@ export function uniqueLineFragments(phrase: Phrase): string[] | undefined {
   }
 }
 
+export function newPhraseLine(
+  line: string,
+  region: string | undefined = undefined
+): Phrase["lines"][number] {
+  return {
+    line,
+    lineFragments: (line.match(/{[^}]+}|[^{}]+/g) ?? [])
+      .map(s => s.trim())
+      .filter(s => s.length),
+    region
+  };
+}
+
 export function mapLineFragment<T>(
   lineFragment: IntlText,
   mapCurlyName: (curlyName: CurlyName, curlyNameSuffix: CurlyNameSuffix) => T,

@@ -17,6 +17,7 @@ import {
   WrittenText,
   isJoker,
   Joker,
+  newPhraseLine,
   sentencePreview
 } from ".";
 import { t } from "../i18n";
@@ -227,13 +228,7 @@ export class TextCatalogue {
           break;
         case "Line":
           if (isPhrase(current)) {
-            current.lines?.push({
-              line: value,
-              lineFragments: (value.match(/{[^}]+}|[^{}]+/g) ?? [])
-                .map(s => s.trim())
-                .filter(s => s.length),
-              region: currentRegion
-            });
+            current.lines?.push(newPhraseLine(value, currentRegion));
           }
           break;
         case "Begin":
