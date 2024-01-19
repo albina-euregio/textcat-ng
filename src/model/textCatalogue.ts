@@ -378,26 +378,31 @@ export class TextCatalogue {
   }
 }
 
-export async function buildTextcat(lang: Lang): Promise<TextCatalogue> {
+export async function buildTextcat(
+  dirHandle: FileSystemDirectoryHandle,
+  lang: Lang
+): Promise<TextCatalogue> {
   // awk '{print $0}' DE/Sentences/* DE/Ranges/* > assets/satzkatalog.DE.txt
-  const file = `satzkatalog.${lang.toUpperCase()}.txt`;
+  const fileName = `satzkatalog.${lang.toUpperCase()}.txt`;
   const catalog = new TextCatalogue(lang);
   try {
-    const response = await fetch(`./assets/${file}`);
-    if (!response.ok) throw response.statusText;
-    const text = await response.text();
-    console.time(`parse ${file}`);
+    const fileHandle = await dirHandle.getFileHandle(fileName);
+    const file = await fileHandle.getFile();
+    const text = await file.text();
+    console.time(`parse ${fileName}`);
     catalog.parse(text);
-    catalog.updateLastModified(response.headers.get("Last-Modified"));
-    console.timeEnd(`parse ${file}`);
+    catalog.updateLastModified(new Date(file.lastModified).toISOString());
+    console.timeEnd(`parse ${fileName}`);
   } catch (e) {
-    throw new Error(`Failed to build textcat from ${file}: ${e}`);
+    throw new Error(`Failed to build textcat from ${fileName}: ${e}`);
   }
   return catalog;
 }
 
-export async function buildAllTextcat(): Promise<TextCatalogue[]> {
-  return Promise.all(LANGUAGES.map(lang => buildTextcat(lang)));
+export async function buildAllTextcat(
+  dirHandle: FileSystemDirectoryHandle
+): Promise<TextCatalogue[]> {
+  return Promise.all(LANGUAGES.map(lang => buildTextcat(dirHandle, lang)));
 }
 
 export type Translations = Record<Lang | "de_AT" | "de_CH", IntlText>;

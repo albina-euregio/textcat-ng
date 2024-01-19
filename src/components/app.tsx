@@ -23,21 +23,27 @@ const App: FunctionalComponent = () => {
   const [srcRegion, setSrcRegion] = useState<string>("");
   const [showTranslation, setShowTranslation] = useState(true);
 
+  const [dirHandle, setDirHandle] = useState<
+    FileSystemDirectoryHandle | undefined
+  >(undefined);
+
   const [srcLang, setSrcLang] = useState<Lang>(DEFAULT_LANG);
   const [catalog, setCatalog] = useState<TextCatalogue>(
     new TextCatalogue(srcLang)
   );
   useEffect(() => {
-    buildTextcat(srcLang).then(c => setCatalog(c));
+    if (!dirHandle) return;
+    buildTextcat(dirHandle, srcLang).then(c => setCatalog(c));
     setI18nLang(srcLang);
-  }, [srcLang]);
+  }, [dirHandle, srcLang]);
 
   const [writtenText, setWrittenText] = useState<WrittenText>([]);
 
   const [catalogs, setCatalogs] = useState<TextCatalogue[]>([]);
   useEffect(() => {
-    buildAllTextcat().then(cs => setCatalogs(cs));
-  }, []);
+    if (!dirHandle) return;
+    buildAllTextcat(dirHandle).then(cs => setCatalogs(cs));
+  }, [dirHandle]);
   const translations: Translations = useMemo(
     () => translateAll(catalogs, writtenText),
     [catalogs, writtenText]
@@ -49,10 +55,8 @@ const App: FunctionalComponent = () => {
     <section>
       <button
         onClick={async () => {
-          const dirHandle = await window.showDirectoryPicker();
-          for await (const entry of dirHandle.values()) {
-            console.log(entry.kind, entry.name);
-          }
+          const handle = await window.showDirectoryPicker();
+          setDirHandle(handle);
         }}
       >
         Open directory
