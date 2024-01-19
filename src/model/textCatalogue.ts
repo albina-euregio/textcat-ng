@@ -383,20 +383,34 @@ export async function buildTextcat(
   lang: Lang
 ): Promise<TextCatalogue> {
   // awk '{print $0}' DE/Sentences/* DE/Ranges/* > assets/satzkatalog.DE.txt
-  const fileName = `satzkatalog.${lang.toUpperCase()}.txt`;
   const catalog = new TextCatalogue(lang);
   try {
-    const fileHandle = await dirHandle.getFileHandle(fileName);
-    const file = await fileHandle.getFile();
-    const text = await file.text();
-    console.time(`parse ${fileName}`);
+    console.time(`parse ${lang}`);
+    let text = "";
+    for await (const fileHandle of allFiles()) {
+      if (fileHandle.kind !== "file") continue;
+      const file = await fileHandle.getFile();
+      text += await file.text();
+      catalog.updateLastModified(new Date(file.lastModified).toISOString());
+    }
     catalog.parse(text);
-    catalog.updateLastModified(new Date(file.lastModified).toISOString());
-    console.timeEnd(`parse ${fileName}`);
+    console.timeEnd(`parse ${lang}`);
   } catch (e) {
-    throw new Error(`Failed to build textcat from ${fileName}: ${e}`);
+    throw new Error(`Failed to build textcat from ${lang}: ${e}`);
   }
   return catalog;
+
+  async function* allFiles(): AsyncGenerator<
+    FileSystemDirectoryHandle | FileSystemFileHandle,
+    void,
+    undefined
+  > {
+    const langDir = await dirHandle.getDirectoryHandle(lang.toUpperCase());
+    const ranges = await langDir.getDirectoryHandle("Ranges");
+    const sentences = await langDir.getDirectoryHandle("Sentences");
+    yield* ranges.values();
+    yield* sentences.values();
+  }
 }
 
 export async function buildAllTextcat(
