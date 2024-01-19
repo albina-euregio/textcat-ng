@@ -72,6 +72,16 @@ dist/index.html
 # copy dist/ to webserver
 ```
 
+## Enable DeepL translation for Joker sentences
+
+Obtain a DeepL authentication key via https://www.deepl.com/pro-api, and configure `.env` with the following two environment variables:
+
+```env
+VITE_DEEPL_API=https://api-free.deepl.com/v2/translate
+VITE_DEEPL_API_KEY=...:fx
+
+```
+
 ## Translation
 
 This project uses Transifex for its translations: https://www.transifex.com/albina-euregio/textcat-ng/dashboard/
