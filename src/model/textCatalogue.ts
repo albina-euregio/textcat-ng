@@ -56,7 +56,6 @@ export class TextCatalogue {
   public sentences: Sentence[] = [];
   public phrases: Phrase[] = [];
   public readonly regions: Set<string> = new Set<string>();
-  public readonly wordToPhraseMap: Map<string, Set<string>> = new Map();
   public lastModified?: string;
 
   constructor(lang: Lang) {
