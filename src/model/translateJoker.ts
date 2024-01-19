@@ -13,6 +13,7 @@ export function isTranslateJokerEnabled(): boolean {
 export async function translateJoker(writtenPhrase: Joker, sourceLang: Lang) {
   // https://www.deepl.com/docs-api/translate-text
   if (!isJoker(writtenPhrase)) throw new Error();
+  if (!VITE_DEEPL_API || !VITE_DEEPL_API_KEY) throw new Error();
   if (!DEEPL_LANGUAGES.includes(sourceLang)) {
     throw new Error("Cannot translate from " + sourceLang);
   }
