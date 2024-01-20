@@ -18,6 +18,7 @@ import PhraseEditor from "./textcat/phraseEditor";
 const App: FunctionalComponent = () => {
   const [srcRegion, setSrcRegion] = useState<string>("");
   const [showTranslation, setShowTranslation] = useState(true);
+  const [changeCount, setChangeCount] = useState(1);
 
   const [dirHandle, setDirHandle] = useState<
     FileSystemDirectoryHandle | undefined
@@ -44,10 +45,10 @@ const App: FunctionalComponent = () => {
     if (!dirHandle) return;
     buildAllTextcat(dirHandle).then(cs => setCatalogs(cs));
   }, [dirHandle]);
-  const translations: Translations = useMemo(
-    () => catalogs?.translateAll(writtenText) ?? ({} as Translations),
-    [catalogs, writtenText]
-  );
+  const translations: Translations = useMemo(() => {
+    console.log(changeCount);
+    return catalogs?.translateAll(writtenText) ?? ({} as Translations);
+  }, [catalogs, writtenText, changeCount]);
 
   const { postPmData } = usePmData(setSrcLang, setSrcRegion, setWrittenText);
 
@@ -65,7 +66,11 @@ const App: FunctionalComponent = () => {
       <h1 class="d-none">textcat-ng</h1>
 
       {catalog && catalogs && (
-        <PhraseEditor phrases={catalog.phrases} catalogs={catalogs} />
+        <PhraseEditor
+          phrases={catalog.phrases}
+          catalogs={catalogs}
+          onPhraseChange={() => setChangeCount(c => c + 1)}
+        />
       )}
       {catalog && (
         <CatalogContext.Provider value={catalog}>

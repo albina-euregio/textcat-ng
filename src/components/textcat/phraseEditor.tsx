@@ -1,15 +1,17 @@
 import { FunctionalComponent } from "preact";
 import { useMemo, useState } from "preact/hooks";
-import { AllTextCatalogues, Phrase, newPhraseLine } from "../../model";
+import { AllTextCatalogues, Lang, Phrase, newPhraseLine } from "../../model";
 
 interface Props {
   catalogs: AllTextCatalogues;
   phrases: Phrase[];
+  onPhraseChange(lang: Lang, phrase: Phrase): void;
 }
 
 const PhraseEditor: FunctionalComponent<Props> = ({
   catalogs,
-  phrases
+  phrases,
+  onPhraseChange
 }: Props) => {
   const [curlyName, setCurlyName] = useState("");
   const phraseLangs = useMemo(
@@ -57,14 +59,11 @@ const PhraseEditor: FunctionalComponent<Props> = ({
                     type="text"
                     value={line.line}
                     onInput={e => {
-                      catalogs.catalogs[lang].lastModified =
-                        new Date().toISOString();
-                      const lines = [...phrase.lines];
-                      lines[index] = newPhraseLine(
+                      phrase.lines[index] = newPhraseLine(
                         (e.target as HTMLInputElement).value,
                         line.region
                       );
-                      phrase.lines = lines;
+                      onPhraseChange(lang, phrase);
                     }}
                   />
                 </td>
