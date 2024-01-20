@@ -411,62 +411,68 @@ export async function buildTextcat(
 
 export async function buildAllTextcat(
   dirHandle: FileSystemDirectoryHandle
-): Promise<TextCatalogue[]> {
-  return Promise.all(LANGUAGES.map(lang => buildTextcat(dirHandle, lang)));
+): Promise<AllTextCatalogues> {
+  return new AllTextCatalogues(
+    Object.fromEntries(
+      (
+        await Promise.all(LANGUAGES.map(lang => buildTextcat(dirHandle, lang)))
+      ).map(c => [c.lang, c])
+    ) as Record<Lang, TextCatalogue>
+  );
 }
 
 export type Translations = Record<Lang | "de_AT" | "de_CH", IntlText>;
 
-export function translateAll(
-  catalogs: TextCatalogue[],
-  writtenText: WrittenText
-): Translations {
-  console.time("translateAll");
-  const translation = {} as Translations;
-  catalogs.forEach(catalog => {
-    const { lang } = catalog;
-    try {
-      translation[lang] = catalog.translate(writtenText);
-      if (lang === "de") {
-        translation["de_AT"] = translateGerman(translation[lang]);
-        translation["de_CH"] = translation[lang];
+export class AllTextCatalogues {
+  constructor(public readonly catalogs: Record<Lang, TextCatalogue>) {}
+  translateAll(writtenText: WrittenText): Translations {
+    console.time("translateAll");
+    const translation = {} as Translations;
+    Object.values(this.catalogs).forEach(catalog => {
+      const { lang } = catalog;
+      try {
+        translation[lang] = catalog.translate(writtenText);
+        if (lang === "de") {
+          translation["de_AT"] = translateGerman(translation[lang]);
+          translation["de_CH"] = translation[lang];
+        }
+      } catch (e) {
+        if (!(e instanceof UnsetPhraseError)) {
+          console.warn(e);
+        }
+        translation[lang] = `⚠ ${e}`;
       }
-    } catch (e) {
-      if (!(e instanceof UnsetPhraseError)) {
-        console.warn(e);
-      }
-      translation[lang] = `⚠ ${e}`;
-    }
-  });
-  console.timeEnd("translateAll");
-  return translation;
+    });
+    console.timeEnd("translateAll");
+    return translation;
 
-  function translateGerman(translation: IntlText): IntlText {
-    const mapping = {
-      ausser: "außer",
-      Ausser: "Außer",
-      reissen: "reißen",
-      Reissen: "Reißen",
-      mitreiss: "mitreiß",
-      Mitreiss: "Mitreiß",
-      gross: "groß",
-      Gross: "Groß",
-      grösse: "größe",
-      Grösse: "Größe",
-      mässig: "mäßig",
-      Mässig: "Mäßig",
-      massnahmen: "maßnahmen",
-      Massnahmen: "Maßnahmen",
-      strassen: "straßen",
-      Strassen: "Straßen",
-      stossen: "stoßen",
-      Stossen: "Stoßen",
-      fuss: "fuß",
-      Fuss: "Fuß",
-      füsse: "füße",
-      Füsse: "Füße"
-    };
-    const re = new RegExp(Object.keys(mapping).join("|"), "gi");
-    return translation.replace(re, s => mapping[s as keyof typeof mapping]);
+    function translateGerman(translation: IntlText): IntlText {
+      const mapping = {
+        ausser: "außer",
+        Ausser: "Außer",
+        reissen: "reißen",
+        Reissen: "Reißen",
+        mitreiss: "mitreiß",
+        Mitreiss: "Mitreiß",
+        gross: "groß",
+        Gross: "Groß",
+        grösse: "größe",
+        Grösse: "Größe",
+        mässig: "mäßig",
+        Mässig: "Mäßig",
+        massnahmen: "maßnahmen",
+        Massnahmen: "Maßnahmen",
+        strassen: "straßen",
+        Strassen: "Straßen",
+        stossen: "stoßen",
+        Stossen: "Stoßen",
+        fuss: "fuß",
+        Fuss: "Fuß",
+        füsse: "füße",
+        Füsse: "Füße"
+      };
+      const re = new RegExp(Object.keys(mapping).join("|"), "gi");
+      return translation.replace(re, s => mapping[s as keyof typeof mapping]);
+    }
   }
 }

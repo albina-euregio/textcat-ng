@@ -1,11 +1,6 @@
 import { FunctionalComponent } from "preact";
 import { useEffect, useState, useMemo } from "preact/hooks";
-import {
-  buildAllTextcat,
-  TextCatalogue,
-  translateAll,
-  Translations
-} from "../model";
+import { AllTextCatalogues, buildAllTextcat, Translations } from "../model";
 import { CatalogContext } from "./textcat/contexts";
 import TextComposer from "./textcat/textComposer";
 import { arrayMove, DEFAULT_LANG, Lang, WrittenText } from "../model";
@@ -37,9 +32,11 @@ const App: FunctionalComponent = () => {
 
   const [writtenText, setWrittenText] = useState<WrittenText>([]);
 
-  const [catalogs, setCatalogs] = useState<TextCatalogue[]>([]);
+  const [catalogs, setCatalogs] = useState<AllTextCatalogues | undefined>(
+    undefined
+  );
   const catalog = useMemo(
-    () => catalogs.find(c => c.lang === srcLang),
+    () => catalogs?.catalogs[srcLang],
     [catalogs, srcLang]
   );
   useEffect(() => {
@@ -47,7 +44,7 @@ const App: FunctionalComponent = () => {
     buildAllTextcat(dirHandle).then(cs => setCatalogs(cs));
   }, [dirHandle]);
   const translations: Translations = useMemo(
-    () => translateAll(catalogs, writtenText),
+    () => catalogs?.translateAll(writtenText) ?? ({} as Translations),
     [catalogs, writtenText]
   );
 

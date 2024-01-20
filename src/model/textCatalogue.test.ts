@@ -6,9 +6,10 @@ import {
   WrittenPhrase,
   arrayMove,
   mapLineFragment,
-  translateAll,
   Joker,
-  SearchMode
+  SearchMode,
+  AllTextCatalogues,
+  Lang
 } from ".";
 
 /**
@@ -450,7 +451,10 @@ it("should translate a text to IT (including _NO phrase)", () =>
   ));
 it("should translate a text to DE and IT", () =>
   expect(
-    translateAll([catalog, catalogIT], [writtenPhrase, writtenText3])
+    new AllTextCatalogues({ de: catalog, it: catalogIT } as Record<
+      Lang,
+      TextCatalogue
+    >).translateAll([writtenPhrase, writtenText3])
   ).toStrictEqual({
     de: "Abseits gesicherter Pisten weiterhin sehr kritische Lawinensituation. Sicherheitsmassnahmen können allmählich reduziert werden.",
     de_AT:
