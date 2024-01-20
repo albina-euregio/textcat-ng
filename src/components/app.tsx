@@ -17,6 +17,7 @@ import RegionSelect from "./textcat/regionSelect";
 import TranslationCheckbox from "./textcat/translationCheckbox";
 import { t, setI18nLang } from "../i18n";
 import CheckSquare from "./bootstrap-icons/check-square";
+import { get, set } from "idb-keyval";
 
 const App: FunctionalComponent = () => {
   const [srcRegion, setSrcRegion] = useState<string>("");
@@ -25,11 +26,14 @@ const App: FunctionalComponent = () => {
   const [dirHandle, setDirHandle] = useState<
     FileSystemDirectoryHandle | undefined
   >(undefined);
+  useEffect(() => {
+    get<FileSystemDirectoryHandle | undefined>("dirHandle").then(setDirHandle);
+  }, []);
 
   const [srcLang, setSrcLang] = useState<Lang>(DEFAULT_LANG);
   useEffect(() => {
     setI18nLang(srcLang);
-  }, [dirHandle, srcLang]);
+  }, [srcLang]);
 
   const [writtenText, setWrittenText] = useState<WrittenText>([]);
 
@@ -55,6 +59,7 @@ const App: FunctionalComponent = () => {
         onClick={async () => {
           const handle = await window.showDirectoryPicker();
           setDirHandle(handle);
+          set("dirHandle", handle);
         }}
       >
         Open directory
