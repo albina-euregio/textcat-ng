@@ -55,7 +55,9 @@ export class TextCatalogue {
   public readonly lang: Lang;
   private data: Record<CurlyName, Phrase> = {};
   public sentences: Sentence[] = [];
+  public sentencesHandle: FileSystemDirectoryHandle | undefined;
   public phrases: Phrase[] = [];
+  public phrasesHandle: FileSystemDirectoryHandle | undefined;
   public readonly regions: Set<string> = new Set<string>();
   public lastModified?: string;
 
@@ -380,6 +382,9 @@ export async function buildTextcat(
 ): Promise<TextCatalogue> {
   // awk '{print $0}' DE/Sentences/* DE/Ranges/* > assets/satzkatalog.DE.txt
   const catalog = new TextCatalogue(lang);
+  const langDir = await dirHandle.getDirectoryHandle(lang.toUpperCase());
+  catalog.phrasesHandle = await langDir.getDirectoryHandle("Ranges");
+  catalog.sentencesHandle = await langDir.getDirectoryHandle("Sentences");
   try {
     console.time(`parse ${lang}`);
     let text = "";
@@ -401,11 +406,8 @@ export async function buildTextcat(
     void,
     undefined
   > {
-    const langDir = await dirHandle.getDirectoryHandle(lang.toUpperCase());
-    const ranges = await langDir.getDirectoryHandle("Ranges");
-    const sentences = await langDir.getDirectoryHandle("Sentences");
-    yield* ranges.values();
-    yield* sentences.values();
+    yield* catalog.phrasesHandle!.values();
+    yield* catalog.sentencesHandle!.values();
   }
 }
 

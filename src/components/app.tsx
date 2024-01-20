@@ -1,6 +1,11 @@
 import { FunctionalComponent } from "preact";
 import { useEffect, useState, useMemo } from "preact/hooks";
-import { AllTextCatalogues, buildAllTextcat, Translations } from "../model";
+import {
+  AllTextCatalogues,
+  buildAllTextcat,
+  serializePhrase,
+  Translations
+} from "../model";
 import { CatalogContext } from "./textcat/contexts";
 import TextComposer from "./textcat/textComposer";
 import { arrayMove, DEFAULT_LANG, Lang, WrittenText } from "../model";
@@ -69,7 +74,17 @@ const App: FunctionalComponent = () => {
         <PhraseEditor
           phrases={catalog.phrases}
           catalogs={catalogs}
-          onPhraseChange={() => setChangeCount(c => c + 1)}
+          onPhraseChange={async (lang, phrase) => {
+            setChangeCount(c => c + 1);
+            const phraseHandle = catalogs.catalogs[lang].phrasesHandle;
+            if (!phraseHandle) return;
+            const handle = await phraseHandle.getFileHandle(
+              `${phrase.curlyName}.txt`
+            );
+            const writable = await handle.createWritable();
+            await writable.write(serializePhrase(phrase));
+            await writable.close();
+          }}
         />
       )}
       {catalog && (

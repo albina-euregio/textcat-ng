@@ -9,7 +9,8 @@ import {
   Joker,
   SearchMode,
   AllTextCatalogues,
-  Lang
+  Lang,
+  serializePhrase
 } from ".";
 
 /**
@@ -584,4 +585,11 @@ it("should search by words", () => {
   expectSearch("gesicherter", sentence010);
   expectSearch("Lawinensituation gesicherter", sentence010);
   expectSearch("Lawinensituation gesicherter Pluto");
+});
+
+it("should serialize a phrase to satzkatalog syntax", () => {
+  const phrase = catalog.phrase("Verhältnisse04§wo_wann3")!;
+  expect(serializePhrase(phrase)).toBe(
+    "RS_Header: wo/wann\nRS_CurlyName: Verhältnisse04§wo_wann3\nLine: [Empty]\nLine: abseits der Pisten\nLine: abseits gesicherter Pisten\nLine: im {Exposition} {und_im_Exposition}\n\n"
+  );
 });

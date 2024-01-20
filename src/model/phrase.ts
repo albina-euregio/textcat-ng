@@ -53,3 +53,14 @@ export function mapLineFragment<T>(
     ? mapCurlyName(lineFragment.substring(1, lineFragment.length - 1), "")
     : mapText(lineFragment);
 }
+
+export function serializePhrase(phrase: Phrase): string {
+  return [
+    `RS_Header: ${phrase.header}`,
+    `RS_CurlyName: ${phrase.curlyName}`,
+    // TODO region
+    ...phrase.lines.map(l => `Line: ${l.line}`),
+    "",
+    ""
+  ].join("\n");
+}
