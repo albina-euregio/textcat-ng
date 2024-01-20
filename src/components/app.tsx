@@ -13,6 +13,7 @@ import TranslationCheckbox from "./textcat/translationCheckbox";
 import { t, setI18nLang } from "../i18n";
 import CheckSquare from "./bootstrap-icons/check-square";
 import { get, set } from "idb-keyval";
+import PhraseEditor from "./textcat/phraseEditor";
 
 const App: FunctionalComponent = () => {
   const [srcRegion, setSrcRegion] = useState<string>("");
@@ -59,10 +60,13 @@ const App: FunctionalComponent = () => {
           set("dirHandle", handle);
         }}
       >
-        Open directory
+        Open satzkatalog directory
       </button>
       <h1 class="d-none">textcat-ng</h1>
 
+      {catalog && catalogs && (
+        <PhraseEditor phrases={catalog.phrases} catalogs={catalogs} />
+      )}
       {catalog && (
         <CatalogContext.Provider value={catalog}>
           <TextComposer

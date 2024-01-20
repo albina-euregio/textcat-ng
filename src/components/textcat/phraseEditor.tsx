@@ -1,16 +1,24 @@
 import { FunctionalComponent } from "preact";
-import { useContext, useMemo, useState } from "preact/hooks";
-import { CatalogContext } from "./contexts";
-import { newPhraseLine } from "../../model";
+import { useMemo, useState } from "preact/hooks";
+import { AllTextCatalogues, Phrase, newPhraseLine } from "../../model";
 
-interface Props {}
+interface Props {
+  catalogs: AllTextCatalogues;
+  phrases: Phrase[];
+}
 
-const PhraseEditor: FunctionalComponent<Props> = () => {
-  const catalog = useContext(CatalogContext);
+const PhraseEditor: FunctionalComponent<Props> = ({
+  catalogs,
+  phrases
+}: Props) => {
   const [curlyName, setCurlyName] = useState("");
-  const phrase = useMemo(
-    () => catalog.phrases.find(p => p.curlyName === curlyName),
-    [catalog.phrases, curlyName]
+  const phraseLangs = useMemo(
+    () =>
+      Object.values(catalogs.catalogs).map(c => ({
+        lang: c.lang,
+        phrase: c.phrase(curlyName)
+      })),
+    [catalogs.catalogs, curlyName]
   );
   return (
     <div class="block" style="max-height: 30vh; overflow-y: scroll">
@@ -22,31 +30,49 @@ const PhraseEditor: FunctionalComponent<Props> = () => {
             setCurlyName((e.target as HTMLSelectElement).value)
           }
         >
-          {catalog.phrases.map(phrase => (
+          {phrases.map(phrase => (
             <option key={phrase.curlyName} value={phrase.curlyName}>
               {phrase.curlyName}
             </option>
           ))}
         </select>
       </label>
-      {phrase?.lines.map((line, index) => (
-        <label key={index} class="d-flex">
-          <input
-            class="f-auto"
-            type="text"
-            value={line.line}
-            onInput={e => {
-              catalog.lastModified = new Date().toISOString();
-              const lines = [...phrase.lines];
-              lines[index] = newPhraseLine(
-                (e.target as HTMLInputElement).value,
-                line.region
+      <table style={{ width: "100%" }}>
+        <tr>
+          {phraseLangs.map(({ lang }) => (
+            <th key={lang} style={{ width: `${100 / phraseLangs.length}%` }}>
+              {lang}
+            </th>
+          ))}
+        </tr>
+        {phraseLangs[0].phrase?.lines.map((_, index) => (
+          <tr key={index}>
+            {phraseLangs.map(({ lang, phrase }) => {
+              if (!phrase) return;
+              const line = phrase.lines[index];
+              return (
+                <td key={lang}>
+                  <input
+                    style={{ width: "100%" }}
+                    type="text"
+                    value={line.line}
+                    onInput={e => {
+                      catalogs.catalogs[lang].lastModified =
+                        new Date().toISOString();
+                      const lines = [...phrase.lines];
+                      lines[index] = newPhraseLine(
+                        (e.target as HTMLInputElement).value,
+                        line.region
+                      );
+                      phrase.lines = lines;
+                    }}
+                  />
+                </td>
               );
-              phrase.lines = lines;
-            }}
-          />
-        </label>
-      ))}
+            })}
+          </tr>
+        ))}
+      </table>
     </div>
   );
 };

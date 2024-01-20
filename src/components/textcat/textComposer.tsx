@@ -9,7 +9,6 @@ import XSquare from "../bootstrap-icons/x-square";
 import CaretDownSquare from "../bootstrap-icons/caret-down-square";
 import Clipboard from "../bootstrap-icons/clipboard";
 import Copy from "../bootstrap-icons/copy";
-import PhraseEditor from "./phraseEditor";
 
 interface Props {
   writtenText: WrittenText;
@@ -43,7 +42,6 @@ const TextComposer: FunctionalComponent<Props> = (props: Props) => {
 
   return (
     <section>
-      <PhraseEditor />
       <AllSentencesSelect addWrittenPhrase={addWrittenPhrase} />
       <FilterSentencesPane addWrittenPhrase={addWrittenPhrase} />
 
