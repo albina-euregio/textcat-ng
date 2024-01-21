@@ -57,6 +57,23 @@ const PhraseEditor: FunctionalComponent<Props> = ({
       </label>
       <table style={{ width: "100%" }}>
         <tr>
+          {phraseLangs.map(({ lang, phrase }) => (
+            <td key={lang}>
+              {phrase && (
+                <input
+                  style={{ width: "100%" }}
+                  type="text"
+                  value={phrase.header}
+                  onInput={e => {
+                    phrase.header = (e.target as HTMLInputElement).value;
+                    onPhraseChange(lang, phrase);
+                  }}
+                />
+              )}
+            </td>
+          ))}
+        </tr>
+        <tr>
           {phraseLangs.map(({ lang }) => (
             <th key={lang} style={{ width: `${100 / phraseLangs.length}%` }}>
               {lang}
