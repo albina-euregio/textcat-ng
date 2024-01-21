@@ -10,6 +10,7 @@ import {
   SearchMode,
   AllTextCatalogues,
   Lang,
+  serializeSentence,
   serializePhrase
 } from ".";
 
@@ -585,6 +586,13 @@ it("should search by words", () => {
   expectSearch("gesicherter", sentence010);
   expectSearch("Lawinensituation gesicherter", sentence010);
   expectSearch("Lawinensituation gesicherter Pluto");
+});
+
+it("should serialize a sentence to satzkatalog syntax", () => {
+  const sentence = catalog.sentence("Verhältnisse04")!;
+  expect(serializeSentence(sentence)).toBe(
+    "ST_Header: Verhältnisse_04\nST_CurlyName: Verhältnisse04\nPA_Pos: 1\nRS_CurlyName: Verhältnisse04§wo_wann3\nPA_Pos: 2\nRS_CurlyName: teils_gefährliche\nPA_Pos: 3\nRS_CurlyName: Verhältnisse04§Lawinensituation.\n\n"
+  );
 });
 
 it("should serialize a phrase to satzkatalog syntax", () => {
