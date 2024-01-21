@@ -7,6 +7,7 @@ import {
   Phrase,
   serializePhrase,
   serializeSentence,
+  TextCatalogue,
   Translations
 } from "../model";
 import { CatalogContext } from "./textcat/contexts";
@@ -63,19 +64,33 @@ const App: FunctionalComponent = () => {
 
   async function ohPhraseChange(lang: Lang, phrase: Phrase) {
     if (!catalogs) return;
+    const catalog = catalogs.catalogs[lang];
+    if (!catalog) return;
     setChangeCount(c => c + 1);
     const phraseHandle = isSentence(phrase)
-      ? catalogs.catalogs[lang].sentencesHandle
-      : catalogs.catalogs[lang].phrasesHandle;
+      ? catalog.sentencesHandle
+      : catalog.phrasesHandle;
     if (!phraseHandle) return;
     const handle = await phraseHandle.getFileHandle(`${phrase.curlyName}.txt`, {
       create: true
     });
     const writable = await handle.createWritable();
-    await writable.write(
-      isSentence(phrase) ? serializeSentence(phrase) : serializePhrase(phrase)
-    );
+    const text = isSentence(phrase)
+      ? serializeSentence(phrase)
+      : serializePhrase(phrase);
+    await writable.write(text);
     await writable.close();
+    if (
+      !catalog.phrase(phrase.curlyName) &&
+      !catalog.sentence(phrase.curlyName)
+    ) {
+      setCatalogs(cs => {
+        return new AllTextCatalogues({
+          ...cs?.catalogs,
+          [lang]: catalog.parse(text)
+        } as Record<Lang, TextCatalogue>);
+      });
+    }
   }
 
   return (
