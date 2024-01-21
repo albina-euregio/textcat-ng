@@ -68,7 +68,9 @@ const App: FunctionalComponent = () => {
       ? catalogs.catalogs[lang].sentencesHandle
       : catalogs.catalogs[lang].phrasesHandle;
     if (!phraseHandle) return;
-    const handle = await phraseHandle.getFileHandle(`${phrase.curlyName}.txt`);
+    const handle = await phraseHandle.getFileHandle(`${phrase.curlyName}.txt`, {
+      create: true
+    });
     const writable = await handle.createWritable();
     await writable.write(
       isSentence(phrase) ? serializeSentence(phrase) : serializePhrase(phrase)

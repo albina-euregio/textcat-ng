@@ -7,6 +7,7 @@ import {
   SECOND_ITEM_PART_NO_SUFFIX,
   newPhraseLine
 } from "../../model";
+import PlusSquare from "../bootstrap-icons/plus-square";
 
 interface Props {
   catalogs: AllTextCatalogues;
@@ -43,7 +44,27 @@ const PhraseEditor: FunctionalComponent<Props> = ({
   );
   return (
     <div class="block" style="max-height: 30vh; overflow-y: scroll">
-      <h2>Phrase editor</h2>
+      <h2>
+        Phrase editor{" "}
+        <small>
+          <button
+            onClick={(): void => {
+              const curlyName = prompt("curlyName");
+              if (!curlyName) return;
+              phraseLangs.forEach(({ lang }) =>
+                onPhraseChange(lang, {
+                  $type: "Phrase",
+                  header: curlyName,
+                  curlyName,
+                  lines: []
+                })
+              );
+            }}
+          >
+            <PlusSquare />
+          </button>
+        </small>
+      </h2>
       <label class="d-flex mt-10">
         <select
           class="f-auto f-truncate"

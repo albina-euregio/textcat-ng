@@ -1,6 +1,7 @@
 import { FunctionalComponent } from "preact";
 import { useMemo, useState } from "preact/hooks";
 import { AllTextCatalogues, Lang, Sentence, newPhraseLine } from "../../model";
+import PlusSquare from "../bootstrap-icons/plus-square";
 
 interface Props {
   catalogs: AllTextCatalogues;
@@ -24,7 +25,32 @@ const SentenceEditor: FunctionalComponent<Props> = ({
   );
   return (
     <div class="block" style="max-height: 30vh; overflow-y: scroll">
-      <h2>Sentence editor</h2>
+      <h2>
+        Sentence editor{" "}
+        <small>
+          <button
+            onClick={(): void => {
+              const curlyName = prompt("curlyName");
+              if (!curlyName) return;
+              sentenceLangs.forEach(({ lang }) =>
+                onSentenceChange(lang, {
+                  $type: "Sentence",
+                  header: curlyName,
+                  curlyName,
+                  lines: [
+                    {
+                      line: "",
+                      lineFragments: []
+                    }
+                  ]
+                })
+              );
+            }}
+          >
+            <PlusSquare />
+          </button>
+        </small>
+      </h2>
       <label class="d-flex mt-10">
         <select
           class="f-auto f-truncate"
