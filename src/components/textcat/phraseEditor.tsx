@@ -22,6 +22,18 @@ const PhraseEditor: FunctionalComponent<Props> = ({
       })),
     [catalogs.catalogs, curlyName]
   );
+  const usages = useMemo(
+    () =>
+      [
+        ...catalogs.catalogs.de.sentences,
+        ...catalogs.catalogs.de.phrases
+      ].filter(phrase =>
+        phrase.lines.some(
+          l => l.lineFragments?.some(f => f === "{" + curlyName + "}")
+        )
+      ),
+    [catalogs.catalogs.de.phrases, catalogs.catalogs.de.sentences, curlyName]
+  );
   return (
     <div class="block" style="max-height: 30vh; overflow-y: scroll">
       <h2>Phrase editor</h2>
@@ -39,6 +51,9 @@ const PhraseEditor: FunctionalComponent<Props> = ({
             </option>
           ))}
         </select>
+      </label>
+      <label class="d-flex">
+        Used in: {usages.map(p => p.curlyName).join(", ")}
       </label>
       <table style={{ width: "100%" }}>
         <tr>
