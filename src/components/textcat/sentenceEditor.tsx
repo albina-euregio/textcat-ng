@@ -43,6 +43,19 @@ const SentenceEditor: FunctionalComponent<Props> = ({
       <table style={{ width: "100%" }}>
         {sentenceLangs.map(({ lang, phrase }) => (
           <tr key={lang}>
+            <td>
+              {phrase && (
+                <input
+                  style={{ width: "100%" }}
+                  type="text"
+                  value={phrase.header}
+                  onInput={e => {
+                    phrase.header = (e.target as HTMLInputElement).value;
+                    onSentenceChange(lang, phrase);
+                  }}
+                />
+              )}
+            </td>
             <th class="pr-10" style={{ width: 0 }}>
               {lang}
             </th>
