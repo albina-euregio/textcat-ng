@@ -19,12 +19,12 @@ export function sentencePreview(
 }
 
 export function serializeSentence(sentence: Sentence): string {
-  const lineFragments = sentence.lines[0].lineFragments ?? [];
+  const lineFragments = [...sentence.lines[0].line.matchAll(/\{([^}]+)\}/g)];
   return [
     `ST_Header: ${sentence.header}`,
     `ST_CurlyName: ${sentence.curlyName}`,
     ...lineFragments.map(
-      (l, index) => `PA_Pos: ${index + 1}\nRS_CurlyName: ${l.slice(1, -1)}`
+      (l, index) => `PA_Pos: ${index + 1}\nRS_CurlyName: ${l[1]}`
     ),
     "",
     ""

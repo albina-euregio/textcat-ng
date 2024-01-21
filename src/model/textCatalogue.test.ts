@@ -81,7 +81,7 @@ const sentence010: Sentence = {
   // it: "Condizioni 04"
   lines: [
     {
-      line: "",
+      line: "{Verhältnisse04§wo_wann3} {teils_gefährliche} {Verhältnisse04§Lawinensituation.}",
       lineFragments: [
         "{Verhältnisse04§wo_wann3}",
         "{teils_gefährliche}",

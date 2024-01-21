@@ -222,7 +222,9 @@ export class TextCatalogue {
           break;
         case "RS_CurlyName":
           if (isSentence(current)) {
-            current.lines[0].lineFragments?.push(`{${value}}`);
+            const line = current.lines[0];
+            line.line = `${line.line} {${value}}`.trim();
+            line.lineFragments?.push(`{${value}}`);
           } else if (isPhrase(current)) {
             current.curlyName = value;
             this.data[current.curlyName] = current;
