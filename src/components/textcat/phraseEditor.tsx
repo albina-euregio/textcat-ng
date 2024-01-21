@@ -106,7 +106,22 @@ const PhraseEditor: FunctionalComponent<Props> = ({
         <tr>
           {phraseLangs.map(({ lang }) => (
             <th key={lang} style={{ width: `${100 / phraseLangs.length}%` }}>
-              {lang}
+              {lang}{" "}
+              <small>
+                <button
+                  onClick={(): void => {
+                    const line = prompt("line");
+                    if (!line) return;
+                    phraseLangs.forEach(({ lang, phrase }) => {
+                      if (!phrase) return;
+                      phrase.lines.push(newPhraseLine(line));
+                      onPhraseChange(lang, phrase);
+                    });
+                  }}
+                >
+                  <PlusSquare />
+                </button>
+              </small>
             </th>
           ))}
         </tr>
