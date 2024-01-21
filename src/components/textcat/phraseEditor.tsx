@@ -1,6 +1,12 @@
 import { FunctionalComponent } from "preact";
 import { useMemo, useState } from "preact/hooks";
-import { AllTextCatalogues, Lang, Phrase, newPhraseLine } from "../../model";
+import {
+  AllTextCatalogues,
+  Lang,
+  Phrase,
+  SECOND_ITEM_PART_NO_SUFFIX,
+  newPhraseLine
+} from "../../model";
 
 interface Props {
   catalogs: AllTextCatalogues;
@@ -18,7 +24,8 @@ const PhraseEditor: FunctionalComponent<Props> = ({
     () =>
       Object.values(catalogs.catalogs).map(c => ({
         lang: c.lang,
-        phrase: c.phrase(curlyName)
+        phrase: c.phrase(curlyName),
+        phraseNO: c.phrase(curlyName + SECOND_ITEM_PART_NO_SUFFIX)
       })),
     [catalogs.catalogs, curlyName]
   );
@@ -82,22 +89,26 @@ const PhraseEditor: FunctionalComponent<Props> = ({
         </tr>
         {phraseLangs[0].phrase?.lines.map((_, index) => (
           <tr key={index}>
-            {phraseLangs.map(({ lang, phrase }) => (
+            {phraseLangs.map(({ lang, phrase, phraseNO }) => (
               <td key={lang}>
-                {phrase && (
-                  <input
-                    style={{ width: "100%" }}
-                    type="text"
-                    value={phrase.lines[index].line}
-                    onInput={e => {
-                      phrase.lines[index] = newPhraseLine(
-                        (e.target as HTMLInputElement).value,
-                        phrase.lines[index].region
-                      );
-                      onPhraseChange(lang, phrase);
-                    }}
-                  />
-                )}
+                {[phrase, phraseNO].filter(Boolean).map((phrase, i, array) => {
+                  if (!phrase?.lines.length) return;
+                  return (
+                    <input
+                      key={i}
+                      style={{ width: `${100 / array.length}%` }}
+                      type="text"
+                      value={phrase.lines[index].line}
+                      onInput={e => {
+                        phrase.lines[index] = newPhraseLine(
+                          (e.target as HTMLInputElement).value,
+                          phrase.lines[index].region
+                        );
+                        onPhraseChange(lang, phrase);
+                      }}
+                    />
+                  );
+                })}
               </td>
             ))}
           </tr>
