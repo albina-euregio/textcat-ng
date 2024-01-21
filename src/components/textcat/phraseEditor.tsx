@@ -82,26 +82,24 @@ const PhraseEditor: FunctionalComponent<Props> = ({
         </tr>
         {phraseLangs[0].phrase?.lines.map((_, index) => (
           <tr key={index}>
-            {phraseLangs.map(({ lang, phrase }) => {
-              if (!phrase) return;
-              const line = phrase.lines[index];
-              return (
-                <td key={lang}>
+            {phraseLangs.map(({ lang, phrase }) => (
+              <td key={lang}>
+                {phrase && (
                   <input
                     style={{ width: "100%" }}
                     type="text"
-                    value={line.line}
+                    value={phrase.lines[index].line}
                     onInput={e => {
                       phrase.lines[index] = newPhraseLine(
                         (e.target as HTMLInputElement).value,
-                        line.region
+                        phrase.lines[index].region
                       );
                       onPhraseChange(lang, phrase);
                     }}
                   />
-                </td>
-              );
-            })}
+                )}
+              </td>
+            ))}
           </tr>
         ))}
       </table>
