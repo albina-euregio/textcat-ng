@@ -3,7 +3,10 @@ import { useEffect, useState, useMemo } from "preact/hooks";
 import {
   AllTextCatalogues,
   buildAllTextcat,
+  isSentence,
+  Phrase,
   serializePhrase,
+  serializeSentence,
   Translations
 } from "../model";
 import { CatalogContext } from "./textcat/contexts";
@@ -18,6 +21,7 @@ import TranslationCheckbox from "./textcat/translationCheckbox";
 import { t, setI18nLang } from "../i18n";
 import CheckSquare from "./bootstrap-icons/check-square";
 import { get, set } from "idb-keyval";
+import SentenceEditor from "./textcat/sentenceEditor";
 import PhraseEditor from "./textcat/phraseEditor";
 
 const App: FunctionalComponent = () => {
@@ -57,6 +61,21 @@ const App: FunctionalComponent = () => {
 
   const { postPmData } = usePmData(setSrcLang, setSrcRegion, setWrittenText);
 
+  async function ohPhraseChange(lang: Lang, phrase: Phrase) {
+    if (!catalogs) return;
+    setChangeCount(c => c + 1);
+    const phraseHandle = isSentence(phrase)
+      ? catalogs.catalogs[lang].sentencesHandle
+      : catalogs.catalogs[lang].phrasesHandle;
+    if (!phraseHandle) return;
+    const handle = await phraseHandle.getFileHandle(`${phrase.curlyName}.txt`);
+    const writable = await handle.createWritable();
+    await writable.write(
+      isSentence(phrase) ? serializeSentence(phrase) : serializePhrase(phrase)
+    );
+    await writable.close();
+  }
+
   return (
     <section>
       <button
@@ -71,20 +90,17 @@ const App: FunctionalComponent = () => {
       <h1 class="d-none">textcat-ng</h1>
 
       {catalog && catalogs && (
+        <SentenceEditor
+          sentences={catalog.sentences}
+          catalogs={catalogs}
+          onSentenceChange={ohPhraseChange}
+        />
+      )}
+      {catalog && catalogs && (
         <PhraseEditor
           phrases={catalog.phrases}
           catalogs={catalogs}
-          onPhraseChange={async (lang, phrase) => {
-            setChangeCount(c => c + 1);
-            const phraseHandle = catalogs.catalogs[lang].phrasesHandle;
-            if (!phraseHandle) return;
-            const handle = await phraseHandle.getFileHandle(
-              `${phrase.curlyName}.txt`
-            );
-            const writable = await handle.createWritable();
-            await writable.write(serializePhrase(phrase));
-            await writable.close();
-          }}
+          onPhraseChange={ohPhraseChange}
         />
       )}
       {catalog && (

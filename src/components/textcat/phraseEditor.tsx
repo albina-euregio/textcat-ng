@@ -24,6 +24,7 @@ const PhraseEditor: FunctionalComponent<Props> = ({
   );
   return (
     <div class="block" style="max-height: 30vh; overflow-y: scroll">
+      <h2>Phrase editor</h2>
       <label class="d-flex mt-10">
         <select
           class="f-auto f-truncate"
