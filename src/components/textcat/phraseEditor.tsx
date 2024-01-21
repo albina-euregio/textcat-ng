@@ -68,6 +68,8 @@ const PhraseEditor: FunctionalComponent<Props> = ({
             <td key={lang}>
               {phrase && (
                 <input
+                  lang={lang}
+                  spellCheck={true}
                   style={{ width: "100%" }}
                   type="text"
                   value={phrase.header}
@@ -96,6 +98,8 @@ const PhraseEditor: FunctionalComponent<Props> = ({
                   return (
                     <input
                       key={i}
+                      lang={lang}
+                      spellCheck={true}
                       style={{ width: `${100 / array.length}%` }}
                       type="text"
                       value={phrase.lines[index].line}
