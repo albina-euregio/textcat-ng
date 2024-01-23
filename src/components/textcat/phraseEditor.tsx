@@ -1,5 +1,5 @@
 import { FunctionalComponent } from "preact";
-import { useMemo, useState } from "preact/hooks";
+import { useMemo } from "preact/hooks";
 import {
   AllTextCatalogues,
   Lang,
@@ -17,23 +17,26 @@ import CaretDownSquare from "../bootstrap-icons/caret-down-square";
 interface Props {
   catalogs: AllTextCatalogues;
   phrases: Phrase[];
+  phraseCurlyName: string;
+  setPhraseCurlyName(curlyName: string): void;
   onPhraseChange(lang: Lang, phrase: Phrase): void;
 }
 
 const PhraseEditor: FunctionalComponent<Props> = ({
   catalogs,
   phrases,
+  phraseCurlyName,
+  setPhraseCurlyName,
   onPhraseChange
 }: Props) => {
-  const [curlyName, setCurlyName] = useState("");
   const phraseLangs = useMemo(
     () =>
       Object.values(catalogs.catalogs).map(c => ({
         lang: c.lang,
-        phrase: c.phrase(curlyName),
-        phraseNO: c.phrase(curlyName + SECOND_ITEM_PART_NO_SUFFIX)
+        phrase: c.phrase(phraseCurlyName),
+        phraseNO: c.phrase(phraseCurlyName + SECOND_ITEM_PART_NO_SUFFIX)
       })),
-    [catalogs.catalogs, curlyName]
+    [catalogs.catalogs, phraseCurlyName]
   );
   const usages = useMemo(
     () =>
@@ -42,10 +45,14 @@ const PhraseEditor: FunctionalComponent<Props> = ({
         ...catalogs.catalogs.de.phrases
       ].filter(phrase =>
         phrase.lines.some(
-          l => l.lineFragments?.some(f => f === "{" + curlyName + "}")
+          l => l.lineFragments?.some(f => f === "{" + phraseCurlyName + "}")
         )
       ),
-    [catalogs.catalogs.de.phrases, catalogs.catalogs.de.sentences, curlyName]
+    [
+      catalogs.catalogs.de.phrases,
+      catalogs.catalogs.de.sentences,
+      phraseCurlyName
+    ]
   );
 
   function addPhrase() {
@@ -97,9 +104,9 @@ const PhraseEditor: FunctionalComponent<Props> = ({
       <label class="d-flex mt-10">
         <select
           class="f-auto f-truncate"
-          value={curlyName}
+          value={phraseCurlyName}
           onChange={(e): void =>
-            setCurlyName((e.target as HTMLSelectElement).value)
+            setPhraseCurlyName((e.target as HTMLSelectElement).value)
           }
         >
           <option value=""></option>
@@ -117,7 +124,7 @@ const PhraseEditor: FunctionalComponent<Props> = ({
             {usages.map(p => (
               <li
                 key={p.curlyName}
-                onClick={() => isPhrase(p) && setCurlyName(p.curlyName)}
+                onClick={() => isPhrase(p) && setPhraseCurlyName(p.curlyName)}
                 style={{ cursor: isPhrase(p) ? "pointer" : "" }}
               >
                 {p.curlyName}

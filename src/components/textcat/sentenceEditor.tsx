@@ -1,27 +1,30 @@
 import { FunctionalComponent } from "preact";
-import { useMemo, useState } from "preact/hooks";
+import { useMemo } from "preact/hooks";
 import { AllTextCatalogues, Lang, Sentence, newPhraseLine } from "../../model";
 import PlusSquare from "../bootstrap-icons/plus-square";
 
 interface Props {
   catalogs: AllTextCatalogues;
   sentences: Sentence[];
+  sentenceCurlyName: string;
+  setSentenceCurlyName(curlyName: string): void;
   onSentenceChange(lang: Lang, sentence: Sentence): void;
 }
 
 const SentenceEditor: FunctionalComponent<Props> = ({
   catalogs,
   sentences,
+  sentenceCurlyName,
+  setSentenceCurlyName,
   onSentenceChange
 }: Props) => {
-  const [curlyName, setCurlyName] = useState("");
   const sentenceLangs = useMemo(
     () =>
       Object.values(catalogs.catalogs).map(c => ({
         lang: c.lang,
-        phrase: c.sentence(curlyName)
+        phrase: c.sentence(sentenceCurlyName)
       })),
-    [catalogs.catalogs, curlyName]
+    [catalogs.catalogs, sentenceCurlyName]
   );
   return (
     <div class="block" style="max-height: 30vh; overflow-y: scroll">
@@ -54,9 +57,9 @@ const SentenceEditor: FunctionalComponent<Props> = ({
       <label class="d-flex mt-10">
         <select
           class="f-auto f-truncate"
-          value={curlyName}
+          value={sentenceCurlyName}
           onChange={(e): void =>
-            setCurlyName((e.target as HTMLSelectElement).value)
+            setSentenceCurlyName((e.target as HTMLSelectElement).value)
           }
         >
           <option value=""></option>
