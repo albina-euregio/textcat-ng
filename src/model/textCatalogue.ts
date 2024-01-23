@@ -18,7 +18,9 @@ import {
   isJoker,
   Joker,
   newPhraseLine,
-  sentencePreview
+  sentencePreview,
+  serializeSentence,
+  serializePhrase
 } from ".";
 import { t } from "../i18n";
 
@@ -478,5 +480,33 @@ export class AllTextCatalogues {
       const re = new RegExp(Object.keys(mapping).join("|"), "gi");
       return translation.replace(re, s => mapping[s as keyof typeof mapping]);
     }
+  }
+
+  async changePhrase(lang: Lang, phrase: Phrase): Promise<AllTextCatalogues> {
+    const catalog = this.catalogs[lang];
+    if (!catalog) return this;
+    const phraseHandle = isSentence(phrase)
+      ? catalog.sentencesHandle
+      : catalog.phrasesHandle;
+    if (!phraseHandle) return this;
+    const handle = await phraseHandle.getFileHandle(`${phrase.curlyName}.txt`, {
+      create: true
+    });
+    const writable = await handle.createWritable();
+    const text = isSentence(phrase)
+      ? serializeSentence(phrase)
+      : serializePhrase(phrase);
+    await writable.write(text);
+    await writable.close();
+    if (
+      !catalog.phrase(phrase.curlyName) &&
+      !catalog.sentence(phrase.curlyName)
+    ) {
+      return new AllTextCatalogues({
+        ...this.catalogs,
+        [lang]: catalog.parse(text)
+      });
+    }
+    return new AllTextCatalogues({ ...this.catalogs });
   }
 }

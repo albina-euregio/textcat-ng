@@ -1,15 +1,6 @@
 import { FunctionalComponent } from "preact";
 import { useEffect, useState, useMemo, useCallback } from "preact/hooks";
-import {
-  AllTextCatalogues,
-  buildAllTextcat,
-  isSentence,
-  Phrase,
-  serializePhrase,
-  serializeSentence,
-  TextCatalogue,
-  Translations
-} from "../model";
+import { AllTextCatalogues, buildAllTextcat, Translations } from "../model";
 import { CatalogContext } from "./textcat/contexts";
 import TextComposer from "./textcat/textComposer";
 import { arrayMove, DEFAULT_LANG, Lang, WrittenText } from "../model";
@@ -30,7 +21,6 @@ import PhraseEditor from "./textcat/phraseEditor";
 const App: FunctionalComponent = () => {
   const [srcRegion, setSrcRegion] = useState<string>("");
   const [showTranslation, setShowTranslation] = useState(true);
-  const [changeCount, setChangeCount] = useState(1);
 
   const [dirHandle, setDirHandle] = useState<
     FileSystemDirectoryHandle | undefined
@@ -58,43 +48,12 @@ const App: FunctionalComponent = () => {
     buildAllTextcat(dirHandle).then(cs => setCatalogs(cs));
   }, [dirHandle]);
   useEffect(() => reloadTextcat(), [reloadTextcat]);
-  const translations: Translations = useMemo(() => {
-    console.log(changeCount);
-    return catalogs?.translateAll(writtenText) ?? ({} as Translations);
-  }, [catalogs, writtenText, changeCount]);
+  const translations: Translations = useMemo(
+    () => catalogs?.translateAll(writtenText) ?? ({} as Translations),
+    [catalogs, writtenText]
+  );
 
   const { postPmData } = usePmData(setSrcLang, setSrcRegion, setWrittenText);
-
-  async function ohPhraseChange(lang: Lang, phrase: Phrase) {
-    if (!catalogs) return;
-    const catalog = catalogs.catalogs[lang];
-    if (!catalog) return;
-    setChangeCount(c => c + 1);
-    const phraseHandle = isSentence(phrase)
-      ? catalog.sentencesHandle
-      : catalog.phrasesHandle;
-    if (!phraseHandle) return;
-    const handle = await phraseHandle.getFileHandle(`${phrase.curlyName}.txt`, {
-      create: true
-    });
-    const writable = await handle.createWritable();
-    const text = isSentence(phrase)
-      ? serializeSentence(phrase)
-      : serializePhrase(phrase);
-    await writable.write(text);
-    await writable.close();
-    if (
-      !catalog.phrase(phrase.curlyName) &&
-      !catalog.sentence(phrase.curlyName)
-    ) {
-      setCatalogs(cs => {
-        return new AllTextCatalogues({
-          ...cs?.catalogs,
-          [lang]: catalog.parse(text)
-        } as Record<Lang, TextCatalogue>);
-      });
-    }
-  }
 
   return (
     <section>
@@ -116,14 +75,18 @@ const App: FunctionalComponent = () => {
         <SentenceEditor
           sentences={catalog.sentences}
           catalogs={catalogs}
-          onSentenceChange={ohPhraseChange}
+          onSentenceChange={async (lang, phrase) =>
+            setCatalogs(await catalogs.changePhrase(lang, phrase))
+          }
         />
       )}
       {catalog && catalogs && (
         <PhraseEditor
           phrases={catalog.phrases}
           catalogs={catalogs}
-          onPhraseChange={ohPhraseChange}
+          onPhraseChange={async (lang, phrase) =>
+            setCatalogs(await catalogs.changePhrase(lang, phrase))
+          }
         />
       )}
       {catalog && (
