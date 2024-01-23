@@ -498,15 +498,9 @@ export class AllTextCatalogues {
       : serializePhrase(phrase);
     await writable.write(text);
     await writable.close();
-    if (
-      !catalog.phrase(phrase.curlyName) &&
-      !catalog.sentence(phrase.curlyName)
-    ) {
-      return new AllTextCatalogues({
-        ...this.catalogs,
-        [lang]: catalog.parse(text)
-      });
-    }
-    return new AllTextCatalogues({ ...this.catalogs });
+    return new AllTextCatalogues({
+      ...this.catalogs,
+      [lang]: catalog.parse(text)
+    });
   }
 }

@@ -13,6 +13,7 @@ import PlusSquare from "../bootstrap-icons/plus-square";
 import CaretUpSquare from "../bootstrap-icons/caret-up-square";
 import XSquare from "../bootstrap-icons/x-square";
 import CaretDownSquare from "../bootstrap-icons/caret-down-square";
+import TerminalSplit from "../bootstrap-icons/terminal-split";
 
 interface Props {
   catalogs: AllTextCatalogues;
@@ -93,6 +94,26 @@ const PhraseEditor: FunctionalComponent<Props> = ({
     });
   }
 
+  function togglePhraseNO(
+    lang: Lang,
+    phrase: Phrase,
+    phraseNO: Phrase | undefined
+  ) {
+    const curlyName = phrase.curlyName + SECOND_ITEM_PART_NO_SUFFIX;
+    const message = hasPhraseLines(phraseNO)
+      ? `remove ${lang} ${curlyName} phrase?`
+      : `add ${lang} ${curlyName} phrase?`;
+    if (!confirm(message)) return;
+    onPhraseChange(lang, {
+      $type: "Phrase",
+      header: phrase.header,
+      curlyName,
+      lines: hasPhraseLines(phraseNO)
+        ? []
+        : phrase.lines.map(l => newPhraseLine(l.line, l.region))
+    });
+  }
+
   function hasPhraseLines(phrase: Phrase | undefined): phrase is Phrase {
     return (phrase?.lines.length ?? 0) > 0;
   }
@@ -170,13 +191,20 @@ const PhraseEditor: FunctionalComponent<Props> = ({
           </tr>
           <tr>
             <th>№</th>
-            {phraseLangs.map(({ lang }) => (
+            {phraseLangs.map(({ lang, phrase, phraseNO }) => (
               <th key={lang}>
                 {lang}{" "}
                 <small>
                   <button onClick={(): void => addPhraseLine()}>
                     <PlusSquare />
                   </button>
+                  {phrase && (
+                    <button
+                      onClick={() => togglePhraseNO(lang, phrase, phraseNO)}
+                    >
+                      <TerminalSplit />
+                    </button>
+                  )}
                 </small>
               </th>
             ))}
@@ -209,7 +237,7 @@ const PhraseEditor: FunctionalComponent<Props> = ({
                 </small>
               </td>
               {phraseLangs.map(({ lang, phrase, phraseNO }) => (
-                <td key={lang}>
+                <td key={lang} style={{ whiteSpace: "nowrap" }}>
                   {[phrase, phraseNO]
                     .filter(hasPhraseLines)
                     .map((phrase, i, array) => (
