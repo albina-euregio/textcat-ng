@@ -5,9 +5,13 @@ import {
   Lang,
   Phrase,
   SECOND_ITEM_PART_NO_SUFFIX,
+  arrayMove,
   newPhraseLine
 } from "../../model";
 import PlusSquare from "../bootstrap-icons/plus-square";
+import CaretUpSquare from "../bootstrap-icons/caret-up-square";
+import XSquare from "../bootstrap-icons/x-square";
+import CaretDownSquare from "../bootstrap-icons/caret-down-square";
 
 interface Props {
   catalogs: AllTextCatalogues;
@@ -42,6 +46,20 @@ const PhraseEditor: FunctionalComponent<Props> = ({
       ),
     [catalogs.catalogs.de.phrases, catalogs.catalogs.de.sentences, curlyName]
   );
+
+  function movePhraseLine(fromIndex: number, toIndex?: number) {
+    phraseLangs.forEach(({ phrase, phraseNO, lang }) => {
+      if (phrase) {
+        phrase.lines = arrayMove(phrase.lines, fromIndex, toIndex);
+        onPhraseChange(lang, phrase);
+      }
+      if (phraseNO) {
+        phraseNO.lines = arrayMove(phraseNO.lines, fromIndex, toIndex);
+        onPhraseChange(lang, phraseNO);
+      }
+    });
+  }
+
   return (
     <div class="block" style="max-height: 30vh; overflow-y: scroll">
       <h2>
@@ -89,6 +107,7 @@ const PhraseEditor: FunctionalComponent<Props> = ({
       {phraseLangs.some(({ phrase }) => phrase) && (
         <table style={{ width: "100%" }}>
           <tr>
+            <td></td>
             {phraseLangs.map(({ lang, phrase }) => (
               <td key={lang}>
                 {phrase && (
@@ -111,8 +130,9 @@ const PhraseEditor: FunctionalComponent<Props> = ({
             ))}
           </tr>
           <tr>
+            <th>№</th>
             {phraseLangs.map(({ lang }) => (
-              <th key={lang} style={{ width: `${100 / phraseLangs.length}%` }}>
+              <th key={lang}>
                 {lang}{" "}
                 <small>
                   <button
@@ -132,8 +152,33 @@ const PhraseEditor: FunctionalComponent<Props> = ({
               </th>
             ))}
           </tr>
-          {phraseLangs[0].phrase?.lines.map((_, index) => (
+          {phraseLangs[0].phrase?.lines.map((_, index, array) => (
             <tr key={index}>
+              <td style={{ whiteSpace: "nowrap" }}>
+                {index + 1}{" "}
+                <small>
+                  <button
+                    disabled={index === 0}
+                    onClick={(): void => movePhraseLine(index, index - 1)}
+                  >
+                    <CaretUpSquare />
+                  </button>
+                  <button
+                    onClick={(): void => {
+                      if (!confirm(`delete phrase ${index + 1}`)) return;
+                      movePhraseLine(index, undefined);
+                    }}
+                  >
+                    <XSquare />
+                  </button>
+                  <button
+                    disabled={index >= array.length - 1}
+                    onClick={(): void => movePhraseLine(index, index + 1)}
+                  >
+                    <CaretDownSquare />
+                  </button>
+                </small>
+              </td>
               {phraseLangs.map(({ lang, phrase, phraseNO }) => (
                 <td key={lang}>
                   {[phrase, phraseNO]
