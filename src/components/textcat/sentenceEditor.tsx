@@ -66,43 +66,45 @@ const SentenceEditor: FunctionalComponent<Props> = ({
           ))}
         </select>
       </label>
-      <table style={{ width: "100%" }}>
-        {sentenceLangs.map(({ lang, phrase }) => (
-          <tr key={lang}>
-            <td>
-              {phrase && (
-                <input
-                  style={{ width: "100%" }}
-                  type="text"
-                  value={phrase.header}
-                  onInput={e => {
-                    phrase.header = (e.target as HTMLInputElement).value;
-                    onSentenceChange(lang, phrase);
-                  }}
-                />
-              )}
-            </td>
-            <th class="pr-10" style={{ width: 0 }}>
-              {lang}
-            </th>
-            <td>
-              {phrase && (
-                <input
-                  style={{ width: "100%" }}
-                  type="text"
-                  value={phrase.lines[0].line}
-                  onInput={e => {
-                    phrase.lines[0] = newPhraseLine(
-                      (e.target as HTMLInputElement).value
-                    );
-                    onSentenceChange(lang, phrase);
-                  }}
-                />
-              )}
-            </td>
-          </tr>
-        ))}
-      </table>
+      {sentenceLangs.some(({ phrase }) => phrase) && (
+        <table style={{ width: "100%" }}>
+          {sentenceLangs.map(({ lang, phrase }) => (
+            <tr key={lang}>
+              <td>
+                {phrase && (
+                  <input
+                    style={{ width: "100%" }}
+                    type="text"
+                    value={phrase.header}
+                    onInput={e => {
+                      phrase.header = (e.target as HTMLInputElement).value;
+                      onSentenceChange(lang, phrase);
+                    }}
+                  />
+                )}
+              </td>
+              <th class="pr-10" style={{ width: 0 }}>
+                {lang}
+              </th>
+              <td>
+                {phrase && (
+                  <input
+                    style={{ width: "100%" }}
+                    type="text"
+                    value={phrase.lines[0].line}
+                    onInput={e => {
+                      phrase.lines[0] = newPhraseLine(
+                        (e.target as HTMLInputElement).value
+                      );
+                      onSentenceChange(lang, phrase);
+                    }}
+                  />
+                )}
+              </td>
+            </tr>
+          ))}
+        </table>
+      )}
     </div>
   );
 };
