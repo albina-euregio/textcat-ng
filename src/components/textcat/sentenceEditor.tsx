@@ -59,6 +59,7 @@ const SentenceEditor: FunctionalComponent<Props> = ({
             setCurlyName((e.target as HTMLSelectElement).value)
           }
         >
+          <option value=""></option>
           {sentences.map(phrase => (
             <option key={phrase.curlyName} value={phrase.curlyName}>
               {phrase.curlyName}
