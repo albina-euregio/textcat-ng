@@ -74,7 +74,10 @@ const SentenceEditor: FunctionalComponent<Props> = ({
               <td>
                 {phrase && (
                   <input
-                    style={{ width: "100%" }}
+                    style={{
+                      width: "100%",
+                      minWidth: `${phrase.header.length}ex`
+                    }}
                     type="text"
                     value={phrase.header}
                     onInput={e => {
@@ -90,7 +93,10 @@ const SentenceEditor: FunctionalComponent<Props> = ({
               <td>
                 {phrase && (
                   <input
-                    style={{ width: "100%" }}
+                    style={{
+                      width: "100%",
+                      minWidth: `${phrase.lines[0].line.length}ex`
+                    }}
                     type="text"
                     value={phrase.lines[0].line}
                     onInput={e => {

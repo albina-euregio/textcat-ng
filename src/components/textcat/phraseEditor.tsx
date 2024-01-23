@@ -95,7 +95,10 @@ const PhraseEditor: FunctionalComponent<Props> = ({
                   <input
                     lang={lang}
                     spellCheck={true}
-                    style={{ width: "100%" }}
+                    style={{
+                      width: "100%",
+                      minWidth: `${phrase.header.length}ex`
+                    }}
                     type="text"
                     value={phrase.header}
                     onInput={e => {
@@ -142,7 +145,10 @@ const PhraseEditor: FunctionalComponent<Props> = ({
                           key={i}
                           lang={lang}
                           spellCheck={true}
-                          style={{ width: `${100 / array.length}%` }}
+                          style={{
+                            width: `${100 / array.length}%`,
+                            minWidth: `${phrase.lines[index].line.length}ex`
+                          }}
                           type="text"
                           value={phrase.lines[index].line}
                           onInput={e => {
