@@ -7,6 +7,7 @@ interface Props {
   catalogs: AllTextCatalogues;
   sentences: Sentence[];
   sentenceCurlyName: string;
+  setPhraseCurlyName(curlyName: string): void;
   setSentenceCurlyName(curlyName: string): void;
   onSentenceChange(lang: Lang, sentence: Sentence): void;
 }
@@ -15,6 +16,7 @@ const SentenceEditor: FunctionalComponent<Props> = ({
   catalogs,
   sentences,
   sentenceCurlyName,
+  setPhraseCurlyName,
   setSentenceCurlyName,
   onSentenceChange
 }: Props) => {
@@ -26,6 +28,14 @@ const SentenceEditor: FunctionalComponent<Props> = ({
       })),
     [catalogs.catalogs, sentenceCurlyName]
   );
+  const usages = useMemo(
+    () =>
+      (sentenceLangs[0].phrase?.lines[0].lineFragments ?? []).map(f => ({
+        curlyName: f.slice(1, -1)
+      })),
+    [sentenceLangs]
+  );
+
   return (
     <div class="block" style="max-height: 30vh; overflow-y: scroll">
       <h2>
@@ -69,6 +79,20 @@ const SentenceEditor: FunctionalComponent<Props> = ({
             </option>
           ))}
         </select>
+      </label>
+      <label class="d-flex">
+        <span class="pr-10">Phrases:</span>
+        <ul class="inline">
+          {usages.map(p => (
+            <li
+              key={p.curlyName}
+              onClick={() => setPhraseCurlyName(p.curlyName)}
+              style={{ cursor: "pointer" }}
+            >
+              {p.curlyName}
+            </li>
+          ))}
+        </ul>
       </label>
       {sentenceLangs.some(({ phrase }) => phrase) && (
         <table style={{ width: "100%" }}>
