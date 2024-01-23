@@ -21,6 +21,7 @@ import RegionSelect from "./textcat/regionSelect";
 import TranslationCheckbox from "./textcat/translationCheckbox";
 import { t, setI18nLang } from "../i18n";
 import CheckSquare from "./bootstrap-icons/check-square";
+import FolderOpen from "./bootstrap-icons/folder2-open";
 import { get, set } from "idb-keyval";
 import SentenceEditor from "./textcat/sentenceEditor";
 import PhraseEditor from "./textcat/phraseEditor";
@@ -102,7 +103,7 @@ const App: FunctionalComponent = () => {
           set("dirHandle", handle);
         }}
       >
-        Open satzkatalog directory
+        <FolderOpen /> Open satzkatalog directory
       </button>
       <h1 class="d-none">textcat-ng</h1>
 
