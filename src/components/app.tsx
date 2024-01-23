@@ -15,8 +15,7 @@ import CheckSquare from "./bootstrap-icons/check-square";
 import FolderOpen from "./bootstrap-icons/folder2-open";
 import ArrowClockwise from "./bootstrap-icons/arrow-clockwise";
 import { get, set } from "idb-keyval";
-import SentenceEditor from "./textcat/sentenceEditor";
-import PhraseEditor from "./textcat/phraseEditor";
+import TextcatEditor from "./textcat/textcatEditor";
 
 const App: FunctionalComponent = () => {
   const [srcRegion, setSrcRegion] = useState<string>("");
@@ -72,23 +71,13 @@ const App: FunctionalComponent = () => {
       <h1 class="d-none">textcat-ng</h1>
 
       {catalog && catalogs && (
-        <SentenceEditor
-          sentences={catalog.sentences}
+        <TextcatEditor
+          catalog={catalog}
           catalogs={catalogs}
-          onSentenceChange={async (lang, phrase) =>
-            setCatalogs(await catalogs.changePhrase(lang, phrase))
-          }
+          setCatalogs={setCatalogs}
         />
       )}
-      {catalog && catalogs && (
-        <PhraseEditor
-          phrases={catalog.phrases}
-          catalogs={catalogs}
-          onPhraseChange={async (lang, phrase) =>
-            setCatalogs(await catalogs.changePhrase(lang, phrase))
-          }
-        />
-      )}
+
       {catalog && (
         <CatalogContext.Provider value={catalog}>
           <TextComposer
