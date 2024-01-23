@@ -47,6 +47,29 @@ const PhraseEditor: FunctionalComponent<Props> = ({
     [catalogs.catalogs.de.phrases, catalogs.catalogs.de.sentences, curlyName]
   );
 
+  function addPhrase() {
+    const curlyName = prompt("curlyName");
+    if (!curlyName) return;
+    phraseLangs.forEach(({ lang }) =>
+      onPhraseChange(lang, {
+        $type: "Phrase",
+        header: curlyName,
+        curlyName,
+        lines: []
+      })
+    );
+  }
+
+  function addPhraseLine() {
+    const line = prompt("line");
+    if (!line) return;
+    phraseLangs.forEach(({ lang, phrase }) => {
+      if (!phrase) return;
+      phrase.lines.push(newPhraseLine(line));
+      onPhraseChange(lang, phrase);
+    });
+  }
+
   function movePhraseLine(fromIndex: number, toIndex?: number) {
     phraseLangs.forEach(({ phrase, phraseNO, lang }) => {
       if (phrase) {
@@ -65,20 +88,7 @@ const PhraseEditor: FunctionalComponent<Props> = ({
       <h2>
         Phrase editor{" "}
         <small>
-          <button
-            onClick={(): void => {
-              const curlyName = prompt("curlyName");
-              if (!curlyName) return;
-              phraseLangs.forEach(({ lang }) =>
-                onPhraseChange(lang, {
-                  $type: "Phrase",
-                  header: curlyName,
-                  curlyName,
-                  lines: []
-                })
-              );
-            }}
-          >
+          <button onClick={(): void => addPhrase()}>
             <PlusSquare />
           </button>
         </small>
@@ -135,17 +145,7 @@ const PhraseEditor: FunctionalComponent<Props> = ({
               <th key={lang}>
                 {lang}{" "}
                 <small>
-                  <button
-                    onClick={(): void => {
-                      const line = prompt("line");
-                      if (!line) return;
-                      phraseLangs.forEach(({ lang, phrase }) => {
-                        if (!phrase) return;
-                        phrase.lines.push(newPhraseLine(line));
-                        onPhraseChange(lang, phrase);
-                      });
-                    }}
-                  >
+                  <button onClick={(): void => addPhraseLine()}>
                     <PlusSquare />
                   </button>
                 </small>
