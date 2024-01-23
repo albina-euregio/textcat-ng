@@ -93,6 +93,10 @@ const PhraseEditor: FunctionalComponent<Props> = ({
     });
   }
 
+  function hasPhraseLines(phrase: Phrase | undefined): phrase is Phrase {
+    return (phrase?.lines.length ?? 0) > 0;
+  }
+
   return (
     <div class="block" style="max-height: 30vh; overflow-y: scroll">
       <h2>
@@ -207,30 +211,27 @@ const PhraseEditor: FunctionalComponent<Props> = ({
               {phraseLangs.map(({ lang, phrase, phraseNO }) => (
                 <td key={lang}>
                   {[phrase, phraseNO]
-                    .filter(Boolean)
-                    .map((phrase, i, array) => {
-                      if (!phrase?.lines.length) return;
-                      return (
-                        <input
-                          key={i}
-                          lang={lang}
-                          spellCheck={true}
-                          style={{
-                            width: `${100 / array.length}%`,
-                            minWidth: `${phrase.lines[index].line.length}ex`
-                          }}
-                          type="text"
-                          value={phrase.lines[index].line}
-                          onInput={e => {
-                            phrase.lines[index] = newPhraseLine(
-                              (e.target as HTMLInputElement).value,
-                              phrase.lines[index].region
-                            );
-                            onPhraseChange(lang, phrase);
-                          }}
-                        />
-                      );
-                    })}
+                    .filter(hasPhraseLines)
+                    .map((phrase, i, array) => (
+                      <input
+                        key={i}
+                        lang={lang}
+                        spellCheck={true}
+                        style={{
+                          width: `${100 / array.length}%`,
+                          minWidth: `${phrase.lines[index].line.length}ex`
+                        }}
+                        type="text"
+                        value={phrase.lines[index].line}
+                        onInput={e => {
+                          phrase.lines[index] = newPhraseLine(
+                            (e.target as HTMLInputElement).value,
+                            phrase.lines[index].region
+                          );
+                          onPhraseChange(lang, phrase);
+                        }}
+                      />
+                    ))}
                 </td>
               ))}
             </tr>
