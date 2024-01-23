@@ -6,6 +6,7 @@ import {
   Phrase,
   SECOND_ITEM_PART_NO_SUFFIX,
   arrayMove,
+  isPhrase,
   newPhraseLine
 } from "../../model";
 import PlusSquare from "../bootstrap-icons/plus-square";
@@ -111,7 +112,18 @@ const PhraseEditor: FunctionalComponent<Props> = ({
       </label>
       {usages.length > 0 && (
         <label class="d-flex">
-          Used in: {usages.map(p => p.curlyName).join(", ")}
+          <span class="pr-10">Used in:</span>
+          <ul class="inline">
+            {usages.map(p => (
+              <li
+                key={p.curlyName}
+                onClick={() => isPhrase(p) && setCurlyName(p.curlyName)}
+                style={{ cursor: isPhrase(p) ? "pointer" : "" }}
+              >
+                {p.curlyName}
+              </li>
+            ))}
+          </ul>
         </label>
       )}
       {phraseLangs.some(({ phrase }) => phrase) && (
