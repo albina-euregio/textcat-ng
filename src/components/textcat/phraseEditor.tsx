@@ -6,7 +6,7 @@ import {
   Phrase,
   SECOND_ITEM_PART_NO_SUFFIX,
   arrayMove,
-  isPhrase,
+  isSentence,
   newPhraseLine
 } from "../../model";
 import PlusSquare from "../bootstrap-icons/plus-square";
@@ -19,6 +19,7 @@ interface Props {
   phrases: Phrase[];
   phraseCurlyName: string;
   setPhraseCurlyName(curlyName: string): void;
+  setSentenceCurlyName(curlyName: string): void;
   onPhraseChange(lang: Lang, phrase: Phrase): void;
 }
 
@@ -27,6 +28,7 @@ const PhraseEditor: FunctionalComponent<Props> = ({
   phrases,
   phraseCurlyName,
   setPhraseCurlyName,
+  setSentenceCurlyName,
   onPhraseChange
 }: Props) => {
   const phraseLangs = useMemo(
@@ -124,8 +126,12 @@ const PhraseEditor: FunctionalComponent<Props> = ({
             {usages.map(p => (
               <li
                 key={p.curlyName}
-                onClick={() => isPhrase(p) && setPhraseCurlyName(p.curlyName)}
-                style={{ cursor: isPhrase(p) ? "pointer" : "" }}
+                onClick={() =>
+                  isSentence(p)
+                    ? setSentenceCurlyName(p.curlyName)
+                    : setPhraseCurlyName(p.curlyName)
+                }
+                style={{ cursor: "pointer" }}
               >
                 {p.curlyName}
               </li>

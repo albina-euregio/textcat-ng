@@ -33,6 +33,7 @@ const TextcatEditor: FunctionalComponent<Props> = ({
         catalogs={catalogs}
         phraseCurlyName={phraseCurlyName}
         setPhraseCurlyName={setPhraseCurlyName}
+        setSentenceCurlyName={setSentenceCurlyName}
         onPhraseChange={async (lang, phrase) =>
           setCatalogs(await catalogs.changePhrase(lang, phrase))
         }
