@@ -1,5 +1,5 @@
 import { FunctionalComponent } from "preact";
-import { useEffect, useState, useMemo } from "preact/hooks";
+import { useEffect, useState, useMemo, useCallback } from "preact/hooks";
 import {
   AllTextCatalogues,
   buildAllTextcat,
@@ -22,6 +22,7 @@ import TranslationCheckbox from "./textcat/translationCheckbox";
 import { t, setI18nLang } from "../i18n";
 import CheckSquare from "./bootstrap-icons/check-square";
 import FolderOpen from "./bootstrap-icons/folder2-open";
+import ArrowClockwise from "./bootstrap-icons/arrow-clockwise";
 import { get, set } from "idb-keyval";
 import SentenceEditor from "./textcat/sentenceEditor";
 import PhraseEditor from "./textcat/phraseEditor";
@@ -52,10 +53,11 @@ const App: FunctionalComponent = () => {
     () => catalogs?.catalogs[srcLang],
     [catalogs, srcLang]
   );
-  useEffect(() => {
+  const reloadTextcat = useCallback(() => {
     if (!dirHandle) return;
     buildAllTextcat(dirHandle).then(cs => setCatalogs(cs));
   }, [dirHandle]);
+  useEffect(() => reloadTextcat(), [reloadTextcat]);
   const translations: Translations = useMemo(() => {
     console.log(changeCount);
     return catalogs?.translateAll(writtenText) ?? ({} as Translations);
@@ -104,6 +106,9 @@ const App: FunctionalComponent = () => {
         }}
       >
         <FolderOpen /> Open satzkatalog directory
+      </button>
+      <button onClick={() => reloadTextcat()}>
+        <ArrowClockwise /> Reload satzkatalog
       </button>
       <h1 class="d-none">textcat-ng</h1>
 
