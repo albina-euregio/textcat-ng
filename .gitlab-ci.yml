@@ -1,5 +1,4 @@
 ---
-
 build:
   image: node:20
   stage: build
@@ -28,6 +27,12 @@ build:
     - mkdir -p ~/.ssh && chmod 700 ~/.ssh
     - echo "$SSH_KNOWN_HOSTS" > ~/.ssh/known_hosts
     - rsync -avz -e 'ssh -p2201' dist/ $SFTP_SERVER
+
+deploy to editor:
+  extends: .deploy
+  environment:
+    name: editor
+  when: manual
 
 deploy to development:
   extends: .deploy
