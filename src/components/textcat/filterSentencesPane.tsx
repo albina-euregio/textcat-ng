@@ -82,7 +82,11 @@ const FilterSentencesPane: FunctionalComponent<Props> = (props: Props) => {
             >
               <button
                 title={t("sentence.add")}
-                onClick={(): void => props.addWrittenPhrase(writtenPhrase)}
+                onClick={(): void => {
+                  props.addWrittenPhrase({ ...writtenPhrase });
+                  writtenPhrase.args = undefined;
+                  setSearchText("");
+                }}
               >
                 <PlusSquare />
               </button>{" "}
