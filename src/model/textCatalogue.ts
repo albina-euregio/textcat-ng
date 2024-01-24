@@ -381,16 +381,39 @@ export class TextCatalogue {
 }
 
 export async function buildTextcat(
-  dirHandle: FileSystemDirectoryHandle,
+  dirHandle: FileSystemDirectoryHandle | undefined,
   lang: Lang
 ): Promise<TextCatalogue> {
   // awk '{print $0}' DE/Sentences/* DE/Ranges/* > assets/satzkatalog.DE.txt
   const catalog = new TextCatalogue(lang);
-  const langDir = await dirHandle.getDirectoryHandle(lang.toUpperCase());
-  catalog.phrasesHandle = await langDir.getDirectoryHandle("Ranges");
-  catalog.sentencesHandle = await langDir.getDirectoryHandle("Sentences");
   try {
     console.time(`parse ${lang}`);
+    if (dirHandle) {
+      await buildFromDirectoryHandle(dirHandle);
+    } else {
+      await buildFromServer();
+    }
+    console.timeEnd(`parse ${lang}`);
+  } catch (e) {
+    throw new Error(`Failed to build textcat from ${lang}: ${e}`);
+  }
+  return catalog;
+
+  async function buildFromServer() {
+    const file = `satzkatalog.${lang.toUpperCase()}.txt`;
+    const response = await fetch(`./assets/${file}`);
+    if (!response.ok) throw response.statusText;
+    const text = await response.text();
+    catalog.parse(text);
+    catalog.updateLastModified(response.headers.get("Last-Modified"));
+  }
+
+  async function buildFromDirectoryHandle(
+    dirHandle: FileSystemDirectoryHandle
+  ) {
+    const langDir = await dirHandle.getDirectoryHandle(lang.toUpperCase());
+    catalog.phrasesHandle = await langDir.getDirectoryHandle("Ranges");
+    catalog.sentencesHandle = await langDir.getDirectoryHandle("Sentences");
     for await (const fileHandle of allFiles()) {
       if (fileHandle.kind !== "file") continue;
       const file = await fileHandle.getFile();
@@ -398,11 +421,7 @@ export async function buildTextcat(
       catalog.parse(text);
       catalog.updateLastModified(new Date(file.lastModified).toISOString());
     }
-    console.timeEnd(`parse ${lang}`);
-  } catch (e) {
-    throw new Error(`Failed to build textcat from ${lang}: ${e}`);
   }
-  return catalog;
 
   async function* allFiles(): AsyncGenerator<
     FileSystemDirectoryHandle | FileSystemFileHandle,
@@ -415,7 +434,7 @@ export async function buildTextcat(
 }
 
 export async function buildAllTextcat(
-  dirHandle: FileSystemDirectoryHandle
+  dirHandle: FileSystemDirectoryHandle | undefined
 ): Promise<AllTextCatalogues> {
   return new AllTextCatalogues(
     Object.fromEntries(

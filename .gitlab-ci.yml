@@ -20,6 +20,8 @@ build:
 .deploy:
   image: alpine:latest
   stage: deploy
+  dependencies:
+    - build
   script:
     - apk add openssh-client rsync
     - eval $(ssh-agent -s)
@@ -28,8 +30,15 @@ build:
     - echo "$SSH_KNOWN_HOSTS" > ~/.ssh/known_hosts
     - rsync -avz -e 'ssh -p2201' dist/ $SFTP_SERVER
 
+build editor:
+  extends: build
+  variables:
+    VITE_TEXTCAT_EDITOR: "1"
+
 deploy to editor:
   extends: .deploy
+  dependencies:
+    - build editor
   environment:
     name: editor
   when: manual

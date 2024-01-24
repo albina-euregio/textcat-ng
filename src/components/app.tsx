@@ -18,15 +18,25 @@ import { get, set } from "idb-keyval";
 import TextcatEditor from "./textcat/textcatEditor";
 
 const App: FunctionalComponent = () => {
+  const textcatEditor = import.meta.env.VITE_TEXTCAT_EDITOR === "1";
   const [srcRegion, setSrcRegion] = useState<string>("");
   const [showTranslation, setShowTranslation] = useState(true);
 
   const [dirHandle, setDirHandle] = useState<
     FileSystemDirectoryHandle | undefined
   >(undefined);
+
   useEffect(() => {
     get<FileSystemDirectoryHandle | undefined>("dirHandle").then(setDirHandle);
   }, []);
+
+  const reloadTextcat = useCallback(() => {
+    if (!textcatEditor) {
+      buildAllTextcat(undefined).then(cs => setCatalogs(cs));
+    } else if (dirHandle) {
+      buildAllTextcat(dirHandle).then(cs => setCatalogs(cs));
+    }
+  }, [dirHandle, textcatEditor]);
 
   const [srcLang, setSrcLang] = useState<Lang>(DEFAULT_LANG);
   useEffect(() => {
@@ -38,15 +48,14 @@ const App: FunctionalComponent = () => {
   const [catalogs, setCatalogs] = useState<AllTextCatalogues | undefined>(
     undefined
   );
+
   const catalog = useMemo(
     () => catalogs?.catalogs[srcLang],
     [catalogs, srcLang]
   );
-  const reloadTextcat = useCallback(() => {
-    if (!dirHandle) return;
-    buildAllTextcat(dirHandle).then(cs => setCatalogs(cs));
-  }, [dirHandle]);
+
   useEffect(() => reloadTextcat(), [reloadTextcat]);
+
   const translations: Translations = useMemo(
     () => catalogs?.translateAll(writtenText) ?? ({} as Translations),
     [catalogs, writtenText]
@@ -56,21 +65,27 @@ const App: FunctionalComponent = () => {
 
   return (
     <section>
-      <button
-        onClick={async () => {
-          const handle = await window.showDirectoryPicker();
-          setDirHandle(handle);
-          set("dirHandle", handle);
-        }}
-      >
-        <FolderOpen /> Open satzkatalog directory
-      </button>
-      <button onClick={() => reloadTextcat()}>
-        <ArrowClockwise /> Reload satzkatalog
-      </button>
+      {textcatEditor && (
+        <button
+          onClick={async () => {
+            const handle = await window.showDirectoryPicker();
+            setDirHandle(handle);
+            set("dirHandle", handle);
+          }}
+        >
+          <FolderOpen /> Open satzkatalog directory
+        </button>
+      )}
+
+      {textcatEditor && (
+        <button onClick={() => reloadTextcat()}>
+          <ArrowClockwise /> Reload satzkatalog
+        </button>
+      )}
+
       <h1 class="d-none">textcat-ng</h1>
 
-      {catalog && catalogs && (
+      {catalog && catalogs && textcatEditor && (
         <TextcatEditor
           catalog={catalog}
           catalogs={catalogs}

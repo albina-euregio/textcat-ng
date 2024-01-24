@@ -19,7 +19,9 @@
   "scripts": {
     "postinstall": "simple-git-hooks",
     "build": "tsc && vite build",
+    "build-editor": "tsc && VITE_TEXTCAT_EDITOR=1 vite build",
     "dev": "vite",
+    "dev-editor": "VITE_TEXTCAT_EDITOR=1 vite",
     "lint": "eslint src/",
     "test": "vitest run"
   },
