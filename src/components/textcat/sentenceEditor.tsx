@@ -107,7 +107,7 @@ const SentenceEditor: FunctionalComponent<Props> = ({
                     }}
                     type="text"
                     value={phrase.header}
-                    onInput={e => {
+                    onChange={e => {
                       phrase.header = (e.target as HTMLInputElement).value;
                       onSentenceChange(lang, phrase);
                     }}
@@ -126,7 +126,7 @@ const SentenceEditor: FunctionalComponent<Props> = ({
                     }}
                     type="text"
                     value={phrase.lines[0].line}
-                    onInput={e => {
+                    onChange={e => {
                       phrase.lines[0] = newPhraseLine(
                         (e.target as HTMLInputElement).value
                       );

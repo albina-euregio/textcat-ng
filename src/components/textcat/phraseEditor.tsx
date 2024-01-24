@@ -180,7 +180,7 @@ const PhraseEditor: FunctionalComponent<Props> = ({
                     }}
                     type="text"
                     value={phrase.header}
-                    onInput={e => {
+                    onChange={e => {
                       phrase.header = (e.target as HTMLInputElement).value;
                       onPhraseChange(lang, phrase);
                     }}
@@ -251,7 +251,7 @@ const PhraseEditor: FunctionalComponent<Props> = ({
                         }}
                         type="text"
                         value={phrase.lines[index].line}
-                        onInput={e => {
+                        onChange={e => {
                           phrase.lines[index] = newPhraseLine(
                             (e.target as HTMLInputElement).value,
                             phrase.lines[index].region
