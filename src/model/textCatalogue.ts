@@ -391,14 +391,13 @@ export async function buildTextcat(
   catalog.sentencesHandle = await langDir.getDirectoryHandle("Sentences");
   try {
     console.time(`parse ${lang}`);
-    let text = "";
     for await (const fileHandle of allFiles()) {
       if (fileHandle.kind !== "file") continue;
       const file = await fileHandle.getFile();
-      text += await file.text();
+      const text = await file.text();
+      catalog.parse(text);
       catalog.updateLastModified(new Date(file.lastModified).toISOString());
     }
-    catalog.parse(text);
     console.timeEnd(`parse ${lang}`);
   } catch (e) {
     throw new Error(`Failed to build textcat from ${lang}: ${e}`);
