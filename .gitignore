@@ -3,5 +3,6 @@ node_modules
 /*.log
 satzkatalog*txt
 /.env
+/.idea
 /.vscode
 /.yarn

@@ -119,8 +119,13 @@ const App: FunctionalComponent = () => {
           </CatalogContext.Provider>
         )}
 
-        <h2>{t("heading.translations")}</h2>
-        {showTranslation && <TranslationPreview translations={translations} />}
+        {showTranslation && (
+          <>
+            <h2>{t("heading.translations")}</h2>
+            <TranslationPreview translations={translations} />
+          </>
+        )}
+
         <button
           class="mt-10"
           type="submit"
