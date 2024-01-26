@@ -17,3 +17,16 @@ export function sentencePreview(
     translation ?? catalog.translateLineFragments(s.lines?.[0]?.lineFragments);
   return `${s.header} \u2014 ${preview}`;
 }
+
+export function serializeSentence(sentence: Sentence): string {
+  const lineFragments = [...sentence.lines[0].line.matchAll(/\{([^}]+)\}/g)];
+  return [
+    `ST_Header: ${sentence.header}`,
+    `ST_CurlyName: ${sentence.curlyName}`,
+    ...lineFragments.map(
+      (l, index) => `PA_Pos: ${index + 1}\nRS_CurlyName: ${l[1]}`
+    ),
+    "",
+    ""
+  ].join("\n");
+}

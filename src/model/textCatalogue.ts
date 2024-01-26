@@ -17,7 +17,10 @@ import {
   WrittenText,
   isJoker,
   Joker,
-  sentencePreview
+  newPhraseLine,
+  sentencePreview,
+  serializeSentence,
+  serializePhrase
 } from ".";
 import { t } from "../i18n";
 
@@ -54,9 +57,10 @@ export class TextCatalogue {
   public readonly lang: Lang;
   private data: Record<CurlyName, Phrase> = {};
   public sentences: Sentence[] = [];
+  public sentencesHandle: FileSystemDirectoryHandle | undefined;
   public phrases: Phrase[] = [];
+  public phrasesHandle: FileSystemDirectoryHandle | undefined;
   public readonly regions: Set<string> = new Set<string>();
-  public readonly wordToPhraseMap: Map<string, Set<string>> = new Map();
   public lastModified?: string;
 
   constructor(lang: Lang) {
@@ -220,7 +224,9 @@ export class TextCatalogue {
           break;
         case "RS_CurlyName":
           if (isSentence(current)) {
-            current.lines[0].lineFragments?.push(`{${value}}`);
+            const line = current.lines[0];
+            line.line = `${line.line} {${value}}`.trim();
+            line.lineFragments?.push(`{${value}}`);
           } else if (isPhrase(current)) {
             current.curlyName = value;
             this.data[current.curlyName] = current;
@@ -228,13 +234,7 @@ export class TextCatalogue {
           break;
         case "Line":
           if (isPhrase(current)) {
-            current.lines?.push({
-              line: value,
-              lineFragments: (value.match(/{[^}]+}|[^{}]+/g) ?? [])
-                .map(s => s.trim())
-                .filter(s => s.length),
-              region: currentRegion
-            });
+            current.lines?.push(newPhraseLine(value, currentRegion));
           }
           break;
         case "Begin":
@@ -248,7 +248,9 @@ export class TextCatalogue {
           console.warn("Ignoring", line);
       }
     });
-    this.phrases = Object.values(this.data);
+    this.phrases = Object.values(this.data)
+      .filter(isPhrase)
+      .sort((s1, s2) => s1.curlyName.localeCompare(s2.curlyName));
     this.sentences = Object.values(this.data)
       .filter(isSentence)
       .sort((s1, s2) => s1.header.localeCompare(s2.header));
@@ -378,80 +380,145 @@ export class TextCatalogue {
   }
 }
 
-export async function buildTextcat(lang: Lang): Promise<TextCatalogue> {
+export async function buildTextcat(
+  dirHandle: FileSystemDirectoryHandle | undefined,
+  lang: Lang
+): Promise<TextCatalogue> {
   // awk '{print $0}' DE/Sentences/* DE/Ranges/* > assets/satzkatalog.DE.txt
-  const file = `satzkatalog.${lang.toUpperCase()}.txt`;
   const catalog = new TextCatalogue(lang);
   try {
+    console.time(`parse ${lang}`);
+    if (dirHandle) {
+      await buildFromDirectoryHandle(dirHandle);
+    } else {
+      await buildFromServer();
+    }
+    console.timeEnd(`parse ${lang}`);
+  } catch (e) {
+    throw new Error(`Failed to build textcat from ${lang}: ${e}`);
+  }
+  return catalog;
+
+  async function buildFromServer() {
+    const file = `satzkatalog.${lang.toUpperCase()}.txt`;
     const response = await fetch(`./assets/${file}`);
     if (!response.ok) throw response.statusText;
     const text = await response.text();
-    console.time(`parse ${file}`);
     catalog.parse(text);
     catalog.updateLastModified(response.headers.get("Last-Modified"));
-    console.timeEnd(`parse ${file}`);
-  } catch (e) {
-    throw new Error(`Failed to build textcat from ${file}: ${e}`);
   }
-  return catalog;
+
+  async function buildFromDirectoryHandle(
+    dirHandle: FileSystemDirectoryHandle
+  ) {
+    const langDir = await dirHandle.getDirectoryHandle(lang.toUpperCase());
+    catalog.phrasesHandle = await langDir.getDirectoryHandle("Ranges");
+    catalog.sentencesHandle = await langDir.getDirectoryHandle("Sentences");
+    for await (const fileHandle of allFiles()) {
+      if (fileHandle.kind !== "file") continue;
+      const file = await fileHandle.getFile();
+      const text = await file.text();
+      catalog.parse(text);
+      catalog.updateLastModified(new Date(file.lastModified).toISOString());
+    }
+  }
+
+  async function* allFiles(): AsyncGenerator<
+    FileSystemDirectoryHandle | FileSystemFileHandle,
+    void,
+    undefined
+  > {
+    yield* catalog.phrasesHandle!.values();
+    yield* catalog.sentencesHandle!.values();
+  }
 }
 
-export async function buildAllTextcat(): Promise<TextCatalogue[]> {
-  return Promise.all(LANGUAGES.map(lang => buildTextcat(lang)));
+export async function buildAllTextcat(
+  dirHandle: FileSystemDirectoryHandle | undefined
+): Promise<AllTextCatalogues> {
+  return new AllTextCatalogues(
+    Object.fromEntries(
+      (
+        await Promise.all(LANGUAGES.map(lang => buildTextcat(dirHandle, lang)))
+      ).map(c => [c.lang, c])
+    ) as Record<Lang, TextCatalogue>
+  );
 }
 
 export type Translations = Record<Lang | "de_AT" | "de_CH", IntlText>;
 
-export function translateAll(
-  catalogs: TextCatalogue[],
-  writtenText: WrittenText
-): Translations {
-  console.time("translateAll");
-  const translation = {} as Translations;
-  catalogs.forEach(catalog => {
-    const { lang } = catalog;
-    try {
-      translation[lang] = catalog.translate(writtenText);
-      if (lang === "de") {
-        translation["de_AT"] = translateGerman(translation[lang]);
-        translation["de_CH"] = translation[lang];
+export class AllTextCatalogues {
+  constructor(public readonly catalogs: Record<Lang, TextCatalogue>) {}
+  translateAll(writtenText: WrittenText): Translations {
+    console.time("translateAll");
+    const translation = {} as Translations;
+    Object.values(this.catalogs).forEach(catalog => {
+      const { lang } = catalog;
+      try {
+        translation[lang] = catalog.translate(writtenText);
+        if (lang === "de") {
+          translation["de_AT"] = translateGerman(translation[lang]);
+          translation["de_CH"] = translation[lang];
+        }
+      } catch (e) {
+        if (!(e instanceof UnsetPhraseError)) {
+          console.warn(e);
+        }
+        translation[lang] = `⚠ ${e}`;
       }
-    } catch (e) {
-      if (!(e instanceof UnsetPhraseError)) {
-        console.warn(e);
-      }
-      translation[lang] = `⚠ ${e}`;
-    }
-  });
-  console.timeEnd("translateAll");
-  return translation;
+    });
+    console.timeEnd("translateAll");
+    return translation;
 
-  function translateGerman(translation: IntlText): IntlText {
-    const mapping = {
-      ausser: "außer",
-      Ausser: "Außer",
-      reissen: "reißen",
-      Reissen: "Reißen",
-      mitreiss: "mitreiß",
-      Mitreiss: "Mitreiß",
-      gross: "groß",
-      Gross: "Groß",
-      grösse: "größe",
-      Grösse: "Größe",
-      mässig: "mäßig",
-      Mässig: "Mäßig",
-      massnahmen: "maßnahmen",
-      Massnahmen: "Maßnahmen",
-      strassen: "straßen",
-      Strassen: "Straßen",
-      stossen: "stoßen",
-      Stossen: "Stoßen",
-      fuss: "fuß",
-      Fuss: "Fuß",
-      füsse: "füße",
-      Füsse: "Füße"
-    };
-    const re = new RegExp(Object.keys(mapping).join("|"), "gi");
-    return translation.replace(re, s => mapping[s as keyof typeof mapping]);
+    function translateGerman(translation: IntlText): IntlText {
+      const mapping = {
+        ausser: "außer",
+        Ausser: "Außer",
+        reissen: "reißen",
+        Reissen: "Reißen",
+        mitreiss: "mitreiß",
+        Mitreiss: "Mitreiß",
+        gross: "groß",
+        Gross: "Groß",
+        grösse: "größe",
+        Grösse: "Größe",
+        mässig: "mäßig",
+        Mässig: "Mäßig",
+        massnahmen: "maßnahmen",
+        Massnahmen: "Maßnahmen",
+        strassen: "straßen",
+        Strassen: "Straßen",
+        stossen: "stoßen",
+        Stossen: "Stoßen",
+        fuss: "fuß",
+        Fuss: "Fuß",
+        füsse: "füße",
+        Füsse: "Füße"
+      };
+      const re = new RegExp(Object.keys(mapping).join("|"), "gi");
+      return translation.replace(re, s => mapping[s as keyof typeof mapping]);
+    }
+  }
+
+  async changePhrase(lang: Lang, phrase: Phrase): Promise<AllTextCatalogues> {
+    const catalog = this.catalogs[lang];
+    if (!catalog) return this;
+    const phraseHandle = isSentence(phrase)
+      ? catalog.sentencesHandle
+      : catalog.phrasesHandle;
+    if (!phraseHandle) return this;
+    const handle = await phraseHandle.getFileHandle(`${phrase.curlyName}.txt`, {
+      create: true
+    });
+    const writable = await handle.createWritable();
+    const text = isSentence(phrase)
+      ? serializeSentence(phrase)
+      : serializePhrase(phrase);
+    await writable.write(text);
+    await writable.close();
+    return new AllTextCatalogues({
+      ...this.catalogs,
+      [lang]: catalog.parse(text)
+    });
   }
 }

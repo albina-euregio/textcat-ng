@@ -15,13 +15,25 @@ export type Lang =
   | "oc";
 
 export const LANGUAGES: readonly Lang[] = Object.freeze([
-  "ca",
   "de",
   "en",
-  "es",
   "fr",
   "it",
+  "es",
+  "ca",
   "oc"
 ]);
+
+export const LANGUAGE_VARIANTS = Object.freeze([
+  "de",
+  "de_AT",
+  "de_CH",
+  "en",
+  "fr",
+  "it",
+  "es",
+  "ca",
+  "oc"
+] as const);
 
 export const DEFAULT_LANG: Lang = "de";

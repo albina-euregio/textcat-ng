@@ -6,6 +6,7 @@ function git(command: string): string {
   return execSync(`git ${command}`, { encoding: "utf8" }).trim();
 }
 
+process.env.VITE_TEXTCAT_EDITOR ??= "0";
 process.env.VITE_GIT_VERSION = [
   git("describe --always"),
   git("log -1 --format=%ad --date=short")

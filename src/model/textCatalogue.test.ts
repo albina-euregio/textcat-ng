@@ -6,9 +6,12 @@ import {
   WrittenPhrase,
   arrayMove,
   mapLineFragment,
-  translateAll,
   Joker,
-  SearchMode
+  SearchMode,
+  AllTextCatalogues,
+  Lang,
+  serializeSentence,
+  serializePhrase
 } from ".";
 
 /**
@@ -78,7 +81,7 @@ const sentence010: Sentence = {
   // it: "Condizioni 04"
   lines: [
     {
-      line: "",
+      line: "{Verhältnisse04§wo_wann3} {teils_gefährliche} {Verhältnisse04§Lawinensituation.}",
       lineFragments: [
         "{Verhältnisse04§wo_wann3}",
         "{teils_gefährliche}",
@@ -450,7 +453,10 @@ it("should translate a text to IT (including _NO phrase)", () =>
   ));
 it("should translate a text to DE and IT", () =>
   expect(
-    translateAll([catalog, catalogIT], [writtenPhrase, writtenText3])
+    new AllTextCatalogues({ de: catalog, it: catalogIT } as Record<
+      Lang,
+      TextCatalogue
+    >).translateAll([writtenPhrase, writtenText3])
   ).toStrictEqual({
     de: "Abseits gesicherter Pisten weiterhin sehr kritische Lawinensituation. Sicherheitsmassnahmen können allmählich reduziert werden.",
     de_AT:
@@ -580,4 +586,18 @@ it("should search by words", () => {
   expectSearch("gesicherter", sentence010);
   expectSearch("Lawinensituation gesicherter", sentence010);
   expectSearch("Lawinensituation gesicherter Pluto");
+});
+
+it("should serialize a sentence to satzkatalog syntax", () => {
+  const sentence = catalog.sentence("Verhältnisse04")!;
+  expect(serializeSentence(sentence)).toBe(
+    "ST_Header: Verhältnisse_04\nST_CurlyName: Verhältnisse04\nPA_Pos: 1\nRS_CurlyName: Verhältnisse04§wo_wann3\nPA_Pos: 2\nRS_CurlyName: teils_gefährliche\nPA_Pos: 3\nRS_CurlyName: Verhältnisse04§Lawinensituation.\n\n"
+  );
+});
+
+it("should serialize a phrase to satzkatalog syntax", () => {
+  const phrase = catalog.phrase("Verhältnisse04§wo_wann3")!;
+  expect(serializePhrase(phrase)).toBe(
+    "RS_Header: wo/wann\nRS_CurlyName: Verhältnisse04§wo_wann3\nLine: [Empty]\nLine: abseits der Pisten\nLine: abseits gesicherter Pisten\nLine: im {Exposition} {und_im_Exposition}\n\n"
+  );
 });

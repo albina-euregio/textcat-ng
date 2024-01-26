@@ -1,12 +1,6 @@
 import { FunctionalComponent } from "preact";
-import { useEffect, useState, useMemo } from "preact/hooks";
-import {
-  buildTextcat,
-  buildAllTextcat,
-  TextCatalogue,
-  translateAll,
-  Translations
-} from "../model";
+import { useEffect, useState, useMemo, useCallback } from "preact/hooks";
+import { AllTextCatalogues, buildAllTextcat, Translations } from "../model";
 import { CatalogContext } from "./textcat/contexts";
 import TextComposer from "./textcat/textComposer";
 import { arrayMove, DEFAULT_LANG, Lang, WrittenText } from "../model";
@@ -18,28 +12,52 @@ import RegionSelect from "./textcat/regionSelect";
 import TranslationCheckbox from "./textcat/translationCheckbox";
 import { t, setI18nLang } from "../i18n";
 import CheckSquare from "./bootstrap-icons/check-square";
+import FolderOpen from "./bootstrap-icons/folder2-open";
+import ArrowClockwise from "./bootstrap-icons/arrow-clockwise";
+import { get, set } from "idb-keyval";
+import TextcatEditor from "./textcat/textcatEditor";
 
 const App: FunctionalComponent = () => {
+  const textcatEditor = import.meta.env.VITE_TEXTCAT_EDITOR === "1";
   const [srcRegion, setSrcRegion] = useState<string>("");
   const [showTranslation, setShowTranslation] = useState(true);
 
-  const [srcLang, setSrcLang] = useState<Lang>(DEFAULT_LANG);
-  const [catalog, setCatalog] = useState<TextCatalogue>(
-    new TextCatalogue(srcLang)
-  );
+  const [dirHandle, setDirHandle] = useState<
+    FileSystemDirectoryHandle | undefined
+  >(undefined);
+
   useEffect(() => {
-    buildTextcat(srcLang).then(c => setCatalog(c));
+    get<FileSystemDirectoryHandle | undefined>("dirHandle").then(setDirHandle);
+  }, []);
+
+  const reloadTextcat = useCallback(() => {
+    if (!textcatEditor) {
+      buildAllTextcat(undefined).then(cs => setCatalogs(cs));
+    } else if (dirHandle) {
+      buildAllTextcat(dirHandle).then(cs => setCatalogs(cs));
+    }
+  }, [dirHandle, textcatEditor]);
+
+  const [srcLang, setSrcLang] = useState<Lang>(DEFAULT_LANG);
+  useEffect(() => {
     setI18nLang(srcLang);
   }, [srcLang]);
 
   const [writtenText, setWrittenText] = useState<WrittenText>([]);
 
-  const [catalogs, setCatalogs] = useState<TextCatalogue[]>([]);
-  useEffect(() => {
-    buildAllTextcat().then(cs => setCatalogs(cs));
-  }, []);
+  const [catalogs, setCatalogs] = useState<AllTextCatalogues | undefined>(
+    undefined
+  );
+
+  const catalog = useMemo(
+    () => catalogs?.catalogs[srcLang],
+    [catalogs, srcLang]
+  );
+
+  useEffect(() => reloadTextcat(), [reloadTextcat]);
+
   const translations: Translations = useMemo(
-    () => translateAll(catalogs, writtenText),
+    () => catalogs?.translateAll(writtenText) ?? ({} as Translations),
     [catalogs, writtenText]
   );
 
@@ -47,31 +65,59 @@ const App: FunctionalComponent = () => {
 
   return (
     <section>
+      {textcatEditor && (
+        <button
+          onClick={async () => {
+            const handle = await window.showDirectoryPicker();
+            setDirHandle(handle);
+            set("dirHandle", handle);
+          }}
+        >
+          <FolderOpen /> Open satzkatalog directory
+        </button>
+      )}
+
+      {textcatEditor && (
+        <button onClick={() => reloadTextcat()}>
+          <ArrowClockwise /> Reload satzkatalog
+        </button>
+      )}
+
       <h1 class="d-none">textcat-ng</h1>
 
-      <CatalogContext.Provider value={catalog}>
-        <TextComposer
-          writtenText={writtenText}
-          srcRegion={srcRegion}
-          setWrittenPhrase={(newText, index): void =>
-            setWrittenText(ts => {
-              const newTexts = [...ts];
-              newTexts[index] = newText;
-              return newTexts;
-            })
-          }
-          addSentence={(newText, index): void =>
-            setWrittenText(ts => {
-              const newTexts = [...ts];
-              newTexts.splice(index, 0, newText);
-              return newTexts;
-            })
-          }
-          moveSentence={(fromIndex, toIndex): void => {
-            setWrittenText(ts => arrayMove(ts, fromIndex, toIndex));
-          }}
+      {catalog && catalogs && textcatEditor && (
+        <TextcatEditor
+          catalog={catalog}
+          catalogs={catalogs}
+          setCatalogs={setCatalogs}
         />
-      </CatalogContext.Provider>
+      )}
+
+      {catalog && (
+        <CatalogContext.Provider value={catalog}>
+          <TextComposer
+            writtenText={writtenText}
+            srcRegion={srcRegion}
+            setWrittenPhrase={(newText, index): void =>
+              setWrittenText(ts => {
+                const newTexts = [...ts];
+                newTexts[index] = newText;
+                return newTexts;
+              })
+            }
+            addSentence={(newText, index): void =>
+              setWrittenText(ts => {
+                const newTexts = [...ts];
+                newTexts.splice(index, 0, newText);
+                return newTexts;
+              })
+            }
+            moveSentence={(fromIndex, toIndex): void => {
+              setWrittenText(ts => arrayMove(ts, fromIndex, toIndex));
+            }}
+          />
+        </CatalogContext.Provider>
+      )}
 
       <h2>{t("heading.translations")}</h2>
       {showTranslation && <TranslationPreview translations={translations} />}
@@ -84,17 +130,19 @@ const App: FunctionalComponent = () => {
       </button>
 
       <TextcatFooter>
-        {catalog.lastModified && <li>satzkatalog {catalog.lastModified}</li>}
+        {catalog?.lastModified && <li>satzkatalog {catalog.lastModified}</li>}
         <li>
           <LanguageSelect srcLang={srcLang} setSrcLang={setSrcLang} />
         </li>
-        <li>
-          <RegionSelect
-            regions={catalog.regions}
-            srcRegion={srcRegion}
-            setSrcRegion={setSrcRegion}
-          />
-        </li>
+        {catalog && (
+          <li>
+            <RegionSelect
+              regions={catalog.regions}
+              srcRegion={srcRegion}
+              setSrcRegion={setSrcRegion}
+            />
+          </li>
+        )}
         <li>
           <TranslationCheckbox
             showTranslation={showTranslation}
