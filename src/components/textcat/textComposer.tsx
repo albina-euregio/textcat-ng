@@ -71,26 +71,6 @@ const TextComposer: FunctionalComponent<Props> = (props: Props) => {
           }}
         >
           <button
-            disabled={index === 0}
-            onClick={(): void => props.moveSentence(index, index - 1)}
-            title={t("sentence.moveUp")}
-          >
-            <CaretUpSquare />
-          </button>
-          <button
-            onClick={(): void => props.moveSentence(index, undefined)}
-            title={t("sentence.remove")}
-          >
-            <XSquare />
-          </button>
-          <button
-            disabled={index >= array.length - 1}
-            onClick={(): void => props.moveSentence(index, index + 1)}
-            title={t("sentence.moveDown")}
-          >
-            <CaretDownSquare />
-          </button>
-          <button
             disabled={
               typeof navigator.clipboard.writeText !== "function" ||
               typeof navigator.clipboard.readText !== "function"
@@ -113,6 +93,26 @@ const TextComposer: FunctionalComponent<Props> = (props: Props) => {
             title={t("sentence.paste")}
           >
             <Clipboard />
+          </button>
+          <button
+            disabled={index === 0}
+            onClick={(): void => props.moveSentence(index, index - 1)}
+            title={t("sentence.moveUp")}
+          >
+            <CaretUpSquare />
+          </button>
+          <button
+            onClick={(): void => props.moveSentence(index, undefined)}
+            title={t("sentence.remove")}
+          >
+            <XSquare />
+          </button>
+          <button
+            disabled={index >= array.length - 1}
+            onClick={(): void => props.moveSentence(index, index + 1)}
+            title={t("sentence.moveDown")}
+          >
+            <CaretDownSquare />
           </button>{" "}
         </PhraseComposer>
       ))}
