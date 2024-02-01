@@ -9,6 +9,7 @@ import PlusSquare from "../bootstrap-icons/plus-square";
 
 interface Props {
   addWrittenPhrase: (writtenPhrase: WrittenPhrase) => void;
+  srcRegion: string;
 }
 
 const FilterSentencesPane: FunctionalComponent<Props> = (props: Props) => {
@@ -75,7 +76,7 @@ const FilterSentencesPane: FunctionalComponent<Props> = (props: Props) => {
             <PhraseComposer
               key={writtenPhrase.curlyName}
               curlyNameSuffix={""}
-              srcRegion={""}
+              srcRegion={props.srcRegion}
               searchWords={catalog.splitSearchText(searchText)}
               writtenPhrase={writtenPhrase}
               setWrittenPhrase={(phrase): void => setWrittenPhraseDraft(phrase)}

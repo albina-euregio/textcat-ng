@@ -41,7 +41,10 @@ const TextComposer: FunctionalComponent<Props> = (props: Props) => {
   return (
     <section>
       <AllSentencesSelect addWrittenPhrase={addWrittenPhrase} />
-      <FilterSentencesPane addWrittenPhrase={addWrittenPhrase} />
+      <FilterSentencesPane
+        addWrittenPhrase={addWrittenPhrase}
+        srcRegion={props.srcRegion}
+      />
 
       <h2>{t("heading.selectedSentences")}</h2>
       {props.writtenText.map((writtenPhrase, index, array) => (

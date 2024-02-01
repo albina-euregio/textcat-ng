@@ -150,12 +150,16 @@ const SelectLine: FunctionalComponent<SelectLineProps> = ({
   const line = phrase.lines.length === 1 ? 0 : writtenPhrase.line;
   const isRegionVisible = (region?: string): boolean =>
     !region || !srcRegion || srcRegion === region;
+  const size =
+    line >= 0
+      ? 1
+      : phrase.lines.filter(line => isRegionVisible(line.region)).length + 1;
 
   return (
     <tr>
       <td colSpan={99}>
         <select
-          size={line >= 0 ? 1 : phrase.lines.length + 1}
+          size={size}
           disabled={phrase.lines.length === 1}
           value={line}
           onChange={(e): void => {
