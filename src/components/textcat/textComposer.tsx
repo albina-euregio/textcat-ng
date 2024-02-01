@@ -102,18 +102,18 @@ const TextComposer: FunctionalComponent<Props> = (props: Props) => {
             <CaretUpSquare />
           </button>
           <button
-            onClick={(): void => props.moveSentence(index, undefined)}
-            title={t("sentence.remove")}
-            class="x-square"
-          >
-            <XSquare />
-          </button>
-          <button
             disabled={index >= array.length - 1}
             onClick={(): void => props.moveSentence(index, index + 1)}
             title={t("sentence.moveDown")}
           >
             <CaretDownSquare />
+          </button>
+          <button
+            onClick={(): void => props.moveSentence(index, undefined)}
+            title={t("sentence.remove")}
+            class="x-square"
+          >
+            <XSquare />
           </button>{" "}
         </PhraseComposer>
       ))}
