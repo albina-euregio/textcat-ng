@@ -122,3 +122,7 @@ ul.inline > li {
 ul.inline > li:nth-child(n + 2)::before {
   content: " • ";
 }
+
+.x-square {
+  color: red;
+}

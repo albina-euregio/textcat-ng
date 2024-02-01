@@ -104,6 +104,7 @@ const TextComposer: FunctionalComponent<Props> = (props: Props) => {
           <button
             onClick={(): void => props.moveSentence(index, undefined)}
             title={t("sentence.remove")}
+            class="x-square"
           >
             <XSquare />
           </button>
