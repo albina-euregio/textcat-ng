@@ -21,14 +21,18 @@ const AllSentencesSelect: FunctionalComponent<Props> = (props: Props) => {
   return (
     <div class="block">
       <h2>{`${t("heading.allSentences")} `}</h2>
-      <label class="d-flex mt-10">
-        <button
-          title={t("sentence.add")}
-          onClick={(): void => props.addWrittenPhrase(newJoker())}
-        >
-          <BracesAsterisk /> {t("sentence.joker")}
-        </button>
-      </label>
+      {window.parent.location.hostname === "admin.avalanche.report" ? (
+        <label class="d-flex mt-10">
+          <button
+            title={t("sentence.add")}
+            onClick={(): void => props.addWrittenPhrase(newJoker())}
+          >
+            <BracesAsterisk /> {t("sentence.joker")}
+          </button>
+        </label>
+      ) : (
+        ""
+      )}
       <label class="d-flex mt-10">
         <button
           title={t("sentence.add")}
