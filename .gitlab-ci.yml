@@ -57,11 +57,3 @@ deploy to production:
   only:
     - tags
   when: manual
-
-deploy to external:
-  extends: .deploy
-  environment:
-    name: external
-  only:
-    - tags
-  when: manual
