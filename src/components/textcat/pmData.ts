@@ -1,4 +1,4 @@
-import { StateUpdater, useEffect, useState } from "preact/hooks";
+import { Dispatch, StateUpdater, useEffect, useState } from "preact/hooks";
 import { Lang, Translations, WrittenText } from "../../model";
 
 // alias pmData, alias inputDef
@@ -46,9 +46,9 @@ window.addEventListener("message", receiveInitialPmData);
 
 // interoperability with albina-admin-gui: send/receive pmData messages
 export function usePmData(
-  setSrcLang: StateUpdater<Lang>,
-  setSrcRegion: StateUpdater<string>,
-  setWrittenText: StateUpdater<WrittenText>
+  setSrcLang: Dispatch<StateUpdater<Lang>>,
+  setSrcRegion: Dispatch<StateUpdater<string>>,
+  setWrittenText: Dispatch<StateUpdater<WrittenText>>
 ): {
   postPmData: (writtenText: WrittenText, translations: Translations) => void;
 } {

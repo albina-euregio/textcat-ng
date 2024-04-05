@@ -1,10 +1,10 @@
 import { FunctionalComponent } from "preact";
-import { StateUpdater } from "preact/hooks";
+import { Dispatch, StateUpdater } from "preact/hooks";
 import { t } from "../../i18n";
 
 interface Props {
   showTranslation: boolean;
-  setShowTranslation: StateUpdater<boolean>;
+  setShowTranslation: Dispatch<StateUpdater<boolean>>;
 }
 
 const TranslationCheckbox: FunctionalComponent<Props> = (props: Props) => (

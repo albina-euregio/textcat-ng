@@ -1,11 +1,11 @@
 import { FunctionalComponent } from "preact";
-import { StateUpdater } from "preact/hooks";
+import { Dispatch, StateUpdater } from "preact/hooks";
 import { LANGUAGES, Lang } from "../../model";
 import { t } from "../../i18n";
 
 interface Props {
   srcLang: Lang;
-  setSrcLang: StateUpdater<Lang>;
+  setSrcLang: Dispatch<StateUpdater<Lang>>;
 }
 
 const LanguageSelect: FunctionalComponent<Props> = (props: Props) => (

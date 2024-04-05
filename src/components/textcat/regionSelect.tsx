@@ -1,11 +1,11 @@
 import { FunctionalComponent } from "preact";
-import { StateUpdater } from "preact/hooks";
+import { Dispatch, StateUpdater } from "preact/hooks";
 import { t } from "../../i18n";
 
 interface Props {
   regions: Set<string>;
   srcRegion: string;
-  setSrcRegion: StateUpdater<string>;
+  setSrcRegion: Dispatch<StateUpdater<string>>;
 }
 
 const RegionSelect: FunctionalComponent<Props> = (props: Props) => (
