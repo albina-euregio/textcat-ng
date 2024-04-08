@@ -1,13 +1,12 @@
 import { FunctionalComponent } from "preact";
 import { useContext, useState } from "preact/hooks";
-import { t } from "../../i18n";
 import {
   sentencePreview,
   WrittenPhrase,
   newSentence,
   newJoker
 } from "../../model";
-import { CatalogContext } from "./contexts";
+import { CatalogContext, I18nContext } from "./contexts";
 import BracesAsterisk from "../bootstrap-icons/braces-asterisk";
 import PlusSquare from "../bootstrap-icons/plus-square";
 
@@ -17,6 +16,7 @@ interface Props {
 
 const AllSentencesSelect: FunctionalComponent<Props> = (props: Props) => {
   const catalog = useContext(CatalogContext);
+  const t = useContext(I18nContext);
   const [curlyName, setCurlyName] = useState("");
   const url =
     window.location != window.parent.location

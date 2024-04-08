@@ -1,8 +1,9 @@
 import { FunctionalComponent } from "preact";
+import { useContext } from "preact/hooks";
 import { WrittenPhrase, WrittenText } from "../../model";
 import FilterSentencesPane from "./filterSentencesPane";
 import PhraseComposer from "./phraseComposer";
-import { t } from "../../i18n";
+import { I18nContext } from "./contexts";
 import AllSentencesSelect from "./allSentencesSelect";
 import CaretUpSquare from "../bootstrap-icons/caret-up-square";
 import XSquare from "../bootstrap-icons/x-square";
@@ -19,6 +20,7 @@ interface Props {
 }
 
 const TextComposer: FunctionalComponent<Props> = (props: Props) => {
+  const t = useContext(I18nContext);
   const addWrittenPhrase = (phrase: WrittenPhrase): void =>
     props.addSentence(phrase, props.writtenText.length);
 

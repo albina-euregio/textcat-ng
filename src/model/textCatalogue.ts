@@ -25,26 +25,26 @@ import {
 import { t } from "../i18n";
 
 export class UnknownLineError extends Error {
-  constructor(line: number, context: string) {
-    super(t("unknownLine", line, context));
+  constructor(lang: Lang, line: number, context: string) {
+    super(t(lang, "unknownLine", line, context));
   }
 }
 
 export class UnknownPhraseError extends Error {
-  constructor(phrase: string) {
-    super(t("unknownPhrase", phrase));
+  constructor(lang: Lang, phrase: string) {
+    super(t(lang, "unknownPhrase", phrase));
   }
 }
 
 export class UnsetPhraseError extends Error {
-  constructor(phrase: string) {
-    super(t("unsetPhrase", phrase));
+  constructor(lang: Lang, phrase: string) {
+    super(t(lang, "unsetPhrase", phrase));
   }
 }
 
 export class IncompleteJokerError extends Error {
-  constructor() {
-    super(t("incompleteJoker"));
+  constructor(lang: Lang) {
+    super(t(lang, "incompleteJoker"));
   }
 }
 
@@ -301,7 +301,7 @@ export class TextCatalogue {
   private translateJoker(writtenPhrase: Joker): IntlText {
     const text = writtenPhrase.args[this.lang];
     if (!text) {
-      throw new IncompleteJokerError();
+      throw new IncompleteJokerError(this.lang);
     }
     return text;
   }
@@ -315,16 +315,21 @@ export class TextCatalogue {
     }
 
     const phrase = this.phrase(writtenPhrase.curlyName + curlyNameSuffix);
-    if (!phrase) throw new UnknownPhraseError(writtenPhrase.curlyName);
+    if (!phrase)
+      throw new UnknownPhraseError(this.lang, writtenPhrase.curlyName);
 
     const lineFragments =
       phrase?.lines[writtenPhrase.line]?.lineFragments ??
       uniqueLineFragments(phrase) ??
       undefined;
     if (!lineFragments && writtenPhrase.line >= 0)
-      throw new UnknownLineError(writtenPhrase.line, writtenPhrase.curlyName);
+      throw new UnknownLineError(
+        this.lang,
+        writtenPhrase.line,
+        writtenPhrase.curlyName
+      );
     else if (!lineFragments)
-      throw new UnsetPhraseError(writtenPhrase.curlyName);
+      throw new UnsetPhraseError(this.lang, writtenPhrase.curlyName);
 
     return lineFragments
       .map(lineFragment =>

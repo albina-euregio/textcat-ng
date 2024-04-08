@@ -1,9 +1,8 @@
 import { FunctionalComponent } from "preact";
 import { useContext, useMemo, useState } from "preact/hooks";
 import { SearchMode, newSentence, CurlyName, WrittenPhrase } from "../../model";
-import { CatalogContext } from "./contexts";
+import { CatalogContext, I18nContext } from "./contexts";
 import PhraseComposer from "./phraseComposer";
-import { t } from "../../i18n";
 import Filter from "../bootstrap-icons/filter";
 import Search from "../bootstrap-icons/search";
 import PlusSquare from "../bootstrap-icons/plus-square";
@@ -14,6 +13,7 @@ interface Props {
 
 const FilterSentencesPane: FunctionalComponent<Props> = (props: Props) => {
   const catalog = useContext(CatalogContext);
+  const t = useContext(I18nContext);
   const [searchText, setSearchText] = useState("");
   const [searchMode, setSearchMode] = useState(SearchMode.WORDS);
   const filteredSentences = useMemo(() => {

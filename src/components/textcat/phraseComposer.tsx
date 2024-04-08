@@ -1,6 +1,6 @@
 import { ComponentChildren, FunctionalComponent } from "preact";
 import { useContext, useMemo, useState } from "preact/hooks";
-import { CatalogContext } from "./contexts";
+import { CatalogContext, I18nContext } from "./contexts";
 import {
   CurlyNameSuffix,
   FULL_STOP,
@@ -21,7 +21,6 @@ import {
 } from "../../model";
 import TextHighlighter from "./textHighlighter";
 import BracesAsterisk from "../bootstrap-icons/braces-asterisk";
-import { t } from "../../i18n";
 
 interface Props extends WrittenTextProps {
   children?: ComponentChildren;
@@ -35,6 +34,7 @@ interface Props extends WrittenTextProps {
 
 const PhraseComposer: FunctionalComponent<Props> = (props: Props) => {
   const catalog = useContext(CatalogContext);
+  const t = useContext(I18nContext);
   const phrase = catalog.phrase(
     props.writtenPhrase.curlyName + props.curlyNameSuffix
   );
