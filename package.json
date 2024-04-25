@@ -40,7 +40,7 @@
     "preact-render-to-string": "^6.4.1"
   },
   "devDependencies": {
-    "@preact/preset-vite": "^2.7.0",
+    "@preact/preset-vite": "^2.8.2",
     "@types/highlight-words-core": "^1.2.1",
     "@types/wicg-file-system-access": "^2023.10.4",
     "@typescript-eslint/eslint-plugin": "^6.14.0",
@@ -54,7 +54,7 @@
     "lint-staged": "^15.2.0",
     "prettier": "^3.0.3",
     "typescript": "^5.3.3",
-    "vite": "^5.0.10",
-    "vitest": "^1.0.4"
+    "vite": "^5.2.10",
+    "vitest": "^1.5.2"
   }
 }
