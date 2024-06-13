@@ -10,12 +10,14 @@ const TranslationPreview: FunctionalComponent<Props> = (props: Props) => {
   return (
     <section>
       <table>
-        {LANGUAGE_VARIANTS.map(lang => (
-          <tr key={lang}>
-            <th class="pr-10">{lang}</th>
-            <td>{translations[lang]}</td>
-          </tr>
-        ))}
+        <tbody>
+          {LANGUAGE_VARIANTS.map(lang => (
+            <tr key={lang}>
+              <th class="pr-10">{lang}</th>
+              <td>{translations[lang]}</td>
+            </tr>
+          ))}
+        </tbody>
       </table>
     </section>
   );
