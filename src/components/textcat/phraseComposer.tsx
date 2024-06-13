@@ -97,40 +97,42 @@ const JokerComposer: FunctionalComponent<WrittenTextProps> = ({
   if (!isJoker(writtenPhrase)) throw new Error();
   return (
     <table class={"joker"}>
-      {LANGUAGES.map(lang => (
-        <tr key={lang}>
-          <th>{lang}</th>
-          <td>
-            <input
-              type="text"
-              lang={lang}
-              spellCheck={true}
-              value={writtenPhrase.args[lang]}
-              onChange={e => {
-                setWrittenPhrase(
-                  withJokerText(
-                    writtenPhrase,
-                    lang,
-                    (e.target as HTMLInputElement).value
-                  )
-                );
-              }}
-            ></input>
-          </td>
-          <td>
-            {isTranslateJokerEnabled() && DEEPL_LANGUAGES.includes(lang) && (
-              <button
-                disabled={!writtenPhrase.args[lang]}
-                onClick={async () =>
-                  setWrittenPhrase(await translateJoker(writtenPhrase, lang))
-                }
-              >
-                DeepL
-              </button>
-            )}
-          </td>
-        </tr>
-      ))}
+      <tbody>
+        {LANGUAGES.map(lang => (
+          <tr key={lang}>
+            <th>{lang}</th>
+            <td>
+              <input
+                type="text"
+                lang={lang}
+                spellCheck={true}
+                value={writtenPhrase.args[lang]}
+                onChange={e => {
+                  setWrittenPhrase(
+                    withJokerText(
+                      writtenPhrase,
+                      lang,
+                      (e.target as HTMLInputElement).value
+                    )
+                  );
+                }}
+              ></input>
+            </td>
+            <td>
+              {isTranslateJokerEnabled() && DEEPL_LANGUAGES.includes(lang) && (
+                <button
+                  disabled={!writtenPhrase.args[lang]}
+                  onClick={async () =>
+                    setWrittenPhrase(await translateJoker(writtenPhrase, lang))
+                  }
+                >
+                  DeepL
+                </button>
+              )}
+            </td>
+          </tr>
+        ))}
+      </tbody>
     </table>
   );
 };
@@ -224,8 +226,10 @@ const PhraseTable: FunctionalComponent<SelectLineProps> = (
 ) => {
   return (
     <table>
-      {isPhrase(props.phrase) && <SelectLine {...props} />}
-      {props.phrase && <SelectedLine {...props} />}
+      <tbody>
+        {isPhrase(props.phrase) && <SelectLine {...props} />}
+        {props.phrase && <SelectedLine {...props} />}
+      </tbody>
     </table>
   );
 };
