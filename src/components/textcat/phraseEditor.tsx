@@ -166,104 +166,106 @@ const PhraseEditor: FunctionalComponent<Props> = ({
       )}
       {phraseLangs.some(({ phrase }) => phrase) && (
         <table style={{ width: "100%" }}>
-          <tr>
-            <td></td>
-            {phraseLangs.map(({ lang, phrase }) => (
-              <td key={lang}>
-                {phrase && (
-                  <input
-                    lang={lang}
-                    spellCheck={true}
-                    style={{
-                      width: "100%",
-                      minWidth: `${phrase.header.length}ex`
-                    }}
-                    type="text"
-                    value={phrase.header}
-                    onChange={e => {
-                      phrase.header = (e.target as HTMLInputElement).value;
-                      onPhraseChange(lang, phrase);
-                    }}
-                  />
-                )}
-              </td>
-            ))}
-          </tr>
-          <tr>
-            <th>№</th>
-            {phraseLangs.map(({ lang, phrase, phraseNO }) => (
-              <th key={lang}>
-                {lang}{" "}
-                <small>
-                  <button onClick={(): void => addPhraseLine()}>
-                    <PlusSquare />
-                  </button>
+          <tbody>
+            <tr>
+              <td></td>
+              {phraseLangs.map(({ lang, phrase }) => (
+                <td key={lang}>
                   {phrase && (
-                    <button
-                      onClick={() => togglePhraseNO(lang, phrase, phraseNO)}
-                    >
-                      <TerminalSplit />
-                    </button>
+                    <input
+                      lang={lang}
+                      spellCheck={true}
+                      style={{
+                        width: "100%",
+                        minWidth: `${phrase.header.length}ex`
+                      }}
+                      type="text"
+                      value={phrase.header}
+                      onChange={e => {
+                        phrase.header = (e.target as HTMLInputElement).value;
+                        onPhraseChange(lang, phrase);
+                      }}
+                    />
                   )}
-                </small>
-              </th>
-            ))}
-          </tr>
-          {phraseLangs[0].phrase?.lines.map((_, index, array) => (
-            <tr key={index}>
-              <td style={{ whiteSpace: "nowrap" }}>
-                {index + 1}{" "}
-                <small>
-                  <button
-                    disabled={index === 0}
-                    onClick={(): void => movePhraseLine(index, index - 1)}
-                  >
-                    <CaretUpSquare />
-                  </button>
-                  <button
-                    onClick={(): void => {
-                      if (!confirm(`delete phrase ${index + 1}`)) return;
-                      movePhraseLine(index, undefined);
-                    }}
-                  >
-                    <XSquare />
-                  </button>
-                  <button
-                    disabled={index >= array.length - 1}
-                    onClick={(): void => movePhraseLine(index, index + 1)}
-                  >
-                    <CaretDownSquare />
-                  </button>
-                </small>
-              </td>
-              {phraseLangs.map(({ lang, phrase, phraseNO }) => (
-                <td key={lang} style={{ whiteSpace: "nowrap" }}>
-                  {[phrase, phraseNO]
-                    .filter(hasPhraseLines)
-                    .map((phrase, i, array) => (
-                      <input
-                        key={i}
-                        lang={lang}
-                        spellCheck={true}
-                        style={{
-                          width: `${100 / array.length}%`,
-                          minWidth: `${phrase.lines[index].line.length}ex`
-                        }}
-                        type="text"
-                        value={phrase.lines[index].line}
-                        onChange={e => {
-                          phrase.lines[index] = newPhraseLine(
-                            (e.target as HTMLInputElement).value,
-                            phrase.lines[index].region
-                          );
-                          onPhraseChange(lang, phrase);
-                        }}
-                      />
-                    ))}
                 </td>
               ))}
             </tr>
-          ))}
+            <tr>
+              <th>№</th>
+              {phraseLangs.map(({ lang, phrase, phraseNO }) => (
+                <th key={lang}>
+                  {lang}{" "}
+                  <small>
+                    <button onClick={(): void => addPhraseLine()}>
+                      <PlusSquare />
+                    </button>
+                    {phrase && (
+                      <button
+                        onClick={() => togglePhraseNO(lang, phrase, phraseNO)}
+                      >
+                        <TerminalSplit />
+                      </button>
+                    )}
+                  </small>
+                </th>
+              ))}
+            </tr>
+            {phraseLangs[0].phrase?.lines.map((_, index, array) => (
+              <tr key={index}>
+                <td style={{ whiteSpace: "nowrap" }}>
+                  {index + 1}{" "}
+                  <small>
+                    <button
+                      disabled={index === 0}
+                      onClick={(): void => movePhraseLine(index, index - 1)}
+                    >
+                      <CaretUpSquare />
+                    </button>
+                    <button
+                      onClick={(): void => {
+                        if (!confirm(`delete phrase ${index + 1}`)) return;
+                        movePhraseLine(index, undefined);
+                      }}
+                    >
+                      <XSquare />
+                    </button>
+                    <button
+                      disabled={index >= array.length - 1}
+                      onClick={(): void => movePhraseLine(index, index + 1)}
+                    >
+                      <CaretDownSquare />
+                    </button>
+                  </small>
+                </td>
+                {phraseLangs.map(({ lang, phrase, phraseNO }) => (
+                  <td key={lang} style={{ whiteSpace: "nowrap" }}>
+                    {[phrase, phraseNO]
+                      .filter(hasPhraseLines)
+                      .map((phrase, i, array) => (
+                        <input
+                          key={i}
+                          lang={lang}
+                          spellCheck={true}
+                          style={{
+                            width: `${100 / array.length}%`,
+                            minWidth: `${phrase.lines[index].line.length}ex`
+                          }}
+                          type="text"
+                          value={phrase.lines[index].line}
+                          onChange={e => {
+                            phrase.lines[index] = newPhraseLine(
+                              (e.target as HTMLInputElement).value,
+                              phrase.lines[index].region
+                            );
+                            onPhraseChange(lang, phrase);
+                          }}
+                        />
+                      ))}
+                  </td>
+                ))}
+              </tr>
+            ))}
+          </tbody>
         </table>
       )}
     </div>
