@@ -2768,17 +2768,15 @@ postcss@^8.4.38:
     picocolors "^1.0.0"
     source-map-js "^1.2.0"
 
-preact-render-to-string@^6.4.1:
-  version "6.4.1"
-  resolved "https://registry.yarnpkg.com/preact-render-to-string/-/preact-render-to-string-6.4.1.tgz#0db251913899549009df078d99a06490891ea906"
-  integrity sha512-oHKIFIv+/N0i3fNRF4ANMr2I93maycuXK78ERJ0vUW+nz6MXXMO6mTOFxp3itvSVBS/GXtLAy2jio3ZPeD8lZQ==
-  dependencies:
-    pretty-format "^3.8.0"
+preact-render-to-string@^6.5.5:
+  version "6.5.5"
+  resolved "https://registry.yarnpkg.com/preact-render-to-string/-/preact-render-to-string-6.5.5.tgz#831dc3b343320d2d38c23d9cea0d7530d262f948"
+  integrity sha512-KiMFTKNTmT/ccE79BURR/r6XRc2I2TCTZ0MpeWqHW2XnllbeghXvwGsdAfF/MzMilUcTfODtSmMxgoRFL9TM5g==
 
-preact@^10.20.1:
-  version "10.20.1"
-  resolved "https://registry.yarnpkg.com/preact/-/preact-10.20.1.tgz#1bc598ab630d8612978f7533da45809a8298542b"
-  integrity sha512-JIFjgFg9B2qnOoGiYMVBtrcFxHqn+dNXbq76bVmcaHYJFYR4lW67AOcXgAYQQTDYXDOg/kTZrKPNCdRgJ2UJmw==
+preact@^10.22.0:
+  version "10.22.0"
+  resolved "https://registry.yarnpkg.com/preact/-/preact-10.22.0.tgz#a50f38006ae438d255e2631cbdaf7488e6dd4e16"
+  integrity sha512-RRurnSjJPj4rp5K6XoP45Ui33ncb7e4H7WiOHVpjbkvqvA3U+N8Z6Qbo0AE6leGYBV66n8EhEaFixvIu3SkxFw==
 
 prelude-ls@^1.2.1:
   version "1.2.1"
@@ -2805,11 +2803,6 @@ pretty-format@^29.7.0:
     "@jest/schemas" "^29.6.3"
     ansi-styles "^5.0.0"
     react-is "^18.0.0"
-
-pretty-format@^3.8.0:
-  version "3.8.0"
-  resolved "https://registry.yarnpkg.com/pretty-format/-/pretty-format-3.8.0.tgz#bfbed56d5e9a776645f4b1ff7aa1a3ac4fa3c385"
-  integrity sha1-v77VbV6ad2ZF9LH/eqGjrE+jw4U=
 
 prop-types@^15.8.1:
   version "15.8.1"
