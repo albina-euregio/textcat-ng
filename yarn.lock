@@ -577,11 +577,12 @@
   resolved "https://registry.yarnpkg.com/@pkgr/core/-/core-0.1.1.tgz#1ec17e2edbec25c8306d424ecfbf13c7de1aaa31"
   integrity sha512-cq8o4cWH0ibXh9VGi5P20Tu9XF/0fFXl9EUinr9QfTM7a7p0oTA4iJRCQWppXR1Pg8dSM0UCItCkPwsk9qWWYA==
 
-"@preact/preset-vite@^2.8.2":
-  version "2.8.2"
-  resolved "https://registry.yarnpkg.com/@preact/preset-vite/-/preset-vite-2.8.2.tgz#8113a37c8f7dfa0156fe1e6811bdc2b7ea6a3490"
-  integrity sha512-m3tl+M8IO8jgiHnk+7LSTFl8axdPXloewi7iGVLdmCwf34XOzEUur0bZVewW4DUbUipFjTS2CXu27+5f/oexBA==
+"@preact/preset-vite@^2.8.3":
+  version "2.8.3"
+  resolved "https://registry.yarnpkg.com/@preact/preset-vite/-/preset-vite-2.8.3.tgz#1959fac8670fa62e584825f330a36d01d7be79cc"
+  integrity sha512-IT4+IV3D4lIyoDrp4FUfx4dT2yW/5KIl2MXAsqqItGTbz1xUhtSyP9nS2kLXNnhLG4I2Nku/X+vKFMmRG+oMDA==
   dependencies:
+    "@babel/code-frame" "^7.22.13"
     "@babel/plugin-transform-react-jsx" "^7.22.15"
     "@babel/plugin-transform-react-jsx-development" "^7.22.5"
     "@prefresh/vite" "^2.4.1"
@@ -2730,6 +2731,11 @@ picocolors@^1.0.0:
   resolved "https://registry.yarnpkg.com/picocolors/-/picocolors-1.0.0.tgz#cb5bdc74ff3f51892236eaf79d68bc44564ab81c"
   integrity sha512-1fygroTLlHu66zi26VoTDv8yRgm0Fccecssto+MhsZ0D/DGW2sm8E8AjW7NU5VVTRt5GxbeZ5qBuJr+HyLYkjQ==
 
+picocolors@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/picocolors/-/picocolors-1.0.1.tgz#a8ad579b571952f0e5d25892de5445bcfe25aaa1"
+  integrity sha512-anP1Z8qwhkbmu7MFP5iTt+wQKXgwzf7zTyGlcdzabySa9vd0Xt392U0rVmz9poOaBj0uHJKyyo9/upk0HrEQew==
+
 picomatch@^2.2.2:
   version "2.2.3"
   resolved "https://registry.yarnpkg.com/picomatch/-/picomatch-2.2.3.tgz#465547f359ccc206d3c48e46a1bcb89bf7ee619d"
@@ -2766,6 +2772,15 @@ postcss@^8.4.38:
   dependencies:
     nanoid "^3.3.7"
     picocolors "^1.0.0"
+    source-map-js "^1.2.0"
+
+postcss@^8.4.39:
+  version "8.4.39"
+  resolved "https://registry.yarnpkg.com/postcss/-/postcss-8.4.39.tgz#aa3c94998b61d3a9c259efa51db4b392e1bde0e3"
+  integrity sha512-0vzE+lAiG7hZl1/9I8yzKLx3aR9Xbof3fBHKunvMfOCYAtMhrsnccJY2iTURb9EZd5+pLuiNV9/c/GZJOHsgIw==
+  dependencies:
+    nanoid "^3.3.7"
+    picocolors "^1.0.1"
     source-map-js "^1.2.0"
 
 preact-render-to-string@^6.5.5:
@@ -3355,13 +3370,13 @@ vite@^5.0.0:
   optionalDependencies:
     fsevents "~2.3.3"
 
-vite@^5.3.0:
-  version "5.3.0"
-  resolved "https://registry.yarnpkg.com/vite/-/vite-5.3.0.tgz#6c11eb5b41a667c64d38ff38fe6dec7ff68b65a9"
-  integrity sha512-hA6vAVK977NyW1Qw+fLvqSo7xDPej7von7C3DwwqPRmnnnK36XEBC/J3j1V5lP8fbt7y0TgTKJbpNGSwM+Bdeg==
+vite@^5.3.3:
+  version "5.3.3"
+  resolved "https://registry.yarnpkg.com/vite/-/vite-5.3.3.tgz#5265b1f0a825b3b6564c2d07524777c83e3c04c2"
+  integrity sha512-NPQdeCU0Dv2z5fu+ULotpuq5yfCS1BzKUIPhNbP3YBfAMGJXbt2nS+sbTFu+qchaqWTD+H3JK++nRwr6XIcp6A==
   dependencies:
     esbuild "^0.21.3"
-    postcss "^8.4.38"
+    postcss "^8.4.39"
     rollup "^4.13.0"
   optionalDependencies:
     fsevents "~2.3.3"
