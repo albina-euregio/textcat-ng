@@ -1,7 +1,8 @@
 import { FunctionalComponent } from "preact";
-import { useMemo } from "preact/hooks";
+import { useContext, useMemo } from "preact/hooks";
 import { AllTextCatalogues, Lang, Sentence, newPhraseLine } from "../../model";
 import PlusSquare from "../bootstrap-icons/plus-square";
+import { I18nContext } from "./contexts";
 
 interface Props {
   catalogs: AllTextCatalogues;
@@ -20,6 +21,7 @@ const SentenceEditor: FunctionalComponent<Props> = ({
   setSentenceCurlyName,
   onSentenceChange
 }: Props) => {
+  const t = useContext(I18nContext);
   const sentenceLangs = useMemo(
     () =>
       Object.values(catalogs.catalogs).map(c => ({
@@ -39,7 +41,7 @@ const SentenceEditor: FunctionalComponent<Props> = ({
   return (
     <div class="block" style="max-height: 30vh; overflow-y: scroll">
       <h2>
-        Sentence editor{" "}
+        {t("editor.sentence")}{" "}
         <small>
           <button
             onClick={(): void => {
@@ -81,7 +83,7 @@ const SentenceEditor: FunctionalComponent<Props> = ({
         </select>
       </label>
       <label class="d-flex">
-        <span class="pr-10">Phrases:</span>
+        <span class="pr-10">{t("phrases")}:</span>
         <ul class="inline">
           {usages.map(p => (
             <li

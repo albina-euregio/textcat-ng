@@ -72,13 +72,13 @@ const App: FunctionalComponent = () => {
               set("dirHandle", handle);
             }}
           >
-            <FolderOpen /> Open satzkatalog directory
+            <FolderOpen /> {t("editor.open")}
           </button>
         )}
 
         {textcatEditor && (
           <button onClick={() => reloadTextcat()}>
-            <ArrowClockwise /> Reload satzkatalog
+            <ArrowClockwise /> {t("editor.reload")}
           </button>
         )}
 
