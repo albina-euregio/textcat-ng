@@ -15,6 +15,7 @@ import CaretUpSquare from "../bootstrap-icons/caret-up-square";
 import XSquare from "../bootstrap-icons/x-square";
 import CaretDownSquare from "../bootstrap-icons/caret-down-square";
 import TerminalSplit from "../bootstrap-icons/terminal-split";
+import InputCursorText from "../bootstrap-icons/input-cursor-text";
 import { I18nContext } from "./contexts";
 
 interface Props {
@@ -84,6 +85,23 @@ const PhraseEditor: FunctionalComponent<Props> = ({
     );
   }
 
+  function renamePhrase() {
+    const curlyName = prompt("curlyName", phraseCurlyName);
+    if (!curlyName || curlyName === phraseCurlyName) return;
+    phraseLangs.forEach(({ lang, phrase }) => {
+      if (!phrase) return;
+      const header = phrase.header;
+      // deletePhrase
+      phrase.header = DELETE_ME_HEADER;
+      onPhraseChange(lang, phrase);
+      // addPhrase
+      phrase.header = header;
+      phrase.curlyName = curlyName;
+      onPhraseChange(lang, phrase);
+    });
+    setPhraseCurlyName(curlyName);
+  }
+
   function addPhraseLine() {
     const line = prompt("line");
     if (!line) return;
@@ -138,6 +156,13 @@ const PhraseEditor: FunctionalComponent<Props> = ({
         <small>
           <button onClick={(): void => addPhrase()} title="Create phrase">
             <PlusSquare />
+          </button>
+          <button
+            onClick={(): void => renamePhrase()}
+            disabled={!phraseCurlyName}
+            title="Rename phrase"
+          >
+            <InputCursorText />
           </button>
           <button
             onClick={(): void => deletePhrase()}
