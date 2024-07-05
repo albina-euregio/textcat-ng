@@ -125,7 +125,7 @@ const PhraseEditor: FunctionalComponent<Props> = ({
       <h2>
         {t("editor.phrase")}{" "}
         <small>
-          <button onClick={(): void => addPhrase()}>
+          <button onClick={(): void => addPhrase()} title="Create phrase">
             <PlusSquare />
           </button>
         </small>
@@ -198,12 +198,16 @@ const PhraseEditor: FunctionalComponent<Props> = ({
                 <th key={lang}>
                   {lang}{" "}
                   <small>
-                    <button onClick={(): void => addPhraseLine()}>
+                    <button
+                      onClick={(): void => addPhraseLine()}
+                      title="Add phrase line"
+                    >
                       <PlusSquare />
                     </button>
                     {phrase && (
                       <button
                         onClick={() => togglePhraseNO(lang, phrase, phraseNO)}
+                        title="Toggle phrase split (_NO)"
                       >
                         <TerminalSplit />
                       </button>
@@ -220,6 +224,7 @@ const PhraseEditor: FunctionalComponent<Props> = ({
                     <button
                       disabled={index === 0}
                       onClick={(): void => movePhraseLine(index, index - 1)}
+                      title="Move phrase line up"
                     >
                       <CaretUpSquare />
                     </button>
@@ -228,12 +233,14 @@ const PhraseEditor: FunctionalComponent<Props> = ({
                         if (!confirm(`delete phrase ${index + 1}`)) return;
                         movePhraseLine(index, undefined);
                       }}
+                      title="Delete phrase line"
                     >
                       <XSquare />
                     </button>
                     <button
                       disabled={index >= array.length - 1}
                       onClick={(): void => movePhraseLine(index, index + 1)}
+                      title="Move phrase line down"
                     >
                       <CaretDownSquare />
                     </button>
