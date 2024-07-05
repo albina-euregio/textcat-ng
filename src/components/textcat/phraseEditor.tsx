@@ -2,6 +2,7 @@ import { FunctionalComponent } from "preact";
 import { useContext, useMemo } from "preact/hooks";
 import {
   AllTextCatalogues,
+  DELETE_ME_HEADER,
   Lang,
   Phrase,
   SECOND_ITEM_PART_NO_SUFFIX,
@@ -59,6 +60,16 @@ const PhraseEditor: FunctionalComponent<Props> = ({
       phraseCurlyName
     ]
   );
+
+  function deletePhrase() {
+    const ok = confirm(`delete phrase ${phraseCurlyName}?`);
+    if (!ok) return;
+    phraseLangs.forEach(({ lang, phrase }) => {
+      if (!phrase) return;
+      phrase.header = DELETE_ME_HEADER;
+      onPhraseChange(lang, phrase);
+    });
+  }
 
   function addPhrase() {
     const curlyName = prompt("curlyName");
@@ -127,6 +138,13 @@ const PhraseEditor: FunctionalComponent<Props> = ({
         <small>
           <button onClick={(): void => addPhrase()} title="Create phrase">
             <PlusSquare />
+          </button>
+          <button
+            onClick={(): void => deletePhrase()}
+            disabled={!phraseCurlyName}
+            title="Delete phrase"
+          >
+            <XSquare />
           </button>
         </small>
       </h2>

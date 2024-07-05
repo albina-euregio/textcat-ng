@@ -64,3 +64,5 @@ export function serializePhrase(phrase: Phrase): string {
     ""
   ].join("\n");
 }
+
+export const DELETE_ME_HEADER = "IefeiRei8oshohp2wi8yaevievieVahJ";

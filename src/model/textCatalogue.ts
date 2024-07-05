@@ -19,7 +19,8 @@ import {
   newPhraseLine,
   sentencePreview,
   serializeSentence,
-  serializePhrase
+  serializePhrase,
+  DELETE_ME_HEADER
 } from ".";
 import { t } from "../i18n";
 
@@ -165,6 +166,13 @@ export class TextCatalogue {
 
   phrase(curlyName: CurlyName): Phrase | undefined {
     return this.data[curlyName];
+  }
+
+  delete(curlyName: CurlyName): this {
+    this.sentences = this.sentences.filter(s => s.curlyName !== curlyName);
+    this.phrases = this.phrases.filter(p => p.curlyName !== curlyName);
+    delete this.data[curlyName];
+    return this;
   }
 
   parse(text: string): this {
@@ -499,6 +507,13 @@ export class AllTextCatalogues {
       ? catalog.sentencesHandle
       : catalog.phrasesHandle;
     if (!phraseHandle) return this;
+    if (phrase.header == DELETE_ME_HEADER) {
+      phraseHandle.removeEntry(`${phrase.curlyName}.txt`);
+      return new AllTextCatalogues({
+        ...this.catalogs,
+        [lang]: catalog.delete(phrase.curlyName)
+      });
+    }
     const handle = await phraseHandle.getFileHandle(`${phrase.curlyName}.txt`, {
       create: true
     });
