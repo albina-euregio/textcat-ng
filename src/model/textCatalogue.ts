@@ -4,7 +4,6 @@ import {
   isPhrase,
   isSentence,
   Lang,
-  LANGUAGES,
   FULL_STOP,
   longestCommonPrefix,
   mapLineFragment,
@@ -436,18 +435,6 @@ export async function buildTextcat(
     yield* catalog.phrasesHandle!.values();
     yield* catalog.sentencesHandle!.values();
   }
-}
-
-export async function buildAllTextcat(
-  dirHandle: FileSystemDirectoryHandle | undefined
-): Promise<AllTextCatalogues> {
-  return new AllTextCatalogues(
-    Object.fromEntries(
-      (
-        await Promise.all(LANGUAGES.map(lang => buildTextcat(dirHandle, lang)))
-      ).map(c => [c.lang, c])
-    ) as Record<Lang, TextCatalogue>
-  );
 }
 
 export type Translations = Record<Lang | "de_AT" | "de_CH", IntlText>;
