@@ -106,9 +106,10 @@ const PhraseEditor: FunctionalComponent<Props> = ({
   function addPhraseLine() {
     const line = prompt("line");
     if (!line) return;
-    phraseLangs.forEach(({ lang, phrase }) => {
+    phraseLangs.forEach(({ lang, phrase, phraseNO }) => {
       if (!phrase) return;
       phrase.lines.push(newPhraseLine(line));
+      phraseNO?.lines.push(newPhraseLine(line));
       onPhraseChange(lang, phrase);
     });
   }
