@@ -55,6 +55,11 @@ const woWann3: Phrase = {
       // it: "nelle {Exposition} {und_im_Exposition} (-),"
       lineFragments: ["im", "{Exposition}", "{und_im_Exposition}"],
       region: undefined
+    },
+    {
+      line: ">30°",
+      lineFragments: [">30°"],
+      region: undefined
     }
   ]
 };
@@ -169,6 +174,7 @@ Line: [Empty]
 Line: abseits der Pisten
 Line: abseits gesicherter Pisten
 Line: im {Exposition} {und_im_Exposition}
+Line: >30°
 
 RS_Header: teils gefährliche
 RS_CurlyName: teils_gefährliche
@@ -275,6 +281,7 @@ Line: al di fuori delle piste,
 Line: al di fuori delle piste assicurate,
 Line: nelle {Exposition} {und_im_Exposition} (-),
 Line: {im_Gebiet} {im_Gebiet2_optional} {und_im_Gebiet} (-),
+Line: >30°
 
 RS_Header: parzialmente pericolose
 RS_CurlyName: teils_gefährliche
@@ -598,6 +605,6 @@ it("should serialize a sentence to satzkatalog syntax", () => {
 it("should serialize a phrase to satzkatalog syntax", () => {
   const phrase = catalog.phrase("Verhältnisse04§wo_wann3")!;
   expect(serializePhrase(phrase)).toBe(
-    "RS_Header: wo/wann\nRS_CurlyName: Verhältnisse04§wo_wann3\nLine: [Empty]\nLine: abseits der Pisten\nLine: abseits gesicherter Pisten\nLine: im {Exposition} {und_im_Exposition}\n\n"
+    "RS_Header: wo/wann\nRS_CurlyName: Verhältnisse04§wo_wann3\nLine: [Empty]\nLine: abseits der Pisten\nLine: abseits gesicherter Pisten\nLine: im {Exposition} {und_im_Exposition}\nLine: >30°\n\n"
   );
 });
