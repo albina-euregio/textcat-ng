@@ -44,7 +44,7 @@ const SentenceEditor: FunctionalComponent<Props> = ({
         {t("editor.sentence")}{" "}
         <small>
           <button
-            title="Create sentence"
+            title={t("sentence.add")}
             onClick={(): void => {
               const curlyName = prompt("curlyName");
               if (!curlyName) return;

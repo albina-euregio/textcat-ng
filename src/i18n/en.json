@@ -1,6 +1,13 @@
 {
   "editor.open": "Open satzkatalog/data directory",
   "editor.phrase": "Phrase editor",
+  "editor.phrase-line.add": "Add phrase line",
+  "editor.phrase-line.moveDown": "Move phrase line down",
+  "editor.phrase-line.moveUp": "Move phrase line up",
+  "editor.phrase-line.remove": "Remove phrase line $1",
+  "editor.phrase.add": "Add phrase $1",
+  "editor.phrase.remove": "Remove phrase $1",
+  "editor.phrase.toggle-split": "Toggle phrase split",
   "editor.reload": "Reload satzkatalog",
   "editor.sentence": "Sentence editor",
   "editor.used-in": "Used in",

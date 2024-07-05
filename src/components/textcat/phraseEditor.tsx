@@ -63,7 +63,8 @@ const PhraseEditor: FunctionalComponent<Props> = ({
   );
 
   function removePhrase() {
-    const ok = confirm(`remove phrase ${phraseCurlyName}?`);
+    const message = t("editor.phrase.remove", phraseCurlyName);
+    const ok = confirm(message);
     if (!ok) return;
     phraseLangs.forEach(({ lang, phrase }) => {
       if (!phrase) return;
@@ -132,8 +133,8 @@ const PhraseEditor: FunctionalComponent<Props> = ({
   ) {
     const curlyName = phrase.curlyName + SECOND_ITEM_PART_NO_SUFFIX;
     const message = hasPhraseLines(phraseNO)
-      ? `remove ${lang} ${curlyName} phrase?`
-      : `add ${lang} ${curlyName} phrase?`;
+      ? t("editor.phrase.remove", `${curlyName} (${lang})`)
+      : t("editor.phrase.add", `${curlyName} (${lang})`);
     if (!confirm(message)) return;
     onPhraseChange(lang, {
       $type: "Phrase",
@@ -167,7 +168,7 @@ const PhraseEditor: FunctionalComponent<Props> = ({
           <button
             onClick={(): void => removePhrase()}
             disabled={!phraseCurlyName}
-            title="Remove phrase"
+            title={t("editor.phrase.remove", phraseCurlyName || "")}
           >
             <XSquare />
           </button>
@@ -243,14 +244,14 @@ const PhraseEditor: FunctionalComponent<Props> = ({
                   <small>
                     <button
                       onClick={(): void => addPhraseLine()}
-                      title="Add phrase line"
+                      title={t("editor.phrase-line.add")}
                     >
                       <PlusSquare />
                     </button>
                     {phrase && (
                       <button
                         onClick={() => togglePhraseNO(lang, phrase, phraseNO)}
-                        title="Toggle phrase split (_NO)"
+                        title={t("editor.phrase.toggle-split")}
                       >
                         <TerminalSplit />
                       </button>
@@ -267,23 +268,27 @@ const PhraseEditor: FunctionalComponent<Props> = ({
                     <button
                       disabled={index === 0}
                       onClick={(): void => movePhraseLine(index, index - 1)}
-                      title="Move phrase line up"
+                      title={t("editor.phrase-line.moveUp")}
                     >
                       <CaretUpSquare />
                     </button>
                     <button
                       onClick={(): void => {
-                        if (!confirm(`remove phrase ${index + 1}`)) return;
+                        const message = t(
+                          "editor.phrase-line.remove",
+                          index + 1
+                        );
+                        if (!confirm(message)) return;
                         movePhraseLine(index, undefined);
                       }}
-                      title="Remove phrase line"
+                      title={t("editor.phrase-line.remove", index + 1)}
                     >
                       <XSquare />
                     </button>
                     <button
                       disabled={index >= array.length - 1}
                       onClick={(): void => movePhraseLine(index, index + 1)}
-                      title="Move phrase line down"
+                      title={t("editor.phrase-line.moveDown")}
                     >
                       <CaretDownSquare />
                     </button>
