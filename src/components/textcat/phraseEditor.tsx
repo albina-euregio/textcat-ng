@@ -2,7 +2,7 @@ import { FunctionalComponent } from "preact";
 import { useContext, useMemo } from "preact/hooks";
 import {
   AllTextCatalogues,
-  DELETE_ME_HEADER,
+  REMOVE_ME_HEADER,
   Lang,
   Phrase,
   SECOND_ITEM_PART_NO_SUFFIX,
@@ -62,12 +62,12 @@ const PhraseEditor: FunctionalComponent<Props> = ({
     ]
   );
 
-  function deletePhrase() {
-    const ok = confirm(`delete phrase ${phraseCurlyName}?`);
+  function removePhrase() {
+    const ok = confirm(`remove phrase ${phraseCurlyName}?`);
     if (!ok) return;
     phraseLangs.forEach(({ lang, phrase }) => {
       if (!phrase) return;
-      phrase.header = DELETE_ME_HEADER;
+      phrase.header = REMOVE_ME_HEADER;
       onPhraseChange(lang, phrase);
     });
   }
@@ -91,8 +91,8 @@ const PhraseEditor: FunctionalComponent<Props> = ({
     phraseLangs.forEach(({ lang, phrase }) => {
       if (!phrase) return;
       const header = phrase.header;
-      // deletePhrase
-      phrase.header = DELETE_ME_HEADER;
+      // removePhrase
+      phrase.header = REMOVE_ME_HEADER;
       onPhraseChange(lang, phrase);
       // addPhrase
       phrase.header = header;
@@ -165,9 +165,9 @@ const PhraseEditor: FunctionalComponent<Props> = ({
             <InputCursorText />
           </button>
           <button
-            onClick={(): void => deletePhrase()}
+            onClick={(): void => removePhrase()}
             disabled={!phraseCurlyName}
-            title="Delete phrase"
+            title="Remove phrase"
           >
             <XSquare />
           </button>
@@ -273,10 +273,10 @@ const PhraseEditor: FunctionalComponent<Props> = ({
                     </button>
                     <button
                       onClick={(): void => {
-                        if (!confirm(`delete phrase ${index + 1}`)) return;
+                        if (!confirm(`remove phrase ${index + 1}`)) return;
                         movePhraseLine(index, undefined);
                       }}
-                      title="Delete phrase line"
+                      title="Remove phrase line"
                     >
                       <XSquare />
                     </button>

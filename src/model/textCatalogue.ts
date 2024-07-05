@@ -20,7 +20,7 @@ import {
   sentencePreview,
   serializeSentence,
   serializePhrase,
-  DELETE_ME_HEADER
+  REMOVE_ME_HEADER
 } from ".";
 import { t } from "../i18n";
 
@@ -168,7 +168,7 @@ export class TextCatalogue {
     return this.data[curlyName];
   }
 
-  delete(curlyName: CurlyName): this {
+  remove(curlyName: CurlyName): this {
     this.sentences = this.sentences.filter(s => s.curlyName !== curlyName);
     this.phrases = this.phrases.filter(p => p.curlyName !== curlyName);
     delete this.data[curlyName];
@@ -507,11 +507,11 @@ export class AllTextCatalogues {
       ? catalog.sentencesHandle
       : catalog.phrasesHandle;
     if (!phraseHandle) return this;
-    if (phrase.header == DELETE_ME_HEADER) {
+    if (phrase.header == REMOVE_ME_HEADER) {
       phraseHandle.removeEntry(`${phrase.curlyName}.txt`);
       return new AllTextCatalogues({
         ...this.catalogs,
-        [lang]: catalog.delete(phrase.curlyName)
+        [lang]: catalog.remove(phrase.curlyName)
       });
     }
     const handle = await phraseHandle.getFileHandle(`${phrase.curlyName}.txt`, {
