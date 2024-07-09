@@ -14,6 +14,10 @@ export interface BuildTextcatWorkerType
 
 self.onmessage = async (e: MessageEvent<Input>) => {
   console.debug("Worker got message", e.data);
-  const catalogue = await buildTextcat(e.data.dirHandle, e.data.lang);
+  const file = `satzkatalog.${e.data.lang.toUpperCase()}.txt`;
+  const catalogue = await buildTextcat(
+    e.data.dirHandle || fetch(`./assets/${file}`),
+    e.data.lang
+  );
   postMessage(catalogue);
 };

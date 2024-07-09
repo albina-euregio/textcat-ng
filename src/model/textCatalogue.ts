@@ -393,17 +393,18 @@ export class TextCatalogue {
 }
 
 export async function buildTextcat(
-  dirHandle: FileSystemDirectoryHandle | undefined,
+  handle: FileSystemDirectoryHandle | Promise<Response> | undefined,
   lang: Lang
 ): Promise<TextCatalogue> {
   // awk '{print $0}' DE/Sentences/* DE/Ranges/* > assets/satzkatalog.DE.txt
   const catalog = new TextCatalogue(lang);
   try {
     console.time(`parse ${lang}`);
-    if (dirHandle) {
-      await buildFromDirectoryHandle(dirHandle);
+    if (handle instanceof FileSystemDirectoryHandle) {
+      await buildFromDirectoryHandle(handle);
     } else {
-      await buildFromServer();
+      const file = `satzkatalog.${lang.toUpperCase()}.txt`;
+      await buildFromServer(await (handle || fetch(`./assets/${file}`)));
     }
     console.timeEnd(`parse ${lang}`);
   } catch (e) {
@@ -411,9 +412,7 @@ export async function buildTextcat(
   }
   return catalog;
 
-  async function buildFromServer() {
-    const file = `satzkatalog.${lang.toUpperCase()}.txt`;
-    const response = await fetch(`./assets/${file}`);
+  async function buildFromServer(response: Response) {
     if (!response.ok) throw response.statusText;
     const text = await response.text();
     catalog.parse(text);
