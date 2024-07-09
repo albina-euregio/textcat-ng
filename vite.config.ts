@@ -15,5 +15,6 @@ process.env.VITE_GIT_VERSION = [
 // https://vitejs.dev/config/
 export default defineConfig({
   base: "./",
+  build: { sourcemap: true },
   plugins: [preact()]
 });
