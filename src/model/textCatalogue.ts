@@ -413,7 +413,9 @@ export async function buildTextcat(
 
   async function buildFromServer() {
     const file = `satzkatalog.${lang.toUpperCase()}.txt`;
-    const response = await fetch(`./assets/${file}`);
+    const response = await fetch(
+      import.meta.env.DEV ? `/assets/${file}` : `./${file}`
+    );
     if (!response.ok) throw response.statusText;
     const text = await response.text();
     catalog.parse(text);
