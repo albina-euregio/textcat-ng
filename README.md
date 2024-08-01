@@ -8,6 +8,8 @@ Webapp to compose avalanche bulletins and translate them to multiple languages.
 
 <details>
 
+- `corepack enable`: Install Yarn using Node.js Corepack
+
 - `yarn install`: Installs dependencies
 
 - `yarn run dev`: Run a development, HMR server

@@ -4,3 +4,4 @@ node_modules
 satzkatalog*txt
 /.env
 /.vscode
+/.yarn

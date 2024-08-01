@@ -3,10 +3,13 @@ build:
   image: node:20
   stage: build
   script:
-    - yarn --no-progress --frozen-lockfile --cache-folder .yarn-cache/
+    - corepack enable
+    - yarn install --immutable
     - yarn test
     - yarn lint
     - yarn build
+  variables:
+    YARN_CACHE_FOLDER: .yarn-cache/
   artifacts:
     paths:
       - dist/
