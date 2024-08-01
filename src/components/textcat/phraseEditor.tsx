@@ -22,8 +22,11 @@ interface Props {
   catalogs: AllTextCatalogues;
   phrases: Phrase[];
   phraseCurlyName: string;
+
   setPhraseCurlyName(curlyName: string): void;
+
   setSentenceCurlyName(curlyName: string): void;
+
   onPhraseChange(lang: Lang, phrase: Phrase): void;
 }
 
@@ -51,8 +54,8 @@ const PhraseEditor: FunctionalComponent<Props> = ({
         ...catalogs.catalogs.de.sentences,
         ...catalogs.catalogs.de.phrases
       ].filter(phrase =>
-        phrase.lines.some(
-          l => l.lineFragments?.some(f => f === "{" + phraseCurlyName + "}")
+        phrase.lines.some(l =>
+          l.lineFragments?.some(f => f === "{" + phraseCurlyName + "}")
         )
       ),
     [
@@ -156,13 +159,16 @@ const PhraseEditor: FunctionalComponent<Props> = ({
       <h2>
         {t("editor.phrase")}{" "}
         <small>
-          <button onClick={(): void => addPhrase()} title="Create phrase">
+          <button
+            onClick={(): void => addPhrase()}
+            title={t("editor.phrase.add", "")}
+          >
             <PlusSquare />
           </button>
           <button
             onClick={(): void => renamePhrase()}
             disabled={!phraseCurlyName}
-            title="Rename phrase"
+            title={t("editor.phrase.rename", phraseCurlyName || "")}
           >
             <InputCursorText />
           </button>

@@ -13,9 +13,7 @@ const TextcatFooter: FunctionalComponent = (props: Props) => {
       <hr />
       <ul class="inline">
         <li>
-          <abbr title="avalanche bulletin text catalogue: the new generation">
-            textcat-ng
-          </abbr>
+          <abbr title={t("textcat-ng")}>textcat-ng</abbr>
         </li>
         <li>
           {t("version")} {import.meta.env.VITE_GIT_VERSION}
