@@ -24,10 +24,6 @@ const TextComposer: FunctionalComponent<Props> = (props: Props) => {
   const addWrittenPhrase = (phrase: WrittenPhrase): void =>
     props.addSentence(phrase, props.writtenText.length);
 
-  const copySentenceToClipboard = (writtenPhrase: WrittenPhrase) => {
-    navigator.clipboard.writeText(JSON.stringify(writtenPhrase));
-  };
-
   const pasteSentenceFromClipboard = async (index: number) => {
     const copiedPhrase = await navigator.clipboard.readText();
     try {
@@ -96,7 +92,9 @@ const TextComposer: FunctionalComponent<Props> = (props: Props) => {
               typeof navigator.clipboard.writeText !== "function" ||
               typeof navigator.clipboard.readText !== "function"
             }
-            onClick={(): void => copySentenceToClipboard(writtenPhrase)}
+            onClick={(): void => {
+              navigator.clipboard.writeText(JSON.stringify(writtenPhrase));
+            }}
             title={t("sentence.copy")}
           >
             <Copy />

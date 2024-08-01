@@ -16,6 +16,7 @@ import FolderOpen from "./bootstrap-icons/folder2-open";
 import ArrowClockwise from "./bootstrap-icons/arrow-clockwise";
 import { get, set } from "idb-keyval";
 import TextcatEditor from "./textcat/textcatEditor";
+import Copy from "./bootstrap-icons/copy.tsx";
 
 const App: FunctionalComponent = () => {
   const textcatEditor = import.meta.env.VITE_TEXTCAT_EDITOR === "1";
@@ -126,6 +127,18 @@ const App: FunctionalComponent = () => {
           onClick={(): void => postPmData(writtenText, translations)}
         >
           <CheckSquare /> {t("translations.submit")}
+        </button>
+        <button
+          disabled={
+            typeof navigator.clipboard.writeText !== "function" ||
+            typeof navigator.clipboard.readText !== "function"
+          }
+          onClick={(): void => {
+            navigator.clipboard.writeText(JSON.stringify(writtenText));
+          }}
+          title={t("translations.copy")}
+        >
+          <Copy />
         </button>
 
         <TextcatFooter>
