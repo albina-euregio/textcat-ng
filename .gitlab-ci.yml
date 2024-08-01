@@ -35,6 +35,15 @@ build editor:
   variables:
     VITE_TEXTCAT_EDITOR: "1"
 
+deploy to editor-dev:
+  extends: .deploy
+  dependencies:
+    - build editor
+  environment:
+    name: editor-dev
+  only:
+    - master
+
 deploy to editor:
   extends: .deploy
   dependencies:
