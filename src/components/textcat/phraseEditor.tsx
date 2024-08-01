@@ -107,12 +107,14 @@ const PhraseEditor: FunctionalComponent<Props> = ({
   }
 
   function addPhraseLine() {
-    const line = prompt("line");
-    if (!line) return;
+    const lines = prompt("lines (separated by semicolon)");
+    if (!lines) return;
     phraseLangs.forEach(({ lang, phrase, phraseNO }) => {
       if (!phrase) return;
-      phrase.lines.push(newPhraseLine(line));
-      phraseNO?.lines.push(newPhraseLine(line));
+      lines.split(";").forEach(line => {
+        phrase.lines.push(newPhraseLine(line.trim()));
+        phraseNO?.lines.push(newPhraseLine(line.trim()));
+      });
       onPhraseChange(lang, phrase);
     });
   }
