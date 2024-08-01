@@ -57,6 +57,8 @@ deploy to editor:
 
 deploy to development:
   extends: .deploy
+  dependencies:
+    - build
   environment:
     name: development
   only:
@@ -64,6 +66,8 @@ deploy to development:
 
 deploy to production:
   extends: .deploy
+  dependencies:
+    - build
   environment:
     name: production
   only:
