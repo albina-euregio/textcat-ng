@@ -40,15 +40,11 @@
     "preact-render-to-string": "^6.5.10"
   },
   "devDependencies": {
-    "@babel/core": "^7.25.2",
-    "@babel/plugin-transform-react-jsx-development": "^7.24.7",
     "@preact/preset-vite": "^2.9.0",
-    "@types/babel__core": "^7",
     "@types/highlight-words-core": "^1.2.1",
     "@types/wicg-file-system-access": "^2023.10.4",
     "@typescript-eslint/eslint-plugin": "^7.7.1",
     "@typescript-eslint/parser": "^7.7.1",
-    "babel-plugin-transform-hook-names": "^1.0.2",
     "eslint": "^8.57.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-prettier": "^5.2.1",
