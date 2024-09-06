@@ -32,5 +32,6 @@ export function t(lang: Lang, key: I18nKeys, ...args: any[]): string {
   return message.replace(/\$(\d+)/g, (_, index) => args[index - 1]);
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const x = t.bind(undefined, "en");
 export type T = typeof x;
