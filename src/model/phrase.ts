@@ -50,8 +50,8 @@ export function mapLineFragment<T>(
   return lineFragment?.startsWith("{") && lineFragment?.endsWith("_NO}")
     ? mapCurlyName(lineFragment.substring(1, lineFragment.length - 4), "_NO")
     : lineFragment?.startsWith("{")
-    ? mapCurlyName(lineFragment.substring(1, lineFragment.length - 1), "")
-    : mapText(lineFragment);
+      ? mapCurlyName(lineFragment.substring(1, lineFragment.length - 1), "")
+      : mapText(lineFragment);
 }
 
 export function serializePhrase(phrase: Phrase): string {
