@@ -102,7 +102,7 @@ const TextComposer: FunctionalComponent<Props> = (props: Props) => {
               <Clipboard />
             </button>
           )}
-          {!props.readOnly && (
+          {!props.readOnly && import.meta.env.VITE_MOVE_BUTTONS !== "0" && (
             <button
               disabled={index === 0}
               onClick={(): void => props.moveSentence(index, index - 1)}
@@ -111,7 +111,7 @@ const TextComposer: FunctionalComponent<Props> = (props: Props) => {
               <CaretUpSquare />
             </button>
           )}
-          {!props.readOnly && (
+          {!props.readOnly && import.meta.env.VITE_MOVE_BUTTONS !== "0" && (
             <button
               disabled={index >= array.length - 1}
               onClick={(): void => props.moveSentence(index, index + 1)}
