@@ -41,7 +41,7 @@ const TextComposer: FunctionalComponent<Props> = (props: Props) => {
 
   return (
     <section>
-      {!props.readOnly && (
+      {!props.readOnly && import.meta.env.VITE_SENTENCE_LIST !== "0" && (
         <AllSentencesSelect addWrittenPhrase={addWrittenPhrase} />
       )}
       {!props.readOnly && (
