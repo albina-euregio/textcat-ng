@@ -80,7 +80,7 @@ const PhraseComposer: FunctionalComponent<Props> = (props: Props) => {
         )}
         <TextHighlighter text={summary} searchWords={props.searchWords} />
       </summary>
-      {!props.readOnly ? (
+      {props.readOnly ? (
         <></>
       ) : isJoker(props.writtenPhrase) ? (
         <JokerComposer {...props} />
