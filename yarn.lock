@@ -3723,19 +3723,19 @@ __metadata:
   languageName: node
   linkType: hard
 
-"preact-render-to-string@npm:^6.5.10":
-  version: 6.5.10
-  resolution: "preact-render-to-string@npm:6.5.10"
+"preact-render-to-string@npm:^6.5.11":
+  version: 6.5.11
+  resolution: "preact-render-to-string@npm:6.5.11"
   peerDependencies:
     preact: ">=10"
-  checksum: 10c0/46a8f7d2041675a75b7dfb6f6a254df61e758dd900fd17a06aa19d63d360eaff6b629452b2233fbb4adf422537f64fab665de39e676247c006b98f5d5ef0af7e
+  checksum: 10c0/a68b704c1343756022fb41322154b45e39f6021b940cbc97e86c292627d017d019700339a17d67b42c308b14fc5323fc120c798f785d6a3e993c8f273610bfe2
   languageName: node
   linkType: hard
 
-"preact@npm:^10.23.2":
-  version: 10.23.2
-  resolution: "preact@npm:10.23.2"
-  checksum: 10c0/6e0dc1b38ead7554c99ddec9a32162b456e8f622229413b136042a777445a12d115633cd49d6df83c30b64d721a0ad4d3c71bb468edc759c15799896e96fd9f2
+"preact@npm:^10.24.3":
+  version: 10.24.3
+  resolution: "preact@npm:10.24.3"
+  checksum: 10c0/c863df6d7be6a660480189762d8a8f2d4148733fc2bb9efbd9d2fd27315d2c7ede850a16077d716c91666c915c0349bd3c9699733e4f08457226a0519f408761
   languageName: node
   linkType: hard
 
@@ -4400,8 +4400,8 @@ __metadata:
     husky: "npm:^9.0.11"
     idb-keyval: "npm:^6.2.1"
     lint-staged: "npm:^15.2.0"
-    preact: "npm:^10.23.2"
-    preact-render-to-string: "npm:^6.5.10"
+    preact: "npm:^10.24.3"
+    preact-render-to-string: "npm:^6.5.11"
     prettier: "npm:^3.3.3"
     typescript: "npm:^5.5.4"
     typescript-eslint: "npm:^8.4.0"
