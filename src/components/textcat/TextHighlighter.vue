@@ -1,26 +1,28 @@
-import { FunctionalComponent } from "preact";
+<script setup lang="ts">
 import { findAll } from "highlight-words-core";
+import { computed } from "vue";
+import { searchWords } from "../state";
 
-interface Props {
+const props = defineProps<{
   text: string;
-  searchWords?: string[];
-}
+}>();
 
-const TextHighlighter: FunctionalComponent<Props> = (props: Props) => {
-  if (!props.searchWords?.length) {
-    return <>{props.text}</>;
-  }
-  const chunks = findAll({
+const chunks = computed(() =>
+  findAll({
     textToHighlight: props.text,
-    searchWords: props.searchWords
-  }).map(({ highlight, start, end }) =>
-    highlight ? (
-      <mark key={start}>{props.text.slice(start, end)}</mark>
-    ) : (
-      <>{props.text.slice(start, end)}</>
-    )
-  );
-  return <>{chunks}</>;
-};
+    searchWords: searchWords.value ?? []
+  })
+);
+</script>
 
-export default TextHighlighter;
+<template>
+  <template v-if="!searchWords?.length">{{ text }}</template>
+  <template v-else>
+    <template v-for="chunk in chunks">
+      <mark v-if="chunk.highlight" :key="chunk.start">
+        {{ text.slice(chunk.start, chunk.end) }}
+      </mark>
+      <template v-else>{{ text.slice(chunk.start, chunk.end) }}</template>
+    </template>
+  </template>
+</template>

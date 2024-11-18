@@ -1,5 +1,7 @@
-import { Dispatch, StateUpdater, useEffect, useState } from "preact/hooks";
+import { useEventListener } from "@vueuse/core";
+import { ref } from "vue";
 import { Lang, Translations, WrittenText } from "../../model";
+import { readOnly, srcLang, srcRegion, writtenText } from "../state";
 
 // alias pmData, alias inputDef
 interface TextcatLegacyIn {
@@ -34,73 +36,49 @@ function parsePmData(event: MessageEvent): TextcatLegacyIn | undefined {
   return pmData;
 }
 
-/**
- * Messages received before `usePmData.useEffect` has been called.
- */
-const PM_DATA_QUEUE: TextcatLegacyIn[] = [];
-function receiveInitialPmData(event: MessageEvent): void {
-  const pmData = parsePmData(event);
-  if (!pmData) return;
-  PM_DATA_QUEUE.push(pmData);
-}
-window.addEventListener("message", receiveInitialPmData);
+const textField = ref("");
 
 // interoperability with albina-admin-gui: send/receive pmData messages
-export function usePmData(
-  setReadOnly: Dispatch<StateUpdater<boolean>>,
-  setSrcLang: Dispatch<StateUpdater<Lang>>,
-  setSrcRegion: Dispatch<StateUpdater<string>>,
-  setWrittenText: Dispatch<StateUpdater<WrittenText>>
-): {
-  postPmData: (writtenText: WrittenText, translations: Translations) => void;
-} {
-  const [textField, setTextField] = useState("");
+function processPmData(pmData: TextcatLegacyIn | undefined): void {
+  if (!pmData) return;
+  console.log("Processing pmData", pmData);
+  textField.value = pmData.textField;
+  srcLang.value = pmData.currentLang;
+  srcRegion.value = pmData.region ?? "";
+  readOnly.value = pmData.readOnly || false;
+  writtenText.value = pmData.textDef
+    ? (JSON.parse(pmData.textDef) as WrittenText)
+    : [];
+}
 
-  useEffect(() => {
-    function processPmData(pmData: TextcatLegacyIn | undefined): void {
-      if (!pmData) return;
-      console.log("Processing pmData", pmData);
-      setTextField(pmData.textField);
-      setSrcLang(pmData.currentLang);
-      setSrcRegion(pmData.region ?? "");
-      setReadOnly(pmData.readOnly || false);
-      const text = pmData.textDef
-        ? (JSON.parse(pmData.textDef) as WrittenText)
-        : [];
-      setWrittenText(text);
-    }
-    function receivePmData(event: MessageEvent): void {
-      processPmData(parsePmData(event));
-    }
-    window.removeEventListener("message", receiveInitialPmData);
-    PM_DATA_QUEUE.forEach(pmData => processPmData(pmData));
-    window.addEventListener("message", receivePmData);
-    return (): void => window.removeEventListener("message", receivePmData);
-  }, [setSrcLang, setSrcRegion, setWrittenText, setTextField, setReadOnly]);
-
-  function postPmData(
-    writtenText: WrittenText,
-    translations: Translations
-  ): void {
-    const pmData: TextcatLegacyOut = {
-      textDef: JSON.stringify(writtenText),
-      textField,
-      textCa: translations.ca,
-      textDe: translations.de,
-      textDe_AT: translations.de_AT,
-      textDe_CH: translations.de_CH,
-      textEn: translations.en,
-      textEs: translations.es,
-      textFr: translations.fr,
-      textIt: translations.it,
-      textOc: translations.oc
-    };
-    console.log("Sending message", pmData);
-    if (window.parent.opener) {
-      window.parent.opener.postMessage(JSON.stringify(pmData), "*");
-    } else if (window.parent) {
-      window.parent.postMessage(JSON.stringify(pmData), "*");
-    }
-  }
+export function usePmData() {
+  useEventListener(window, "message", event => {
+    processPmData(parsePmData(event));
+  });
   return { postPmData };
+}
+
+function postPmData(
+  writtenText: WrittenText,
+  translations: Translations
+): void {
+  const pmData: TextcatLegacyOut = {
+    textDef: JSON.stringify(writtenText),
+    textField: textField.value,
+    textCa: translations.ca,
+    textDe: translations.de,
+    textDe_AT: translations.de_AT,
+    textDe_CH: translations.de_CH,
+    textEn: translations.en,
+    textEs: translations.es,
+    textFr: translations.fr,
+    textIt: translations.it,
+    textOc: translations.oc
+  };
+  console.log("Sending message", pmData);
+  if (window.parent.opener) {
+    window.parent.opener.postMessage(JSON.stringify(pmData), "*");
+  } else if (window.parent) {
+    window.parent.postMessage(JSON.stringify(pmData), "*");
+  }
 }

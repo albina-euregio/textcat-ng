@@ -1,124 +1,82 @@
-import { FunctionalComponent } from "preact";
-import { useCallback, useContext, useMemo, useState } from "preact/hooks";
-import { SearchMode, newSentence, CurlyName, WrittenPhrase } from "../../model";
-import { CatalogContext, I18nContext } from "./contexts";
-import PhraseComposer from "./phraseComposer";
-import Filter from "../bootstrap-icons/filter";
-import Search from "../bootstrap-icons/search";
-import PlusSquare from "../bootstrap-icons/plus-square";
-import { useTraceUpdate } from "./useTraceUpdate";
-
-interface Props {
-  addWrittenPhrase: (writtenPhrase: WrittenPhrase) => void;
-  srcRegion: string;
-}
-
-const FilterSentencesPane: FunctionalComponent<Props> = (props: Props) => {
-  const catalog = useContext(CatalogContext);
-  const t = useContext(I18nContext);
-  const [searchText, setSearchText] = useState("");
-  const [searchMode, setSearchMode] = useState(SearchMode.WORDS);
-
-  const filteredSentences = useMemo(() => {
-    return searchText
-      ? catalog.searchSentences(searchText, searchMode)
-      : catalog.sentences;
-  }, [catalog, searchText, searchMode]);
-
-  const searchWords = useMemo(
-    () => catalog.splitSearchText(searchText),
-    [catalog, searchText]
-  );
-
-  return (
-    <div class="block">
-      <h2>{`${t("heading.searchSentences")} `}</h2>
-      <label class="d-flex">
-        <span class="pr-10">{`${t("search")}:`}</span>
-        {/* search */}
-        <button
-          title={t("sentence.search")}
-          onClick={(): void => setSearchMode(SearchMode.WORDS)}
-        >
-          <Filter />
-        </button>
-        <button
-          title={t("sentence.search.prefix")}
-          onClick={(): void => setSearchMode(SearchMode.PREFIX)}
-        >
-          <Search />
-        </button>
-        <input
-          class="f-auto sentences"
-          type="text"
-          value={searchText}
-          onInput={(e): void => {
-            setSearchText((e.target as HTMLInputElement).value);
-          }}
-        />
-      </label>
-      {/* composer for filtered sentences */}
-      {searchText &&
-        filteredSentences
-          .slice(0, 5)
-          .map(writtenPhrase => (
-            <PhraseDraftComposer
-              addWrittenPhrase={props.addWrittenPhrase}
-              curlyName={writtenPhrase.curlyName}
-              key={writtenPhrase.curlyName}
-              searchWords={searchWords}
-              srcRegion={props.srcRegion}
-            />
-          ))}
-    </div>
-  );
-};
-
-interface PhraseDraftComposerProps {
-  addWrittenPhrase: (writtenPhrase: WrittenPhrase) => void;
-  curlyName: CurlyName;
-  searchWords?: string[];
-  srcRegion: string;
-}
-
-const PhraseDraftComposer: FunctionalComponent<PhraseDraftComposerProps> = ({
+<script setup lang="ts">
+import { computed, ref } from "vue";
+import { t } from "../../i18n";
+import {
+  CurlyName,
+  newSentence,
+  SearchMode,
+  Sentence,
+  WrittenPhrase
+} from "../../model";
+import Filter from "../bootstrap-icons/filter.vue";
+import PlusSquare from "../bootstrap-icons/plus-square.vue";
+import Search from "../bootstrap-icons/search.vue";
+import {
   addWrittenPhrase,
-  curlyName,
-  searchWords,
-  srcRegion
-}: PhraseDraftComposerProps) => {
-  useTraceUpdate("PhraseDraftComposer", {
-    addWrittenPhrase,
-    curlyName,
-    searchWords,
-    srcRegion
-  });
-  const t = useContext(I18nContext);
+  catalog,
+  searchText,
+  searchTextDebounced
+} from "../state";
+import PhraseComposer from "./PhraseComposer.vue";
 
-  const [writtenPhraseDraft, setWrittenPhraseDraft] = useState(
-    newSentence(curlyName)
-  );
+const searchMode = ref(SearchMode.WORDS);
 
-  const addWrittenPhrase0 = useCallback(
-    () => addWrittenPhrase(writtenPhraseDraft),
-    []
-  );
+const writtenPhrases = ref<Record<CurlyName, WrittenPhrase>>(
+  Object.fromEntries(
+    catalog.value!.sentences.map(({ curlyName }) => [
+      curlyName,
+      newSentence(curlyName)
+    ])
+  )
+);
 
-  return (
+const filteredSentences = computed((): Sentence[] => {
+  return searchTextDebounced.value
+    ? catalog.value!.searchSentences(
+        searchTextDebounced.value,
+        searchMode.value
+      )
+    : [];
+});
+</script>
+
+<template>
+  <div class="block">
+    <h2>{{ `${t("heading.searchSentences")} ` }}</h2>
+    <label class="d-flex">
+      <span class="pr-10">{{ `${t("search")}:` }}</span>
+      <button
+        :title="t('sentence.search')"
+        @click="searchMode = SearchMode.WORDS"
+      >
+        <Filter />
+      </button>
+      <button
+        :title="t('sentence.search.prefix')"
+        @click="searchMode = SearchMode.PREFIX"
+      >
+        <Search />
+      </button>
+      <input class="f-auto sentences" type="text" v-model="searchText" />
+    </label>
     <PhraseComposer
-      readOnly={false}
-      curlyName={curlyName}
-      curlyNameSuffix={""}
-      srcRegion={srcRegion}
-      searchWords={searchWords}
-      writtenPhrase={writtenPhraseDraft}
-      setWrittenPhrase={setWrittenPhraseDraft}
+      v-for="sentence in filteredSentences"
+      :key="sentence.curlyName"
+      v-model="writtenPhrases[sentence.curlyName]"
+      :curlyName="sentence.curlyName"
+      curlyNameSuffix=""
     >
-      <button title={t("sentence.add")} onClick={addWrittenPhrase0}>
+      <button
+        :title="t('sentence.add')"
+        @click="
+          addWrittenPhrase(writtenPhrases[sentence.curlyName]);
+          writtenPhrases[sentence.curlyName] = newSentence(sentence.curlyName);
+          searchText = '';
+        "
+      >
         <PlusSquare />
-      </button>{" "}
+      </button>
+      {{ " " }}
     </PhraseComposer>
-  );
-};
-
-export default FilterSentencesPane;
+  </div>
+</template>

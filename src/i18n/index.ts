@@ -1,4 +1,5 @@
-import type { Lang } from "../model";
+import { srcLang } from "../components/state";
+import { type Lang } from "../model";
 
 import ca from "./ca.json";
 import de from "./de.json";
@@ -26,12 +27,8 @@ const i18nMessages: Partial<Record<Lang, Record<I18nKeys, string>>> = {
  * @param args arguments to substitute $1, $2, … in the message for
  */
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export function t(lang: Lang, key: I18nKeys, ...args: any[]): string {
-  const messages = i18nMessages[lang] || i18nMessages.en;
+export function t(key: I18nKeys, ...args: any[]): string {
+  const messages = i18nMessages[srcLang.value] || i18nMessages.en;
   const message = messages?.[key] || i18nMessages.en?.[key] || key;
   return message.replace(/\$(\d+)/g, (_, index) => args[index - 1]);
 }
-
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const x = t.bind(undefined, "en");
-export type T = typeof x;

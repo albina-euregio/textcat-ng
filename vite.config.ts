@@ -1,5 +1,5 @@
 import { defineConfig } from "vite";
-import preact from "@preact/preset-vite";
+import vue from "@vitejs/plugin-vue";
 
 import { execSync } from "child_process";
 function git(command: string): string {
@@ -16,5 +16,5 @@ process.env.VITE_GIT_VERSION = [
 export default defineConfig({
   base: "./",
   build: { sourcemap: true },
-  plugins: [preact()]
+  plugins: [vue()]
 });

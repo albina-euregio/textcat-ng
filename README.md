@@ -4,28 +4,6 @@ Webapp to compose avalanche bulletins and translate them to multiple languages.
 
 ![Screenshot](/uploads/1fa4ffe7f2f00798f9d3a8d8f5243925/Screenshot_2022-11-28_at_22-39-33_Avalanche.report.png)
 
-## CLI Commands
-
-<details>
-
-- `corepack enable`: Install Yarn using Node.js Corepack
-
-- `yarn install`: Installs dependencies
-
-- `yarn run dev`: Run a development, HMR server
-
-- `yarn run serve`: Run a production-like server
-
-- `yarn run build`: Production-ready build
-
-- `yarn run lint`: Pass TypeScript files using TSLint
-
-- `yarn run test`: Run Vitest for your tests
-
-For detailed explanation on how things work, checkout the [CLI Readme](https://github.com/developit/preact-cli/blob/master/README.md).
-
-</details>
-
 ## Deployment
 
 ```sh

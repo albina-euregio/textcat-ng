@@ -1,5 +1,11 @@
 /// <reference types="vite/client" />
 
+declare module "*.vue" {
+  import { defineComponent } from "vue";
+  const Component: ReturnType<typeof defineComponent>;
+  export default Component;
+}
+
 interface ImportMetaEnv {
   VITE_DEEPL_API?: string;
   VITE_DEEPL_API_KEY?: string;
