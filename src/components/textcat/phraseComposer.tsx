@@ -98,6 +98,7 @@ const JokerComposer: FunctionalComponent<WrittenTextProps> = ({
   setWrittenPhrase
 }: WrittenTextProps) => {
   if (!isJoker(writtenPhrase)) throw new Error();
+
   return (
     <table class={"joker"}>
       <tbody>
@@ -108,7 +109,7 @@ const JokerComposer: FunctionalComponent<WrittenTextProps> = ({
               <input
                 type="text"
                 lang={lang}
-                spellcheck={true}
+                spellcheck={true} // eslint-disable-line react/no-unknown-property
                 value={writtenPhrase.args[lang]}
                 onChange={e => {
                   setWrittenPhrase(

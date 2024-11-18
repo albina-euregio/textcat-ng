@@ -229,7 +229,7 @@ const PhraseEditor: FunctionalComponent<Props> = ({
                   {phrase && (
                     <input
                       lang={lang}
-                      spellcheck={true}
+                      spellcheck={true} // eslint-disable-line react/no-unknown-property
                       style={{
                         width: "100%",
                         minWidth: `${phrase.header.length}ex`
@@ -311,7 +311,7 @@ const PhraseEditor: FunctionalComponent<Props> = ({
                         <input
                           key={i}
                           lang={lang}
-                          spellcheck={true}
+                          spellcheck={true} // eslint-disable-line react/no-unknown-property
                           style={{
                             width: `${100 / array.length}%`,
                             minWidth: `${phrase.lines[index].line.length}ex`
