@@ -17,7 +17,8 @@ import {
   Phrase,
   DEEPL_LANGUAGES,
   isTranslateJokerEnabled,
-  translateJoker
+  translateJoker,
+  CurlyName
 } from "../../model";
 import TextHighlighter from "./textHighlighter";
 import BracesAsterisk from "../bootstrap-icons/braces-asterisk";
@@ -25,6 +26,7 @@ import { useTraceUpdate } from "./useTraceUpdate";
 
 export interface Props extends WrittenTextProps {
   children?: ComponentChildren;
+  curlyName: CurlyName;
   curlyNameSuffix: CurlyNameSuffix;
   searchWords?: string[];
   srcRegion: string;
@@ -32,35 +34,37 @@ export interface Props extends WrittenTextProps {
   onDragStart?: (event: DragEvent) => void;
   onDrop?: (event: DragEvent) => void;
   readOnly: boolean;
+  writtenPhraseFallback: () => WrittenPhrase;
 }
 
 const PhraseComposer: FunctionalComponent<Props> = (props: Props) => {
   useTraceUpdate("PhraseComposer", props);
   const catalog = useContext(CatalogContext);
   const t = useContext(I18nContext);
-  const phrase = catalog.phrase(
-    props.writtenPhrase.curlyName + props.curlyNameSuffix
+  const [writtenPhrase] = useState(
+    props.writtenPhrase ?? newPhrase(props.curlyName)
   );
+  const phrase = catalog.phrase(props.curlyName + props.curlyNameSuffix);
 
   const summary = useMemo(
     (): string =>
       catalog.previewPhrase(
-        props.writtenPhrase,
+        writtenPhrase,
         props.curlyNameSuffix,
         props.showError
       ),
 
-    [catalog, props.writtenPhrase, props.curlyNameSuffix, props.showError]
+    [catalog, writtenPhrase, props.curlyNameSuffix, props.showError]
   );
 
   const isDraggable = !!props.onDragStart;
   const [isDragOver, setDragOver] = useState(false);
 
-  if (!isJoker(props.writtenPhrase) && !phrase) return <></>;
+  if (!isJoker(writtenPhrase) && !phrase) return <></>;
 
   return (
     <details
-      open={isPhrase(phrase) || isJoker(props.writtenPhrase)}
+      open={isPhrase(phrase) || isJoker(writtenPhrase)}
       class={isDragOver ? "block dragover" : "block"}
     >
       <summary
@@ -75,19 +79,25 @@ const PhraseComposer: FunctionalComponent<Props> = (props: Props) => {
         }}
       >
         {props.children}
-        {isJoker(props.writtenPhrase) && (
+        {isJoker(writtenPhrase) && (
           <abbr title={t("sentence.joker")}>
             <BracesAsterisk />
           </abbr>
         )}
-        {summary}
+        <TextHighlighter text={summary} searchWords={props.searchWords} />
       </summary>
       {props.readOnly ? (
         <></>
-      ) : isJoker(props.writtenPhrase) ? (
+      ) : isJoker(writtenPhrase) ? (
         <JokerComposer {...props} />
       ) : (
-        phrase && <PhraseTable {...props} phrase={phrase} />
+        phrase && (
+          <PhraseTable
+            {...props}
+            writtenPhrase={writtenPhrase}
+            phrase={phrase}
+          />
+        )
       )}
     </details>
   );
@@ -161,10 +171,13 @@ const SelectLine: FunctionalComponent<SelectLineProps> = ({
       ? 1
       : phrase.lines.filter(line => isRegionVisible(line.region)).length + 1;
 
-  const setWrittenPhrase0 = useCallback((e: Event): void => {
-    const line = +(e.target as HTMLSelectElement).value;
-    setWrittenPhrase(withLine(writtenPhrase, line));
-  }, []);
+  const setWrittenPhrase0 = useCallback(
+    (e: Event): void => {
+      const line = +(e.target as HTMLSelectElement).value;
+      setWrittenPhrase(withLine(writtenPhrase, line));
+    },
+    [setWrittenPhrase, writtenPhrase]
+  );
 
   return (
     <tr>
@@ -207,7 +220,7 @@ const SelectedLine: FunctionalComponent<SelectLineProps> = ({
   const setWrittenPhrase0 = useCallback(
     (newPhrase: WrittenPhrase): void =>
       setWrittenPhrase(withPhrase(writtenPhrase, newPhrase)),
-    []
+    [setWrittenPhrase, writtenPhrase]
   );
   if (isJoker(writtenPhrase)) throw new Error();
   return (
@@ -221,12 +234,11 @@ const SelectedLine: FunctionalComponent<SelectLineProps> = ({
               <td key={index}>
                 <PhraseComposer
                   readOnly={readOnly}
+                  curlyName={curlyName}
                   curlyNameSuffix={curlyNameSuffix}
                   srcRegion={srcRegion}
                   searchWords={searchWords}
-                  writtenPhrase={
-                    writtenPhrase?.args?.[curlyName] ?? newPhrase(curlyName)
-                  }
+                  writtenPhrase={writtenPhrase?.args?.[curlyName]}
                   setWrittenPhrase={setWrittenPhrase0}
                 />
               </td>
