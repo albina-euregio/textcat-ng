@@ -1,5 +1,5 @@
 import { ComponentChildren, FunctionalComponent } from "preact";
-import { useContext, useMemo, useState } from "preact/hooks";
+import { useCallback, useContext, useMemo, useState } from "preact/hooks";
 import { CatalogContext, I18nContext } from "./contexts";
 import {
   CurlyNameSuffix,
@@ -21,8 +21,9 @@ import {
 } from "../../model";
 import TextHighlighter from "./textHighlighter";
 import BracesAsterisk from "../bootstrap-icons/braces-asterisk";
+import { useTraceUpdate } from "./useTraceUpdate";
 
-interface Props extends WrittenTextProps {
+export interface Props extends WrittenTextProps {
   children?: ComponentChildren;
   curlyNameSuffix: CurlyNameSuffix;
   searchWords?: string[];
@@ -34,6 +35,7 @@ interface Props extends WrittenTextProps {
 }
 
 const PhraseComposer: FunctionalComponent<Props> = (props: Props) => {
+  useTraceUpdate("PhraseComposer", props);
   const catalog = useContext(CatalogContext);
   const t = useContext(I18nContext);
   const phrase = catalog.phrase(
@@ -78,7 +80,7 @@ const PhraseComposer: FunctionalComponent<Props> = (props: Props) => {
             <BracesAsterisk />
           </abbr>
         )}
-        <TextHighlighter text={summary} searchWords={props.searchWords} />
+        {summary}
       </summary>
       {props.readOnly ? (
         <></>
@@ -159,6 +161,11 @@ const SelectLine: FunctionalComponent<SelectLineProps> = ({
       ? 1
       : phrase.lines.filter(line => isRegionVisible(line.region)).length + 1;
 
+  const setWrittenPhrase0 = useCallback((e: Event): void => {
+    const line = +(e.target as HTMLSelectElement).value;
+    setWrittenPhrase(withLine(writtenPhrase, line));
+  }, []);
+
   return (
     <tr>
       <td colSpan={99}>
@@ -166,10 +173,7 @@ const SelectLine: FunctionalComponent<SelectLineProps> = ({
           size={size}
           disabled={phrase.lines.length === 1}
           value={line}
-          onChange={(e): void => {
-            const line = +(e.target as HTMLSelectElement).value;
-            setWrittenPhrase(withLine(writtenPhrase, line));
-          }}
+          onChange={setWrittenPhrase0}
         >
           <option value={-1}></option>
           {phrase.lines.map((line, lineIndex) => (
@@ -200,6 +204,11 @@ const SelectedLine: FunctionalComponent<SelectLineProps> = ({
 }: SelectLineProps) => {
   const line = phrase.lines.length === 1 ? 0 : writtenPhrase.line;
   const selectedLine = phrase.lines[line];
+  const setWrittenPhrase0 = useCallback(
+    (newPhrase: WrittenPhrase): void =>
+      setWrittenPhrase(withPhrase(writtenPhrase, newPhrase)),
+    []
+  );
   if (isJoker(writtenPhrase)) throw new Error();
   return (
     <tr>
@@ -218,9 +227,7 @@ const SelectedLine: FunctionalComponent<SelectLineProps> = ({
                   writtenPhrase={
                     writtenPhrase?.args?.[curlyName] ?? newPhrase(curlyName)
                   }
-                  setWrittenPhrase={(newPhrase: WrittenPhrase): void =>
-                    setWrittenPhrase(withPhrase(writtenPhrase, newPhrase))
-                  }
+                  setWrittenPhrase={setWrittenPhrase0}
                 />
               </td>
             ),

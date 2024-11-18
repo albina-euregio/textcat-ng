@@ -1,49 +1,32 @@
 import { FunctionalComponent } from "preact";
-import { useContext, useMemo, useState } from "preact/hooks";
+import { useCallback, useContext, useMemo, useState } from "preact/hooks";
 import { SearchMode, newSentence, CurlyName, WrittenPhrase } from "../../model";
 import { CatalogContext, I18nContext } from "./contexts";
 import PhraseComposer from "./phraseComposer";
 import Filter from "../bootstrap-icons/filter";
 import Search from "../bootstrap-icons/search";
 import PlusSquare from "../bootstrap-icons/plus-square";
+import { useTraceUpdate } from "./useTraceUpdate";
 
-interface Props {
+const FilterSentencesPane: FunctionalComponent<{
   addWrittenPhrase: (writtenPhrase: WrittenPhrase) => void;
   srcRegion: string;
-}
-
-const FilterSentencesPane: FunctionalComponent<Props> = (props: Props) => {
+}> = props => {
   const catalog = useContext(CatalogContext);
   const t = useContext(I18nContext);
   const [searchText, setSearchText] = useState("");
   const [searchMode, setSearchMode] = useState(SearchMode.WORDS);
+
   const filteredSentences = useMemo(() => {
     return searchText
       ? catalog.searchSentences(searchText, searchMode)
       : catalog.sentences;
   }, [catalog, searchText, searchMode]);
-  const searchTextSplitted = useMemo(
+
+  const searchWords = useMemo(
     () => catalog.splitSearchText(searchText),
     [catalog, searchText]
   );
-
-  const [writtenPhraseDrafts, setWrittenPhraseDrafts] = useState<
-    Record<CurlyName, WrittenPhrase>
-  >({});
-  function setWrittenPhraseDraft(writtenPhrase: WrittenPhrase): void {
-    setWrittenPhraseDrafts(ps => ({
-      ...ps,
-      [writtenPhrase.curlyName]: writtenPhrase
-    }));
-  }
-  function writtenPhraseDraft(curlyName: CurlyName): WrittenPhrase {
-    let phrase = writtenPhraseDrafts[curlyName];
-    if (!phrase) {
-      phrase = newSentence(curlyName);
-      setWrittenPhraseDraft(phrase);
-    }
-    return phrase;
-  }
 
   return (
     <div class="block">
@@ -75,30 +58,51 @@ const FilterSentencesPane: FunctionalComponent<Props> = (props: Props) => {
       {/* composer for filtered sentences */}
       {searchText &&
         filteredSentences
-          .map(({ curlyName }) => writtenPhraseDraft(curlyName))
+          .slice(0, 5)
           .map(writtenPhrase => (
-            <PhraseComposer
-              readOnly={false}
+            <PhraseDraftComposer
+              addWrittenPhrase={props.addWrittenPhrase}
+              curlyName={writtenPhrase.curlyName}
               key={writtenPhrase.curlyName}
-              curlyNameSuffix={""}
+              searchWords={searchWords}
               srcRegion={props.srcRegion}
-              searchWords={searchTextSplitted}
-              writtenPhrase={writtenPhrase}
-              setWrittenPhrase={(phrase): void => setWrittenPhraseDraft(phrase)}
-            >
-              <button
-                title={t("sentence.add")}
-                onClick={(): void => {
-                  props.addWrittenPhrase({ ...writtenPhrase });
-                  writtenPhrase.args = undefined;
-                  setSearchText("");
-                }}
-              >
-                <PlusSquare />
-              </button>{" "}
-            </PhraseComposer>
+            />
           ))}
     </div>
+  );
+};
+
+const PhraseDraftComposer: FunctionalComponent<{
+  addWrittenPhrase: (writtenPhrase: WrittenPhrase) => void;
+  curlyName: CurlyName;
+  searchWords?: string[];
+  srcRegion: string;
+}> = props => {
+  useTraceUpdate("PhraseDraftComposer", props);
+  const t = useContext(I18nContext);
+
+  const addWrittenPhrase = useCallback(
+    () => props.addWrittenPhrase(writtenPhraseDraft),
+    []
+  );
+
+  const [writtenPhraseDraft, setWrittenPhraseDraft] = useState(
+    newSentence(props.curlyName)
+  );
+
+  return (
+    <PhraseComposer
+      readOnly={false}
+      curlyNameSuffix={""}
+      srcRegion={props.srcRegion}
+      searchWords={props.searchWords}
+      writtenPhrase={writtenPhraseDraft}
+      setWrittenPhrase={setWrittenPhraseDraft}
+    >
+      <button title={t("sentence.add")} onClick={addWrittenPhrase}>
+        <PlusSquare />
+      </button>{" "}
+    </PhraseComposer>
   );
 };
 

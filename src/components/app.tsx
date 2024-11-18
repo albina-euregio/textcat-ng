@@ -1,6 +1,11 @@
 import { FunctionalComponent } from "preact";
 import { useEffect, useState, useMemo, useCallback } from "preact/hooks";
-import { AllTextCatalogues, buildAllTextcat, Translations } from "../model";
+import {
+  AllTextCatalogues,
+  buildAllTextcat,
+  Translations,
+  WrittenPhrase
+} from "../model";
 import { CatalogContext, I18nContext } from "./textcat/contexts";
 import TextComposer from "./textcat/textComposer";
 import { arrayMove, DEFAULT_LANG, Lang, WrittenText } from "../model";
@@ -68,6 +73,33 @@ const App: FunctionalComponent = () => {
     setWrittenText
   );
 
+  const setWrittenPhrase = useCallback(
+    (newText: WrittenPhrase, index: number): void =>
+      setWrittenText(ts => {
+        const newTexts = [...ts];
+        newTexts[index] = newText;
+        return newTexts;
+      }),
+    []
+  );
+
+  const addSentence = useCallback(
+    (newText: WrittenPhrase, index: number): void =>
+      setWrittenText(ts => {
+        const newTexts = [...ts];
+        newTexts.splice(index, 0, newText);
+        return newTexts;
+      }),
+    []
+  );
+
+  const moveSentence = useCallback(
+    (fromIndex: number, toIndex: number | undefined): void => {
+      setWrittenText(ts => arrayMove(ts, fromIndex, toIndex));
+    },
+    []
+  );
+
   return (
     <I18nContext.Provider value={t}>
       <section>
@@ -105,23 +137,9 @@ const App: FunctionalComponent = () => {
               writtenText={writtenText}
               srcRegion={srcRegion}
               readOnly={readOnly}
-              setWrittenPhrase={(newText, index): void =>
-                setWrittenText(ts => {
-                  const newTexts = [...ts];
-                  newTexts[index] = newText;
-                  return newTexts;
-                })
-              }
-              addSentence={(newText, index): void =>
-                setWrittenText(ts => {
-                  const newTexts = [...ts];
-                  newTexts.splice(index, 0, newText);
-                  return newTexts;
-                })
-              }
-              moveSentence={(fromIndex, toIndex): void => {
-                setWrittenText(ts => arrayMove(ts, fromIndex, toIndex));
-              }}
+              setWrittenPhrase={setWrittenPhrase}
+              addSentence={addSentence}
+              moveSentence={moveSentence}
             />
           </CatalogContext.Provider>
         )}
