@@ -22,6 +22,10 @@ const FilterSentencesPane: FunctionalComponent<Props> = (props: Props) => {
       ? catalog.searchSentences(searchText, searchMode)
       : catalog.sentences;
   }, [catalog, searchText, searchMode]);
+  const searchTextSplitted = useMemo(
+    () => catalog.splitSearchText(searchText),
+    [catalog, searchText]
+  );
 
   const [writtenPhraseDrafts, setWrittenPhraseDrafts] = useState<
     Record<CurlyName, WrittenPhrase>
@@ -78,7 +82,7 @@ const FilterSentencesPane: FunctionalComponent<Props> = (props: Props) => {
               key={writtenPhrase.curlyName}
               curlyNameSuffix={""}
               srcRegion={props.srcRegion}
-              searchWords={catalog.splitSearchText(searchText)}
+              searchWords={searchTextSplitted}
               writtenPhrase={writtenPhrase}
               setWrittenPhrase={(phrase): void => setWrittenPhraseDraft(phrase)}
             >
