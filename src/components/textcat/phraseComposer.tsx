@@ -108,7 +108,7 @@ const JokerComposer: FunctionalComponent<WrittenTextProps> = ({
               <input
                 type="text"
                 lang={lang}
-                spellCheck={true}
+                spellcheck={true}
                 value={writtenPhrase.args[lang]}
                 onChange={e => {
                   setWrittenPhrase(
