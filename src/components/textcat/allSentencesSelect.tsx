@@ -22,10 +22,12 @@ const AllSentencesSelect: FunctionalComponent<Props> = (props: Props) => {
     window.location != window.parent.location
       ? document.referrer
       : document.location.href;
+  const enableJoker =
+    import.meta.env.DEV || url.startsWith("https://admin.avalanche.report");
   return (
     <div class="block">
       <h2>{`${t("heading.allSentences")} `}</h2>
-      {url.startsWith("https://admin.avalanche.report") ? (
+      {enableJoker ? (
         <label class="d-flex mt-10">
           <button
             title={t("sentence.add")}
