@@ -5,6 +5,7 @@ import { t } from "../i18n";
 import { buildAllTextcat } from "../model";
 import ArrowClockwise from "./bootstrap-icons/arrow-clockwise.vue";
 import CheckSquare from "./bootstrap-icons/check-square.vue";
+import Clipboard from "./bootstrap-icons/clipboard.vue";
 import Copy from "./bootstrap-icons/copy.vue";
 import FolderOpen from "./bootstrap-icons/folder2-open.vue";
 import {
@@ -13,6 +14,7 @@ import {
   copyToClipboard,
   dirHandle,
   isClipboardEnabled,
+  pasteSentenceFromClipboard,
   showTranslation,
   textcatEditor,
   translations,
@@ -83,9 +85,16 @@ const { postPmData } = usePmData();
     <button
       :disabled="!isClipboardEnabled"
       @click="copyToClipboard(writtenText)"
-      :title="t('translations.copy')"
+      :title="t('sentences.copy')"
     >
       <Copy />
+    </button>
+    <button
+      :disabled="!isClipboardEnabled"
+      @click="pasteSentenceFromClipboard(-1)"
+      :title="t('sentences.paste')"
+    >
+      <Clipboard />
     </button>
 
     <TextcatFooter>

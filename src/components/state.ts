@@ -40,7 +40,10 @@ export const searchWords = computed((): string[] =>
   catalog.value!.splitSearchText(searchTextDebounced.value)
 );
 
-export function addSentence(newText: WrittenPhrase, index: number): void {
+export function addSentence(
+  newText: WrittenPhrase,
+  index: number = writtenText.value.length
+): void {
   writtenText.value = [...writtenText.value];
   writtenText.value.splice(index, 0, newText);
 }
@@ -69,12 +72,15 @@ export async function copyToClipboard(value: WrittenPhrase | WrittenText) {
 export async function pasteSentenceFromClipboard(index: number) {
   const copiedPhrase = await navigator.clipboard.readText();
   try {
-    const phrase: WrittenPhrase = JSON.parse(copiedPhrase);
-    if (!phrase.curlyName) {
-      return;
+    const phrase: WrittenPhrase | WrittenText = JSON.parse(copiedPhrase);
+    console.log(phrase)
+    if (Array.isArray(phrase)) {
+      console.log("Pasting sentences", phrase);
+      phrase.forEach(p => addSentence(p));
+    } else if (phrase.curlyName) {
+      console.log("Pasting sentence", phrase);
+      addSentence(phrase, index + 1);
     }
-    console.log("Pasting sentence", phrase);
-    addSentence(phrase, index + 1);
   } catch (error) {
     console.error(error);
   }
