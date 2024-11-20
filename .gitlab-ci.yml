@@ -47,6 +47,14 @@ deploy to editor-dev:
   only:
     - master
 
+deploy to editor-dev:manual:
+  extends: .deploy
+  dependencies:
+    - build editor
+  environment:
+    name: editor-dev
+  when: manual
+
 deploy to editor:
   extends: .deploy
   dependencies:
@@ -63,6 +71,14 @@ deploy to development:
     name: development
   only:
     - master
+
+deploy to development:manual:
+  extends: .deploy
+  dependencies:
+    - build
+  environment:
+    name: development
+  when: manual
 
 deploy to production:
   extends: .deploy
