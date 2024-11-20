@@ -19,8 +19,8 @@
   },
   "scripts": {
     "prepare": "husky",
-    "build": "tsc && vite build",
-    "build-editor": "tsc && VITE_TEXTCAT_EDITOR=1 vite build",
+    "build": "vue-tsc --build & vite build",
+    "build-editor": "vue-tsc --build & VITE_TEXTCAT_EDITOR=1 vite build",
     "dev": "vite",
     "dev-editor": "VITE_TEXTCAT_EDITOR=1 vite",
     "lint": "eslint src/",

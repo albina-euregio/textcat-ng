@@ -53,7 +53,7 @@ function setWrittenPhrase(e: Event): void {
         <option
           v-for="(line, lineIndex) in phrase?.lines"
           v-show="isRegionVisible(line.region)"
-          :key="line"
+          :key="line.line"
           :value="lineIndex"
         >
           <TextHighlighter
