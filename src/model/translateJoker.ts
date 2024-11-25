@@ -1,7 +1,5 @@
-import { LANGUAGES, Lang } from ".";
+import { DEEPL_LANGUAGES, LANGUAGES, Lang } from ".";
 import { Joker, isJoker, withJokerText } from "./writtenText";
-
-export const DEEPL_LANGUAGES: Lang[] = ["de", "en", "es", "fr", "it"];
 
 const VITE_DEEPL_API = import.meta.env.VITE_DEEPL_API;
 const VITE_DEEPL_API_KEY = import.meta.env.VITE_DEEPL_API_KEY;

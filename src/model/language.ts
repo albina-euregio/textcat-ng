@@ -37,3 +37,5 @@ export const LANGUAGE_VARIANTS = Object.freeze([
 ] as const);
 
 export const DEFAULT_LANG: Lang = "de";
+
+export const DEEPL_LANGUAGES: readonly Lang[] = Object.freeze(["de", "en", "es", "fr", "it"] as const);
