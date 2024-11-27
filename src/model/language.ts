@@ -14,28 +14,16 @@ export type Lang =
   /** Occitan language */
   | "oc";
 
-export const LANGUAGES: readonly Lang[] = Object.freeze([
-  "de",
-  "en",
-  "fr",
-  "it",
-  "es",
-  "ca",
-  "oc"
-]);
+export const LANGUAGES: readonly Lang[] = Object.freeze(
+  import.meta.env.VITE_LANGUAGES.split(",") as Lang[]
+);
 
-export const LANGUAGE_VARIANTS = Object.freeze([
-  "de",
-  "de_AT",
-  "de_CH",
-  "en",
-  "fr",
-  "it",
-  "es",
-  "ca",
-  "oc"
-] as const);
+export const LANGUAGE_VARIANTS = Object.freeze(
+  import.meta.env.VITE_LANGUAGE_VARIANTS.split(",")
+);
 
-export const DEFAULT_LANG: Lang = "de";
+export const DEFAULT_LANG: Lang = import.meta.env.VITE_DEFAULT_LANG as Lang;
 
-export const DEEPL_LANGUAGES: readonly Lang[] = Object.freeze(["de", "en", "es", "fr", "it"] as const);
+export const DEEPL_LANGUAGES: readonly Lang[] = Object.freeze(
+  import.meta.env.VITE_DEEPL_LANGUAGES.split(",") as Lang[]
+);

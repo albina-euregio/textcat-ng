@@ -13,4 +13,8 @@ interface ImportMetaEnv {
   VITE_MOVE_BUTTONS: "0" | "1";
   VITE_SENTENCE_LIST: "0" | "1";
   VITE_TEXTCAT_EDITOR: "0" | "1";
+  VITE_LANGUAGES: string;
+  VITE_LANGUAGE_VARIANTS: string;
+  VITE_DEFAULT_LANG: string;
+  VITE_DEEPL_LANGUAGES: string;
 }
