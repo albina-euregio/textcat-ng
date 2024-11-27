@@ -2,7 +2,7 @@ node_modules
 /dist
 /*.log
 satzkatalog*txt
-/.env
+/.local
 /.idea
 /.vscode
 /.yarn
