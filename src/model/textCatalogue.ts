@@ -4,6 +4,7 @@ import {
   isPhrase,
   isSentence,
   Lang,
+  LanguageVariant,
   FULL_STOP,
   longestCommonPrefix,
   mapLineFragment,
@@ -441,7 +442,7 @@ export async function buildTextcat(
   }
 }
 
-export type Translations = Record<Lang | "de_AT" | "de_CH", IntlText>;
+export type Translations = Record<LanguageVariant, IntlText>;
 
 export class AllTextCatalogues {
   constructor(public readonly catalogs: Record<Lang, TextCatalogue>) {}
