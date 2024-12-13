@@ -54,6 +54,7 @@ function onDrop(index: number, event: DragEvent) {
       "
       :onDragStart="onDragStart.bind(undefined, index)"
       :onDrop="onDrop.bind(undefined, index)"
+      style="overflow-x: auto"
     >
       <button
         :disabled="!isClipboardEnabled"
