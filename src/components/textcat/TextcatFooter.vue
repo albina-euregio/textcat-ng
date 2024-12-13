@@ -15,6 +15,7 @@ const version = import.meta.env.VITE_GIT_VERSION;
         {{ t("version") }}
         {{ version }}
       </li>
+      <li>{{ t("tipp.scroll") }}</li>
       <li>
         <a
           href="https://gitlab.com/albina-euregio/textcat-ng"
