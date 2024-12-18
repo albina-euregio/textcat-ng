@@ -13,7 +13,9 @@ const url =
     ? document.referrer
     : document.location.href;
 const enableJoker =
-  import.meta.env.DEV || url.startsWith("https://admin.avalanche.report");
+  import.meta.env.DEV ||
+  import.meta.env.VITE_DEEPL_API ||
+  url.startsWith("https://admin.avalanche.report");
 </script>
 
 <template>
