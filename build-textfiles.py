@@ -1,10 +1,9 @@
 #!/bin/env python3
+import logging
 import pathlib
 import typing
 
-
-def textfiles(lang: str):
-    return pathlib.Path("../satzkatalog/data/").glob(f"{lang}/**/*.txt")
+logging.basicConfig(level=logging.INFO)
 
 
 def concat_textfile(file: pathlib.Path, dst: typing.IO):
@@ -17,8 +16,10 @@ def concat_textfile(file: pathlib.Path, dst: typing.IO):
 
 
 for lang in "CA DE EN ES FR IT OC".split():
+    src_directory = pathlib.Path("../satzkatalog/data/")
+    src_files = src_directory.glob(f"{lang}/**/*.txt")
     dst_file = pathlib.Path(f"./public/assets/satzkatalog.{lang}.txt")
     with dst_file.open(mode="w", encoding="utf-8") as dst:
-        print("Building", dst)
-        for file in sorted(textfiles(lang)):
+        logging.info("Building %s from %s", dst_file, src_directory)
+        for file in sorted(src_files):
             concat_textfile(file, dst)
