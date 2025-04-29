@@ -7,7 +7,7 @@ type I18nKeys = keyof typeof en;
 const i18nMessages = import.meta.glob("./*.json", {
   eager: true,
   import: "default"
-}) as Record<`./${Lang}.json`, I18nKeys>;
+}) satisfies Record<`./${Lang}.json`, Record<I18nKeys, string>>;
 
 /**
  * Returns the translation for the given message key.
