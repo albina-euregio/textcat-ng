@@ -252,6 +252,27 @@ Line: sollten erst nach eingehender Beurteilung aufgehoben werden.
 Line: können nach eingehender Prüfung aufgehoben werden.
 Line: können nach entsprechender Prüfung gelockert werden.
 Line: können allmählich reduziert werden.
+
+RS_Header: Gebiet
+RS_CurlyName: Gebiet
+Line: alle Gebiete
+Begin: Switzerland
+Line: Alpennordhang {ohne_Voralpen}
+Line: westlicher Alpennordhang {ohne_Voralpen}
+End: Switzerland
+Begin: Tyrol
+Line: Hohe Tauern
+Line: Kitzbüheler Alpen
+End: Tyrol
+Begin: South Tyrol
+Line: Deferegger Alpen
+Line: Dolomiten
+End: South Tyrol
+Begin: Trentino
+Line: Brentagruppe
+Line: Dolomiten
+End: Trentino
+Line: übrige Gebiete
 `;
 
 const textIT = `
@@ -597,14 +618,53 @@ it("should search by words", () => {
 
 it("should serialize a sentence to satzkatalog syntax", () => {
   const sentence = catalog.sentence("Verhältnisse04")!;
-  expect(serializeSentence(sentence)).toBe(
-    "ST_Header: Verhältnisse_04\nST_CurlyName: Verhältnisse04\nPA_Pos: 1\nRS_CurlyName: Verhältnisse04§wo_wann3\nPA_Pos: 2\nRS_CurlyName: teils_gefährliche\nPA_Pos: 3\nRS_CurlyName: Verhältnisse04§Lawinensituation.\n\n"
-  );
+  expect(serializeSentence(sentence)).toBe(`ST_Header: Verhältnisse_04
+ST_CurlyName: Verhältnisse04
+PA_Pos: 1
+RS_CurlyName: Verhältnisse04§wo_wann3
+PA_Pos: 2
+RS_CurlyName: teils_gefährliche
+PA_Pos: 3
+RS_CurlyName: Verhältnisse04§Lawinensituation.
+
+`);
 });
 
 it("should serialize a phrase to satzkatalog syntax", () => {
-  const phrase = catalog.phrase("Verhältnisse04§wo_wann3")!;
-  expect(serializePhrase(phrase)).toBe(
-    "RS_Header: wo/wann\nRS_CurlyName: Verhältnisse04§wo_wann3\nLine: [Empty]\nLine: abseits der Pisten\nLine: abseits gesicherter Pisten\nLine: im {Exposition} {und_im_Exposition}\nLine: >30°\n\n"
-  );
+  const phrase = catalog.phrase("Verhältnisse04§wo_wann3");
+  expect(serializePhrase(phrase!)).toBe(`RS_Header: wo/wann
+RS_CurlyName: Verhältnisse04§wo_wann3
+Line: [Empty]
+Line: abseits der Pisten
+Line: abseits gesicherter Pisten
+Line: im {Exposition} {und_im_Exposition}
+Line: >30°
+
+`);
+});
+
+it("should serialize a phrase to satzkatalog syntax and retain Begin/End", () => {
+  const phrase = catalog.phrase("Gebiet");
+  expect(serializePhrase(phrase!)).toBe(`RS_Header: Gebiet
+RS_CurlyName: Gebiet
+Line: alle Gebiete
+Begin: Switzerland
+Line: Alpennordhang {ohne_Voralpen}
+Line: westlicher Alpennordhang {ohne_Voralpen}
+End: Switzerland
+Begin: Tyrol
+Line: Hohe Tauern
+Line: Kitzbüheler Alpen
+End: Tyrol
+Begin: South Tyrol
+Line: Deferegger Alpen
+Line: Dolomiten
+End: South Tyrol
+Begin: Trentino
+Line: Brentagruppe
+Line: Dolomiten
+End: Trentino
+Line: übrige Gebiete
+
+`);
 });

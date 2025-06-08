@@ -58,8 +58,17 @@ export function serializePhrase(phrase: Phrase): string {
   return [
     `RS_Header: ${phrase.header}`,
     `RS_CurlyName: ${phrase.curlyName}`,
-    // TODO region
-    ...phrase.lines.map(l => `Line: ${l.line}`),
+    ...phrase.lines
+      .flatMap(({ line, region }, i, ll) => {
+        const prevRegion = i - 1 >= 0 ? ll[i - 1].region : undefined;
+        const nextRegion = i + 1 < ll.length ? ll[i + 1].region : undefined;
+        return [
+          region && region !== prevRegion ? `Begin: ${region}` : undefined,
+          `Line: ${line}`,
+          region && region !== nextRegion ? `End: ${region}` : undefined
+        ];
+      })
+      .filter(l => typeof l === "string"),
     "",
     ""
   ].join("\n");
