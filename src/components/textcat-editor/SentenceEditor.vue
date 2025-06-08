@@ -4,7 +4,11 @@ import { t } from "../../i18n";
 import { Lang, Sentence } from "../../model";
 import PlusSquare from "../bootstrap-icons/plus-square.vue";
 import { catalog, catalogs } from "../state";
-import { phraseCurlyName, sentenceCurlyName } from "./editor-state";
+import {
+  headerOrCurlyName,
+  phraseCurlyName,
+  sentenceCurlyName
+} from "./editor-state";
 
 const sentenceLangs = computed(() =>
   Object.values(catalogs.value!.catalogs).map(c => ({
@@ -52,6 +56,18 @@ async function onSentenceChange(lang: Lang, phrase: Sentence) {
         </button>
       </small>
     </h2>
+
+    <div>
+      <label>
+        <input v-model="headerOrCurlyName" type="radio" value="header" />
+        header
+      </label>
+      <label>
+        <input v-model="headerOrCurlyName" type="radio" value="curlyName" />
+        curlyName
+      </label>
+    </div>
+
     <label class="d-flex mt-10">
       <select class="f-auto f-truncate" v-model="sentenceCurlyName">
         <option value=""></option>
@@ -60,7 +76,7 @@ async function onSentenceChange(lang: Lang, phrase: Sentence) {
           :key="phrase.curlyName"
           :value="phrase.curlyName"
         >
-          {{ phrase.curlyName }}
+          {{ phrase[headerOrCurlyName] }}
         </option>
       </select>
     </label>
@@ -88,10 +104,10 @@ async function onSentenceChange(lang: Lang, phrase: Sentence) {
               v-if="phrase"
               :style="{
                 width: '100%',
-                minWidth: `${phrase.header.length}ex`
+                minWidth: `${phrase[headerOrCurlyName].length}ex`
               }"
               type="text"
-              v-model="phrase.header"
+              v-model="phrase[headerOrCurlyName]"
               @change="nextTick(() => onSentenceChange(lang, phrase))"
             />
           </td>

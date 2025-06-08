@@ -17,7 +17,11 @@ import PlusSquare from "../bootstrap-icons/plus-square.vue";
 import TerminalSplit from "../bootstrap-icons/terminal-split.vue";
 import XSquare from "../bootstrap-icons/x-square.vue";
 import { catalog, catalogs } from "../state";
-import { phraseCurlyName, sentenceCurlyName } from "./editor-state";
+import {
+  headerOrCurlyName,
+  phraseCurlyName,
+  sentenceCurlyName
+} from "./editor-state";
 
 const phraseLangs = computed(() =>
   Object.values(catalogs.value!.catalogs).map(c => ({
@@ -164,6 +168,17 @@ let array: Phrase[];
       </small>
     </h2>
 
+    <div>
+      <label>
+        <input v-model="headerOrCurlyName" type="radio" value="header" />
+        header
+      </label>
+      <label>
+        <input v-model="headerOrCurlyName" type="radio" value="curlyName" />
+        curlyName
+      </label>
+    </div>
+
     <label class="d-flex mt-10">
       <select class="f-auto f-truncate" v-model="phraseCurlyName">
         <option value=""></option>
@@ -172,7 +187,7 @@ let array: Phrase[];
           :key="phrase.curlyName"
           :value="phrase.curlyName"
         >
-          {{ phrase.curlyName }}
+          {{ phrase[headerOrCurlyName] }}
         </option>
       </select>
     </label>
@@ -207,10 +222,10 @@ let array: Phrase[];
               :spellcheck="true"
               :style="{
                 width: '100%',
-                minWidth: `${phrase.header.length}ex`
+                minWidth: `${phrase[headerOrCurlyName].length}ex`
               }"
               type="text"
-              v-model="phrase.header"
+              v-model="phrase[headerOrCurlyName]"
               @change="nextTick(() => onPhraseChange(lang, phrase))"
             />
           </td>
