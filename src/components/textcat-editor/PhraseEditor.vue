@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { computed, nextTick } from "vue";
 import { t } from "../../i18n";
 import {
   Lang,
@@ -22,6 +21,7 @@ import {
   phraseCurlyName,
   sentenceCurlyName
 } from "./editor-state";
+import { computed, nextTick } from "vue";
 
 const phraseLangs = computed(() =>
   Object.values(catalogs.value!.catalogs).map(c => ({

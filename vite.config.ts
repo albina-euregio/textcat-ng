@@ -1,7 +1,7 @@
-import { defineConfig } from "vite";
 import vue from "@vitejs/plugin-vue";
-
 import { execSync } from "child_process";
+import { defineConfig } from "vite";
+
 function git(command: string): string {
   return execSync(`git ${command}`, { encoding: "utf8" }).trim();
 }

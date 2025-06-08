@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { computed, ref } from "vue";
 import { t } from "../../i18n";
 import {
   CurlyName,
@@ -14,6 +13,7 @@ import { catalog, readOnly } from "../state";
 import JokerComposer from "./JokerComposer.vue";
 import PhraseTable from "./PhraseTable.vue";
 import TextHighlighter from "./TextHighlighter.vue";
+import { computed, ref } from "vue";
 
 const props = defineProps<{
   curlyName: CurlyName;

@@ -1,4 +1,3 @@
-import { computed, Ref, ref } from "vue";
 import {
   AllTextCatalogues,
   arrayMove,
@@ -10,6 +9,7 @@ import {
   WrittenText
 } from "../model";
 import { useDebounce } from "@vueuse/core";
+import { computed, Ref, ref } from "vue";
 
 export const textcatEditor = import.meta.env.VITE_TEXTCAT_EDITOR === "1";
 export const sentenceList = import.meta.env.VITE_SENTENCE_LIST !== "0";
@@ -73,7 +73,7 @@ export async function pasteSentenceFromClipboard(index: number) {
   const copiedPhrase = await navigator.clipboard.readText();
   try {
     const phrase: WrittenPhrase | WrittenText = JSON.parse(copiedPhrase);
-    console.log(phrase)
+    console.log(phrase);
     if (Array.isArray(phrase)) {
       console.log("Pasting sentences", phrase);
       phrase.forEach(p => addSentence(p));

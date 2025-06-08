@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { computed, nextTick } from "vue";
 import { t } from "../../i18n";
 import { Lang, Sentence } from "../../model";
 import PlusSquare from "../bootstrap-icons/plus-square.vue";
@@ -9,6 +8,7 @@ import {
   phraseCurlyName,
   sentenceCurlyName
 } from "./editor-state";
+import { computed, nextTick } from "vue";
 
 const sentenceLangs = computed(() =>
   Object.values(catalogs.value!.catalogs).map(c => ({

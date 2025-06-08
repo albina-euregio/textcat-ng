@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { computed, ref } from "vue";
 import { t } from "../../i18n";
 import {
   CurlyName,
@@ -18,6 +17,7 @@ import {
   searchTextDebounced
 } from "../state";
 import PhraseComposer from "./PhraseComposer.vue";
+import { computed, ref } from "vue";
 
 const searchMode = ref(SearchMode.WORDS);
 

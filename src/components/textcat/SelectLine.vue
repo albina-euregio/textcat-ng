@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { computed } from "vue";
 import {
   CurlyName,
   CurlyNameSuffix,
@@ -9,6 +8,7 @@ import {
 } from "../../model";
 import { catalog, srcRegion } from "../state";
 import TextHighlighter from "./TextHighlighter.vue";
+import { computed } from "vue";
 
 const writtenPhrase = defineModel<WrittenPhrase>({ required: true });
 

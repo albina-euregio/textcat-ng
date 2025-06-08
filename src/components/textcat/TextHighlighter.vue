@@ -1,7 +1,7 @@
 <script setup lang="ts">
+import { searchWords } from "../state";
 import { findAll } from "highlight-words-core";
 import { computed } from "vue";
-import { searchWords } from "../state";
 
 const props = defineProps<{
   text: string;

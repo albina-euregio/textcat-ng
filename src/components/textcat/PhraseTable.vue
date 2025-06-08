@@ -6,8 +6,8 @@ import {
   Phrase,
   WrittenPhrase
 } from "../../model";
-import SelectedLine from "./SelectedLine.vue";
 import SelectLine from "./SelectLine.vue";
+import SelectedLine from "./SelectedLine.vue";
 
 const writtenPhrase = defineModel<WrittenPhrase>({ required: true });
 

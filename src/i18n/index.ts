@@ -1,7 +1,7 @@
 import { srcLang } from "../components/state";
 import { Lang } from "../model";
-
 import en from "./en.json";
+
 type I18nKeys = keyof typeof en;
 
 const i18nMessages = import.meta.glob("./*.json", {

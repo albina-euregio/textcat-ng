@@ -1,7 +1,7 @@
-import { useEventListener } from "@vueuse/core";
-import { ref } from "vue";
 import { Lang, Translations, WrittenText } from "../../model";
 import { readOnly, srcLang, srcRegion, writtenText } from "../state";
+import { useEventListener } from "@vueuse/core";
+import { ref } from "vue";
 
 // alias pmData, alias inputDef
 interface TextcatLegacyIn {

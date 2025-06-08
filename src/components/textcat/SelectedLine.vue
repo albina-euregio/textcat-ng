@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { computed } from "vue";
 import {
   CurlyName,
   CurlyNameSuffix,
@@ -12,6 +11,7 @@ import {
   WrittenPhrase
 } from "../../model";
 import PhraseComposer from "./PhraseComposer.vue";
+import { computed } from "vue";
 
 const props = defineProps<{
   phrase: Phrase | undefined;

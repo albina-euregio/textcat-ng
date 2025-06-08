@@ -41,6 +41,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.28.0",
+    "@trivago/prettier-plugin-sort-imports": "^5.2.2",
     "@types/highlight-words-core": "^1.2.3",
     "@types/wicg-file-system-access": "^2023.10.5",
     "@vitejs/plugin-vue": "^5.2.4",

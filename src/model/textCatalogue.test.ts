@@ -1,4 +1,3 @@
-import { beforeAll, expect, it } from "vitest";
 import {
   Phrase,
   Sentence,
@@ -13,6 +12,7 @@ import {
   serializeSentence,
   serializePhrase
 } from ".";
+import { beforeAll, expect, it } from "vitest";
 
 /**
  * > cat DE/Ranges/Verhältnisse04§wo_wann3.txt

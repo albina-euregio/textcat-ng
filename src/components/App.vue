@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import { get, set } from "idb-keyval";
-import { watchEffect } from "vue";
 import { t } from "../i18n";
 import { buildAllTextcat } from "../model";
 import ArrowClockwise from "./bootstrap-icons/arrow-clockwise.vue";
@@ -22,12 +20,14 @@ import {
 } from "./state";
 import TextcatEditor from "./textcat-editor/TextcatEditor.vue";
 import LanguageSelect from "./textcat/LanguageSelect.vue";
-import { usePmData } from "./textcat/pmData";
 import RegionSelect from "./textcat/RegionSelect.vue";
-import TextcatFooter from "./textcat/TextcatFooter.vue";
 import TextComposer from "./textcat/TextComposer.vue";
+import TextcatFooter from "./textcat/TextcatFooter.vue";
 import TranslationCheckbox from "./textcat/TranslationCheckbox.vue";
 import TranslationPreview from "./textcat/TranslationPreview.vue";
+import { usePmData } from "./textcat/pmData";
+import { get, set } from "idb-keyval";
+import { watchEffect } from "vue";
 
 function reloadTextcat() {
   if (!textcatEditor) {
