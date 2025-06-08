@@ -293,6 +293,7 @@ export class TextCatalogue {
         .replace(/\[Empty\] /g, "")
         .replace(/ \[Empty\]/g, "")
         .replace(/\s+\(-\)/g, "")
+        .replace(/\(-\)\s+/g, "")
         .replace(/^./, s => s.toLocaleUpperCase(this.lang));
     } catch (e) {
       if (e instanceof UnsetPhraseError) {
