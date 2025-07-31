@@ -34,10 +34,10 @@
     "build/*"
   ],
   "dependencies": {
-    "@vueuse/core": "^13.3.0",
+    "@vueuse/core": "^13.6.0",
     "highlight-words-core": "^1.2.3",
     "idb-keyval": "^6.2.1",
-    "vue": "^3.5.16"
+    "vue": "^3.6.0-alpha.2"
   },
   "devDependencies": {
     "@eslint/js": "^9.28.0",
@@ -57,6 +57,6 @@
     "typescript-eslint": "^8.33.1",
     "vite": "npm:rolldown-vite@^7.0.6",
     "vitest": "^3.1.2",
-    "vue-tsc": "^2.2.10"
+    "vue-tsc": "^3.0.4"
   }
 }
