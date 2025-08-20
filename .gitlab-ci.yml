@@ -1,6 +1,6 @@
 ---
 build:
-  image: node:20
+  image: node:22
   stage: build
   script:
     - corepack enable
