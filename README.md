@@ -64,7 +64,7 @@ VITE_DEEPL_API_KEY=...:fx
 
 ## Translation
 
-This project uses Transifex for its translations: https://www.transifex.com/albina-euregio/textcat-ng/dashboard/
+This project uses Transifex for its translations: https://app.transifex.com/albina-euregio/textcat-ng/dashboard/
 
 ## Author and License
 
