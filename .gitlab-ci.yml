@@ -26,7 +26,7 @@ build:
   dependencies:
     - build
   script:
-    - apk add openssh-client rsync
+    - apk add openssl openssh-client rsync
     - eval $(ssh-agent -s)
     - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add - > /dev/null
     - mkdir -p ~/.ssh && chmod 700 ~/.ssh
