@@ -462,6 +462,17 @@ it("should translate a text", () =>
   expect(catalog.translate([writtenPhrase])).toBe(
     "Abseits gesicherter Pisten weiterhin sehr kritische Lawinensituation.",
   ));
+it("should translate a partial text", () =>
+  expect(
+    catalog.translate([
+      {
+        ...writtenPhrase,
+        args: {
+          teils_gefährliche: writtenPhrase.args!.teils_gefährliche,
+        },
+      },
+    ]),
+  ).toBe("{⚠ wo/wann} weiterhin sehr kritische Lawinensituation."));
 it("should translate a joker text", () =>
   expect(
     catalog.translate([

@@ -37,12 +37,6 @@ export class UnknownPhraseError extends Error {
   }
 }
 
-export class UnsetPhraseError extends Error {
-  constructor(phrase: string) {
-    super(t("unsetPhrase", phrase));
-  }
-}
-
 export class IncompleteJokerError extends Error {
   constructor() {
     super(t("incompleteJoker"));
@@ -301,12 +295,6 @@ export class TextCatalogue {
         .replace(/\(-\)\s+/g, "")
         .replace(/^./, (s) => s.toLocaleUpperCase(this.lang));
     } catch (e) {
-      if (e instanceof UnsetPhraseError) {
-        const phrase = this.phrase(writtenPhrase.curlyName);
-        if (isSentence(phrase)) {
-          e.message += ` \u2014 ${phrase.header}`;
-        }
-      }
       throw e;
     }
   }
@@ -334,10 +322,11 @@ export class TextCatalogue {
       phrase?.lines[writtenPhrase.line]?.lineFragments ??
       uniqueLineFragments(phrase) ??
       undefined;
-    if (!lineFragments && writtenPhrase.line >= 0)
+    if (!lineFragments && writtenPhrase.line >= 0) {
       throw new UnknownLineError(writtenPhrase.line, writtenPhrase.curlyName);
-    else if (!lineFragments)
-      throw new UnsetPhraseError(writtenPhrase.curlyName);
+    } else if (!lineFragments) {
+      return `{⚠ ${this.phrase(writtenPhrase.curlyName)?.header ?? writtenPhrase.curlyName}}`;
+    }
 
     return lineFragments
       .map((lineFragment) =>
@@ -464,9 +453,7 @@ export class AllTextCatalogues {
           translation["de_CH"] = translation[lang];
         }
       } catch (e) {
-        if (!(e instanceof UnsetPhraseError)) {
-          console.warn(e);
-        }
+        console.warn(e);
         translation[lang] = `⚠ ${e}`;
       }
     });
