@@ -12,13 +12,13 @@ export function sentencePreview(
   s: Sentence,
   catalog: TextCatalogue,
   translation?: IntlText,
-  headerOrCurlyName: "header" | "curlyName" = "header"
+  headerOrCurlyName: "header" | "curlyName" = "header",
 ): string {
   const preview =
     translation ??
     catalog.translateLineFragments(
       s.lines?.[0]?.lineFragments,
-      headerOrCurlyName
+      headerOrCurlyName,
     );
   return `${s[headerOrCurlyName]} \u2014 ${preview}`;
 }
@@ -29,9 +29,9 @@ export function serializeSentence(sentence: Sentence): string {
     `ST_Header: ${sentence.header}`,
     `ST_CurlyName: ${sentence.curlyName}`,
     ...lineFragments.map(
-      (l, index) => `PA_Pos: ${index + 1}\nRS_CurlyName: ${l[1]}`
+      (l, index) => `PA_Pos: ${index + 1}\nRS_CurlyName: ${l[1]}`,
     ),
     "",
-    ""
+    "",
   ].join("\n");
 }

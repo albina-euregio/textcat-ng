@@ -5,7 +5,7 @@ import {
   newSentence,
   SearchMode,
   Sentence,
-  WrittenPhrase
+  WrittenPhrase,
 } from "../../model";
 import Filter from "../bootstrap-icons/filter.vue";
 import PlusSquare from "../bootstrap-icons/plus-square.vue";
@@ -14,7 +14,7 @@ import {
   addWrittenPhrase,
   catalog,
   searchText,
-  searchTextDebounced
+  searchTextDebounced,
 } from "../state";
 import PhraseComposer from "./PhraseComposer.vue";
 import { computed, ref } from "vue";
@@ -25,16 +25,16 @@ const writtenPhrases = ref<Record<CurlyName, WrittenPhrase>>(
   Object.fromEntries(
     catalog.value!.sentences.map(({ curlyName }) => [
       curlyName,
-      newSentence(curlyName)
-    ])
-  )
+      newSentence(curlyName),
+    ]),
+  ),
 );
 
 const filteredSentences = computed((): Sentence[] => {
   return searchTextDebounced.value
     ? catalog.value!.searchSentences(
         searchTextDebounced.value,
-        searchMode.value
+        searchMode.value,
       )
     : [];
 });

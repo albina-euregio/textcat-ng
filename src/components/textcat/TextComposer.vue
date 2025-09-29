@@ -16,7 +16,7 @@ import {
   readOnly,
   sentenceList,
   setWrittenPhrase,
-  writtenText
+  writtenText,
 } from "../state";
 import AllSentencesSelect from "./AllSentencesSelect.vue";
 import FilterSentencesPane from "./FilterSentencesPane.vue";

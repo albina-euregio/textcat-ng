@@ -21,7 +21,7 @@ export async function translateJoker(writtenPhrase: Joker, sourceLang: Lang) {
     const body = {
       text: [writtenPhrase.args[sourceLang]],
       source_lang: sourceLang.toUpperCase(),
-      target_lang: targetLang.toUpperCase()
+      target_lang: targetLang.toUpperCase(),
     };
     const response = await fetch(VITE_DEEPL_API, {
       method: "POST",
@@ -29,8 +29,8 @@ export async function translateJoker(writtenPhrase: Joker, sourceLang: Lang) {
       headers: {
         Authorization: "DeepL-Auth-Key " + VITE_DEEPL_API_KEY,
         Accept: "application/json",
-        "Content-Type": "application/json"
-      }
+        "Content-Type": "application/json",
+      },
     });
     if (!response.ok) {
       console.warn("Failed to translate text", body);

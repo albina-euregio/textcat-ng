@@ -7,7 +7,7 @@ import {
   SECOND_ITEM_PART_NO_SUFFIX,
   arrayMove,
   isSentence,
-  newPhraseLine
+  newPhraseLine,
 } from "../../model";
 import CaretDownSquare from "../bootstrap-icons/caret-down-square.vue";
 import CaretUpSquare from "../bootstrap-icons/caret-up-square.vue";
@@ -20,21 +20,21 @@ import { phraseCurlyName, sentenceCurlyName } from "./editor-state";
 import { computed, nextTick } from "vue";
 
 const phraseLangs = computed(() =>
-  Object.values(catalogs.value!.catalogs).map(c => ({
+  Object.values(catalogs.value!.catalogs).map((c) => ({
     lang: c.lang,
     phrase: c.phrase(phraseCurlyName.value),
-    phraseNO: c.phrase(phraseCurlyName.value + SECOND_ITEM_PART_NO_SUFFIX)
-  }))
+    phraseNO: c.phrase(phraseCurlyName.value + SECOND_ITEM_PART_NO_SUFFIX),
+  })),
 );
 const usages = computed(() =>
   [
     ...catalogs.value!.catalogs.de.sentences,
-    ...catalogs.value!.catalogs.de.phrases
-  ].filter(phrase =>
-    phrase.lines.some(l =>
-      l.lineFragments?.some(f => f === "{" + phraseCurlyName.value + "}")
-    )
-  )
+    ...catalogs.value!.catalogs.de.phrases,
+  ].filter((phrase) =>
+    phrase.lines.some((l) =>
+      l.lineFragments?.some((f) => f === "{" + phraseCurlyName.value + "}"),
+    ),
+  ),
 );
 
 async function onPhraseChange(lang: Lang, phrase: Phrase) {
@@ -60,8 +60,8 @@ function addPhrase() {
       $type: "Phrase",
       header: curlyName,
       curlyName,
-      lines: []
-    })
+      lines: [],
+    }),
   );
 }
 
@@ -87,7 +87,7 @@ function addPhraseLine() {
   if (!lines) return;
   phraseLangs.value.forEach(({ lang, phrase, phraseNO }) => {
     if (!phrase) return;
-    lines.split(";").forEach(line => {
+    lines.split(";").forEach((line) => {
       phrase.lines.push(newPhraseLine(line.trim()));
       phraseNO?.lines.push(newPhraseLine(line.trim()));
     });
@@ -115,7 +115,7 @@ function movePhraseLine(fromIndex: number, toIndex?: number) {
 function togglePhraseNO(
   lang: Lang,
   phrase: Phrase,
-  phraseNO: Phrase | undefined
+  phraseNO: Phrase | undefined,
 ) {
   const curlyName = phrase.curlyName + SECOND_ITEM_PART_NO_SUFFIX;
   const message = hasPhraseLines(phraseNO)
@@ -128,7 +128,7 @@ function togglePhraseNO(
     curlyName,
     lines: hasPhraseLines(phraseNO)
       ? []
-      : phrase.lines.map(l => newPhraseLine(l.line, l.region))
+      : phrase.lines.map((l) => newPhraseLine(l.line, l.region)),
   });
 }
 
@@ -207,7 +207,7 @@ let array: Phrase[];
               :spellcheck="true"
               :style="{
                 width: '100%',
-                minWidth: `${phrase[headerOrCurlyName].length}ex`
+                minWidth: `${phrase[headerOrCurlyName].length}ex`,
               }"
               type="text"
               v-model="phrase[headerOrCurlyName]"
@@ -275,7 +275,7 @@ let array: Phrase[];
               :spellcheck="true"
               :style="{
                 width: `${100 / array.length}%`,
-                minWidth: `${phrase0.lines[index].line.length}ex`
+                minWidth: `${phrase0.lines[index].line.length}ex`,
               }"
               type="text"
               v-model="phrase0!.lines[index].line"

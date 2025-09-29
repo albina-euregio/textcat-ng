@@ -7,16 +7,16 @@ import { phraseCurlyName, sentenceCurlyName } from "./editor-state";
 import { computed, nextTick } from "vue";
 
 const sentenceLangs = computed(() =>
-  Object.values(catalogs.value!.catalogs).map(c => ({
+  Object.values(catalogs.value!.catalogs).map((c) => ({
     lang: c.lang,
-    phrase: c.sentence(sentenceCurlyName.value)
-  }))
+    phrase: c.sentence(sentenceCurlyName.value),
+  })),
 );
 
 const usages = computed(() =>
-  (sentenceLangs.value[0].phrase?.lines[0].lineFragments ?? []).map(f => ({
-    curlyName: f.slice(1, -1)
-  }))
+  (sentenceLangs.value[0].phrase?.lines[0].lineFragments ?? []).map((f) => ({
+    curlyName: f.slice(1, -1),
+  })),
 );
 
 function addSentence() {
@@ -30,10 +30,10 @@ function addSentence() {
       lines: [
         {
           line: "",
-          lineFragments: []
-        }
-      ]
-    })
+          lineFragments: [],
+        },
+      ],
+    }),
   );
 }
 
@@ -89,7 +89,7 @@ async function onSentenceChange(lang: Lang, phrase: Sentence) {
               v-if="phrase"
               :style="{
                 width: '100%',
-                minWidth: `${phrase[headerOrCurlyName].length}ex`
+                minWidth: `${phrase[headerOrCurlyName].length}ex`,
               }"
               type="text"
               v-model="phrase[headerOrCurlyName]"
@@ -104,7 +104,7 @@ async function onSentenceChange(lang: Lang, phrase: Sentence) {
               v-if="phrase"
               :style="{
                 width: '100%',
-                minWidth: `${phrase.lines[0].line.length}ex`
+                minWidth: `${phrase.lines[0].line.length}ex`,
               }"
               type="text"
               v-model="phrase.lines[0].line"

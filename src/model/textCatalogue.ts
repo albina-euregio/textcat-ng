@@ -21,7 +21,7 @@ import {
   sentencePreview,
   serializeSentence,
   serializePhrase,
-  REMOVE_ME_HEADER
+  REMOVE_ME_HEADER,
 } from ".";
 import { t } from "../i18n";
 
@@ -51,7 +51,7 @@ export class IncompleteJokerError extends Error {
 
 export enum SearchMode {
   PREFIX,
-  WORDS
+  WORDS,
 }
 
 export class TextCatalogue {
@@ -76,11 +76,11 @@ export class TextCatalogue {
   searchSentences(query: string, mode = SearchMode.WORDS): Sentence[] {
     query = query.toLowerCase();
     if (mode === SearchMode.PREFIX) {
-      return this.sentences.filter(s => this.hasPrefix(s, query) === "");
+      return this.sentences.filter((s) => this.hasPrefix(s, query) === "");
     } else {
       const words = this.splitSearchText(query);
-      return this.sentences.filter(s =>
-        words.every(word => this.containsString(s, word))
+      return this.sentences.filter((s) =>
+        words.every((word) => this.containsString(s, word)),
       );
     }
   }
@@ -97,7 +97,7 @@ export class TextCatalogue {
    */
   private hasPrefix(
     phrase: Phrase | undefined,
-    prefix: string
+    prefix: string,
   ): false | string {
     if (phrase === undefined) return false;
     if (prefix.length === 0) return "";
@@ -114,7 +114,7 @@ export class TextCatalogue {
             return this.hasPrefix(p, prefix);
             //TODO
           },
-          text => {
+          (text) => {
             if (text === "[Empty]") return prefix;
             text = text.toLowerCase();
             const commonPrefix = longestCommonPrefix(text, prefix);
@@ -125,7 +125,7 @@ export class TextCatalogue {
             } else {
               return false;
             }
-          }
+          },
         );
         if (falseOrRemaining === false) {
           continue LINES;
@@ -151,16 +151,16 @@ export class TextCatalogue {
     if (phrase === undefined) return false;
     if (phrase.header.toLowerCase().includes(string)) return true;
     return phrase.lines.some(({ lineFragments }) =>
-      lineFragments?.some(lineFragment =>
+      lineFragments?.some((lineFragment) =>
         mapLineFragment(
           lineFragment,
           (curlyName, curlyNameSuffix) => {
             const p = this.phrase(curlyName + curlyNameSuffix);
             return this.containsString(p, string);
           },
-          text => text.toLowerCase().includes(string)
-        )
-      )
+          (text) => text.toLowerCase().includes(string),
+        ),
+      ),
     );
   }
 
@@ -169,8 +169,8 @@ export class TextCatalogue {
   }
 
   remove(curlyName: CurlyName): this {
-    this.sentences = this.sentences.filter(s => s.curlyName !== curlyName);
-    this.phrases = this.phrases.filter(p => p.curlyName !== curlyName);
+    this.sentences = this.sentences.filter((s) => s.curlyName !== curlyName);
+    this.phrases = this.phrases.filter((p) => p.curlyName !== curlyName);
     delete this.data[curlyName];
     return this;
   }
@@ -178,7 +178,7 @@ export class TextCatalogue {
   parse(text: string): this {
     let current: Sentence | Phrase | undefined;
     let currentRegion: string | undefined = undefined;
-    text.split(/[\r\n]+/).forEach(line => {
+    text.split(/[\r\n]+/).forEach((line) => {
       if (!line) {
         return;
       }
@@ -194,9 +194,9 @@ export class TextCatalogue {
             lines: [
               {
                 line: "",
-                lineFragments: []
-              }
-            ]
+                lineFragments: [],
+              },
+            ],
           };
           break;
         case "ST_CurlyName":
@@ -226,7 +226,7 @@ export class TextCatalogue {
             $type: "Phrase",
             header: value,
             curlyName: "",
-            lines: []
+            lines: [],
           };
           break;
         case "RS_CurlyName":
@@ -266,20 +266,20 @@ export class TextCatalogue {
 
   translateLineFragments(
     lineFragments?: string[],
-    headerOrCurlyName: "header" | "curlyName" = "header"
+    headerOrCurlyName: "header" | "curlyName" = "header",
   ): IntlText {
     if (!lineFragments || lineFragments.length === 0) return "";
     return lineFragments
-      .filter(lineFragment => lineFragment !== FULL_STOP)
-      .map(lineFragment =>
+      .filter((lineFragment) => lineFragment !== FULL_STOP)
+      .map((lineFragment) =>
         mapLineFragment<string>(
           lineFragment,
           (curlyName, curlyNameSuffix) =>
             "{" +
             this.phrase(curlyName + curlyNameSuffix)?.[headerOrCurlyName] +
             "}",
-          text => text
-        )
+          (text) => text,
+        ),
       )
       .reduce(mergeIntlText);
   }
@@ -287,7 +287,7 @@ export class TextCatalogue {
   translate(writtenText: WrittenText): IntlText {
     if (!writtenText || writtenText.length === 0) return "";
     return writtenText
-      .map(writtenPhrase => this.translateSentence(writtenPhrase))
+      .map((writtenPhrase) => this.translateSentence(writtenPhrase))
       .reduce(mergeIntlText)
       .replace(/[.:]\s+\(--\)/g, "");
   }
@@ -299,7 +299,7 @@ export class TextCatalogue {
         .replace(/ \[Empty\]/g, "")
         .replace(/\s+\(-\)/g, "")
         .replace(/\(-\)\s+/g, "")
-        .replace(/^./, s => s.toLocaleUpperCase(this.lang));
+        .replace(/^./, (s) => s.toLocaleUpperCase(this.lang));
     } catch (e) {
       if (e instanceof UnsetPhraseError) {
         const phrase = this.phrase(writtenPhrase.curlyName);
@@ -321,7 +321,7 @@ export class TextCatalogue {
 
   translatePhrase(
     writtenPhrase: WrittenPhrase,
-    curlyNameSuffix: string
+    curlyNameSuffix: string,
   ): IntlText {
     if (isJoker(writtenPhrase)) {
       return this.translateJoker(writtenPhrase);
@@ -340,16 +340,16 @@ export class TextCatalogue {
       throw new UnsetPhraseError(writtenPhrase.curlyName);
 
     return lineFragments
-      .map(lineFragment =>
+      .map((lineFragment) =>
         mapLineFragment(
           lineFragment,
           (curlyName, curlyNameSuffix) =>
             this.translatePhrase(
               writtenPhrase?.args?.[curlyName] ?? newPhrase(curlyName),
-              curlyNameSuffix
+              curlyNameSuffix,
             ),
-          text => text
-        )
+          (text) => text,
+        ),
       )
       .reduce(mergeIntlText);
   }
@@ -358,7 +358,7 @@ export class TextCatalogue {
     writtenPhrase: WrittenPhrase,
     curlyNameSuffix: string,
     showError?: boolean,
-    headerOrCurlyName: "header" | "curlyName" = "header"
+    headerOrCurlyName: "header" | "curlyName" = "header",
   ): IntlText {
     if (isJoker(writtenPhrase)) {
       try {
@@ -396,7 +396,7 @@ export class TextCatalogue {
 
 export async function buildTextcat(
   dirHandle: FileSystemDirectoryHandle | undefined,
-  lang: Lang
+  lang: Lang,
 ): Promise<TextCatalogue> {
   // awk '{print $0}' DE/Sentences/* DE/Ranges/* > assets/satzkatalog.DE.txt
   const catalog = new TextCatalogue(lang);
@@ -418,7 +418,7 @@ export async function buildTextcat(
     const headers = { "Cache-Control": "no-cache" };
     const response = await fetch(
       import.meta.env.DEV ? `/assets/${file}` : `./${file}`,
-      { headers }
+      { headers },
     );
     if (!response.ok) throw response.statusText;
     const text = await response.text();
@@ -427,7 +427,7 @@ export async function buildTextcat(
   }
 
   async function buildFromDirectoryHandle(
-    dirHandle: FileSystemDirectoryHandle
+    dirHandle: FileSystemDirectoryHandle,
   ) {
     const langDir = await dirHandle.getDirectoryHandle(lang.toUpperCase());
     catalog.phrasesHandle = await langDir.getDirectoryHandle("Ranges");
@@ -458,7 +458,7 @@ export class AllTextCatalogues {
   translateAll(writtenText: WrittenText): Translations {
     console.time("translateAll");
     const translation = {} as Translations;
-    Object.values(this.catalogs).forEach(catalog => {
+    Object.values(this.catalogs).forEach((catalog) => {
       const { lang } = catalog;
       try {
         translation[lang] = catalog.translate(writtenText);
@@ -499,10 +499,10 @@ export class AllTextCatalogues {
         fuss: "fuß",
         Fuss: "Fuß",
         füsse: "füße",
-        Füsse: "Füße"
+        Füsse: "Füße",
       };
       const re = new RegExp(Object.keys(mapping).join("|"), "gi");
-      return translation.replace(re, s => mapping[s as keyof typeof mapping]);
+      return translation.replace(re, (s) => mapping[s as keyof typeof mapping]);
     }
   }
 
@@ -517,11 +517,11 @@ export class AllTextCatalogues {
       phraseHandle.removeEntry(`${phrase.curlyName}.txt`);
       return new AllTextCatalogues({
         ...this.catalogs,
-        [lang]: catalog.remove(phrase.curlyName)
+        [lang]: catalog.remove(phrase.curlyName),
       });
     }
     const handle = await phraseHandle.getFileHandle(`${phrase.curlyName}.txt`, {
-      create: true
+      create: true,
     });
     const writable = await handle.createWritable();
     const text = isSentence(phrase)
@@ -531,7 +531,7 @@ export class AllTextCatalogues {
     await writable.close();
     return new AllTextCatalogues({
       ...this.catalogs,
-      [lang]: catalog.parse(text)
+      [lang]: catalog.parse(text),
     });
   }
 }

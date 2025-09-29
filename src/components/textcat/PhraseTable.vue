@@ -4,7 +4,7 @@ import {
   CurlyNameSuffix,
   isPhrase,
   Phrase,
-  WrittenPhrase
+  WrittenPhrase,
 } from "../../model";
 import SelectLine from "./SelectLine.vue";
 import SelectedLine from "./SelectedLine.vue";

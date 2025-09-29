@@ -9,7 +9,7 @@ import { srcLang } from "../state";
     {{ `[${t("language")}: ` }}
     <select
       :value="srcLang"
-      @change="e => (srcLang = (e.target as HTMLSelectElement).value as Lang)"
+      @change="(e) => (srcLang = (e.target as HTMLSelectElement).value as Lang)"
     >
       <option v-for="lang in LANGUAGES" :key="lang" :value="lang">
         {{ lang }}

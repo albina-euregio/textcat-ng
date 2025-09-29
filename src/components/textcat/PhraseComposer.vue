@@ -6,7 +6,7 @@ import {
   isJoker,
   isPhrase,
   Phrase,
-  WrittenPhrase
+  WrittenPhrase,
 } from "../../model";
 import BracesAsterisk from "../bootstrap-icons/braces-asterisk.vue";
 import { catalog, readOnly, headerOrCurlyName } from "../state";
@@ -26,7 +26,7 @@ const props = defineProps<{
 const writtenPhrase = defineModel<WrittenPhrase>({ required: true });
 
 const phrase = computed((): Phrase | undefined =>
-  catalog.value?.phrase(props.curlyName + props.curlyNameSuffix)
+  catalog.value?.phrase(props.curlyName + props.curlyNameSuffix),
 );
 
 const summary = computed(
@@ -35,8 +35,8 @@ const summary = computed(
       writtenPhrase.value,
       props.curlyNameSuffix,
       props.showError,
-      headerOrCurlyName.value
-    ) ?? ""
+      headerOrCurlyName.value,
+    ) ?? "",
 );
 
 const isDragOver = ref(false);
@@ -55,9 +55,9 @@ const isOpen = ref(isPhrase(phrase.value) || isJoker(writtenPhrase.value));
       @dragstart="props.onDragStart"
       @dragenter="() => (isDragOver = true)"
       @dragleave="() => (isDragOver = false)"
-      @dragover="event => event.preventDefault()"
+      @dragover="(event) => event.preventDefault()"
       @drop="
-        event => {
+        (event) => {
           isDragOver = false;
           props.onDrop?.(event);
         }

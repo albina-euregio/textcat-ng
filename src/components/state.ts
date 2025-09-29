@@ -6,7 +6,7 @@ import {
   TextCatalogue,
   Translations,
   WrittenPhrase,
-  WrittenText
+  WrittenText,
 } from "../model";
 import { useDebounce } from "@vueuse/core";
 import { computed, Ref, ref } from "vue";
@@ -24,10 +24,10 @@ export const dirHandle: Ref<FileSystemDirectoryHandle | undefined> =
 export const writtenText: Ref<WrittenText> = ref([]);
 export const catalogs: Ref<AllTextCatalogues | undefined> = ref(undefined);
 export const catalog: Ref<TextCatalogue | undefined> = computed(
-  () => catalogs.value?.catalogs[srcLang.value]
+  () => catalogs.value?.catalogs[srcLang.value],
 );
 export const translations = computed(
-  () => catalogs.value?.translateAll(writtenText.value) ?? ({} as Translations)
+  () => catalogs.value?.translateAll(writtenText.value) ?? ({} as Translations),
 );
 export function setWrittenPhrase(newText: WrittenPhrase, index: number): void {
   writtenText.value = [...writtenText.value];
@@ -38,12 +38,12 @@ export const searchText = ref("");
 export const searchTextDebounced = useDebounce(searchText);
 
 export const searchWords = computed((): string[] =>
-  catalog.value!.splitSearchText(searchTextDebounced.value)
+  catalog.value!.splitSearchText(searchTextDebounced.value),
 );
 
 export function addSentence(
   newText: WrittenPhrase,
-  index: number = writtenText.value.length
+  index: number = writtenText.value.length,
 ): void {
   writtenText.value = [...writtenText.value];
   writtenText.value.splice(index, 0, newText);
@@ -51,7 +51,7 @@ export function addSentence(
 
 export function moveSentence(
   fromIndex: number,
-  toIndex: number | undefined
+  toIndex: number | undefined,
 ): void {
   writtenText.value = arrayMove(writtenText.value, fromIndex, toIndex);
 }
@@ -63,7 +63,7 @@ export function addWrittenPhrase(phrase: WrittenPhrase): void {
 export const isClipboardEnabled = computed(
   () =>
     typeof navigator.clipboard.writeText === "function" &&
-    typeof navigator.clipboard.readText === "function"
+    typeof navigator.clipboard.readText === "function",
 );
 
 export async function copyToClipboard(value: WrittenPhrase | WrittenText) {
@@ -77,7 +77,7 @@ export async function pasteSentenceFromClipboard(index: number) {
     console.log(phrase);
     if (Array.isArray(phrase)) {
       console.log("Pasting sentences", phrase);
-      phrase.forEach(p => addSentence(p));
+      phrase.forEach((p) => addSentence(p));
     } else if (phrase.curlyName) {
       console.log("Pasting sentence", phrase);
       addSentence(phrase, index + 1);

@@ -6,7 +6,7 @@ import {
   Joker,
   LANGUAGES,
   translateJoker,
-  withJokerText
+  withJokerText,
 } from "../../model";
 
 const writtenPhrase = defineModel<Joker>({ required: true });
@@ -26,11 +26,11 @@ if (!isJoker(writtenPhrase.value)) throw new Error();
             :spellcheck="true"
             :value="writtenPhrase.args[lang]"
             @change="
-              event => {
+              (event) => {
                 writtenPhrase = withJokerText(
                   writtenPhrase,
                   lang,
-                  (event.target as HTMLInputElement).value
+                  (event.target as HTMLInputElement).value,
                 );
               }
             "

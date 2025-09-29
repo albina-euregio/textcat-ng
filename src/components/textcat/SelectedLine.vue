@@ -8,7 +8,7 @@ import {
   newPhrase,
   Phrase,
   withPhrase,
-  WrittenPhrase
+  WrittenPhrase,
 } from "../../model";
 import PhraseComposer from "./PhraseComposer.vue";
 import { computed } from "vue";
@@ -25,21 +25,21 @@ const props = defineProps<{
 const writtenPhrase = defineModel<WrittenPhrase>({ required: true });
 
 const line = computed(() =>
-  props.phrase!.lines.length === 1 ? 0 : writtenPhrase.value.line
+  props.phrase!.lines.length === 1 ? 0 : writtenPhrase.value.line,
 );
 
 const selectedLine = computed(() => props.phrase!.lines[line.value]);
 
 const lineFragments = computed(() =>
   selectedLine.value?.lineFragments
-    ?.filter(lineFragment => lineFragment !== FULL_STOP)
+    ?.filter((lineFragment) => lineFragment !== FULL_STOP)
     ?.map((lineFragment, index) =>
       mapLineFragment(
         lineFragment,
         (curlyName, curlyNameSuffix) => ({ curlyName, curlyNameSuffix, index }),
-        () => undefined
-      )
-    )
+        () => undefined,
+      ),
+    ),
 );
 </script>
 

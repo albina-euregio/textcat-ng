@@ -9,12 +9,12 @@ function git(command: string): string {
 process.env.VITE_TEXTCAT_EDITOR ??= "0";
 process.env.VITE_GIT_VERSION = [
   git("describe --always"),
-  git("log -1 --format=%ad --date=short")
+  git("log -1 --format=%ad --date=short"),
 ].join(", ");
 
 // https://vitejs.dev/config/
 export default defineConfig({
   base: "./",
   build: { sourcemap: true },
-  plugins: [vue()]
+  plugins: [vue()],
 });

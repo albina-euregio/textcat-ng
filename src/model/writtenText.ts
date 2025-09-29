@@ -29,48 +29,48 @@ export function newJoker(): Joker {
   return {
     curlyName: "JOKER",
     line: 0,
-    args: Object.fromEntries(LANGUAGES.map(lang => [lang, ""])) as Record<
+    args: Object.fromEntries(LANGUAGES.map((lang) => [lang, ""])) as Record<
       Lang,
       string
-    >
+    >,
   };
 }
 
 export function newSentence(curlyName: CurlyName): WrittenPhrase {
   return {
     curlyName,
-    line: 0
+    line: 0,
   };
 }
 
 export function newPhrase(curlyName: CurlyName, line = -1): WrittenPhrase {
   return {
     curlyName,
-    line
+    line,
   };
 }
 
 export function withPhrase(
   writtenPhrase: WrittenPhrase,
-  newPhrase: WrittenPhrase
+  newPhrase: WrittenPhrase,
 ): WrittenPhrase {
   if (isJoker(writtenPhrase)) throw new Error();
   const args = {
     ...writtenPhrase.args,
-    [newPhrase.curlyName]: newPhrase
+    [newPhrase.curlyName]: newPhrase,
   };
   if (newPhrase.line < 0) {
     delete args[newPhrase.curlyName];
   }
   return {
     ...writtenPhrase,
-    args
+    args,
   };
 }
 
 export function withLine(
   writtenPhrase: WrittenPhrase,
-  line: number
+  line: number,
 ): WrittenPhrase {
   if (isJoker(writtenPhrase)) throw new Error();
   return { ...writtenPhrase, line };
@@ -79,22 +79,22 @@ export function withLine(
 export function withJokerText(
   writtenPhrase: Joker,
   lang: Lang,
-  text: string
+  text: string,
 ): Joker {
   if (!isJoker(writtenPhrase)) throw new Error();
   return {
     ...writtenPhrase,
     args: {
       ...writtenPhrase.args,
-      [lang]: text
-    }
+      [lang]: text,
+    },
   };
 }
 
 export function arrayMove<T>(
   arr: T[],
   fromIndex: number,
-  toIndex?: number
+  toIndex?: number,
 ): T[] {
   arr = [...arr];
   const element = arr[fromIndex];

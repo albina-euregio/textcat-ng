@@ -31,21 +31,21 @@ export function uniqueLineFragments(phrase: Phrase): string[] | undefined {
 
 export function newPhraseLine(
   line: string,
-  region: string | undefined = undefined
+  region: string | undefined = undefined,
 ): Phrase["lines"][number] {
   return {
     line,
     lineFragments: (line.match(/{[^}]+}|[^{}]+/g) ?? [])
-      .map(s => s.trim())
-      .filter(s => s.length),
-    region
+      .map((s) => s.trim())
+      .filter((s) => s.length),
+    region,
   };
 }
 
 export function mapLineFragment<T>(
   lineFragment: IntlText,
   mapCurlyName: (curlyName: CurlyName, curlyNameSuffix: CurlyNameSuffix) => T,
-  mapText: (text: IntlText) => T
+  mapText: (text: IntlText) => T,
 ): T {
   return lineFragment?.startsWith("{") && lineFragment?.endsWith("_NO}")
     ? mapCurlyName(lineFragment.substring(1, lineFragment.length - 4), "_NO")
@@ -65,12 +65,12 @@ export function serializePhrase(phrase: Phrase): string {
         return [
           region && region !== prevRegion ? `Begin: ${region}` : undefined,
           `Line: ${line}`,
-          region && region !== nextRegion ? `End: ${region}` : undefined
+          region && region !== nextRegion ? `End: ${region}` : undefined,
         ];
       })
-      .filter(l => typeof l === "string"),
+      .filter((l) => typeof l === "string"),
     "",
-    ""
+    "",
   ].join("\n");
 }
 

@@ -1,6 +1,3 @@
 {
-  "arrowParens": "avoid",
-  "plugins": ["@trivago/prettier-plugin-sort-imports"],
-  "tabWidth": 2,
-  "trailingComma": "none"
+  "plugins": ["@trivago/prettier-plugin-sort-imports"]
 }

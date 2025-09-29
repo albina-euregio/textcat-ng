@@ -10,8 +10,8 @@ const props = defineProps<{
 const chunks = computed(() =>
   findAll({
     textToHighlight: props.text,
-    searchWords: searchWords.value ?? []
-  })
+    searchWords: searchWords.value ?? [],
+  }),
 );
 </script>
 

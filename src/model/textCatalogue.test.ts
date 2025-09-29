@@ -10,7 +10,7 @@ import {
   AllTextCatalogues,
   Lang,
   serializeSentence,
-  serializePhrase
+  serializePhrase,
 } from ".";
 import { beforeAll, expect, it } from "vitest";
 
@@ -33,35 +33,35 @@ const woWann3: Phrase = {
     {
       line: "[Empty]",
       lineFragments: ["[Empty]"],
-      region: undefined
+      region: undefined,
     },
     {
       line: "abseits der Pisten",
       lineFragments: [
-        "abseits der Pisten"
+        "abseits der Pisten",
         // en: "for those venturing off piste",
         // it: "al di fuori delle piste,"
       ],
-      region: undefined
+      region: undefined,
     },
     {
       line: "abseits gesicherter Pisten",
       lineFragments: ["abseits gesicherter Pisten"],
-      region: undefined
+      region: undefined,
     },
     {
       line: "im {Exposition} {und_im_Exposition}",
       // en: "in {Exposition} {und_im_Exposition}",
       // it: "nelle {Exposition} {und_im_Exposition} (-),"
       lineFragments: ["im", "{Exposition}", "{und_im_Exposition}"],
-      region: undefined
+      region: undefined,
     },
     {
       line: ">30°",
       lineFragments: [">30°"],
-      region: undefined
-    }
-  ]
+      region: undefined,
+    },
+  ],
 };
 
 /**
@@ -90,10 +90,10 @@ const sentence010: Sentence = {
       lineFragments: [
         "{Verhältnisse04§wo_wann3}",
         "{teils_gefährliche}",
-        "{Verhältnisse04§Lawinensituation.}"
-      ]
-    }
-  ]
+        "{Verhältnisse04§Lawinensituation.}",
+      ],
+    },
+  ],
 };
 // equivalent to Phase with `Line: {Verhältnisse04§wo_wann3} {teils_gefährliche} {Verhältnisse04§Lawinensituation}`???
 
@@ -103,7 +103,7 @@ const writtenPhrase: WrittenPhrase = {
   args: {
     "Verhältnisse04§wo_wann3": {
       curlyName: "Verhältnisse04§wo_wann3",
-      line: 2
+      line: 2,
     },
     teils_gefährliche: {
       curlyName: "teils_gefährliche",
@@ -111,15 +111,15 @@ const writtenPhrase: WrittenPhrase = {
       args: {
         zeitweise: {
           curlyName: "zeitweise",
-          line: 1
+          line: 1,
         },
         gefährliche: {
           curlyName: "gefährliche",
-          line: 2
-        }
-      }
-    }
-  }
+          line: 2,
+        },
+      },
+    },
+  },
 };
 const writtenText2: WrittenPhrase = {
   curlyName: "Verhältnisse01",
@@ -127,25 +127,25 @@ const writtenText2: WrittenPhrase = {
   args: {
     "Verhältnisse01§Verhältnisse": {
       curlyName: "Verhältnisse01§Verhältnisse",
-      line: 0
+      line: 0,
     },
     "Verhältnisse01§sind": {
       curlyName: "Verhältnisse01§sind",
-      line: 5
+      line: 5,
     },
     gefährlich_Verhältnisse: {
       curlyName: "gefährlich_Verhältnisse",
-      line: 1
-    }
-  }
+      line: 1,
+    },
+  },
 };
 const writtenText3: WrittenPhrase = {
   curlyName: "Gefährdung03",
   line: 0,
   args: {
     Sicherheitsmassnahmen: { curlyName: "Sicherheitsmassnahmen", line: 0 },
-    "Gefährdung03§prüfen.": { curlyName: "Gefährdung03§prüfen.", line: 11 }
-  }
+    "Gefährdung03§prüfen.": { curlyName: "Gefährdung03§prüfen.", line: 11 },
+  },
 };
 
 // legacy snowpackStructureCommentTextcat
@@ -446,52 +446,52 @@ it("should return the correct phrase", () =>
   expect(catalog.phrase("Verhältnisse04§wo_wann3")).toStrictEqual(woWann3));
 it("should return unique phrase line fragments", () =>
   expect(catalog.translatePhrase({ curlyName: "Punkt", line: -1 }, "")).toBe(
-    "(-)."
+    "(-).",
   ));
 
 it("should translate line fragments", () => {
   const lines = catalogIT.phrase("teils_gefährliche")?.lines;
   expect(
     lines?.map(({ lineFragments }) =>
-      catalogIT.translateLineFragments(lineFragments)
-    )
+      catalogIT.translateLineFragments(lineFragments),
+    ),
   ).toStrictEqual(["{undefined} {undefined}", "{a tratti} {pericolosa}"]);
 });
 
 it("should translate a text", () =>
   expect(catalog.translate([writtenPhrase])).toBe(
-    "Abseits gesicherter Pisten weiterhin sehr kritische Lawinensituation."
+    "Abseits gesicherter Pisten weiterhin sehr kritische Lawinensituation.",
   ));
 it("should translate a joker text", () =>
   expect(
     catalog.translate([
       { curlyName: "JOKER", args: { de: "Hallo textcat-ng!" } } as Joker,
-      writtenPhrase
-    ])
+      writtenPhrase,
+    ]),
   ).toBe(
-    "Hallo textcat-ng! Abseits gesicherter Pisten weiterhin sehr kritische Lawinensituation."
+    "Hallo textcat-ng! Abseits gesicherter Pisten weiterhin sehr kritische Lawinensituation.",
   ));
 it("should translate a text to IT", () =>
   expect(catalogIT.translate([writtenPhrase])).toBe(
-    "Al di fuori delle piste assicurate, la situazione valanghiva è ancora molto critica."
+    "Al di fuori delle piste assicurate, la situazione valanghiva è ancora molto critica.",
   ));
 it("should translate a text to IT (including _NO phrase)", () =>
   expect(catalogIT.translate([writtenText2])).toBe(
-    "Le condizioni rimangono pericolose."
+    "Le condizioni rimangono pericolose.",
   ));
 it("should translate a text to DE and IT", () =>
   expect(
     new AllTextCatalogues({ de: catalog, it: catalogIT } as Record<
       Lang,
       TextCatalogue
-    >).translateAll([writtenPhrase, writtenText3])
+    >).translateAll([writtenPhrase, writtenText3]),
   ).toStrictEqual({
     de: "Abseits gesicherter Pisten weiterhin sehr kritische Lawinensituation. Sicherheitsmassnahmen können allmählich reduziert werden.",
     de_AT:
       "Abseits gesicherter Pisten weiterhin sehr kritische Lawinensituation. Sicherheitsmaßnahmen können allmählich reduziert werden.",
     de_CH:
       "Abseits gesicherter Pisten weiterhin sehr kritische Lawinensituation. Sicherheitsmassnahmen können allmählich reduziert werden.",
-    it: "Al di fuori delle piste assicurate, la situazione valanghiva è ancora molto critica. Misure di sicurezza possono essere progressivamente ridotte."
+    it: "Al di fuori delle piste assicurate, la situazione valanghiva è ancora molto critica. Misure di sicurezza possono essere progressivamente ridotte.",
   }));
 it("should handle punctuation correctly", () => {
   const catalogue = new TextCatalogue("en");
@@ -515,7 +515,7 @@ RS_CurlyName: Doppelpunkt
 Line: (-):
 `);
   expect(catalogue.translate([{ curlyName: "FOO_BAR", line: 0 }])).toBe(
-    "Foo: bar."
+    "Foo: bar.",
   );
 });
 it("should fix the typography", () => {
@@ -542,14 +542,14 @@ Line: (--) bar
 RS_Header: baz
 RS_CurlyName: baz
 Line: (-), baz.
-`
+`,
   );
   expect(catalogue.translate([{ curlyName: "FOO", line: 0 }])).toBe("Äfoo.");
   expect(
     catalogue.translate([
       { curlyName: "FOO", line: 0 },
-      { curlyName: "BAR_BAZ", line: 0 }
-    ])
+      { curlyName: "BAR_BAZ", line: 0 },
+    ]),
   ).toBe("Äfoo bar, baz.");
 });
 
@@ -558,24 +558,24 @@ it("should mapLineFragment for curlyName", () =>
     mapLineFragment(
       "{foo}",
       (c, s) => `curlyName:${c.toUpperCase()} curlyNameSuffix:${s}`,
-      () => ""
-    )
+      () => "",
+    ),
   ).toBe("curlyName:FOO curlyNameSuffix:"));
 it("should mapLineFragment for curlyNameNO", () =>
   expect(
     mapLineFragment(
       "{foo_NO}",
       (c, s) => `curlyName:${c.toUpperCase()} curlyNameSuffix:${s}`,
-      () => ""
-    )
+      () => "",
+    ),
   ).toBe("curlyName:FOO curlyNameSuffix:_NO"));
 it("should mapLineFragment for constant", () =>
   expect(
     mapLineFragment(
       "constant text",
       () => "",
-      c => `constant:${c}`
-    )
+      (c) => `constant:${c}`,
+    ),
   ).toBe("constant:constant text"));
 it("should arrayMove", () => {
   const arr = [0, 1, 2, 3, 4, 5];
@@ -596,13 +596,13 @@ it("should search by prefix", () => {
   expectSearch("Abseits gesicherter Pisten", sentence010);
   expectSearch(
     "Abseits gesicherter Pisten weiterhin sehr kritische Lawinensituation",
-    sentence010
+    sentence010,
   );
   expect(
     catalogIT.searchSentences(
       "Al di fuori delle piste assicurate, la situazione valanghiva è pericolosa",
-      SearchMode.PREFIX
-    )
+      SearchMode.PREFIX,
+    ),
   ).toStrictEqual([catalogIT.sentence("Verhältnisse04")]);
 });
 

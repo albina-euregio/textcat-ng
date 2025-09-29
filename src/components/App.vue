@@ -16,7 +16,7 @@ import {
   showTranslation,
   textcatEditor,
   translations,
-  writtenText
+  writtenText,
 } from "./state";
 import { headerOrCurlyName } from "./state";
 import TextcatEditor from "./textcat-editor/TextcatEditor.vue";
@@ -32,15 +32,15 @@ import { watchEffect } from "vue";
 
 function reloadTextcat() {
   if (!textcatEditor) {
-    buildAllTextcat(undefined).then(cs => (catalogs.value = cs));
+    buildAllTextcat(undefined).then((cs) => (catalogs.value = cs));
   } else if (dirHandle) {
-    buildAllTextcat(dirHandle.value).then(cs => (catalogs.value = cs));
+    buildAllTextcat(dirHandle.value).then((cs) => (catalogs.value = cs));
   }
 }
 
 watchEffect(() => {
   get<FileSystemDirectoryHandle | undefined>("dirHandle").then(
-    h => (dirHandle.value = h)
+    (h) => (dirHandle.value = h),
   );
 });
 

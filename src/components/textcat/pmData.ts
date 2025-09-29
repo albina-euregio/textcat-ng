@@ -52,7 +52,7 @@ function processPmData(pmData: TextcatLegacyIn | undefined): void {
 }
 
 export function usePmData() {
-  useEventListener(window, "message", event => {
+  useEventListener(window, "message", (event) => {
     processPmData(parsePmData(event));
   });
   return { postPmData };
@@ -60,7 +60,7 @@ export function usePmData() {
 
 function postPmData(
   writtenText: WrittenText,
-  translations: Translations
+  translations: Translations,
 ): void {
   const pmData: TextcatLegacyOut = {
     textDef: JSON.stringify(writtenText),
@@ -73,7 +73,7 @@ function postPmData(
     textEs: translations.es,
     textFr: translations.fr,
     textIt: translations.it,
-    textOc: translations.oc
+    textOc: translations.oc,
   };
   console.log("Sending message", pmData);
   if (window.parent.opener) {

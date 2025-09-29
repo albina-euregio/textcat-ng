@@ -12,6 +12,6 @@ it("should find the longest common prefix", () => {
   expect(longestCommonPrefix("abcd", "abcd", "abcd")).toBe("abcd");
   expect(longestCommonPrefix("", "", "")).toBe("");
   expect(longestCommonPrefix("snow-danger", "snow-fun", "snow-mobile")).toBe(
-    "snow-"
+    "snow-",
   );
 });

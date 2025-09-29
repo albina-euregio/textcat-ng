@@ -4,7 +4,7 @@ import {
   CurlyNameSuffix,
   Phrase,
   withLine,
-  WrittenPhrase
+  WrittenPhrase,
 } from "../../model";
 import { catalog, srcRegion } from "../state";
 import TextHighlighter from "./TextHighlighter.vue";
@@ -22,7 +22,7 @@ const props = defineProps<{
 }>();
 
 const line = computed<number>(() =>
-  props.phrase?.lines.length === 1 ? 0 : writtenPhrase.value.line
+  props.phrase?.lines.length === 1 ? 0 : writtenPhrase.value.line,
 );
 const isRegionVisible = (region?: string): boolean =>
   !region || !srcRegion.value || srcRegion.value === region;
@@ -30,8 +30,8 @@ const isRegionVisible = (region?: string): boolean =>
 const size = computed(() =>
   line.value >= 0
     ? 1
-    : (props.phrase?.lines ?? []).filter(line => isRegionVisible(line.region))
-        .length + 1
+    : (props.phrase?.lines ?? []).filter((line) => isRegionVisible(line.region))
+        .length + 1,
 );
 
 function setWrittenPhrase(e: Event): void {

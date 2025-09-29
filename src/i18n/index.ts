@@ -6,7 +6,7 @@ type I18nKeys = keyof typeof en;
 
 const i18nMessages = import.meta.glob("./*.json", {
   eager: true,
-  import: "default"
+  import: "default",
 }) satisfies Record<`./${Lang}.json`, Record<I18nKeys, string>>;
 
 /**
