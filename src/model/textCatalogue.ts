@@ -264,7 +264,10 @@ export class TextCatalogue {
     return this;
   }
 
-  translateLineFragments(lineFragments?: string[]): IntlText {
+  translateLineFragments(
+    lineFragments?: string[],
+    headerOrCurlyName: "header" | "curlyName" = "header"
+  ): IntlText {
     if (!lineFragments || lineFragments.length === 0) return "";
     return lineFragments
       .filter(lineFragment => lineFragment !== FULL_STOP)
@@ -272,7 +275,9 @@ export class TextCatalogue {
         mapLineFragment<string>(
           lineFragment,
           (curlyName, curlyNameSuffix) =>
-            "{" + this.phrase(curlyName + curlyNameSuffix)?.header + "}",
+            "{" +
+            this.phrase(curlyName + curlyNameSuffix)?.[headerOrCurlyName] +
+            "}",
           text => text
         )
       )
@@ -352,7 +357,8 @@ export class TextCatalogue {
   previewPhrase(
     writtenPhrase: WrittenPhrase,
     curlyNameSuffix: string,
-    showError?: boolean
+    showError?: boolean,
+    headerOrCurlyName: "header" | "curlyName" = "header"
   ): IntlText {
     if (isJoker(writtenPhrase)) {
       try {
@@ -370,10 +376,10 @@ export class TextCatalogue {
         : translation;
     } catch {
       return isSentence(phrase) && showError
-        ? `⚠ ${sentencePreview(phrase, this)}`
+        ? `⚠ ${sentencePreview(phrase, this, undefined, headerOrCurlyName)}`
         : isSentence(phrase)
-          ? sentencePreview(phrase, this)
-          : `{${phrase.header}}: ⚠ `;
+          ? sentencePreview(phrase, this, undefined, headerOrCurlyName)
+          : `{${phrase[headerOrCurlyName]}}: ⚠ `;
     }
   }
 

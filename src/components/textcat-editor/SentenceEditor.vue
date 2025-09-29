@@ -2,12 +2,8 @@
 import { t } from "../../i18n";
 import { Lang, Sentence } from "../../model";
 import PlusSquare from "../bootstrap-icons/plus-square.vue";
-import { catalog, catalogs } from "../state";
-import {
-  headerOrCurlyName,
-  phraseCurlyName,
-  sentenceCurlyName
-} from "./editor-state";
+import { catalog, catalogs, headerOrCurlyName } from "../state";
+import { phraseCurlyName, sentenceCurlyName } from "./editor-state";
 import { computed, nextTick } from "vue";
 
 const sentenceLangs = computed(() =>
@@ -56,17 +52,6 @@ async function onSentenceChange(lang: Lang, phrase: Sentence) {
         </button>
       </small>
     </h2>
-
-    <div>
-      <label>
-        <input v-model="headerOrCurlyName" type="radio" value="header" />
-        header
-      </label>
-      <label>
-        <input v-model="headerOrCurlyName" type="radio" value="curlyName" />
-        curlyName
-      </label>
-    </div>
 
     <label class="d-flex mt-10">
       <select class="f-auto f-truncate" v-model="sentenceCurlyName">

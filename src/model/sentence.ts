@@ -11,11 +11,16 @@ export function isSentence(s?: Phrase): s is Sentence {
 export function sentencePreview(
   s: Sentence,
   catalog: TextCatalogue,
-  translation?: IntlText
+  translation?: IntlText,
+  headerOrCurlyName: "header" | "curlyName" = "header"
 ): string {
   const preview =
-    translation ?? catalog.translateLineFragments(s.lines?.[0]?.lineFragments);
-  return `${s.header} \u2014 ${preview}`;
+    translation ??
+    catalog.translateLineFragments(
+      s.lines?.[0]?.lineFragments,
+      headerOrCurlyName
+    );
+  return `${s[headerOrCurlyName]} \u2014 ${preview}`;
 }
 
 export function serializeSentence(sentence: Sentence): string {

@@ -18,6 +18,7 @@ import {
   translations,
   writtenText
 } from "./state";
+import { headerOrCurlyName } from "./state";
 import TextcatEditor from "./textcat-editor/TextcatEditor.vue";
 import LanguageSelect from "./textcat/LanguageSelect.vue";
 import RegionSelect from "./textcat/RegionSelect.vue";
@@ -63,7 +64,16 @@ const { postPmData } = usePmData();
     <button v-if="textcatEditor" @click="reloadTextcat()">
       <ArrowClockwise /> {{ t("editor.reload") }}
     </button>
-
+    <div v-if="textcatEditor" class="ms-10" style="display: inline-block">
+      <label>
+        <input v-model="headerOrCurlyName" type="radio" value="header" />
+        header
+      </label>
+      <label>
+        <input v-model="headerOrCurlyName" type="radio" value="curlyName" />
+        curlyName
+      </label>
+    </div>
     <h1 class="d-none">textcat-ng</h1>
 
     <TextcatEditor v-if="textcatEditor && catalog && catalogs" />

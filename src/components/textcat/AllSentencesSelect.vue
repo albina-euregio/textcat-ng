@@ -3,7 +3,7 @@ import { t } from "../../i18n";
 import { newJoker, newSentence, sentencePreview } from "../../model";
 import BracesAsterisk from "../bootstrap-icons/braces-asterisk.vue";
 import PlusSquare from "../bootstrap-icons/plus-square.vue";
-import { addWrittenPhrase, catalog } from "../state";
+import { addWrittenPhrase, catalog, headerOrCurlyName } from "../state";
 import { ref } from "vue";
 
 const curlyName = ref("");
@@ -40,7 +40,7 @@ const enableJoker =
           :key="sentence.curlyName"
           :value="sentence.curlyName"
         >
-          {{ sentencePreview(sentence, catalog) }}
+          {{ sentencePreview(sentence, catalog, undefined, headerOrCurlyName) }}
         </option>
       </select>
     </label>
