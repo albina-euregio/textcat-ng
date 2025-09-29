@@ -372,7 +372,7 @@ export class TextCatalogue {
     try {
       const translation = this.translatePhrase(writtenPhrase, curlyNameSuffix);
       return isSentence(phrase)
-        ? sentencePreview(phrase, this, translation)
+        ? sentencePreview(phrase, this, translation, headerOrCurlyName)
         : translation;
     } catch {
       return isSentence(phrase) && showError
