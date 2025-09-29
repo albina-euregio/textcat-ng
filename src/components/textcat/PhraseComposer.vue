@@ -9,7 +9,7 @@ import {
   WrittenPhrase,
 } from "../../model";
 import BracesAsterisk from "../bootstrap-icons/braces-asterisk.vue";
-import { catalog, readOnly, headerOrCurlyName } from "../state";
+import { catalog, readOnly, headerOrCurlyName, showError } from "../state";
 import JokerComposer from "./JokerComposer.vue";
 import PhraseTable from "./PhraseTable.vue";
 import TextHighlighter from "./TextHighlighter.vue";
@@ -20,7 +20,6 @@ const props = defineProps<{
   curlyNameSuffix: CurlyNameSuffix;
   onDragStart?: (event: DragEvent) => void;
   onDrop?: (event: DragEvent) => void;
-  showError?: boolean;
 }>();
 
 const writtenPhrase = defineModel<WrittenPhrase>({ required: true });
@@ -34,7 +33,7 @@ const summary = computed(
     catalog.value?.previewPhrase(
       writtenPhrase.value,
       props.curlyNameSuffix,
-      props.showError,
+      showError.value,
       headerOrCurlyName.value,
     ) ?? "",
 );
@@ -82,7 +81,6 @@ const isOpen = ref(isPhrase(phrase.value) || isJoker(writtenPhrase.value));
         :phrase="phrase"
         :curlyName="curlyName"
         :curlyNameSuffix="curlyNameSuffix"
-        :showError="showError"
       />
     </template>
   </details>

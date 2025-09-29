@@ -19,7 +19,6 @@ const props = defineProps<{
   curlyNameSuffix: CurlyNameSuffix;
   onDragStart?: (event: DragEvent) => void;
   onDrop?: (event: DragEvent) => void;
-  showError?: boolean;
 }>();
 
 const writtenPhrase = defineModel<WrittenPhrase>({ required: true });

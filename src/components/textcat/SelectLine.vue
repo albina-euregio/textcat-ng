@@ -18,7 +18,6 @@ const props = defineProps<{
   curlyNameSuffix: CurlyNameSuffix;
   onDragStart?: (event: DragEvent) => void;
   onDrop?: (event: DragEvent) => void;
-  showError?: boolean;
 }>();
 
 const line = computed<number>(() =>

@@ -17,7 +17,6 @@ defineProps<{
   curlyNameSuffix: CurlyNameSuffix;
   onDragStart?: (event: DragEvent) => void;
   onDrop?: (event: DragEvent) => void;
-  showError?: boolean;
 }>();
 </script>
 
@@ -32,7 +31,6 @@ defineProps<{
         :curlyNameSuffix="curlyNameSuffix"
         :onDragStart="onDragStart"
         :onDrop="onDrop"
-        :showError="showError"
       />
       <SelectedLine
         v-if="phrase"
@@ -42,7 +40,6 @@ defineProps<{
         :curlyNameSuffix="curlyNameSuffix"
         :onDragStart="onDragStart"
         :onDrop="onDrop"
-        :showError="showError"
       />
     </tbody>
   </table>

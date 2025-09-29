@@ -47,7 +47,6 @@ function onDrop(index: number, event: DragEvent) {
       :key="index"
       :curlyName="writtenPhrase.curlyName"
       curlyNameSuffix=""
-      :showError="true"
       :modelValue="writtenPhrase"
       @update:modelValue="
         (newText: WrittenPhrase) => setWrittenPhrase(newText, index)
