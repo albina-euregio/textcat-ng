@@ -17,7 +17,6 @@ export const moveButtons = import.meta.env.VITE_MOVE_BUTTONS !== "0";
 export const headerOrCurlyName = ref<"header" | "curlyName">("header");
 export const srcLang = ref<Lang>(DEFAULT_LANG);
 export const srcRegion = ref("");
-export const showError = ref(true);
 export const showTranslation = ref(false);
 export const readOnly = ref(false);
 export const dirHandle: Ref<FileSystemDirectoryHandle | undefined> =

@@ -357,7 +357,6 @@ export class TextCatalogue {
   previewPhrase(
     writtenPhrase: WrittenPhrase,
     curlyNameSuffix: string,
-    showError?: boolean,
     headerOrCurlyName: "header" | "curlyName" = "header",
   ): IntlText {
     if (isJoker(writtenPhrase)) {
@@ -375,11 +374,9 @@ export class TextCatalogue {
         ? sentencePreview(phrase, this, translation, headerOrCurlyName)
         : translation;
     } catch {
-      return isSentence(phrase) && showError
-        ? `⚠ ${sentencePreview(phrase, this, undefined, headerOrCurlyName)}`
-        : isSentence(phrase)
-          ? sentencePreview(phrase, this, undefined, headerOrCurlyName)
-          : `{${phrase[headerOrCurlyName]}}: ⚠ `;
+      return isSentence(phrase)
+        ? sentencePreview(phrase, this, undefined, headerOrCurlyName)
+        : `{${phrase[headerOrCurlyName]}}: ⚠ `;
     }
   }
 

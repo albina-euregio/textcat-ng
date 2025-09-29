@@ -9,7 +9,7 @@ import {
   WrittenPhrase,
 } from "../../model";
 import BracesAsterisk from "../bootstrap-icons/braces-asterisk.vue";
-import { catalog, readOnly, headerOrCurlyName, showError } from "../state";
+import { catalog, readOnly, headerOrCurlyName } from "../state";
 import JokerComposer from "./JokerComposer.vue";
 import PhraseTable from "./PhraseTable.vue";
 import TextHighlighter from "./TextHighlighter.vue";
@@ -33,7 +33,6 @@ const summary = computed(
     catalog.value?.previewPhrase(
       writtenPhrase.value,
       props.curlyNameSuffix,
-      showError.value,
       headerOrCurlyName.value,
     ) ?? "",
 );
