@@ -1,7 +1,7 @@
 {
   "editor.open": "Open satzkatalog/data directory",
-  "editor.phrase": "Phrase editor",
-  "editor.phrase-line.add": "Add phrase line",
+  "editor.phrase": "Editor dei paradigmi",
+  "editor.phrase-line.add": "Aggiungi riga per paradigma",
   "editor.phrase-line.moveDown": "Move phrase line down",
   "editor.phrase-line.moveUp": "Move phrase line up",
   "editor.phrase-line.remove": "Remove phrase line $1",
