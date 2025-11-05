@@ -23,6 +23,7 @@
     "build-editor": "vue-tsc --build & VITE_TEXTCAT_EDITOR=1 vite build",
     "dev": "vite",
     "dev-editor": "VITE_TEXTCAT_EDITOR=1 vite",
+    "changelog": "conventional-changelog --infile CHANGELOG.md --same-file",
     "lint": "eslint",
     "test": "vitest run"
   },
