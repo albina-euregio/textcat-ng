@@ -1,4 +1,4 @@
-## 0.0.0 (2025-11-04)
+## 8.0.0 (2025-11-04)
 
 - Cache-Control: no-cache ([ccd9b83](https://gitlab.com/albina-euregio/textcat-ng/commit/ccd9b83))
 - Editor: switch between header and curlyName ([dde7d04](https://gitlab.com/albina-euregio/textcat-ng/commit/dde7d04))
