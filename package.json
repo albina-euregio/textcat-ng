@@ -35,10 +35,10 @@
     "build/*"
   ],
   "dependencies": {
-    "@vueuse/core": "^13.6.0",
+    "@vueuse/core": "^14.0.0",
     "highlight-words-core": "^1.2.3",
     "idb-keyval": "^6.2.1",
-    "vue": "^3.6.0-alpha.2"
+    "vue": "^3.6.0-alpha.4"
   },
   "devDependencies": {
     "@eslint/compat": "^1.4.1",
