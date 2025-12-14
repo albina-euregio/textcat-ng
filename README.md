@@ -43,7 +43,6 @@ dist/assets/satzkatalog.ES.txt
 dist/assets/satzkatalog.FR.txt
 dist/assets/satzkatalog.IT.txt
 dist/assets/satzkatalog.OC.txt
-dist/assets/favicon.200974ef.ico
 dist/assets/index.ae399452.js
 dist/assets/vendor.9a886a7a.js
 dist/assets/index.60a2f543.css
