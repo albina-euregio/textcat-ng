@@ -4,21 +4,14 @@ build:
   stage: build
   script:
     - corepack enable
-    - yarn install --immutable
-    - yarn test
-    - yarn lint
-    - yarn build
-  variables:
-    YARN_CACHE_FOLDER: .yarn-cache/
+    - pnpm install
+    - pnpm test
+    - pnpm lint
+    - pnpm build
   artifacts:
     paths:
       - dist/
   cache:
-    key:
-      files:
-        - yarn.lock
-    paths:
-      - .yarn-cache/
 
 .deploy:
   image: alpine:latest

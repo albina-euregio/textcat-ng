@@ -31,8 +31,8 @@ public/assets/satzkatalog.FR.txt
 public/assets/satzkatalog.IT.txt
 public/assets/satzkatalog.OC.txt
 
-$ yarn install
-$ yarn run build
+$ pnpm install
+$ pnpm run build
 $ find dist
 dist
 dist/assets
