@@ -6,8 +6,10 @@ type Input = {
   lang: Lang;
 };
 
-export interface BuildTextcatWorkerType
-  extends Omit<Worker, "postMessage" | "onmessage"> {
+export interface BuildTextcatWorkerType extends Omit<
+  Worker,
+  "postMessage" | "onmessage"
+> {
   postMessage(command: Input): void;
   onmessage: ((this: Worker, ev: MessageEvent<TextCatalogue>) => void) | null;
 }
