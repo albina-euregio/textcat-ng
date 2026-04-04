@@ -1,6 +1,6 @@
 import { t } from ".";
 import { srcLang } from "../components/state";
-import { expect, it } from "vitest";
+import { expect, it } from "vite-plus/test";
 
 it("should translate", () => {
   srcLang.value = "en";

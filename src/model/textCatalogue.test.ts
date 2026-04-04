@@ -12,7 +12,7 @@ import {
   serializeSentence,
   serializePhrase,
 } from ".";
-import { beforeAll, expect, it } from "vitest";
+import { beforeAll, expect, it } from "vite-plus/test";
 
 /**
  * > cat DE/Ranges/Verhältnisse04§wo_wann3.txt

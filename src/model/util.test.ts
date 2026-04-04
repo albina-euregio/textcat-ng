@@ -1,5 +1,5 @@
 import { longestCommonPrefix } from ".";
-import { expect, it } from "vitest";
+import { expect, it } from "vite-plus/test";
 
 it("should find the longest common prefix", () => {
   expect(longestCommonPrefix()).toBe("");
