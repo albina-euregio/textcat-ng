@@ -24,7 +24,7 @@ build:
     - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add - > /dev/null
     - mkdir -p ~/.ssh && chmod 700 ~/.ssh
     - echo "$SSH_KNOWN_HOSTS" > ~/.ssh/known_hosts
-    - rsync -avz -e 'ssh -p2201' dist/ $SFTP_SERVER
+    - rsync -e 'ssh -p2201' --compress --delete '--exclude=assets/satzkatalog*.txt' --recursive --verbose dist/ $SFTP_SERVER
 
 build editor:
   extends: build
