@@ -65,6 +65,20 @@ VITE_DEEPL_API_KEY=...:fx
 
 This project uses Transifex for its translations: https://app.transifex.com/albina-euregio/textcat-ng/dashboard/
 
+## textcat-ng-editor
+
+### Build and deploy
+
+1. `pnpm build-editor`
+2. Copy resulting `dist/` to webserver
+
+### Edit satzkatalog files
+
+1. Clone [satzkatalog](https://gitlab.com/eaws/satzkatalog)
+2. Open textcat-ng-editor in Chrome (or another chromium based browser)
+3. Click on "Open satzkatalog/data" directory and select the data directory from your satzkatalog clone on your computer
+4. Whenever your satzkatalog files change (e.g. after pulling changes through Git), you can press the "Reload satzkatalog" button to see the changes in textcat-ng-editor
+
 ## Author and License
 
 - Author: Simon Legner ([simon04](https://gitlab.com/simon04))
