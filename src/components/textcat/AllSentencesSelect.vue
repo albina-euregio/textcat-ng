@@ -15,7 +15,7 @@ const url =
 const enableJoker =
   import.meta.env.DEV ||
   import.meta.env.VITE_DEEPL_API ||
-  url.startsWith("https://admin.avalanche.report");
+  url.includes("avalanche.report");
 </script>
 
 <template>
