@@ -30,7 +30,7 @@
     "@vueuse/core": "^14.0.0",
     "highlight-words-core": "^1.2.3",
     "idb-keyval": "^6.2.1",
-    "vue": "^3.6.0-beta.1"
+    "vue": "3.6.0-beta.1"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
@@ -44,9 +44,9 @@
     "eslint-plugin-vue": "^10.8.0",
     "typescript": "~5.9.3",
     "typescript-eslint": "^8.58.0",
-    "vite": "catalog:",
+    "vite": "npm:@voidzero-dev/vite-plus-core@^0.1.24",
     "vite-plus": "catalog:",
-    "vitest": "catalog:",
+    "vitest": "npm:@voidzero-dev/vite-plus-test@^0.1.24",
     "vue-tsc": "^3.2.6"
   },
   "packageManager": "pnpm@11.4.0"
