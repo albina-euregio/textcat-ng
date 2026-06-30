@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { t } from "../../i18n";
-import { WrittenPhrase } from "../../model";
+import { WrittenPhrase } from "../../model/writtenText";
 import CaretDownSquare from "../bootstrap-icons/caret-down-square.vue";
 import CaretUpSquare from "../bootstrap-icons/caret-up-square.vue";
 import Clipboard from "../bootstrap-icons/clipboard.vue";

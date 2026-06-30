@@ -1,17 +1,8 @@
-import {
-  Phrase,
-  Sentence,
-  TextCatalogue,
-  WrittenPhrase,
-  arrayMove,
-  mapLineFragment,
-  Joker,
-  SearchMode,
-  AllTextCatalogues,
-  Lang,
-  serializeSentence,
-  serializePhrase,
-} from ".";
+import { Lang } from "./language";
+import { mapLineFragment, Phrase, serializePhrase } from "./phrase";
+import { Sentence, serializeSentence } from "./sentence";
+import { AllTextCatalogues, SearchMode, TextCatalogue } from "./textCatalogue";
+import { arrayMove, Joker, WrittenPhrase } from "./writtenText";
 import { beforeAll, expect, it } from "vite-plus/test";
 
 /**

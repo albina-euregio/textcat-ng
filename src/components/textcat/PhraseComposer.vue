@@ -3,11 +3,10 @@ import { t } from "../../i18n";
 import {
   CurlyName,
   CurlyNameSuffix,
-  isJoker,
   isPhrase,
   Phrase,
-  WrittenPhrase,
-} from "../../model";
+} from "../../model/phrase";
+import { isJoker, WrittenPhrase } from "../../model/writtenText";
 import BracesAsterisk from "../bootstrap-icons/braces-asterisk.vue";
 import { catalog, readOnly, headerOrCurlyName } from "../state";
 import JokerComposer from "./JokerComposer.vue";

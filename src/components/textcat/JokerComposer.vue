@@ -1,13 +1,10 @@
 <script setup lang="ts">
+import { DEEPL_LANGUAGES, LANGUAGES } from "../../model/language";
 import {
-  DEEPL_LANGUAGES,
-  isJoker,
   isTranslateJokerEnabled,
-  Joker,
-  LANGUAGES,
   translateJoker,
-  withJokerText,
-} from "../../model";
+} from "../../model/translateJoker";
+import { isJoker, Joker, withJokerText } from "../../model/writtenText";
 
 const writtenPhrase = defineModel<Joker>({ required: true });
 

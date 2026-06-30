@@ -1,12 +1,9 @@
 <script setup lang="ts">
 import { t } from "../../i18n";
-import {
-  CurlyName,
-  newSentence,
-  SearchMode,
-  Sentence,
-  WrittenPhrase,
-} from "../../model";
+import { CurlyName } from "../../model/phrase";
+import { Sentence } from "../../model/sentence";
+import { SearchMode } from "../../model/textCatalogue";
+import { newSentence, WrittenPhrase } from "../../model/writtenText";
 import Filter from "../bootstrap-icons/filter.vue";
 import PlusSquare from "../bootstrap-icons/plus-square.vue";
 import Search from "../bootstrap-icons/search.vue";

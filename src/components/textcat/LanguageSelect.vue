@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { t } from "../../i18n";
-import { LANGUAGES, Lang } from "../../model";
+import { LANGUAGES, Lang } from "../../model/language";
 import { srcLang } from "../state";
 </script>
 

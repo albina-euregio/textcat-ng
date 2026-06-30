@@ -1,11 +1,6 @@
 <script setup lang="ts">
-import {
-  CurlyName,
-  CurlyNameSuffix,
-  Phrase,
-  withLine,
-  WrittenPhrase,
-} from "../../model";
+import { CurlyName, CurlyNameSuffix, Phrase } from "../../model/phrase";
+import { withLine, WrittenPhrase } from "../../model/writtenText";
 import { catalog, srcRegion } from "../state";
 import TextHighlighter from "./TextHighlighter.vue";
 import { computed } from "vue";

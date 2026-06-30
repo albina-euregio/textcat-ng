@@ -1,28 +1,30 @@
+import { IntlText, mergeIntlText } from "./intlText";
+import { Lang, LanguageVariant } from "./language";
 import {
   CurlyName,
-  IntlText,
-  isPhrase,
-  isSentence,
-  Lang,
-  LanguageVariant,
   FULL_STOP,
-  longestCommonPrefix,
+  isPhrase,
   mapLineFragment,
-  mergeIntlText,
-  newPhrase,
-  Phrase,
-  Sentence,
-  uniqueLineFragments,
-  WrittenPhrase,
-  WrittenText,
-  isJoker,
-  Joker,
   newPhraseLine,
+  Phrase,
+  REMOVE_ME_HEADER,
+  serializePhrase,
+  uniqueLineFragments,
+} from "./phrase";
+import {
+  isSentence,
+  Sentence,
   sentencePreview,
   serializeSentence,
-  serializePhrase,
-  REMOVE_ME_HEADER,
-} from ".";
+} from "./sentence";
+import { longestCommonPrefix } from "./util";
+import {
+  isJoker,
+  Joker,
+  newPhrase,
+  WrittenPhrase,
+  WrittenText,
+} from "./writtenText";
 import { t } from "../i18n";
 
 export class UnknownLineError extends Error {

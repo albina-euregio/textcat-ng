@@ -1,4 +1,6 @@
-import { Lang, Translations, WrittenText } from "../../model";
+import { Lang } from "../../model/language";
+import { Translations } from "../../model/textCatalogue";
+import { WrittenText } from "../../model/writtenText";
 import { readOnly, srcLang, srcRegion, writtenText } from "../state";
 import { useEventListener } from "@vueuse/core";
 import { ref } from "vue";

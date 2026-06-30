@@ -1,4 +1,4 @@
-import { IntlText } from ".";
+import { IntlText } from "./intlText";
 
 export type CurlyName = string;
 
@@ -31,7 +31,7 @@ export function uniqueLineFragments(phrase: Phrase): string[] | undefined {
 
 export function newPhraseLine(
   line: string,
-  region: string | undefined = undefined,
+  region?: string | undefined,
 ): Phrase["lines"][number] {
   return {
     line,

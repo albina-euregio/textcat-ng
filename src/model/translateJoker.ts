@@ -1,4 +1,4 @@
-import { DEEPL_LANGUAGES, LANGUAGES, Lang } from ".";
+import { DEEPL_LANGUAGES, LANGUAGES, Lang } from "./language";
 import { Joker, isJoker, withJokerText } from "./writtenText";
 
 const VITE_DEEPL_API = import.meta.env.VITE_DEEPL_API;

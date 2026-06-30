@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { LANGUAGE_VARIANTS } from "../../model";
+import { LANGUAGE_VARIANTS } from "../../model/language";
 import { translations } from "../state";
 </script>
 

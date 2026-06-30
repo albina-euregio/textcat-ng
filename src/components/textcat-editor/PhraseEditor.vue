@@ -1,14 +1,14 @@
 <script setup lang="ts">
 import { t } from "../../i18n";
+import { Lang } from "../../model/language";
 import {
-  Lang,
+  newPhraseLine,
   Phrase,
   REMOVE_ME_HEADER,
   SECOND_ITEM_PART_NO_SUFFIX,
-  arrayMove,
-  isSentence,
-  newPhraseLine,
-} from "../../model";
+} from "../../model/phrase";
+import { isSentence } from "../../model/sentence";
+import { arrayMove } from "../../model/writtenText";
 import CaretDownSquare from "../bootstrap-icons/caret-down-square.vue";
 import CaretUpSquare from "../bootstrap-icons/caret-up-square.vue";
 import InputCursorText from "../bootstrap-icons/input-cursor-text.vue";

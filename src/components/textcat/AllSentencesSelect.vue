@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { t } from "../../i18n";
-import { newJoker, newSentence, sentencePreview } from "../../model";
+import { sentencePreview } from "../../model/sentence";
+import { newJoker, newSentence } from "../../model/writtenText";
 import BracesAsterisk from "../bootstrap-icons/braces-asterisk.vue";
 import PlusSquare from "../bootstrap-icons/plus-square.vue";
 import { addWrittenPhrase, catalog, headerOrCurlyName } from "../state";

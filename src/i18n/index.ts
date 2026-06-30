@@ -1,5 +1,5 @@
 import { srcLang } from "../components/state";
-import { Lang } from "../model";
+import { Lang } from "../model/language";
 import en from "./en.json";
 
 type I18nKeys = keyof typeof en;

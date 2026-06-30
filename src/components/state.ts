@@ -1,13 +1,10 @@
+import { DEFAULT_LANG, Lang } from "../model/language";
 import {
   AllTextCatalogues,
-  arrayMove,
-  DEFAULT_LANG,
-  Lang,
   TextCatalogue,
   Translations,
-  WrittenPhrase,
-  WrittenText,
-} from "../model";
+} from "../model/textCatalogue";
+import { arrayMove, WrittenPhrase, WrittenText } from "../model/writtenText";
 import { useDebounce } from "@vueuse/core";
 import { computed, Ref, ref } from "vue";
 

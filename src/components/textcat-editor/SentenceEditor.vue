@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { t } from "../../i18n";
-import { Lang, Sentence } from "../../model";
+import { Lang } from "../../model/language";
+import { Sentence } from "../../model/sentence";
 import PlusSquare from "../bootstrap-icons/plus-square.vue";
 import { catalog, catalogs, headerOrCurlyName } from "../state";
 import { phraseCurlyName, sentenceCurlyName } from "./editor-state";

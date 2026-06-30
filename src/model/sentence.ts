@@ -1,4 +1,6 @@
-import { IntlText, Phrase, TextCatalogue } from ".";
+import { IntlText } from "./intlText";
+import { Phrase } from "./phrase";
+import { TextCatalogue } from "./textCatalogue";
 
 export interface Sentence extends Phrase {
   $type: "Sentence";

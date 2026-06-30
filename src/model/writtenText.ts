@@ -1,4 +1,5 @@
-import { CurlyName, LANGUAGES, Lang } from ".";
+import { LANGUAGES, Lang } from "./language";
+import { CurlyName } from "./phrase";
 
 export type Joker = {
   curlyName: "JOKER";

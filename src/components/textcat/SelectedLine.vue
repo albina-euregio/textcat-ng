@@ -3,13 +3,15 @@ import {
   CurlyName,
   CurlyNameSuffix,
   FULL_STOP,
-  isJoker,
   mapLineFragment,
-  newPhrase,
   Phrase,
+} from "../../model/phrase";
+import {
+  isJoker,
+  newPhrase,
   withPhrase,
   WrittenPhrase,
-} from "../../model";
+} from "../../model/writtenText";
 import PhraseComposer from "./PhraseComposer.vue";
 import { computed } from "vue";
 

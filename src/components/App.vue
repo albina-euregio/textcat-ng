@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { t } from "../i18n";
-import { buildAllTextcat } from "../model";
+import { buildAllTextcat } from "../model/textCatalogueParallel";
 import ArrowClockwise from "./bootstrap-icons/arrow-clockwise.vue";
 import CheckSquare from "./bootstrap-icons/check-square.vue";
 import Clipboard from "./bootstrap-icons/clipboard.vue";
