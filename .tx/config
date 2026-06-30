@@ -1,5 +1,6 @@
 [main]
 host = https://www.transifex.com
+lang_map = sl_SI: sl
 
 [o:albina-euregio:p:textcat-ng:r:textcat-ng]
 file_filter = src/i18n/<lang>.json
