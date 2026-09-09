@@ -1,17 +1,24 @@
 ---
 build:
-  image: node:24
+  image: node:26
   stage: build
-  script:
-    - corepack enable
+  cache:
+    key:
+      files:
+        - pnpm-lock.yaml
+    paths:
+      - .pnpm-store
+  before_script:
+    - command -v pnpm || npm install --global pnpm@12.4.0
+    - pnpm config set store-dir .pnpm-store
     - pnpm install
+  script:
     - pnpm test
     - pnpm lint
     - pnpm build
   artifacts:
     paths:
       - dist/
-  cache:
 
 .deploy:
   image: alpine:latest
