@@ -1,6 +1,6 @@
 ---
 build:
-  image: node:26
+  image: node:26.8.2
   stage: build
   cache:
     key:
@@ -9,7 +9,7 @@ build:
     paths:
       - .pnpm-store
   before_script:
-    - command -v pnpm || npm install --global pnpm@12.4.0
+    - command -v pnpm || npm install --global pnpm@12.4.1
     - pnpm config set store-dir .pnpm-store
     - pnpm install
   script:
