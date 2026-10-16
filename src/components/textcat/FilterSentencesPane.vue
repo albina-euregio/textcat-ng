@@ -45,6 +45,7 @@ const filteredSentences = computed((): Sentence[] => {
       <button
         :title="t('sentence.search')"
         :aria-label="t('sentence.search')"
+        :aria-pressed="searchMode === SearchMode.WORDS"
         @click="searchMode = SearchMode.WORDS"
       >
         <Filter />
@@ -52,6 +53,7 @@ const filteredSentences = computed((): Sentence[] => {
       <button
         :title="t('sentence.search.prefix')"
         :aria-label="t('sentence.search.prefix')"
+        :aria-pressed="searchMode === SearchMode.PREFIX"
         @click="searchMode = SearchMode.PREFIX"
       >
         <Search />
