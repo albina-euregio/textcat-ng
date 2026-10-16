@@ -66,6 +66,11 @@ button[aria-pressed="true"] {
   padding-right: 10px;
 }
 
+.empty {
+  color: #495057;
+  font-style: italic;
+}
+
 .toolbar {
   display: flex;
   flex-wrap: wrap;

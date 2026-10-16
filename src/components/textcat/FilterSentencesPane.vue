@@ -65,6 +65,13 @@ const filteredSentences = computed((): Sentence[] => {
         type="search"
       />
     </label>
+    <p
+      v-if="searchTextDebounced && !filteredSentences.length"
+      class="empty"
+      role="status"
+    >
+      {{ t("search.noResults") }}
+    </p>
     <PhraseComposer
       v-for="sentence in filteredSentences"
       :key="sentence.curlyName"

@@ -90,7 +90,9 @@ async function onKeydown(index: number, event: KeyboardEvent) {
     <p class="visually-hidden" aria-live="polite">{{ announcement }}</p>
     <AllSentencesSelect v-if="!readOnly && catalog && sentenceList" />
     <FilterSentencesPane v-if="!readOnly && catalog" />
+    <p v-if="!catalog" role="status">{{ t("loading") }}</p>
     <h2>{{ t("heading.selectedSentences") }}</h2>
+    <p v-if="!writtenText.length" class="empty">{{ t("sentences.empty") }}</p>
     <PhraseComposer
       v-for="(writtenPhrase, index) in writtenText"
       :key="index"
