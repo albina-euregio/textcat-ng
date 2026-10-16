@@ -289,16 +289,12 @@ export class TextCatalogue {
   }
 
   private translateSentence(writtenPhrase: WrittenPhrase): IntlText {
-    try {
-      return this.translatePhrase(writtenPhrase, "")
-        .replace(/\[Empty\] /g, "")
-        .replace(/ \[Empty\]/g, "")
-        .replace(/\s+\(-\)/g, "")
-        .replace(/\(-\)\s+/g, "")
-        .replace(/^./, (s) => s.toLocaleUpperCase(this.lang));
-    } catch (e) {
-      throw e;
-    }
+    return this.translatePhrase(writtenPhrase, "")
+      .replace(/\[Empty\] /g, "")
+      .replace(/ \[Empty\]/g, "")
+      .replace(/\s+\(-\)/g, "")
+      .replace(/\(-\)\s+/g, "")
+      .replace(/^./, (s) => s.toLocaleUpperCase(this.lang));
   }
 
   private translateJoker(writtenPhrase: Joker): IntlText {
@@ -354,7 +350,7 @@ export class TextCatalogue {
       try {
         return this.translateJoker(writtenPhrase);
       } catch (e) {
-        return `⚠ ${e}`;
+        return `⚠ ${String(e)}`;
       }
     }
     const phrase = this.phrase(writtenPhrase.curlyName + curlyNameSuffix);
@@ -397,7 +393,7 @@ export async function buildTextcat(
     }
     console.timeEnd(`parse ${lang}`);
   } catch (e) {
-    throw new Error(`Failed to build textcat from ${lang}: ${e}`);
+    throw new Error(`Failed to build textcat from ${lang}: ${String(e)}`);
   }
   return catalog;
 
@@ -456,7 +452,7 @@ export class AllTextCatalogues {
         }
       } catch (e) {
         console.warn(e);
-        translation[lang] = `⚠ ${e}`;
+        translation[lang] = `⚠ ${String(e)}`;
       }
     });
     console.timeEnd("translateAll");
@@ -500,7 +496,7 @@ export class AllTextCatalogues {
       : catalog.phrasesHandle;
     if (!phraseHandle) return this;
     if (phrase.header == REMOVE_ME_HEADER) {
-      phraseHandle.removeEntry(`${phrase.curlyName}.txt`);
+      await phraseHandle.removeEntry(`${phrase.curlyName}.txt`);
       return new AllTextCatalogues({
         ...this.catalogs,
         [lang]: catalog.remove(phrase.curlyName),

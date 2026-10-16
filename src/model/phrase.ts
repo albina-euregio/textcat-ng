@@ -31,7 +31,7 @@ export function uniqueLineFragments(phrase: Phrase): string[] | undefined {
 
 export function newPhraseLine(
   line: string,
-  region?: string | undefined,
+  region?: string,
 ): Phrase["lines"][number] {
   return {
     line,
