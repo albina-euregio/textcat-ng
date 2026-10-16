@@ -44,12 +44,14 @@ const filteredSentences = computed((): Sentence[] => {
       <span class="pr-10">{{ `${t("search")}:` }}</span>
       <button
         :title="t('sentence.search')"
+        :aria-label="t('sentence.search')"
         @click="searchMode = SearchMode.WORDS"
       >
         <Filter />
       </button>
       <button
         :title="t('sentence.search.prefix')"
+        :aria-label="t('sentence.search.prefix')"
         @click="searchMode = SearchMode.PREFIX"
       >
         <Search />
@@ -65,6 +67,7 @@ const filteredSentences = computed((): Sentence[] => {
     >
       <button
         :title="t('sentence.add')"
+        :aria-label="t('sentence.add')"
         @click="
           addWrittenPhrase(writtenPhrases[sentence.curlyName]);
           writtenPhrases[sentence.curlyName] = newSentence(sentence.curlyName);

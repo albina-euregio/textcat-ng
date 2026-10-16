@@ -95,6 +95,7 @@ const { postPmData } = usePmData();
     <button
       :disabled="!isClipboardEnabled"
       :title="t('sentences.copy')"
+      :aria-label="t('sentences.copy')"
       @click="copyToClipboard(writtenText)"
     >
       <Copy />
@@ -102,6 +103,7 @@ const { postPmData } = usePmData();
     <button
       :disabled="!isClipboardEnabled"
       :title="t('sentences.paste')"
+      :aria-label="t('sentences.paste')"
       @click="pasteSentenceFromClipboard(-1)"
     >
       <Clipboard />

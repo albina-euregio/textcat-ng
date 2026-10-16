@@ -61,7 +61,12 @@ const isOpen = ref(isPhrase(phrase.value) || isJoker(writtenPhrase.value));
       "
     >
       <slot />
-      <abbr v-if="isJoker(writtenPhrase)" :title="t('sentence.joker')">
+      <abbr
+        v-if="isJoker(writtenPhrase)"
+        :title="t('sentence.joker')"
+        :aria-label="t('sentence.joker')"
+        role="img"
+      >
         <BracesAsterisk />
       </abbr>
       <TextHighlighter :text="summary" />

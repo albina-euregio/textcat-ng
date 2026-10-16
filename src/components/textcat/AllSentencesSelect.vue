@@ -30,6 +30,7 @@ const enableJoker =
     <label class="d-flex mt-10">
       <button
         :title="t('sentence.add')"
+        :aria-label="t('sentence.add')"
         :disabled="!curlyName"
         @click="addWrittenPhrase(newSentence(curlyName))"
       >

@@ -144,12 +144,17 @@ let array: Phrase[];
     <h2>
       {{ t("editor.phrase") }}{{ " " }}
       <small>
-        <button :title="t('editor.phrase.add', '')" @click="addPhrase()">
+        <button
+          :title="t('editor.phrase.add', '')"
+          :aria-label="t('editor.phrase.add', '')"
+          @click="addPhrase()"
+        >
           <PlusSquare />
         </button>
         <button
           :disabled="!phraseCurlyName"
           :title="t('editor.phrase.rename', phraseCurlyName || '')"
+          :aria-label="t('editor.phrase.rename', phraseCurlyName || '')"
           @click="renamePhrase()"
         >
           <InputCursorText />
@@ -157,6 +162,7 @@ let array: Phrase[];
         <button
           :disabled="!phraseCurlyName"
           :title="t('editor.phrase.remove', phraseCurlyName || '')"
+          :aria-label="t('editor.phrase.remove', phraseCurlyName || '')"
           @click="removePhrase()"
         >
           <XSquare />
@@ -223,6 +229,7 @@ let array: Phrase[];
             <small>
               <button
                 :title="t('editor.phrase-line.add')"
+                :aria-label="t('editor.phrase-line.add')"
                 @click="addPhraseLine()"
               >
                 <PlusSquare />
@@ -230,6 +237,7 @@ let array: Phrase[];
               <button
                 v-if="phrase"
                 :title="t('editor.phrase.toggle-split')"
+                :aria-label="t('editor.phrase.toggle-split')"
                 @click="togglePhraseNO(lang, phrase, phraseNO)"
               >
                 <TerminalSplit />
@@ -245,12 +253,14 @@ let array: Phrase[];
               <button
                 :disabled="index === 0"
                 :title="t('editor.phrase-line.moveUp')"
+                :aria-label="t('editor.phrase-line.moveUp')"
                 @click="movePhraseLine(index, index - 1)"
               >
                 <CaretUpSquare />
               </button>
               <button
                 :title="t('editor.phrase-line.remove', index + 1)"
+                :aria-label="t('editor.phrase-line.remove', index + 1)"
                 @click="movePhraseLine(index, undefined)"
               >
                 <XSquare />
@@ -260,6 +270,7 @@ let array: Phrase[];
                   index >= (phraseLangs[0].phrase?.lines.length ?? 0) - 1
                 "
                 :title="t('editor.phrase-line.moveDown')"
+                :aria-label="t('editor.phrase-line.moveDown')"
                 @click="movePhraseLine(index, index + 1)"
               >
                 <CaretDownSquare />

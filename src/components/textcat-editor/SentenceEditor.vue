@@ -48,7 +48,11 @@ async function onSentenceChange(lang: Lang, phrase: Sentence) {
     <h2>
       {{ t("editor.sentence") }}{{ " " }}
       <small>
-        <button :title="t('sentence.add')" @click="addSentence">
+        <button
+          :title="t('sentence.add')"
+          :aria-label="t('sentence.add')"
+          @click="addSentence"
+        >
           <PlusSquare />
         </button>
       </small>

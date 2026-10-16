@@ -58,6 +58,7 @@ function onDrop(index: number, event: DragEvent) {
       <button
         :disabled="!isClipboardEnabled"
         :title="t('sentence.copy')"
+        :aria-label="t('sentence.copy')"
         @click="copyToClipboard(writtenPhrase)"
       >
         <Copy />
@@ -66,6 +67,7 @@ function onDrop(index: number, event: DragEvent) {
         v-if="!readOnly"
         :disabled="!isClipboardEnabled"
         :title="t('sentence.paste')"
+        :aria-label="t('sentence.paste')"
         @click="pasteSentenceFromClipboard(index)"
       >
         <Clipboard />
@@ -74,6 +76,7 @@ function onDrop(index: number, event: DragEvent) {
         v-if="!readOnly && moveButtons"
         :disabled="index === 0"
         :title="t('sentence.moveUp')"
+        :aria-label="t('sentence.moveUp')"
         @click="moveSentence(index, index - 1)"
       >
         <CaretUpSquare />
@@ -82,6 +85,7 @@ function onDrop(index: number, event: DragEvent) {
         v-if="!readOnly && moveButtons"
         :disabled="index >= writtenText.length - 1"
         :title="t('sentence.moveDown')"
+        :aria-label="t('sentence.moveDown')"
         @click="moveSentence(index, index + 1)"
       >
         <CaretDownSquare />
@@ -89,6 +93,7 @@ function onDrop(index: number, event: DragEvent) {
       <button
         v-if="!readOnly"
         :title="t('sentence.remove')"
+        :aria-label="t('sentence.remove')"
         class="x-square"
         @click="moveSentence(index, undefined)"
       >
