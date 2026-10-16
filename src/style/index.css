@@ -8,6 +8,7 @@
   --accent-hover: light-dark(#0e5f8f, #9fd0f0);
   --pressed-bg: light-dark(#cfe2f3, #1c3d57);
   --danger: light-dark(#cc0000, #ff6b6b);
+  --control-border: light-dark(#767676, #8f8f8f);
 }
 
 html,
@@ -43,6 +44,22 @@ select {
   text-overflow: ellipsis;
   padding: 1px 2px;
   margin: 0;
+  border-radius: 0;
+}
+button,
+input:not([type="checkbox"], [type="radio"]),
+select {
+  border: 1px solid var(--control-border);
+}
+button {
+  background-color: ButtonFace;
+}
+button:hover:enabled {
+  border-color: var(--fg);
+}
+input:not([type="checkbox"], [type="radio"]),
+select {
+  background-color: Field;
 }
 table.joker,
 table.joker > tr > td,
@@ -57,7 +74,6 @@ button.primary {
   color: #fff;
   background-color: #1278b3;
   border: 1px solid #1278b3;
-  border-radius: 3px;
   padding: 6px 12px;
 }
 button.primary:hover {
