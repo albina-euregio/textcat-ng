@@ -35,7 +35,7 @@ const enableJoker =
       >
         <PlusSquare />
       </button>
-      <select class="f-auto f-truncate sentences" v-model="curlyName">
+      <select v-model="curlyName" class="f-auto f-truncate sentences">
         <option
           v-for="sentence in catalog.sentences"
           :key="sentence.curlyName"

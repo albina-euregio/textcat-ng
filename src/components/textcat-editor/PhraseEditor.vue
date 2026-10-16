@@ -144,20 +144,20 @@ let array: Phrase[];
     <h2>
       {{ t("editor.phrase") }}{{ " " }}
       <small>
-        <button @click="addPhrase()" :title="t('editor.phrase.add', '')">
+        <button :title="t('editor.phrase.add', '')" @click="addPhrase()">
           <PlusSquare />
         </button>
         <button
-          @click="renamePhrase()"
           :disabled="!phraseCurlyName"
           :title="t('editor.phrase.rename', phraseCurlyName || '')"
+          @click="renamePhrase()"
         >
           <InputCursorText />
         </button>
         <button
-          @click="removePhrase()"
           :disabled="!phraseCurlyName"
           :title="t('editor.phrase.remove', phraseCurlyName || '')"
+          @click="removePhrase()"
         >
           <XSquare />
         </button>
@@ -165,7 +165,7 @@ let array: Phrase[];
     </h2>
 
     <label class="d-flex mt-10">
-      <select class="f-auto f-truncate" v-model="phraseCurlyName">
+      <select v-model="phraseCurlyName" class="f-auto f-truncate">
         <option value=""></option>
         <option
           v-for="phrase in catalog!.phrases"
@@ -183,13 +183,13 @@ let array: Phrase[];
         <li
           v-for="p in usages"
           :key="p.curlyName"
+          style='{ cursor: "pointer" }'
           @click="
             () =>
               isSentence(p)
                 ? (sentenceCurlyName = p.curlyName)
                 : (phraseCurlyName = p.curlyName)
           "
-          style='{ cursor: "pointer" }'
         >
           {{ p.curlyName }}
         </li>
@@ -203,6 +203,7 @@ let array: Phrase[];
           <td v-for="{ lang, phrase } in phraseLangs" :key="lang">
             <input
               v-if="phrase"
+              v-model="phrase[headerOrCurlyName]"
               :lang="lang"
               :spellcheck="true"
               :style="{
@@ -210,7 +211,6 @@ let array: Phrase[];
                 minWidth: `${phrase[headerOrCurlyName].length}ex`,
               }"
               type="text"
-              v-model="phrase[headerOrCurlyName]"
               @change="nextTick(() => onPhraseChange(lang, phrase))"
             />
           </td>
@@ -222,15 +222,15 @@ let array: Phrase[];
             {{ lang }}{{ " " }}
             <small>
               <button
-                @click="addPhraseLine()"
                 :title="t('editor.phrase-line.add')"
+                @click="addPhraseLine()"
               >
                 <PlusSquare />
               </button>
               <button
                 v-if="phrase"
-                @click="togglePhraseNO(lang, phrase, phraseNO)"
                 :title="t('editor.phrase.toggle-split')"
+                @click="togglePhraseNO(lang, phrase, phraseNO)"
               >
                 <TerminalSplit />
               </button>
@@ -244,14 +244,14 @@ let array: Phrase[];
             <small>
               <button
                 :disabled="index === 0"
-                @click="movePhraseLine(index, index - 1)"
                 :title="t('editor.phrase-line.moveUp')"
+                @click="movePhraseLine(index, index - 1)"
               >
                 <CaretUpSquare />
               </button>
               <button
-                @click="movePhraseLine(index, undefined)"
                 :title="t('editor.phrase-line.remove', index + 1)"
+                @click="movePhraseLine(index, undefined)"
               >
                 <XSquare />
               </button>
@@ -259,8 +259,8 @@ let array: Phrase[];
                 :disabled="
                   index >= (phraseLangs[0].phrase?.lines.length ?? 0) - 1
                 "
-                @click="movePhraseLine(index, index + 1)"
                 :title="t('editor.phrase-line.moveDown')"
+                @click="movePhraseLine(index, index + 1)"
               >
                 <CaretDownSquare />
               </button>
@@ -271,6 +271,7 @@ let array: Phrase[];
             <input
               v-for="(phrase0, i) in array"
               :key="i"
+              v-model="phrase0!.lines[index].line"
               :lang="lang"
               :spellcheck="true"
               :style="{
@@ -278,7 +279,6 @@ let array: Phrase[];
                 minWidth: `${phrase0.lines[index].line.length}ex`,
               }"
               type="text"
-              v-model="phrase0!.lines[index].line"
               @change="nextTick(() => onPhraseChange(lang, phrase0))"
             />
           </td>

@@ -94,15 +94,15 @@ const { postPmData } = usePmData();
     </button>
     <button
       :disabled="!isClipboardEnabled"
-      @click="copyToClipboard(writtenText)"
       :title="t('sentences.copy')"
+      @click="copyToClipboard(writtenText)"
     >
       <Copy />
     </button>
     <button
       :disabled="!isClipboardEnabled"
-      @click="pasteSentenceFromClipboard(-1)"
       :title="t('sentences.paste')"
+      @click="pasteSentenceFromClipboard(-1)"
     >
       <Clipboard />
     </button>

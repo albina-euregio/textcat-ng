@@ -54,14 +54,14 @@ const filteredSentences = computed((): Sentence[] => {
       >
         <Search />
       </button>
-      <input class="f-auto sentences" type="text" v-model="searchText" />
+      <input v-model="searchText" class="f-auto sentences" type="text" />
     </label>
     <PhraseComposer
       v-for="sentence in filteredSentences"
       :key="sentence.curlyName"
       v-model="writtenPhrases[sentence.curlyName]"
-      :curlyName="sentence.curlyName"
-      curlyNameSuffix=""
+      :curly-name="sentence.curlyName"
+      curly-name-suffix=""
     >
       <button
         :title="t('sentence.add')"

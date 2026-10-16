@@ -45,14 +45,14 @@ function setWrittenPhrase(e: Event): void {
       >
         <option :value="-1"></option>
         <option
-          v-for="(line, lineIndex) in phrase?.lines"
-          v-show="isRegionVisible(line.region)"
-          :key="line.line"
+          v-for="(phraseLine, lineIndex) in phrase?.lines"
+          v-show="isRegionVisible(phraseLine.region)"
+          :key="phraseLine.line"
           :value="lineIndex"
         >
           <TextHighlighter
             v-if="catalog"
-            :text="catalog.translateLineFragments(line.lineFragments)"
+            :text="catalog.translateLineFragments(phraseLine.lineFragments)"
           />
         </option>
       </select>

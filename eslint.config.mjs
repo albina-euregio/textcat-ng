@@ -8,7 +8,7 @@ import pluginVue from "eslint-plugin-vue";
 
 export default defineConfigWithVueTs([
   { ignores: ["dist"] },
-  pluginVue.configs["flat/essential"],
+  pluginVue.configs["flat/recommended"],
   vueTsConfigs.recommended,
   prettier,
   ...oxlint.configs["flat/recommended"], // oxlint should be the last one

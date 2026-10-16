@@ -44,8 +44,8 @@ const isOpen = ref(isPhrase(phrase.value) || isJoker(writtenPhrase.value));
   <details
     v-if="phrase || isJoker(writtenPhrase)"
     :open="isOpen"
-    @toggle="isOpen = ($event.target as HTMLDetailsElement).open"
     :class="isDragOver ? 'block dragover' : 'block'"
+    @toggle="isOpen = ($event.target as HTMLDetailsElement).open"
   >
     <summary
       :draggable="!!props.onDragStart"
@@ -77,8 +77,8 @@ const isOpen = ref(isPhrase(phrase.value) || isJoker(writtenPhrase.value));
         v-else-if="phrase"
         v-model="writtenPhrase"
         :phrase="phrase"
-        :curlyName="curlyName"
-        :curlyNameSuffix="curlyNameSuffix"
+        :curly-name="curlyName"
+        :curly-name-suffix="curlyNameSuffix"
       />
     </template>
   </details>

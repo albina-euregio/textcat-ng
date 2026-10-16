@@ -27,19 +27,19 @@ defineProps<{
         v-if="isPhrase(phrase)"
         v-model="writtenPhrase"
         :phrase="phrase"
-        :curlyName="curlyName"
-        :curlyNameSuffix="curlyNameSuffix"
-        :onDragStart="onDragStart"
-        :onDrop="onDrop"
+        :curly-name="curlyName"
+        :curly-name-suffix="curlyNameSuffix"
+        :on-drag-start="onDragStart"
+        :on-drop="onDrop"
       />
       <SelectedLine
         v-if="phrase"
         v-model="writtenPhrase"
         :phrase="phrase"
-        :curlyName="curlyName"
-        :curlyNameSuffix="curlyNameSuffix"
-        :onDragStart="onDragStart"
-        :onDrop="onDrop"
+        :curly-name="curlyName"
+        :curly-name-suffix="curlyNameSuffix"
+        :on-drag-start="onDragStart"
+        :on-drop="onDrop"
       />
     </tbody>
   </table>

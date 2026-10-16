@@ -6,7 +6,7 @@ import { showTranslation } from "../state";
 <template>
   <label>
     {{ "[" }}
-    <input type="checkbox" v-model="showTranslation" />
+    <input v-model="showTranslation" type="checkbox" />
     {{ ` ${t("translations.show")}]` }}
   </label>
 </template>

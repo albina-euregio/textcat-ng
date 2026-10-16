@@ -45,52 +45,52 @@ function onDrop(index: number, event: DragEvent) {
     <PhraseComposer
       v-for="(writtenPhrase, index) in writtenText"
       :key="index"
-      :curlyName="writtenPhrase.curlyName"
-      curlyNameSuffix=""
-      :modelValue="writtenPhrase"
-      @update:modelValue="
+      :curly-name="writtenPhrase.curlyName"
+      curly-name-suffix=""
+      :model-value="writtenPhrase"
+      :on-drag-start="onDragStart.bind(undefined, index)"
+      :on-drop="onDrop.bind(undefined, index)"
+      style="overflow-x: auto"
+      @update:model-value="
         (newText: WrittenPhrase) => setWrittenPhrase(newText, index)
       "
-      :onDragStart="onDragStart.bind(undefined, index)"
-      :onDrop="onDrop.bind(undefined, index)"
-      style="overflow-x: auto"
     >
       <button
         :disabled="!isClipboardEnabled"
-        @click="copyToClipboard(writtenPhrase)"
         :title="t('sentence.copy')"
+        @click="copyToClipboard(writtenPhrase)"
       >
         <Copy />
       </button>
       <button
         v-if="!readOnly"
         :disabled="!isClipboardEnabled"
-        @click="pasteSentenceFromClipboard(index)"
         :title="t('sentence.paste')"
+        @click="pasteSentenceFromClipboard(index)"
       >
         <Clipboard />
       </button>
       <button
         v-if="!readOnly && moveButtons"
         :disabled="index === 0"
-        @click="moveSentence(index, index - 1)"
         :title="t('sentence.moveUp')"
+        @click="moveSentence(index, index - 1)"
       >
         <CaretUpSquare />
       </button>
       <button
         v-if="!readOnly && moveButtons"
         :disabled="index >= writtenText.length - 1"
-        @click="moveSentence(index, index + 1)"
         :title="t('sentence.moveDown')"
+        @click="moveSentence(index, index + 1)"
       >
         <CaretDownSquare />
       </button>
       <button
         v-if="!readOnly"
-        @click="moveSentence(index, undefined)"
         :title="t('sentence.remove')"
         class="x-square"
+        @click="moveSentence(index, undefined)"
       >
         <XSquare />
       </button>

@@ -55,7 +55,7 @@ async function onSentenceChange(lang: Lang, phrase: Sentence) {
     </h2>
 
     <label class="d-flex mt-10">
-      <select class="f-auto f-truncate" v-model="sentenceCurlyName">
+      <select v-model="sentenceCurlyName" class="f-auto f-truncate">
         <option value=""></option>
         <option
           v-for="phrase in catalog!.sentences"
@@ -72,8 +72,8 @@ async function onSentenceChange(lang: Lang, phrase: Sentence) {
         <li
           v-for="p in usages"
           :key="p.curlyName"
-          @click="() => (phraseCurlyName = p.curlyName)"
           :style="{ cursor: 'pointer' }"
+          @click="() => (phraseCurlyName = p.curlyName)"
         >
           {{ p.curlyName }}
         </li>
@@ -88,12 +88,12 @@ async function onSentenceChange(lang: Lang, phrase: Sentence) {
           <td>
             <input
               v-if="phrase"
+              v-model="phrase[headerOrCurlyName]"
               :style="{
                 width: '100%',
                 minWidth: `${phrase[headerOrCurlyName].length}ex`,
               }"
               type="text"
-              v-model="phrase[headerOrCurlyName]"
               @change="nextTick(() => onSentenceChange(lang, phrase))"
             />
           </td>
@@ -103,12 +103,12 @@ async function onSentenceChange(lang: Lang, phrase: Sentence) {
           <td>
             <input
               v-if="phrase"
+              v-model="phrase.lines[0].line"
               :style="{
                 width: '100%',
                 minWidth: `${phrase.lines[0].line.length}ex`,
               }"
               type="text"
-              v-model="phrase.lines[0].line"
               @change="nextTick(() => onSentenceChange(lang, phrase))"
             />
           </td>

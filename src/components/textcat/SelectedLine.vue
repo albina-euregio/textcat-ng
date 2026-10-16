@@ -49,13 +49,13 @@ const lineFragments = computed(() =>
     <td v-for="lineFragment in lineFragments" :key="lineFragment?.index">
       <PhraseComposer
         v-if="lineFragment"
-        :curlyName="lineFragment.curlyName"
-        :curlyNameSuffix="lineFragment.curlyNameSuffix"
-        :modelValue="
+        :curly-name="lineFragment.curlyName"
+        :curly-name-suffix="lineFragment.curlyNameSuffix"
+        :model-value="
           writtenPhrase?.args?.[lineFragment.curlyName] ??
           newPhrase(lineFragment.curlyName)
         "
-        @update:modelValue="
+        @update:model-value="
           (newPhrase: WrittenPhrase) => {
             writtenPhrase = withPhrase(writtenPhrase, newPhrase);
           }
