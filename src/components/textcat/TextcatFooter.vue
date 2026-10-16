@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { t } from "../../i18n";
+import { readOnly } from "../state";
 
 const version = import.meta.env.VITE_GIT_VERSION;
 </script>
@@ -16,6 +17,7 @@ const version = import.meta.env.VITE_GIT_VERSION;
         {{ version }}
       </li>
       <li>{{ t("tipp.scroll") }}</li>
+      <li v-if="!readOnly">{{ t("tipp.move") }}</li>
       <li>
         <a
           href="https://gitlab.com/albina-euregio/textcat-ng"

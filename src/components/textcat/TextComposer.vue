@@ -21,6 +21,10 @@ import {
 import AllSentencesSelect from "./AllSentencesSelect.vue";
 import FilterSentencesPane from "./FilterSentencesPane.vue";
 import PhraseComposer from "./PhraseComposer.vue";
+import { nextTick, ref, useTemplateRef } from "vue";
+
+const sentencesSection = useTemplateRef("sentencesSection");
+const announcement = ref("");
 
 function onDragStart(index: number, event: DragEvent) {
   if (!event.dataTransfer) return;
@@ -35,10 +39,36 @@ function onDrop(index: number, event: DragEvent) {
   if (fromIndex === undefined) return;
   moveSentence(+fromIndex, index);
 }
+
+async function onKeydown(index: number, event: KeyboardEvent) {
+  if (readOnly.value || !event.altKey) return;
+  const summary = event.target as HTMLElement;
+  if (summary.parentElement !== event.currentTarget) return;
+  const toIndex =
+    event.key === "ArrowUp"
+      ? index - 1
+      : event.key === "ArrowDown"
+        ? index + 1
+        : undefined;
+  if (toIndex === undefined) return;
+  event.preventDefault();
+  if (toIndex < 0 || toIndex >= writtenText.value.length) return;
+  moveSentence(index, toIndex);
+  announcement.value = t(
+    "sentence.moved",
+    toIndex + 1,
+    writtenText.value.length,
+  );
+  await nextTick();
+  sentencesSection.value
+    ?.querySelectorAll<HTMLElement>(":scope > details > summary")
+    [toIndex]?.focus();
+}
 </script>
 
 <template>
-  <section>
+  <section ref="sentencesSection">
+    <p class="visually-hidden" aria-live="polite">{{ announcement }}</p>
     <AllSentencesSelect v-if="!readOnly && catalog && sentenceList" />
     <FilterSentencesPane v-if="!readOnly && catalog" />
     <h2>{{ t("heading.selectedSentences") }}</h2>
@@ -51,6 +81,7 @@ function onDrop(index: number, event: DragEvent) {
       :on-drag-start="onDragStart.bind(undefined, index)"
       :on-drop="onDrop.bind(undefined, index)"
       style="overflow-x: auto"
+      @keydown="onKeydown(index, $event)"
       @update:model-value="
         (newText: WrittenPhrase) => setWrittenPhrase(newText, index)
       "
