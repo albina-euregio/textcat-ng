@@ -20,6 +20,7 @@ export default defineConfig({
   staged: {
     "*": "vp fmt",
     "*.{js,jsx,ts,tsx}": "vp check --fix",
+    "*.vue": "eslint --fix",
   },
   fmt: {
     ignorePatterns: ["pnpm-lock.yaml"],
