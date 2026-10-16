@@ -30,7 +30,7 @@
     "@vueuse/core": "^15.0.0",
     "highlight-words-core": "^1.2.3",
     "idb-keyval": "^6.2.1",
-    "vue": "3.6.0-beta.17"
+    "vue": "3.6.0-rc.11"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
