@@ -24,6 +24,8 @@
   "region": "Region",
   "search": "Search",
   "search.noResults": "No sentences found.",
+  "search.prefix": "Prefix",
+  "search.words": "Words",
   "sentence": "Sentence",
   "sentence.add": "Add sentence",
   "sentence.copy": "Copy sentence",

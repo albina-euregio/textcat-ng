@@ -44,19 +44,17 @@ const filteredSentences = computed((): Sentence[] => {
       <span class="pr-10">{{ `${t("search")}:` }}</span>
       <button
         :title="t('sentence.search')"
-        :aria-label="t('sentence.search')"
         :aria-pressed="searchMode === SearchMode.WORDS"
         @click="searchMode = SearchMode.WORDS"
       >
-        <Filter />
+        <Filter /> {{ t("search.words") }}
       </button>
       <button
         :title="t('sentence.search.prefix')"
-        :aria-label="t('sentence.search.prefix')"
         :aria-pressed="searchMode === SearchMode.PREFIX"
         @click="searchMode = SearchMode.PREFIX"
       >
-        <Search />
+        <Search /> {{ t("search.prefix") }}
       </button>
       <input
         v-model="searchText"
