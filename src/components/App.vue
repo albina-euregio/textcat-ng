@@ -14,6 +14,7 @@ import {
   isClipboardEnabled,
   pasteSentenceFromClipboard,
   showTranslation,
+  srcLang,
   textcatEditor,
   translations,
   writtenText,
@@ -46,6 +47,10 @@ watchEffect(() => {
 
 watchEffect(() => {
   reloadTextcat();
+});
+
+watchEffect(() => {
+  document.documentElement.lang = srcLang.value;
 });
 
 async function openEditor() {
