@@ -7,6 +7,7 @@ import Clipboard from "../bootstrap-icons/clipboard.vue";
 import Copy from "../bootstrap-icons/copy.vue";
 import XSquare from "../bootstrap-icons/x-square.vue";
 import {
+  addSentence,
   catalog,
   copyToClipboard,
   isClipboardEnabled,
@@ -21,10 +22,28 @@ import {
 import AllSentencesSelect from "./AllSentencesSelect.vue";
 import FilterSentencesPane from "./FilterSentencesPane.vue";
 import PhraseComposer from "./PhraseComposer.vue";
+import { useTimeoutFn } from "@vueuse/core";
 import { nextTick, ref, useTemplateRef } from "vue";
 
 const sentencesSection = useTemplateRef("sentencesSection");
 const announcement = ref("");
+const removed = ref<{ phrase: WrittenPhrase; index: number }>();
+const removedTimeout = useTimeoutFn(() => (removed.value = undefined), 10_000, {
+  immediate: false,
+});
+
+function removeSentence(index: number) {
+  removed.value = { phrase: writtenText.value[index], index };
+  moveSentence(index, undefined);
+  removedTimeout.start();
+}
+
+function undoRemoveSentence() {
+  if (!removed.value) return;
+  addSentence(removed.value.phrase, removed.value.index);
+  removed.value = undefined;
+  removedTimeout.stop();
+}
 
 function onDragStart(index: number, event: DragEvent) {
   if (!event.dataTransfer) return;
@@ -126,11 +145,17 @@ async function onKeydown(index: number, event: KeyboardEvent) {
         :title="t('sentence.remove')"
         :aria-label="t('sentence.remove')"
         class="x-square"
-        @click="moveSentence(index, undefined)"
+        @click="removeSentence(index)"
       >
         <XSquare />
       </button>
       {{ " " }}
     </PhraseComposer>
+    <div role="status">
+      <template v-if="removed">
+        {{ t("sentence.removed") }}
+        <button @click="undoRemoveSentence()">{{ t("undo") }}</button>
+      </template>
+    </div>
   </section>
 </template>
