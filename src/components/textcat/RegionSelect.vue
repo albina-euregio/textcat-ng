@@ -5,13 +5,12 @@ import { catalog, srcRegion } from "../state";
 
 <template>
   <label>
-    {{ `[${t("region")}: ` }}
+    {{ `${t("region")}: ` }}
     <select v-model="srcRegion">
       <option value=""></option>
       <option v-for="region in catalog?.regions" :key="region" :value="region">
         {{ region }}
       </option>
     </select>
-    {{ "]" }}
   </label>
 </template>

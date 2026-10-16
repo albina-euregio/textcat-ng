@@ -66,6 +66,14 @@ button[aria-pressed="true"] {
   padding-right: 10px;
 }
 
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 20px;
+  align-items: center;
+  margin: 8px 5px;
+}
+
 .block {
   border: 1px solid black;
   padding: 3px 5px;
