@@ -16,7 +16,18 @@ const i18nMessages = import.meta.glob("./*.json", {
  */
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function t(key: I18nKeys, ...args: any[]): string {
-  const messages = i18nMessages[`./${srcLang.value}.json`];
+  return translate(i18nMessages[`./${srcLang.value}.json`], key, ...args);
+}
+
+/**
+ * Returns the translation from the given messages, falling back to English for missing or empty messages.
+ */
+export function translate(
+  messages: Partial<Record<I18nKeys, string>> | undefined,
+  key: I18nKeys,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  ...args: any[]
+): string {
   const message = messages?.[key] || en?.[key] || key;
   return message.replace(/\$(\d+)/g, (_, index) => args[index - 1]);
 }

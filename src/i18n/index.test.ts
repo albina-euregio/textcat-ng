@@ -1,4 +1,4 @@
-import { t } from ".";
+import { t, translate } from ".";
 import { srcLang } from "../components/state";
 import { expect, it } from "vite-plus/test";
 
@@ -9,10 +9,15 @@ it("should translate", () => {
 });
 
 it("should fall back to English for untranslated messages", () => {
-  srcLang.value = "fr";
-  expect(t("sentence.add")).toBe("Ajouter une phrase");
+  const messages = {
+    "sentence.add": "Ajouter une phrase",
+    "sentence.copy": "",
+  };
+  expect(translate(messages, "sentence.add")).toBe("Ajouter une phrase");
   // empty string from Transifex
-  expect(t("sentence.copy")).toBe("Copy sentence");
+  expect(translate(messages, "sentence.copy")).toBe("Copy sentence");
   // missing key
-  expect(t("loading")).toBe("Loading text catalogue…");
+  expect(translate(messages, "loading")).toBe("Loading text catalogue…");
+  // missing language
+  expect(translate(undefined, "undo")).toBe("Undo");
 });
