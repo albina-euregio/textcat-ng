@@ -6,7 +6,7 @@ import { srcLang } from "../state";
 
 <template>
   <label>
-    {{ `${t("language")}: ` }}
+    {{ `[${t("language")}: ` }}
     <select
       :value="srcLang"
       @change="(e) => (srcLang = (e.target as HTMLSelectElement).value as Lang)"
@@ -15,5 +15,6 @@ import { srcLang } from "../state";
         {{ lang }}
       </option>
     </select>
+    {{ "]" }}
   </label>
 </template>

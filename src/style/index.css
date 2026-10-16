@@ -83,14 +83,6 @@ button[aria-pressed="true"] {
   font-style: italic;
 }
 
-.toolbar {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 4px 20px;
-  align-items: center;
-  margin: 8px 5px;
-}
-
 .block {
   border: 1px solid var(--border);
   padding: 3px 5px;

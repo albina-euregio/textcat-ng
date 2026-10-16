@@ -80,11 +80,6 @@ const { postPmData } = usePmData();
       </label>
     </div>
     <h1 class="visually-hidden">textcat-ng</h1>
-    <div class="toolbar">
-      <LanguageSelect />
-      <RegionSelect />
-      <TranslationCheckbox />
-    </div>
 
     <TextcatEditor v-if="textcatEditor && catalog && catalogs" />
 
@@ -124,6 +119,9 @@ const { postPmData } = usePmData();
       <li v-if="catalog?.lastModified">
         satzkatalog {{ catalog.lastModified }}
       </li>
+      <li><LanguageSelect /></li>
+      <li><RegionSelect /></li>
+      <li><TranslationCheckbox /></li>
     </TextcatFooter>
   </section>
 </template>
