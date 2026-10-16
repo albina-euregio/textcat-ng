@@ -19,7 +19,7 @@ a {
   color: #1278b3;
 }
 a:hover {
-  color: #179ae6;
+  color: #0e5f8f;
 }
 
 button,
@@ -72,6 +72,7 @@ button[aria-pressed="true"] {
 
 .block.dragover {
   background: #19abff40;
+  outline: 2px dashed #1278b3;
 }
 
 [draggable="true"] {
@@ -117,7 +118,7 @@ td {
 }
 
 footer {
-  opacity: 0.8;
+  color: #495057;
   margin-top: 20px;
 }
 
@@ -133,5 +134,5 @@ ul.inline > li:nth-child(n + 2)::before {
 }
 
 .x-square {
-  color: red;
+  color: #cc0000;
 }
