@@ -105,6 +105,10 @@ button[aria-pressed="true"] {
   margin: 8px 5px;
 }
 
+div.block {
+  padding-bottom: 10px;
+}
+
 .block header {
   font-weight: bold;
 }
