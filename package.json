@@ -18,6 +18,7 @@
   "type": "module",
   "scripts": {
     "prepare": "vp config",
+    "tx-pull-json": "tx pull --use-git-timestamps",
     "build": "vue-tsc --build & vp build",
     "build-editor": "vue-tsc --build & VITE_TEXTCAT_EDITOR=1 vp build",
     "dev": "vp dev",
