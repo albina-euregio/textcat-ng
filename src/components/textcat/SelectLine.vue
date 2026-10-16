@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { t } from "../../i18n";
 import { CurlyName, CurlyNameSuffix, Phrase } from "../../model/phrase";
 import { withLine, WrittenPhrase } from "../../model/writtenText";
 import { catalog, srcRegion } from "../state";
@@ -39,11 +40,12 @@ function setWrittenPhrase(e: Event): void {
     <td :colSpan="99">
       <select
         :size="size"
+        :aria-label="phrase?.header || curlyName"
         :disabled="phrase?.lines.length === 1"
         :value="line"
         @change="setWrittenPhrase"
       >
-        <option :value="-1"></option>
+        <option :value="-1" :aria-label="t('unselected')"></option>
         <option
           v-for="(phraseLine, lineIndex) in phrase?.lines"
           v-show="isRegionVisible(phraseLine.region)"

@@ -59,7 +59,11 @@ async function onSentenceChange(lang: Lang, phrase: Sentence) {
     </h2>
 
     <label class="d-flex mt-10">
-      <select v-model="sentenceCurlyName" class="f-auto f-truncate">
+      <select
+        v-model="sentenceCurlyName"
+        :aria-label="t('sentence')"
+        class="f-auto f-truncate"
+      >
         <option value=""></option>
         <option
           v-for="phrase in catalog!.sentences"

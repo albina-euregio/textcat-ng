@@ -171,7 +171,11 @@ let array: Phrase[];
     </h2>
 
     <label class="d-flex mt-10">
-      <select v-model="phraseCurlyName" class="f-auto f-truncate">
+      <select
+        v-model="phraseCurlyName"
+        :aria-label="t('phrase')"
+        class="f-auto f-truncate"
+      >
         <option value=""></option>
         <option
           v-for="phrase in catalog!.phrases"

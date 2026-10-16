@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { t } from "../../i18n";
 import { DEEPL_LANGUAGES, LANGUAGES } from "../../model/language";
 import {
   isTranslateJokerEnabled,
@@ -20,6 +21,7 @@ if (!isJoker(writtenPhrase.value)) throw new Error();
           <input
             type="text"
             :lang="lang"
+            :aria-label="`${t('sentence.joker')} (${lang})`"
             :spellcheck="true"
             :value="writtenPhrase.args[lang]"
             @change="

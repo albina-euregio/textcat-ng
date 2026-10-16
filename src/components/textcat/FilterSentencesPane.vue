@@ -58,7 +58,12 @@ const filteredSentences = computed((): Sentence[] => {
       >
         <Search />
       </button>
-      <input v-model="searchText" class="f-auto sentences" type="text" />
+      <input
+        v-model="searchText"
+        :aria-label="t('search')"
+        class="f-auto sentences"
+        type="search"
+      />
     </label>
     <PhraseComposer
       v-for="sentence in filteredSentences"

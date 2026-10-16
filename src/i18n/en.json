@@ -41,6 +41,7 @@
   "translations.submit": "Save",
   "unknownLine": "Unknown line $1 in $2!",
   "unknownPhrase": "Unknown phrase $1!",
+  "unselected": "(none)",
   "unsetPhrase": "Unset phrase $1!",
   "version": "Version"
 }
