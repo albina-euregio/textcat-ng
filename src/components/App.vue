@@ -91,13 +91,14 @@ const { postPmData } = usePmData();
     </template>
 
     <button
-      class="mt-10"
+      class="mt-10 primary"
       type="submit"
       @click="postPmData(writtenText, translations)"
     >
       <CheckSquare /> {{ t("translations.submit") }}
     </button>
     <button
+      class="ms-10"
       :disabled="!isClipboardEnabled"
       :title="t('sentences.copy')"
       :aria-label="t('sentences.copy')"
