@@ -88,9 +88,6 @@ td {
   vertical-align: top;
 }
 
-.d-none {
-  display: none;
-}
 .visually-hidden {
   position: absolute;
   width: 1px;

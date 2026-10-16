@@ -79,7 +79,7 @@ const { postPmData } = usePmData();
         curlyName
       </label>
     </div>
-    <h1 class="d-none">textcat-ng</h1>
+    <h1 class="visually-hidden">textcat-ng</h1>
 
     <TextcatEditor v-if="textcatEditor && catalog && catalogs" />
 
