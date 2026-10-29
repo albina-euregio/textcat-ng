@@ -19,8 +19,7 @@
   "scripts": {
     "prepare": "vp config",
     "tx-pull-json": "tx pull --use-git-timestamps",
-    "build": "vue-tsc --build & vp build",
-    "build-editor": "vue-tsc --build & VITE_TEXTCAT_EDITOR=1 vp build",
+    "build": "vue-tsc --build && vp build && VITE_TEXTCAT_EDITOR=1 vp build --outDir dist/editor",
     "dev": "vp dev",
     "dev-editor": "VITE_TEXTCAT_EDITOR=1 vp dev",
     "changelog": "conventional-changelog --infile CHANGELOG.md --same-file",

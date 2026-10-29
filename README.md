@@ -69,7 +69,7 @@ This project uses Transifex for its translations: https://app.transifex.com/albi
 
 ### Build and deploy
 
-1. `pnpm build-editor`
+1. `pnpm build` (builds the editor to `dist/editor/`)
 2. Copy resulting `dist/` to webserver
 
 ### Edit satzkatalog files
