@@ -58,6 +58,8 @@ export class TextCatalogue {
   public phrases: Phrase[] = [];
   public phrasesHandle: FileSystemDirectoryHandle | undefined;
   public readonly regions: Set<string> = new Set<string>();
+  /** curly names defined more than once (the last definition wins) */
+  public readonly duplicates: { curlyName: CurlyName; source?: string }[] = [];
   public lastModified?: string;
 
   constructor(lang: Lang) {
@@ -171,7 +173,14 @@ export class TextCatalogue {
     return this;
   }
 
-  parse(text: string): this {
+  private define(current: Phrase, source?: string) {
+    if (this.data[current.curlyName]) {
+      this.duplicates.push({ curlyName: current.curlyName, source });
+    }
+    this.data[current.curlyName] = current;
+  }
+
+  parse(text: string, source?: string): this {
     let current: Sentence | Phrase | undefined;
     let currentRegion: string | undefined = undefined;
     text.split(/[\r\n]+/).forEach((line) => {
@@ -198,7 +207,7 @@ export class TextCatalogue {
         case "ST_CurlyName":
           if (isSentence(current)) {
             current.curlyName = value;
-            this.data[current.curlyName] = current;
+            this.define(current, source);
           } else {
             console.warn("Ignoring", line);
           }
@@ -232,7 +241,7 @@ export class TextCatalogue {
             line.lineFragments?.push(`{${value}}`);
           } else if (isPhrase(current)) {
             current.curlyName = value;
-            this.data[current.curlyName] = current;
+            this.define(current, source);
           }
           break;
         case "Line":

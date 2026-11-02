@@ -51,6 +51,21 @@ dist/index.html
 # copy dist/ to webserver
 ```
 
+## Sanity check of the satzkatalog
+
+Find pitfalls in the satzkatalog text files (unknown references, duplicate curly names, `_NO` phrases
+not matching their first part, line count/region/reference mismatches against DE, swapped lines,
+untranslated lines, …) and breaking changes between two versions:
+
+```sh
+pnpm sanity-check ../satzkatalog
+pnpm sanity-check '../satzkatalog#origin/main' '../satzkatalog#satzkatalog-2025.0.0'
+```
+
+`<dir>#<git-rev>` reads the given revision via `git archive`. With a second (old) version, only issues
+introduced since then are listed (`--all` lists all). `--quiet` hides infos, `--json` emits JSON.
+The command exits with 1 if errors are found.
+
 ## Enable DeepL translation for Joker sentences
 
 Obtain a DeepL authentication key via https://www.deepl.com/pro-api, and configure `.env` with the following two environment variables:

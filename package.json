@@ -24,7 +24,8 @@
     "dev-editor": "VITE_TEXTCAT_EDITOR=1 vp dev",
     "changelog": "conventional-changelog --infile CHANGELOG.md --same-file",
     "lint": "vp lint && eslint",
-    "test": "vp test run"
+    "test": "vp test run",
+    "sanity-check": "node scripts/sanity-check.mjs"
   },
   "dependencies": {
     "@vueuse/core": "^15.0.0",
