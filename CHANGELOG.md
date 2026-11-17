@@ -1,3 +1,9 @@
+## 9.1.0 (2026-11-17)
+
+- Sanity check for the Satzkatalog: find unknown references, duplicate curly names, empty phrases, `_NO` phrases not matching their first part, mismatches against DE (line count, region, references), swapped and untranslated lines, unreachable phrases, as well as removed or shifted lines between two versions (`pnpm sanity-check`) ([1111186](https://gitlab.com/albina-euregio/textcat-ng/commit/1111186))
+- Editor: built and deployed together with the regular app, at `editor/` ([d64ca0c](https://gitlab.com/albina-euregio/textcat-ng/commit/d64ca0c))
+- Upgrade to Vue 3.6 ([7f9b03d](https://gitlab.com/albina-euregio/textcat-ng/commit/7f9b03d), [c52058d](https://gitlab.com/albina-euregio/textcat-ng/commit/c52058d))
+
 ## 9.0.0 (2026-10-28)
 
 - Support dark mode ([7b10600](https://gitlab.com/albina-euregio/textcat-ng/commit/7b10600))
