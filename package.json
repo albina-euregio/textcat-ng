@@ -37,8 +37,8 @@
     "@eslint/js": "^10.0.1",
     "@types/highlight-words-core": "^1.2.3",
     "@types/node": "^25.5.2",
-    "@types/wicg-file-system-access": "^2023.10.5",
-    "@vitejs/plugin-vue": "^6.0.5",
+    "@types/wicg-file-system-access": "^2023.10.7",
+    "@vitejs/plugin-vue": "^6.0.11",
     "@vue/eslint-config-typescript": "^14.9.0",
     "eslint": "^10.15.0",
     "eslint-config-prettier": "^10.1.8",
@@ -48,7 +48,7 @@
     "typescript-eslint": "^8.72.2",
     "vite": "catalog:",
     "vite-plus": "catalog:",
-    "vue-tsc": "^3.2.6"
+    "vue-tsc": "^3.3.14"
   },
   "packageManager": "pnpm@12.9.1"
 }
