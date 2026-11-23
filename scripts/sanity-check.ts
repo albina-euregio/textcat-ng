@@ -13,7 +13,7 @@ import {
 } from "../src/model/sanityCheck";
 import { TextCatalogue } from "../src/model/textCatalogue";
 
-const LANGS: Lang[] = ["ca", "de", "en", "es", "fr", "it", "oc"];
+const LANGS: Lang[] = ["ca", "de", "en", "es", "fr", "it", "oc", "sl"];
 
 function listFiles(dir: string): string[] {
   return readdirSync(dir, { recursive: true, withFileTypes: true })

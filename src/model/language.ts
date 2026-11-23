@@ -12,7 +12,9 @@ export type Lang =
   /** Italian */
   | "it"
   /** Occitan language */
-  | "oc";
+  | "oc"
+  /** Slovenian language */
+  | "sl";
 
 export type LanguageVariant = Lang | "de_AT" | "de_CH";
 

@@ -18,7 +18,7 @@ def concat_textfile(file: pathlib.Path, dst: typing.IO):
             print(line, file=dst)
 
 
-for lang in "CA DE EN ES FR IT OC".split():
+for lang in "CA DE EN ES FR IT OC SL".split():
     src_directory = pathlib.Path("../satzkatalog/data/")
     src_files = src_directory.glob(f"{lang}/**/*.txt")
     src_date = subprocess.run(

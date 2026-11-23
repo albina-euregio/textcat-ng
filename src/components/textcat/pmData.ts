@@ -27,6 +27,7 @@ interface TextcatLegacyOut {
   textFr: string;
   textCa: string;
   textOc: string;
+  textSl: string;
 }
 
 function parsePmData(event: MessageEvent): TextcatLegacyIn | undefined {
@@ -76,6 +77,7 @@ function postPmData(
     textFr: translations.fr,
     textIt: translations.it,
     textOc: translations.oc,
+    textSl: translations.sl,
   };
   console.log("Sending message", pmData);
   if (window.parent.opener) {
