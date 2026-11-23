@@ -30,6 +30,7 @@ public/assets/satzkatalog.ES.txt
 public/assets/satzkatalog.FR.txt
 public/assets/satzkatalog.IT.txt
 public/assets/satzkatalog.OC.txt
+public/assets/satzkatalog.SL.txt
 
 $ pnpm install
 $ pnpm run build
@@ -43,6 +44,7 @@ dist/assets/satzkatalog.ES.txt
 dist/assets/satzkatalog.FR.txt
 dist/assets/satzkatalog.IT.txt
 dist/assets/satzkatalog.OC.txt
+dist/assets/satzkatalog.SL.txt
 dist/assets/index.ae399452.js
 dist/assets/vendor.9a886a7a.js
 dist/assets/index.60a2f543.css
