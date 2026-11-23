@@ -1,3 +1,8 @@
+## 9.2.0 (2026-11-23)
+
+- Add Slovenian (sl) language ([eb2e555](https://gitlab.com/albina-euregio/textcat-ng/commit/eb2e555), [cb4e298](https://gitlab.com/albina-euregio/textcat-ng/commit/cb4e298))
+- Post all translations via postMessage ([51356ba](https://gitlab.com/albina-euregio/textcat-ng/commit/51356ba))
+
 ## 9.1.0 (2026-11-17)
 
 - Sanity check for the Satzkatalog: find unknown references, duplicate curly names, empty phrases, `_NO` phrases not matching their first part, mismatches against DE (line count, region, references), swapped and untranslated lines, unreachable phrases, as well as removed or shifted lines between two versions (`pnpm sanity-check`) ([1111186](https://gitlab.com/albina-euregio/textcat-ng/commit/1111186))
