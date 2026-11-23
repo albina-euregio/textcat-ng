@@ -18,6 +18,7 @@ interface TextcatLegacyIn {
 interface TextcatLegacyOut {
   textDef: string;
   textField: string;
+  translations: Translations;
   textDe: string;
   textDe_AT: string;
   textDe_CH: string;
@@ -68,6 +69,7 @@ function postPmData(
   const pmData: TextcatLegacyOut = {
     textDef: JSON.stringify(writtenText),
     textField: textField.value,
+    translations,
     textCa: translations.ca,
     textDe: translations.de,
     textDe_AT: translations.de_AT,
